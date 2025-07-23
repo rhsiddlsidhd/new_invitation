@@ -1,8 +1,6 @@
-//MongoDB 연결
-
 import mongoose from "mongoose";
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@new-invitation-cluster.8umdvcl.mongodb.net/?retryWrites=true&w=majority&appName=new-invitation-cluster`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@new-invitation-cluster.8umdvcl.mongodb.net/new_invitation?retryWrites=true&w=majority&appName=new-invitation-cluster`;
 
 if (!uri) {
   throw new Error(`MongoDB URI를 확인해주세요.`);
