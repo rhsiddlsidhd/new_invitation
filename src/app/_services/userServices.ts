@@ -224,14 +224,9 @@ export const deleteUser = async (id: string) => {
 
     return {
       success: true,
-      message: "사용자가 삭제되었습니다.",
     };
   } catch (error) {
-    console.error("사용자 삭제 오류:", error);
-    return {
-      success: false,
-      message: "사용자 삭제 중 오류가 발생했습니다.",
-    };
+    throw error;
   }
 };
 
@@ -353,30 +348,3 @@ export const getUserIdbyToken = async (
     return { success: false, message: "유효하지 않은 토큰입니다." };
   }
 };
-
-// export const getLoginUser = async (
-//   userId: string
-// ): Promise<UserCredentials> => {
-//   try {
-//     await dbConnect();
-
-//     const user = await User.findOne({ userId, isDelete: false });
-
-//     if (!user) {
-//       return {
-//         success: false,
-//         message: "사용자를 찾을 수 없습니다.",
-//       };
-//     }
-
-//     return {
-//       success: true,
-//       data: {
-//         userId: user.userId,
-//         password: user.password,
-//       },
-//     };
-//   } catch (error) {
-//     throw error;
-//   }
-// };

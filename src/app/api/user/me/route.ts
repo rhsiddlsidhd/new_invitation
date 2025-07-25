@@ -114,7 +114,7 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        message: "사용자 정보를 업데이트하는 중 오류가 발생했습니다.",
+        message: "서버 오류가 발생했습니다.",
       },
       { status: 500 }
     );
@@ -152,7 +152,7 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        message: "사용자를 삭제하는 중 오류가 발생했습니다.",
+        message: "서버 오류가 발생했습니다.",
       },
       { status: 500 }
     );

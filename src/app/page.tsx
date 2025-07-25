@@ -14,7 +14,7 @@ export default function Home() {
   const router = useRouter();
 
   const handleLogout = async () => {
-    const res = await fetch("api/auth/login", {
+    const res = await fetch("api/auth/logout", {
       method: "DELETE",
     });
 

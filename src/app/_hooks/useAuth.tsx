@@ -15,10 +15,10 @@ const useAuth = () => {
   useEffect(() => {
     const fetchUser = async () => {
       console.log("useAuth hook called", userId);
-      if (userId) {
-        setIsAuthenticated(true);
-        return;
-      }
+      // if (userId) {
+      //   setIsAuthenticated(true);
+      //   return;
+      // }
 
       const token = sessionStorage.getItem("token");
       if (!token) {
