@@ -1,60 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { registerUser } from "../../_utils/apiClient";
 import Link from "next/link";
+import { signup } from "@/app/actions/auth";
 
 export default function RegisterPage() {
-  const router = useRouter();
-  const [formData, setFormData] = useState({
-    email: "",
-    userId: "",
-    password: "",
-    confirmPassword: "",
-  });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-
-    // 비밀번호 확인
-    if (formData.password !== formData.confirmPassword) {
-      setError("비밀번호가 일치하지 않습니다.");
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const result = await registerUser({
-        email: formData.email,
-        userId: formData.userId,
-        password: formData.password,
-      });
-
-      if (result.success) {
-        // 회원가입 성공시 로그인 페이지로 리다이렉트
-        router.push("/auth/login");
-      } else {
-        setError(result.message);
-      }
-    } catch {
-      setError("회원가입 중 오류가 발생했습니다.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
+  const [state, action, pending] = useActionState(signup, null);
   return (
     <div
       style={{
@@ -67,7 +20,7 @@ export default function RegisterPage() {
     >
       <h1>회원가입</h1>
 
-      {error && (
+      {state && (
         <div
           style={{
             color: "red",
@@ -77,19 +30,17 @@ export default function RegisterPage() {
             borderRadius: "4px",
           }}
         >
-          {error}
+          {state.message}
         </div>
       )}
 
-      <form onSubmit={handleSubmit}>
+      <form action={action}>
         <div style={{ marginBottom: "15px" }}>
           <label htmlFor="email">이메일:</label>
           <input
             type="email"
             id="email"
             name="email"
-            value={formData.email}
-            onChange={handleChange}
             required
             style={{
               width: "100%",
@@ -107,8 +58,6 @@ export default function RegisterPage() {
             type="text"
             id="userId"
             name="userId"
-            value={formData.userId}
-            onChange={handleChange}
             required
             style={{
               width: "100%",
@@ -126,8 +75,6 @@ export default function RegisterPage() {
             type="password"
             id="password"
             name="password"
-            value={formData.password}
-            onChange={handleChange}
             required
             style={{
               width: "100%",
@@ -145,8 +92,6 @@ export default function RegisterPage() {
             type="password"
             id="confirmPassword"
             name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleChange}
             required
             style={{
               width: "100%",
@@ -160,18 +105,18 @@ export default function RegisterPage() {
 
         <button
           type="submit"
-          disabled={loading}
+          disabled={pending}
           style={{
             width: "100%",
             padding: "10px",
-            backgroundColor: loading ? "#ccc" : "#007cba",
+            backgroundColor: pending ? "#ccc" : "#007cba",
             color: "white",
             border: "none",
             borderRadius: "4px",
-            cursor: loading ? "not-allowed" : "pointer",
+            cursor: pending ? "not-allowed" : "pointer",
           }}
         >
-          {loading ? "가입 중..." : "회원가입"}
+          {pending ? "가입 중..." : "회원가입"}
         </button>
       </form>
 

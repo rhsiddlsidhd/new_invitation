@@ -9,15 +9,26 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData();
 
     // 필수 필드 검증
-
+    const email = formData.get("email") as string;
     const userId = formData.get("userId") as string;
     const password = formData.get("password") as string;
+    const confirmPassword = formData.get("confirmPassword") as string;
 
-    if (!userId || !password) {
+    if (!email || !userId || !password) {
       return NextResponse.json(
         {
           success: false,
           message: "모든 필드를 입력해주세요.",
+        },
+        { status: 400 }
+      );
+    }
+
+    if (password !== confirmPassword) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "비밀번호가 일치하지 않습니다.",
         },
         { status: 400 }
       );
