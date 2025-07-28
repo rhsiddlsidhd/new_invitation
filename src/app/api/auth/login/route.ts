@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
+  checkUserIdExists,
   createTokens,
-  getLoginUser,
   verifyPassword,
 } from "../../../_services/userServices";
 import { cookies } from "next/headers";
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 
     // db에 userId가 존재하는지 확인
 
-    const userResult = await getLoginUser(userId);
+    const userResult = await checkUserIdExists(userId);
 
     if (!userResult.success) {
       return NextResponse.json(userResult, { status: 404 });

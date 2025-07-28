@@ -1,7 +1,12 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { createUser } from "../_services/userServices";
+import {
+  checkUserIdExists,
+  createUser,
+  verifyPassword,
+} from "../_services/userServices";
+import { createSession, deleteSession } from "../_lib/session";
 
 export async function signup(prev: any, formData: FormData) {
   console.log("Action: signup", prev);
@@ -41,3 +46,40 @@ export async function signup(prev: any, formData: FormData) {
   // 성공 시 리다이렉트
   redirect("/auth/login");
 }
+
+export const signIn = async (prev: any, formData: FormData) => {
+  const userId = formData.get("userId") as string;
+  const password = formData.get("password") as string;
+
+  if (!userId || !password) {
+    return {
+      success: false,
+      message: "아이디와 비밀번호를 확인해주세요.",
+    };
+  }
+
+  const user = await checkUserIdExists(userId);
+
+  if (!user.success) {
+    return user;
+  }
+
+  const { password: hashedPassword, userId: dbUserId } = user.data;
+
+  const isPasswordValid = await verifyPassword(password, hashedPassword);
+
+  if (!isPasswordValid) {
+    return {
+      success: false,
+      message: "비밀번호가 일치하지 않습니다.",
+    };
+  }
+
+  await createSession(dbUserId);
+
+  redirect("/");
+};
+
+export const singOut = async () => {
+  await deleteSession();
+};

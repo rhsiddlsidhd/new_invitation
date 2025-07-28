@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
 import { loginUser } from "../../_utils/apiClient";
 import Link from "next/link";
+import { signIn } from "@/app/actions/auth";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -11,39 +12,41 @@ export default function LoginPage() {
     userId: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   setError("");
 
-    try {
-      const result = await loginUser(formData);
+  //   try {
+  //     const result = await loginUser(formData);
 
-      if (result.success) {
-        // 로그인 성공시 홈페이지로 리다이렉트
-        const { token } = result.data;
-        sessionStorage.setItem("token", token);
+  //     if (result.success) {
+  //       // 로그인 성공시 홈페이지로 리다이렉트
+  //       const { token } = result.data;
+  //       sessionStorage.setItem("token", token);
 
-        router.push("/");
-      } else {
-        setError(result.message);
-      }
-    } catch {
-      setError("로그인 중 오류가 발생했습니다.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  //       router.push("/");
+  //     } else {
+  //       setError(result.message);
+  //     }
+  //   } catch {
+  //     setError("로그인 중 오류가 발생했습니다.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setFormData({
+  //     ...formData,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
+
+  const [state, action, pending] = useActionState(signIn, null);
 
   return (
     <div
@@ -57,7 +60,7 @@ export default function LoginPage() {
     >
       <h1>로그인</h1>
 
-      {error && (
+      {state && (
         <div
           style={{
             color: "red",
@@ -67,19 +70,17 @@ export default function LoginPage() {
             borderRadius: "4px",
           }}
         >
-          {error}
+          {state.message}
         </div>
       )}
 
-      <form onSubmit={handleSubmit}>
+      <form action={action}>
         <div style={{ marginBottom: "15px" }}>
           <label htmlFor="userId">아이디:</label>
           <input
             type="text"
             id="userId"
             name="userId"
-            value={formData.userId}
-            onChange={handleChange}
             required
             style={{
               width: "100%",
@@ -97,8 +98,6 @@ export default function LoginPage() {
             type="password"
             id="password"
             name="password"
-            value={formData.password}
-            onChange={handleChange}
             required
             style={{
               width: "100%",
@@ -112,18 +111,18 @@ export default function LoginPage() {
 
         <button
           type="submit"
-          disabled={loading}
+          disabled={pending}
           style={{
             width: "100%",
             padding: "10px",
-            backgroundColor: loading ? "#ccc" : "#007cba",
+            backgroundColor: pending ? "#ccc" : "#007cba",
             color: "white",
             border: "none",
             borderRadius: "4px",
-            cursor: loading ? "not-allowed" : "pointer",
+            cursor: pending ? "not-allowed" : "pointer",
           }}
         >
-          {loading ? "로그인 중..." : "로그인"}
+          {pending ? "로그인 중..." : "로그인"}
         </button>
       </form>
 

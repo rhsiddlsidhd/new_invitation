@@ -62,7 +62,7 @@ interface LoginFailure {
 
 type UserCredentials = LoginSuccess | LoginFailure;
 
-export const getLoginUser = async (
+export const checkUserIdExists = async (
   userId: string
 ): Promise<UserCredentials> => {
   try {
@@ -85,7 +85,11 @@ export const getLoginUser = async (
       },
     };
   } catch (error) {
-    throw error;
+    console.error("서버 오류", error);
+    return {
+      success: false,
+      message: "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
+    };
   }
 };
 
