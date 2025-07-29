@@ -1,24 +1,23 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
 
-// This function can be marked `async` if using `await` inside
-export async function middleware(request: NextRequest) {
-  console.log("middleware");
+export default async function middleware(request: NextRequest) {
   try {
-    const authorization = request.headers.get("Authorization");
-    const secretKey = process.env.JWT_SECRET;
-    if (!authorization || !secretKey) return;
-    // const accessToken = authorization.replace("Bearer ", "");
-    // const decoded = jwt.verify(accessToken, secretKey);
-    // console.log("decoded:", decoded);
+    const cookieStore = await cookies();
+    const token = cookieStore.get("session");
+
+    if (!token) {
+      return NextResponse.redirect(new URL("/auth/login", request.url));
+    }
+
     return NextResponse.next();
   } catch (e) {
     console.error("Middleware error:", e);
+    return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 }
 
-// See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/api/user/me", "/api/user/password"],
+  matcher: ["/dashboard", "/profile/:path*", "/verify/:path*"],
 };

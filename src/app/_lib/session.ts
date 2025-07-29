@@ -1,7 +1,5 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import Home from "./../page";
 
 const secretKey = process.env.JWT_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
@@ -14,14 +12,19 @@ export async function encrypt(payload: { userId: string }) {
     .sign(encodedKey);
 }
 
+interface SessionPayload {
+  userId: string;
+}
+
 export async function decrypt(session: string) {
   try {
-    const { payload } = await jwtVerify(session, encodedKey, {
+    const { payload } = await jwtVerify<SessionPayload>(session, encodedKey, {
       algorithms: ["HS256"],
     });
     return payload;
   } catch (error) {
-    console.log("Failed to verify session");
+    console.error("decrypt error", error);
+    throw new Error("알 수 없는 오류가 발생했습니다. 다시 로그인해주세요.");
   }
 }
 
@@ -60,8 +63,8 @@ export async function getUserByToken() {
   if (!session) {
     return null;
   }
+
   const payload = await decrypt(session.value);
-  console.log(payload);
 
   if (!payload) return null;
   return payload;

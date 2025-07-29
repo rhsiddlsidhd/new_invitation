@@ -141,7 +141,10 @@ export const getUserById = async (userId: string): Promise<Userdata> => {
       },
     };
   } catch (error) {
-    throw error;
+    console.error("사용자 조회 오류", error);
+    throw new Error(
+      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+    );
   }
 };
 

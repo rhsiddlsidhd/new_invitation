@@ -51,13 +51,7 @@ export const verifyPassword = async (credentials: {
   return await res.json();
 };
 
-// export const getUserById = async (id: string) => {
-//   const response = await fetch(`/api/users/${id}`, {
-//     method: "GET",
-//   });
 
-//   return await response.json();
-// };
 
 export const updateUser = async (updateData: {
   email: string;

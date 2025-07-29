@@ -7,12 +7,14 @@ import {
   deleteUser,
 } from "../../../_services/userServices";
 import { ApiResponse, UserData } from "@/app/_types";
+import { cookies } from "next/headers";
+import { decrypt } from "@/app/_lib/session";
 
 // 현재 로그인한 사용자 정보 조회
 export async function GET(request: NextRequest) {
   try {
-    const token = request.headers.get("Authorization")?.replace("Bearer ", "");
-
+    const cookieSession = await cookies();
+    const token = cookieSession.get("session")?.value;
     if (!token) {
       return NextResponse.json<ApiResponse>(
         {
@@ -22,54 +24,70 @@ export async function GET(request: NextRequest) {
         { status: 401 }
       );
     }
+    console.log("token:", token);
+    const decodedUser = await decrypt(token);
+    console.log("decodedUser", decodedUser);
+  } catch (e) {}
+  // try {
+  // const token = request.headers.get("Authorization")?.replace("Bearer ", "");
 
-    const authResult = await authenticateWithToken(token);
+  // if (!token) {
+  //   return NextResponse.json<ApiResponse>(
+  //     {
+  //       success: false,
+  //       message: "토큰이 필요합니다.",
+  //     },
+  //     { status: 401 }
+  //   );
+  // }
 
-    if (!authResult.success) {
-      return NextResponse.json<ApiResponse>(authResult, { status: 401 });
-    }
+  // const authResult = await authenticateWithToken(token);
 
-    const userId = authResult.decoded && authResult.decoded.userId;
+  // if (!authResult.success) {
+  //   return NextResponse.json<ApiResponse>(authResult, { status: 401 });
+  // }
 
-    if (!userId) {
-      return NextResponse.json<ApiResponse>(
-        {
-          success: false,
-          message: "토큰에서 사용자 ID를 찾을 수 없습니다.",
-        },
-        { status: 400 }
-      );
-    }
+  // const userId = authResult.decoded && authResult.decoded.userId;
 
-    const result = await getUserById(userId);
+  // if (!userId) {
+  //   return NextResponse.json<ApiResponse>(
+  //     {
+  //       success: false,
+  //       message: "토큰에서 사용자 ID를 찾을 수 없습니다.",
+  //     },
+  //     { status: 400 }
+  //   );
+  // }
 
-    if (!result.success) {
-      return NextResponse.json<ApiResponse>(result, { status: 404 });
-    }
+  // const result = await getUserById(userId);
 
-    const data: UserData =
-      result.data && authResult.newAccessToken
-        ? { ...result.data, newAccessToken: authResult.newAccessToken }
-        : { ...result.data };
+  // if (!result.success) {
+  //   return NextResponse.json<ApiResponse>(result, { status: 404 });
+  // }
 
-    const responseData: ApiResponse<UserData> = {
-      success: true,
-      data,
-    };
+  // const data: UserData =
+  //   result.data && authResult.newAccessToken
+  //     ? { ...result.data, newAccessToken: authResult.newAccessToken }
+  //     : { ...result.data };
 
-    return NextResponse.json<ApiResponse<UserData>>(responseData, {
-      status: 200,
-    });
-  } catch (error) {
-    console.error("사용자 조회 API 오류:", error);
-    return NextResponse.json<ApiResponse>(
-      {
-        success: false,
-        message: "서버 오류가 발생했습니다.",
-      },
-      { status: 500 }
-    );
-  }
+  // const responseData: ApiResponse<UserData> = {
+  //   success: true,
+  //   data,
+  // };
+
+  //   return NextResponse.json<ApiResponse<UserData>>(responseData, {
+  //     status: 200,
+  //   });
+  // } catch (error) {
+  //   console.error("사용자 조회 API 오류:", error);
+  //   return NextResponse.json<ApiResponse>(
+  //     {
+  //       success: false,
+  //       message: "서버 오류가 발생했습니다.",
+  //     },
+  //     { status: 500 }
+  //   );
+  // }
 }
 
 export async function PUT(request: NextRequest) {

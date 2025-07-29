@@ -5,7 +5,6 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 import styles from "../page.module.css";
 import useAuthStore from "../_store/authStore";
-import useAuth from "../_hooks/useAuth";
 import { singOut } from "../actions/auth";
 
 interface HomeFormProps {
@@ -13,12 +12,15 @@ interface HomeFormProps {
 }
 
 const HomeForm = ({ user }: HomeFormProps) => {
-  const { isAuthenticated } = useAuth();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated);
+  const setUserId = useAuthStore((state) => state.setUserId);
 
   useEffect(() => {
+    console.log("user in HomeForm:", user);
     setIsAuthenticated(user ? true : false);
-  }, [user, setIsAuthenticated]);
+    setUserId(user ? user : "");
+  }, [user, setIsAuthenticated, setUserId]);
 
   return (
     <div className={styles.page}>

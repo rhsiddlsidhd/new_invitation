@@ -99,4 +99,5 @@ export const signIn = async (prev: ActionState, formData: FormData) => {
 
 export const singOut = async () => {
   await deleteSession();
+  redirect("/auth/login");
 };
