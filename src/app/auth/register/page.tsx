@@ -1,13 +1,11 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { registerUser } from "../../_utils/apiClient";
+import { useActionState } from "react";
 import Link from "next/link";
-import { signup } from "@/app/actions/auth";
+import { signUp } from "@/app/actions/auth";
 
 export default function RegisterPage() {
-  const [state, action, pending] = useActionState(signup, null);
+  const [state, action, pending] = useActionState(signUp, null);
   return (
     <div
       style={{

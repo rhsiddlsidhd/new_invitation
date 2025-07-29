@@ -39,9 +39,13 @@ export async function createSession(userId: string) {
       expires: expiresAt,
       sameSite: "strict",
     });
+
+    return { success: true };
   } catch (error) {
-    console.error("session creation error:", error);
-    throw new Error("세션 생성에 실패했습니다.");
+    console.error("세션 생성 오류:", error);
+    throw new Error(
+      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+    );
   }
 }
 

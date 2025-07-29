@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
-import { getLoginUser, verifyPassword } from "@/app/_services/userServices";
+import { verifyPassword } from "@/app/_services/userServices";
 
 export async function POST(request: NextRequest) {
   try {

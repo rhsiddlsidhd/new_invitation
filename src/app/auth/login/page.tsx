@@ -1,51 +1,10 @@
 "use client";
 
-import { useActionState, useState } from "react";
-import { useRouter } from "next/navigation";
-import { loginUser } from "../../_utils/apiClient";
+import { useActionState } from "react";
 import Link from "next/link";
 import { signIn } from "@/app/actions/auth";
 
 export default function LoginPage() {
-  const router = useRouter();
-  const [formData, setFormData] = useState({
-    userId: "",
-    password: "",
-  });
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState("");
-
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-  //   setError("");
-
-  //   try {
-  //     const result = await loginUser(formData);
-
-  //     if (result.success) {
-  //       // 로그인 성공시 홈페이지로 리다이렉트
-  //       const { token } = result.data;
-  //       sessionStorage.setItem("token", token);
-
-  //       router.push("/");
-  //     } else {
-  //       setError(result.message);
-  //     }
-  //   } catch {
-  //     setError("로그인 중 오류가 발생했습니다.");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setFormData({
-  //     ...formData,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
-
   const [state, action, pending] = useActionState(signIn, null);
 
   return (

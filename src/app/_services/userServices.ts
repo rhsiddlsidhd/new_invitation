@@ -5,35 +5,50 @@ import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { ApiResponse, UserId } from "../_types";
 
-export const createUser = async ({ formData }: { formData: FormData }) => {
+export const checkUserDuplicate = async (email: string, userId: string) => {
   try {
     await dbConnect();
-
-    const email = formData.get("email") as string;
-    const userId = formData.get("userId") as string;
-    const password = formData.get("password") as string;
-
-    // 이미 존재하는 사용자 확인
     const existingUser = await User.findOne({
       $or: [{ email }, { userId }],
     });
-
     if (existingUser) {
       return {
         success: false,
         message: "이미 존재하는 이메일 또는 사용자 ID입니다.",
       };
     }
+    return { success: true };
+  } catch (e) {
+    console.error("사용자 중복 체크 오류", e);
+    throw new Error(
+      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+    );
+  }
+};
 
-    // 비밀번호 해싱
-    const hashedPassword = await bcrypt.hash(password, 12);
+export const hashPassword = async (password: string) => {
+  try {
+    return await bcrypt.hash(password, 12);
+  } catch (e) {
+    console.error("비밀번호 해시 오류", e);
+    throw new Error(
+      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+    );
+  }
+};
+
+interface NewUser {
+  userId: string;
+  email: string;
+  password: string;
+}
+
+export const createUser = async (user: NewUser) => {
+  try {
+    await dbConnect();
 
     // 새 사용자 생성
-    const newUser = new User({
-      email,
-      userId,
-      password: hashedPassword,
-    });
+    const newUser = new User(user);
 
     await newUser.save();
 
@@ -43,7 +58,10 @@ export const createUser = async ({ formData }: { formData: FormData }) => {
       data: { userId: newUser.userId, email: newUser.email },
     };
   } catch (error) {
-    throw error;
+    console.error("사용자 생성 오류", error);
+    throw new Error(
+      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+    );
   }
 };
 
@@ -86,10 +104,9 @@ export const checkUserIdExists = async (
     };
   } catch (error) {
     console.error("서버 오류", error);
-    return {
-      success: false,
-      message: "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
-    };
+    throw new Error(
+      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+    );
   }
 };
 
@@ -241,8 +258,10 @@ export const verifyPassword = async (
   try {
     return await bcrypt.compare(plainPassword, hashedPassword);
   } catch (error) {
-    console.error("비밀번호 검증 오류:", error);
-    return false;
+    console.error("bcrypt 검증 오류:", error);
+    throw new Error(
+      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+    );
   }
 };
 

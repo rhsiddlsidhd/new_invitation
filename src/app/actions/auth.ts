@@ -2,15 +2,20 @@
 
 import { redirect } from "next/navigation";
 import {
+  checkUserDuplicate,
   checkUserIdExists,
   createUser,
+  hashPassword,
   verifyPassword,
 } from "../_services/userServices";
 import { createSession, deleteSession } from "../_lib/session";
 
-export async function signup(prev: any, formData: FormData) {
-  console.log("Action: signup", prev);
+type ActionState = {
+  success: boolean;
+  message?: string;
+} | null;
 
+export async function signUp(prev: ActionState, formData: FormData) {
   const email = formData.get("email") as string;
   const userId = formData.get("userId") as string;
   const password = formData.get("password") as string;
@@ -37,17 +42,29 @@ export async function signup(prev: any, formData: FormData) {
     };
   }
 
-  const result = await createUser({ formData });
+  const user = await checkUserDuplicate(email, userId);
+
+  if (!user.success) {
+    return user;
+  }
+
+  const hashedPassword = await hashPassword(password);
+
+  const result = await createUser({
+    password: hashedPassword,
+    email: email,
+    userId: userId,
+  });
 
   if (!result.success) {
-    return result; // 그냥 객체 반환
+    return result;
   }
 
   // 성공 시 리다이렉트
   redirect("/auth/login");
 }
 
-export const signIn = async (prev: any, formData: FormData) => {
+export const signIn = async (prev: ActionState, formData: FormData) => {
   const userId = formData.get("userId") as string;
   const password = formData.get("password") as string;
 
