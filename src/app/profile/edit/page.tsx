@@ -8,42 +8,42 @@ import React, { useEffect, useState } from "react";
 const EditPage = () => {
   const { isPasswordVerified, setIsPasswordVerified, setUserEmail } =
     useAuthStore();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState("");
+  // const [formData, setFormData] = useState({ email: "", password: "" });
   const router = useRouter();
   useEffect(() => {
-    if (!isPasswordVerified) router.push("/profile/verify");
+    if (!isPasswordVerified) router.push("/verify");
   }, [isPasswordVerified, router, setIsPasswordVerified]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
 
-    setError("");
-    setLoading(true);
+  //   setError("");
+  //   setLoading(true);
 
-    try {
-      const token = sessionStorage.getItem("token");
+  //   try {
+  //     const token = sessionStorage.getItem("token");
 
-      if (!token) return;
-      const data = await updateUser(formData);
-      if (!data.success) {
-        setError(data.message);
-        return;
-      }
-      const { email } = data.data;
-      alert(`${email}로 프로필이 수정되었습니다.`);
-      setUserEmail(email);
-      router.push("/profile");
-    } catch (e) {
-      console.error("프로필 수정 중 오류 발생:", e);
-      setError("프로필 수정 중 오류가 발생했습니다.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     if (!token) return;
+  //     const data = await updateUser(formData);
+  //     if (!data.success) {
+  //       setError(data.message);
+  //       return;
+  //     }
+  //     const { email } = data.data;
+  //     alert(`${email}로 프로필이 수정되었습니다.`);
+  //     setUserEmail(email);
+  //     router.push("/profile");
+  //   } catch (e) {
+  //     console.error("프로필 수정 중 오류 발생:", e);
+  //     setError("프로필 수정 중 오류가 발생했습니다.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  if (!isPasswordVerified) return <div>로딩중</div>;
+  // if (!isPasswordVerified) return <div>로딩중</div>;
 
   return (
     <div
@@ -56,7 +56,7 @@ const EditPage = () => {
       }}
     >
       <h2>프로필 수정</h2>
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="email">이메일</label>
           <input
@@ -89,7 +89,7 @@ const EditPage = () => {
         <button type="submit" disabled={loading}>
           {loading ? "수정 중..." : "수정"}
         </button>
-      </form>
+      </form> */}
     </div>
   );
 };

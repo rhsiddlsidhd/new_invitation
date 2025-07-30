@@ -1,6 +1,6 @@
 "use client";
 import useAuthStore from "@/app/_store/authStore";
-import { updateUser, updateUserPassword } from "@/app/_utils/apiClient";
+import { updateUserPassword } from "@/app/_utils/apiClient";
 import { useRouter } from "next/navigation";
 
 import React, { useEffect, useState } from "react";

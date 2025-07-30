@@ -119,6 +119,9 @@ interface UserDataSuccess {
 }
 
 type Userdata = UserDataSuccess | LoginFailure;
+type UserPassword =
+  | { success: true; data: { password: string } }
+  | LoginFailure;
 
 export const getUserById = async (userId: string): Promise<Userdata> => {
   try {
@@ -138,6 +141,32 @@ export const getUserById = async (userId: string): Promise<Userdata> => {
       data: {
         email: user.email,
         userId: user.userId,
+      },
+    };
+  } catch (error) {
+    console.error("사용자 조회 오류", error);
+    throw new Error(
+      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+    );
+  }
+};
+
+export const getUserPasswordById = async (
+  userId: string
+): Promise<UserPassword> => {
+  try {
+    await dbConnect();
+    const user = await User.findOne({ userId, isDelete: false });
+    if (!user) {
+      return {
+        success: false,
+        message: "사용자를 찾을 수 없습니다.",
+      };
+    }
+    return {
+      success: true,
+      data: {
+        password: user.password,
       },
     };
   } catch (error) {

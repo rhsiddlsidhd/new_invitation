@@ -7,7 +7,7 @@ const page = async (props: { searchParams: Promise<{ next: string }> }) => {
 
   console.log("Verify page searchParams:", resolvedSearchParams.next);
 
-  return <VerifyForm />;
+  return <VerifyForm searchParams={resolvedSearchParams} />;
 };
 
 export default page;
