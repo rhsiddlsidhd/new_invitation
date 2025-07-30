@@ -1,56 +1,26 @@
 "use client";
+
 import useAuthStore from "@/app/_store/authStore";
-import { updateUserPassword } from "@/app/_utils/apiClient";
+import { updatedUserPassword } from "@/app/actions/user";
 import { useRouter } from "next/navigation";
 
-import React, { useEffect, useState } from "react";
+import React, { useActionState, useEffect } from "react";
 
 const PasswordPage = () => {
-  const { isPasswordVerified, setIsPasswordVerified } = useAuthStore();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [formData, setFormData] = useState({
-    password: "",
-    passwordConfirm: "",
-  });
+  const [state, action, pending] = useActionState(updatedUserPassword, null);
+  const isPasswordVerified = useAuthStore((state) => state.isPasswordVerified);
   const router = useRouter();
+
   useEffect(() => {
-    if (!isPasswordVerified) router.push("/profile/verify");
-  }, [isPasswordVerified, router, setIsPasswordVerified]);
+    if (!isPasswordVerified) router.push("/verify");
+  }, [isPasswordVerified, router]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    setError("");
-    setLoading(true);
-    if (formData.password !== formData.passwordConfirm) {
-      setError("비밀번호가 일치하지 않습니다.");
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const token = sessionStorage.getItem("token");
-
-      if (!token) return;
-      const data = await updateUserPassword(formData);
-      if (!data.success) {
-        setError(data.message);
-        return;
-      }
-      console.log(data);
-      alert(`비밀번호 변경이 완료되었습니다.`);
+  useEffect(() => {
+    if (state && state.success) {
+      alert(state.message);
       router.push("/profile");
-    } catch (e) {
-      console.error("프로필 수정 중 오류 발생:", e);
-      setError("프로필 수정 중 오류가 발생했습니다.");
-    } finally {
-      setLoading(false);
     }
-  };
-
-  if (!isPasswordVerified) return <div>로딩중</div>;
-
+  }, [state, router]);
   return (
     <div
       style={{
@@ -62,18 +32,14 @@ const PasswordPage = () => {
       }}
     >
       <h2>비밀번호 수정</h2>
-      <form onSubmit={handleSubmit}>
+      <form action={action}>
         <div>
           <label htmlFor="password">새 비밀번호</label>
           <input
             type="password"
             id="password"
-            value={formData.password}
             autoComplete="off"
             name="password"
-            onChange={(e) =>
-              setFormData({ ...formData, [e.target.name]: e.target.value })
-            }
             required
           />
         </div>
@@ -82,18 +48,16 @@ const PasswordPage = () => {
           <input
             type="password"
             id="passwordConfirm"
-            value={formData.passwordConfirm}
             autoComplete="off"
             name="passwordConfirm"
-            onChange={(e) =>
-              setFormData({ ...formData, [e.target.name]: e.target.value })
-            }
             required
           />
         </div>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <button type="submit" disabled={loading}>
-          {loading ? "수정 중..." : "수정"}
+        {state && !state.success && (
+          <p style={{ color: "red" }}>{state.message}</p>
+        )}
+        <button type="submit" disabled={pending}>
+          {pending ? "수정 중..." : "수정"}
         </button>
       </form>
     </div>

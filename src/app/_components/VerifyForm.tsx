@@ -30,7 +30,7 @@ const VerifyForm = ({ path }: VerifyFormProps) => {
   return (
     <div style={{ maxWidth: "400px", margin: "100px auto", padding: "20px" }}>
       <h2>비밀번호 확인</h2>
-      <p>프로필을 수정하기 위해 현재 비밀번호를 입력해주세요.</p>
+      <p>현재 비밀번호를 입력해주세요.</p>
 
       <form action={action}>
         <input

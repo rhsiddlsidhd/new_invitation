@@ -1,7 +1,11 @@
 "use server";
 
-import { getUserByToken } from "../_lib/session";
-import { updateUserEmail } from "../_services/userServices";
+import { deleteSession, getUserByToken } from "../_lib/session";
+import {
+  changePassword,
+  deleteUser,
+  updateUserEmail,
+} from "../_services/userServices";
 import { ActionState } from "./auth";
 
 export const updateUserProfile = async (
@@ -20,10 +24,72 @@ export const updateUserProfile = async (
   const password = formData.get("password") as string;
 
   const user = await getUserByToken();
-  // 미들웨어에서 이미 인증 검증 완료
 
   const updateResult = await updateUserEmail(user!.userId, { email, password });
   console.log("updateResult", updateResult);
   if (!updateResult.success) return updateResult;
   return updateResult;
+};
+
+export const updatedUserPassword = async (
+  prev: ActionState,
+  formData: FormData
+) => {
+  const password = formData.get("password") as string;
+  const passwordConfirm = formData.get("passwordConfirm") as string;
+
+  const user = await getUserByToken();
+
+  if (password !== passwordConfirm) {
+    return {
+      success: false,
+      message: "비밀번호가 일치하지 않습니다.",
+    };
+  }
+
+  const updatedResult = await changePassword(user!.userId, password);
+
+  return updatedResult;
+};
+
+export const deleteUserAction = async (
+  prev: ActionState,
+  formData: FormData
+) => {
+  /**
+   * 계정 삭제 로직
+   * 현재 유저 ID 를 formData 로 전달
+   * token으로 userID를 payload로 꺼내서
+   * db findOne UserId 를 가져오고
+   * formData로 전달받은 유저 ID와 비교하여 일치 하였을때
+   * user 의 isDelete를 true 로 변경
+   */
+
+  const userId = formData.get("userId") as string;
+
+  if (!userId) {
+    return {
+      success: false,
+      message: "사용자 ID를 입력해주세요.",
+    };
+  }
+
+  const user = await getUserByToken();
+
+  if (userId !== user!.userId) {
+    return {
+      success: false,
+      message: "입력하신 사용자 ID가 현재 로그인된 계정과 일치하지 않습니다.",
+    };
+  }
+
+  const deleteResult = await deleteUser(user!.userId);
+  await deleteSession();
+
+  if (!deleteResult.success) {
+    return deleteResult;
+  }
+
+  // 성공시 세션 삭제 및 리다이렉트 필요할 수 있음
+  return deleteResult;
 };

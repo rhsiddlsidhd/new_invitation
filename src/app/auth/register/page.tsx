@@ -1,11 +1,21 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import Link from "next/link";
 import { signUp } from "@/app/actions/auth";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
   const [state, action, pending] = useActionState(signUp, null);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state && state.success) {
+      alert(state.message);
+      router.push("/auth/login");
+    }
+  }, [state, router]);
+
   return (
     <div
       style={{

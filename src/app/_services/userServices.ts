@@ -54,7 +54,7 @@ export const createUser = async (user: NewUser) => {
 
     return {
       success: true,
-      message: "사용자가 성공적으로 생성되었습니다.",
+      message: `${user.userId}님 회원가입을 축하드립니다.`,
       data: { userId: newUser.userId, email: newUser.email },
     };
   } catch (error) {
@@ -290,7 +290,11 @@ export const updateUserEmail = async (
 };
 
 // 비밀번호 변경 전용 함수
-export const changePassword = async (id: string, newPassword: string) => {
+
+export const changePassword = async (
+  id: string,
+  newPassword: string
+): Promise<{ success: boolean; message: string }> => {
   try {
     await dbConnect();
 
@@ -319,25 +323,23 @@ export const changePassword = async (id: string, newPassword: string) => {
 export const deleteUser = async (id: string) => {
   try {
     await dbConnect();
+    console.log(id);
 
-    const user = await User.findOneAndUpdate(
+    await User.findOneAndUpdate(
       { userId: id },
       { isDelete: true },
       { new: true }
     );
 
-    if (!user || user.isDelete) {
-      return {
-        success: false,
-        message: "사용자를 찾을 수 없습니다.",
-      };
-    }
-
     return {
       success: true,
+      message: `${id}가 삭제 완료되었습니다.`,
     };
   } catch (error) {
-    throw error;
+    console.error("계정 삭제 오류", error);
+    throw new Error(
+      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+    );
   }
 };
 

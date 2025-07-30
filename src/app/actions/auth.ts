@@ -62,7 +62,8 @@ export async function signUp(prev: ActionState, formData: FormData) {
   }
 
   // 성공 시 리다이렉트
-  redirect("/auth/login");
+  return result;
+  // redirect("/auth/login");
 }
 
 export const signIn = async (prev: ActionState, formData: FormData) => {
