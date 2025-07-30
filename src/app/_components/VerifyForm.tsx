@@ -5,10 +5,10 @@ import { verifyPasswordAction, ActionState } from "../actions/auth";
 import useAuthStore from "../_store/authStore";
 
 interface VerifyFormProps {
-  searchParams: { [key: string]: string };
+  path: string;
 }
 
-const VerifyForm = ({ searchParams }: VerifyFormProps) => {
+const VerifyForm = ({ path }: VerifyFormProps) => {
   const router = useRouter();
   const setIsPasswordVerified = useAuthStore(
     (state) => state.setIsPasswordVerified
@@ -21,11 +21,11 @@ const VerifyForm = ({ searchParams }: VerifyFormProps) => {
   // 성공 시 next 경로로 이동
   useEffect(() => {
     if (state && state.success) {
-      const nextUrl = searchParams.next as string;
       setIsPasswordVerified(true);
-      router.push(nextUrl || "/"); // 기본값 포함
+
+      router.push(path ?? "/");
     }
-  }, [state, searchParams.next, router, setIsPasswordVerified]);
+  }, [state, router, setIsPasswordVerified, path]);
 
   return (
     <div style={{ maxWidth: "400px", margin: "100px auto", padding: "20px" }}>
