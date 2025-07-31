@@ -63,7 +63,6 @@ export async function signUp(prev: ActionState, formData: FormData) {
 
   // 성공 시 리다이렉트
   return result;
-  // redirect("/auth/login");
 }
 
 export const signIn = async (prev: ActionState, formData: FormData) => {
@@ -117,13 +116,10 @@ export const verifyPasswordAction = async (
     };
   }
   const user = await getUserByToken();
-  // const user = await checkUserIdExists();
 
   if (!user) {
     return user;
   }
-
-  //payload 로 findOne User
 
   const dbUser = await getUserPasswordById(user.userId);
 
