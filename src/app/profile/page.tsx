@@ -1,19 +1,12 @@
 import React from "react";
 import ProfileForm from "../_components/ProfileForm";
-import { getUserByToken } from "../_lib/session";
-import { getUserById } from "../_services/userServices";
-import { redirect } from "next/navigation";
+
+import { getUserOrRedirect } from "../_lib/session";
 
 const page = async () => {
-  const sessionUser = await getUserByToken();
+  const user = await getUserOrRedirect();
 
-  const result = await getUserById(sessionUser!.userId);
-
-  if (!result.success) {
-    redirect("/auth/login");
-  }
-
-  return <ProfileForm user={result.data} />;
+  return <ProfileForm user={user.data} />;
 };
 
 export default page;

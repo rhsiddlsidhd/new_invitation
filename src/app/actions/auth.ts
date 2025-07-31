@@ -10,6 +10,7 @@ import {
   verifyPassword,
 } from "../_services/userServices";
 import { createSession, deleteSession, getUserByToken } from "../_lib/session";
+import { cookies, headers } from "next/headers";
 
 export type ActionState = {
   success: boolean;
@@ -107,6 +108,8 @@ export const verifyPasswordAction = async (
   prev: ActionState,
   formData: FormData
 ) => {
+  const header = await headers();
+  const userId = header.get("x-user-id");
   const password = formData.get("password") as string;
 
   if (!password) {
@@ -115,13 +118,12 @@ export const verifyPasswordAction = async (
       message: "비밀번호를 입력해주세요.",
     };
   }
-  const user = await getUserByToken();
 
-  if (!user) {
-    return user;
+  if (!userId) {
+    throw new Error("인증 정보를 찾을 수 없습니다.");
   }
 
-  const dbUser = await getUserPasswordById(user.userId);
+  const dbUser = await getUserPasswordById(userId);
 
   if (!dbUser.success) {
     return dbUser;
@@ -137,6 +139,15 @@ export const verifyPasswordAction = async (
       message: "비밀번호가 일치하지 않습니다.",
     };
   }
+
+  // 성공시 쿠키 설정
+  const cookieStore = await cookies();
+  cookieStore.set("password-verified", "true", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 30 * 60, // 30분
+    sameSite: "strict",
+  });
 
   return {
     success: true,

@@ -1,31 +1,23 @@
-"use client";
-
 import React, { useActionState, useEffect } from "react";
 import useAuthStore from "../_store/authStore";
 import { useRouter } from "next/navigation";
-import { updateUserProfile } from "../actions/user";
+import { updatedUserPassword } from "../actions/user";
 
-const EditForm = () => {
-  const { isPasswordVerified, setIsPasswordVerified, setUserEmail } =
-    useAuthStore();
+const PasswordForm = () => {
+  const [state, action, pending] = useActionState(updatedUserPassword, null);
+  const isPasswordVerified = useAuthStore((state) => state.isPasswordVerified);
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (!isPasswordVerified) router.push("/verify");
-  // }, [isPasswordVerified, router, setIsPasswordVerified]);
-
-  const [state, action, pending] = useActionState(updateUserProfile, null);
-
-  // 성공시 처리
   useEffect(() => {
-    if (state && state.success && state.data) {
-      const { email } = state.data;
-      alert(`${email}로 프로필이 수정되었습니다.`);
-      setUserEmail(email);
+    if (!isPasswordVerified) router.push("/verify");
+  }, [isPasswordVerified, router]);
+
+  useEffect(() => {
+    if (state && state.success) {
+      alert(state.message);
       router.push("/profile");
     }
-  }, [state, setUserEmail, router]);
-
+  }, [state, router]);
   return (
     <div
       style={{
@@ -36,25 +28,25 @@ const EditForm = () => {
         borderRadius: "8px",
       }}
     >
-      <h2>프로필 수정</h2>
+      <h2>비밀번호 수정</h2>
       <form action={action}>
         <div>
-          <label htmlFor="email">이메일</label>
-          <input
-            type="email"
-            id="email"
-            autoComplete="off"
-            name="email"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">비밀번호</label>
+          <label htmlFor="password">새 비밀번호</label>
           <input
             type="password"
             id="password"
             autoComplete="off"
             name="password"
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="passwordConfirm">새 비밀번호 확인</label>
+          <input
+            type="password"
+            id="passwordConfirm"
+            autoComplete="off"
+            name="passwordConfirm"
             required
           />
         </div>
@@ -69,4 +61,4 @@ const EditForm = () => {
   );
 };
 
-export default EditForm;
+export default PasswordForm;

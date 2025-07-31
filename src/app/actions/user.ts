@@ -1,5 +1,6 @@
 "use server";
 
+import { cookies } from "next/headers";
 import { deleteSession, getUserByToken } from "../_lib/session";
 import {
   changePassword,
@@ -27,7 +28,13 @@ export const updateUserProfile = async (
 
   const updateResult = await updateUserEmail(user!.userId, { email, password });
   console.log("updateResult", updateResult);
+
   if (!updateResult.success) return updateResult;
+
+  // 성공시 비밀번호 검증 상태 초기화
+  const cookieStore = await cookies();
+  cookieStore.delete("password-verified");
+
   return updateResult;
 };
 

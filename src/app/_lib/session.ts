@@ -1,5 +1,7 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { getUserById } from "../_services/userServices";
 
 const secretKey = process.env.JWT_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
@@ -59,13 +61,38 @@ export async function deleteSession() {
 
 export async function getUserByToken() {
   const cookieStore = await cookies();
-  const session = cookieStore.get("session");
-  if (!session) {
-    return null;
+  const token = cookieStore.get("session")?.value;
+  if (!token) redirect("/auth/login");
+
+  const payload = await decrypt(token);
+
+  if (!payload) return redirect("/auth/login");
+  return payload;
+}
+
+export async function getUserOrRedirect() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("session")?.value;
+
+  if (!token) {
+    redirect("/auth/login");
   }
 
-  const payload = await decrypt(session.value);
+  try {
+    const payload = await decrypt(token);
+    const result = await getUserById(payload.userId);
 
-  if (!payload) return null;
-  return payload;
+    if (!result.success) {
+      // 유저 조회 실패 시 → 세션 제거 + 리디렉션
+      cookieStore.delete("session");
+      redirect("/auth/login");
+    }
+
+    return result; // 최종적으로 user 반환
+  } catch (e) {
+    // 복호화 실패 or 기타 오류
+    console.error(e);
+    cookieStore.delete("session");
+    redirect("/auth/login");
+  }
 }
