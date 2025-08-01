@@ -1,9 +1,9 @@
-import User from "../_models/userSchema";
-import { dbConnect } from "./../_utils/mongodb";
+import { dbConnect } from "../utils/mongodb";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
-import { ApiResponse, UserId } from "../_types";
+import { ApiResponse, UserId } from "../types";
+import User from "@/models/userSchema";
 
 /**
  *

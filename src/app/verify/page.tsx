@@ -1,4 +1,4 @@
-import VerifyForm from "../_components/VerifyForm";
+import VerifyForm from "../../components/VerifyForm";
 
 const page = async (props: { searchParams: Promise<{ next: string }> }) => {
   const { searchParams } = await props;

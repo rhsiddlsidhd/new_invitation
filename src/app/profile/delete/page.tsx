@@ -1,4 +1,4 @@
-import DeleteForm from "@/app/_components/DeleteForm";
+import DeleteForm from "@/components/DeleteForm";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import React from "react";

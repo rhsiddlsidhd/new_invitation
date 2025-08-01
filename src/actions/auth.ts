@@ -1,6 +1,8 @@
 "use server";
 
 import { redirect } from "next/navigation";
+
+import { cookies, headers } from "next/headers";
 import {
   checkUserDuplicate,
   checkUserIdExists,
@@ -8,9 +10,8 @@ import {
   getUserPasswordById,
   hashPassword,
   verifyPassword,
-} from "../_services/userServices";
-import { createSession, deleteSession, getUserByToken } from "../_lib/session";
-import { cookies, headers } from "next/headers";
+} from "@/services/userServices";
+import { createSession, deleteSession } from "@/lib/session";
 
 export type ActionState = {
   success: boolean;
@@ -101,7 +102,7 @@ export const signIn = async (prev: ActionState, formData: FormData) => {
 
 export const singOut = async () => {
   await deleteSession();
-  redirect("/auth/login");
+  // redirect("/auth/login");
 };
 
 export const verifyPasswordAction = async (

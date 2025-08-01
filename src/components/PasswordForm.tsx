@@ -1,5 +1,5 @@
 import React, { useActionState, useEffect } from "react";
-import useAuthStore from "../_store/authStore";
+import useAuthStore from "../store/authStore";
 import { useRouter } from "next/navigation";
 import { updatedUserPassword } from "../actions/user";
 

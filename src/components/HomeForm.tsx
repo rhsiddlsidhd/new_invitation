@@ -3,8 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect } from "react";
-import styles from "../page.module.css";
-import useAuthStore from "../_store/authStore";
+import styles from "../styles/page.module.css";
+import useAuthStore from "../store/authStore";
 import { singOut } from "../actions/auth";
 
 interface HomeFormProps {
@@ -12,15 +12,13 @@ interface HomeFormProps {
 }
 
 const HomeForm = ({ user }: HomeFormProps) => {
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated);
   const setUserId = useAuthStore((state) => state.setUserId);
 
   useEffect(() => {
     console.log("user in HomeForm:", user);
-    setIsAuthenticated(user ? true : false);
+
     setUserId(user ? user : "");
-  }, [user, setIsAuthenticated, setUserId]);
+  }, [user, setUserId]);
 
   return (
     <div className={styles.page}>
@@ -61,9 +59,34 @@ const HomeForm = ({ user }: HomeFormProps) => {
               alignItems: "center",
             }}
           >
-            {isAuthenticated === null ? (
-              <div>로딩중</div>
-            ) : isAuthenticated ? (
+            {!user ? (
+              <>
+                <Link
+                  href="/auth/login"
+                  style={{
+                    padding: "8px 16px",
+                    backgroundColor: "#007cba",
+                    color: "white",
+                    textDecoration: "none",
+                    borderRadius: "4px",
+                  }}
+                >
+                  로그인
+                </Link>
+                <Link
+                  href="/auth/register"
+                  style={{
+                    padding: "8px 16px",
+                    backgroundColor: "#28a745",
+                    color: "white",
+                    textDecoration: "none",
+                    borderRadius: "4px",
+                  }}
+                >
+                  회원가입
+                </Link>
+              </>
+            ) : (
               <>
                 <Link
                   href={`/dashboard`}
@@ -90,33 +113,6 @@ const HomeForm = ({ user }: HomeFormProps) => {
                 >
                   로그아웃
                 </button>
-              </>
-            ) : (
-              <>
-                <Link
-                  href="/auth/login"
-                  style={{
-                    padding: "8px 16px",
-                    backgroundColor: "#007cba",
-                    color: "white",
-                    textDecoration: "none",
-                    borderRadius: "4px",
-                  }}
-                >
-                  로그인
-                </Link>
-                <Link
-                  href="/auth/register"
-                  style={{
-                    padding: "8px 16px",
-                    backgroundColor: "#28a745",
-                    color: "white",
-                    textDecoration: "none",
-                    borderRadius: "4px",
-                  }}
-                >
-                  회원가입
-                </Link>
               </>
             )}
           </div>
@@ -150,7 +146,7 @@ const HomeForm = ({ user }: HomeFormProps) => {
           등 다양한 용도의 초대장을 제작할 수 있습니다.
         </p>
 
-        {!isAuthenticated && (
+        {!user && (
           <div
             style={{
               display: "flex",
@@ -191,7 +187,7 @@ const HomeForm = ({ user }: HomeFormProps) => {
           </div>
         )}
 
-        {isAuthenticated && (
+        {user && (
           <div
             style={{
               display: "flex",

@@ -2,7 +2,7 @@
 import React, { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { verifyPasswordAction, ActionState } from "../actions/auth";
-import useAuthStore from "../_store/authStore";
+import useAuthStore from "../store/authStore";
 
 interface VerifyFormProps {
   path: string;

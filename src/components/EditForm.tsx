@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useActionState, useEffect } from "react";
-import useAuthStore from "../_store/authStore";
+import useAuthStore from "../store/authStore";
 import { useRouter } from "next/navigation";
 import { updateUserProfile } from "../actions/user";
 

@@ -1,6 +1,6 @@
 import React, { useActionState, useEffect } from "react";
 import { deleteUserAction } from "../actions/user";
-import useAuthStore from "../_store/authStore";
+import useAuthStore from "../store/authStore";
 import { useRouter } from "next/navigation";
 
 const DeleteForm = () => {

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
-import { ApiResponse, UserData } from "../_types";
-import useAuthStore from "../_store/authStore";
+import { ApiResponse, UserData } from "../types";
+import useAuthStore from "@/store/authStore";
 
 const useAuth = () => {
   const {

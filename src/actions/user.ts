@@ -1,12 +1,12 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { deleteSession, getUserByToken } from "../_lib/session";
+import { deleteSession, getUserByToken } from "../lib/session";
 import {
   changePassword,
   deleteUser,
   updateUserEmail,
-} from "../_services/userServices";
+} from "../services/userServices";
 import { ActionState } from "./auth";
 
 export const updateUserProfile = async (

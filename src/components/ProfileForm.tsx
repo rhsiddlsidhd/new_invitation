@@ -5,7 +5,6 @@ import React from "react";
 
 const ProfileForm = ({ user }: { user: { userId: string; email: string } }) => {
   const router = useRouter();
-  console.log(user);
   return (
     <div
       style={{

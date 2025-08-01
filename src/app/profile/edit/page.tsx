@@ -1,4 +1,4 @@
-import EditForm from "@/app/_components/EditForm";
+import EditForm from "@/components/EditForm";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import React from "react";

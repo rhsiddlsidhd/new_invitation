@@ -1,5 +1,5 @@
-import DashboardForm from "../_components/DashboardForm";
-import { getUserByToken } from "../_lib/session";
+import DashboardForm from "../../components/DashboardForm";
+import { getUserByToken } from "../../lib/session";
 
 export default async function page() {
   const user = await getUserByToken();
