@@ -5,6 +5,15 @@ import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { ApiResponse, UserId } from "../_types";
 
+/**
+ *
+ * Service function
+ * 비즈니스 로직을 담당하는 계층
+ * 데이터베이스 작업이나 외부 API 호출 등 실제 처리해야 할 작업을 수행
+ * 이 계층은 컨트롤러에서 호출되어 필요한 데이터를 처리하고 결과를 반환
+ *
+ */
+
 export const checkUserDuplicate = async (email: string, userId: string) => {
   try {
     await dbConnect();
@@ -110,7 +119,7 @@ export const checkUserIdExists = async (
   }
 };
 
-interface UserDataSuccess {
+interface UserResponse {
   success: true;
   data: {
     email: string;
@@ -118,38 +127,25 @@ interface UserDataSuccess {
   };
 }
 
-type Userdata = UserDataSuccess | LoginFailure;
 type UserPassword =
   | { success: true; data: { password: string } }
   | LoginFailure;
 type UserEmail = { success: true; data: { email: string } } | LoginFailure;
 
-export const getUserById = async (userId: string): Promise<Userdata> => {
-  try {
-    await dbConnect();
+export const getUserById = async (userId: string): Promise<UserResponse> => {
+  await dbConnect();
 
-    const user = await User.findOne({ userId, isDelete: false });
+  const user = await User.findOne({ userId, isDelete: false });
 
-    if (!user) {
-      return {
-        success: false,
-        message: "사용자를 찾을 수 없습니다.",
-      };
-    }
+  if (!user) throw new Error("사용자를 찾을 수 없습니다.");
 
-    return {
-      success: true,
-      data: {
-        email: user.email,
-        userId: user.userId,
-      },
-    };
-  } catch (error) {
-    console.error("사용자 조회 오류", error);
-    throw new Error(
-      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
-    );
-  }
+  return {
+    success: true,
+    data: {
+      email: user.email,
+      userId: user.userId,
+    },
+  };
 };
 
 export const getUserPasswordById = async (
