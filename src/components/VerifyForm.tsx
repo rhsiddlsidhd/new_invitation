@@ -1,31 +1,17 @@
 "use client";
-import React, { useActionState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React, { useActionState } from "react";
+
 import { verifyPasswordAction, ActionState } from "../actions/auth";
-import useAuthStore from "../store/authStore";
 
 interface VerifyFormProps {
   path: string;
 }
 
 const VerifyForm = ({ path }: VerifyFormProps) => {
-  const router = useRouter();
-  const setIsPasswordVerified = useAuthStore(
-    (state) => state.setIsPasswordVerified
-  );
   const [state, action, pending] = useActionState<ActionState, FormData>(
     verifyPasswordAction,
     null
   );
-
-  // 성공 시 next 경로로 이동
-  useEffect(() => {
-    if (state && state.success) {
-      setIsPasswordVerified(true);
-
-      router.push(path ?? "/");
-    }
-  }, [state, router, setIsPasswordVerified, path]);
 
   return (
     <div style={{ maxWidth: "400px", margin: "100px auto", padding: "20px" }}>
@@ -33,6 +19,7 @@ const VerifyForm = ({ path }: VerifyFormProps) => {
       <p>현재 비밀번호를 입력해주세요.</p>
 
       <form action={action}>
+        <input type="hidden" name="next" value={path} />
         <input
           type="password"
           placeholder="현재 비밀번호"

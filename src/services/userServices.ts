@@ -127,9 +127,13 @@ interface UserResponse {
   };
 }
 
-type UserPassword =
-  | { success: true; data: { password: string } }
-  | LoginFailure;
+interface UserPasswordResponse {
+  success: true;
+  data: {
+    password: string;
+  };
+}
+
 type UserEmail = { success: true; data: { email: string } } | LoginFailure;
 
 export const getUserById = async (userId: string): Promise<UserResponse> => {
@@ -150,28 +154,16 @@ export const getUserById = async (userId: string): Promise<UserResponse> => {
 
 export const getUserPasswordById = async (
   userId: string
-): Promise<UserPassword> => {
-  try {
-    await dbConnect();
-    const user = await User.findOne({ userId, isDelete: false });
-    if (!user) {
-      return {
-        success: false,
-        message: "사용자를 찾을 수 없습니다.",
-      };
-    }
-    return {
-      success: true,
-      data: {
-        password: user.password,
-      },
-    };
-  } catch (error) {
-    console.error("사용자 조회 오류", error);
-    throw new Error(
-      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
-    );
-  }
+): Promise<UserPasswordResponse> => {
+  await dbConnect();
+  const user = await User.findOne({ userId, isDelete: false });
+  if (!user) throw new Error("사용자를 찾을 수 없습니다.");
+  return {
+    success: true,
+    data: {
+      password: user.password,
+    },
+  };
 };
 
 export const updateUser = async (
@@ -232,57 +224,45 @@ export const updateUserEmail = async (
   id: string,
   updateData: Partial<{ email: string; password: string }>
 ): Promise<UserEmail> => {
-  try {
-    await dbConnect();
+  await dbConnect();
 
-    const user = await User.findOne({ userId: id });
+  const user = await User.findOne({ userId: id });
 
-    if (!user || user.isDelete) {
+  if (!user || user.isDelete) throw new Error("사용자를 찾을 수 없습니다.");
+
+  // 비밀번호 확인 (현재 비밀번호가 맞는지 검증)
+  if (updateData.password) {
+    const isPasswordValid = await bcrypt.compare(
+      updateData.password,
+      user.password
+    );
+    if (!isPasswordValid) {
       return {
         success: false,
-        message: "사용자를 찾을 수 없습니다.",
+        message: "현재 비밀번호가 올바르지 않습니다.",
       };
     }
-
-    // 비밀번호 확인 (현재 비밀번호가 맞는지 검증)
-    if (updateData.password) {
-      const isPasswordValid = await bcrypt.compare(
-        updateData.password,
-        user.password
-      );
-      if (!isPasswordValid) {
-        return {
-          success: false,
-          message: "현재 비밀번호가 올바르지 않습니다.",
-        };
-      }
-    }
-
-    const dataToUpdate: Partial<{ email: string }> = {};
-    if (updateData.email) {
-      dataToUpdate.email = updateData.email;
-    }
-
-    const updatedUser = await User.findOneAndUpdate(
-      { userId: id },
-      dataToUpdate,
-      {
-        new: true,
-      }
-    );
-
-    return {
-      success: true,
-      data: {
-        email: updatedUser.email,
-      },
-    };
-  } catch (error) {
-    console.error(error);
-    throw new Error(
-      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
-    );
   }
+
+  const dataToUpdate: Partial<{ email: string }> = {};
+  if (updateData.email) {
+    dataToUpdate.email = updateData.email;
+  }
+
+  const updatedUser = await User.findOneAndUpdate(
+    { userId: id },
+    dataToUpdate,
+    {
+      new: true,
+    }
+  );
+
+  return {
+    success: true,
+    data: {
+      email: updatedUser.email,
+    },
+  };
 };
 
 // 비밀번호 변경 전용 함수

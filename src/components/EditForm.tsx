@@ -6,13 +6,8 @@ import { useRouter } from "next/navigation";
 import { updateUserProfile } from "../actions/user";
 
 const EditForm = () => {
-  const { isPasswordVerified, setIsPasswordVerified, setUserEmail } =
-    useAuthStore();
+  const { setUserEmail } = useAuthStore();
   const router = useRouter();
-
-  // useEffect(() => {
-  //   if (!isPasswordVerified) router.push("/verify");
-  // }, [isPasswordVerified, router, setIsPasswordVerified]);
 
   const [state, action, pending] = useActionState(updateUserProfile, null);
 
