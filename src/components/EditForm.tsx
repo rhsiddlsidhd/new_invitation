@@ -6,17 +6,10 @@ import { useRouter } from "next/navigation";
 import { updateUserProfile } from "../actions/user";
 
 const EditForm = () => {
-  const { isPasswordVerified, setIsPasswordVerified, setUserEmail } =
-    useAuthStore();
+  const [state, action, pending] = useActionState(updateUserProfile, null);
+  const { setUserEmail } = useAuthStore();
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (!isPasswordVerified) router.push("/verify");
-  // }, [isPasswordVerified, router, setIsPasswordVerified]);
-
-  const [state, action, pending] = useActionState(updateUserProfile, null);
-
-  // 성공시 처리
   useEffect(() => {
     if (state && state.success && state.data) {
       const { email } = state.data;

@@ -1,3 +1,4 @@
+"use client";
 import React, { useActionState, useEffect } from "react";
 import { deleteUserAction } from "../actions/user";
 import useAuthStore from "../store/authStore";
@@ -5,21 +6,16 @@ import { useRouter } from "next/navigation";
 
 const DeleteForm = () => {
   const [state, action, pending] = useActionState(deleteUserAction, null);
-
-  const { isPasswordVerified, userId } = useAuthStore();
-
+  const { userId } = useAuthStore();
   const router = useRouter();
-  useEffect(() => {
-    if (!isPasswordVerified) router.push("/");
-  }, [isPasswordVerified, router]);
 
   useEffect(() => {
     if (state && state.success) {
-      console.log("도착?");
       alert(state.message);
       router.push("/profile");
     }
   }, [state, router]);
+
   return (
     <div
       style={{
