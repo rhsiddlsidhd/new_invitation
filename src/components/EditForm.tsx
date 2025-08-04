@@ -10,6 +10,11 @@ const EditForm = () => {
   const { setUserEmail } = useAuthStore();
   const router = useRouter();
 
+  // useEffect(() => {
+  //   if (!isPasswordVerified) router.push("/verify");
+  // }, [isPasswordVerified, router, setIsPasswordVerified]);
+
+  // 성공시 처리
   useEffect(() => {
     if (state && state.success && state.data) {
       const { email } = state.data;

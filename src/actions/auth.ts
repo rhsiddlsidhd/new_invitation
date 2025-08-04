@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import {
   checkUserDuplicate,
   checkUserIdExists,
@@ -11,7 +11,12 @@ import {
   hashPassword,
   verifyPassword,
 } from "@/services/userServices";
-import { createSession, deleteSession } from "@/lib/session";
+import {
+  createSession,
+  decrypt,
+  deleteSession,
+  getSession,
+} from "@/lib/session";
 
 export type ActionState = {
   success: boolean;
@@ -109,49 +114,51 @@ export const verifyPasswordAction = async (
   prev: ActionState,
   formData: FormData
 ) => {
-  const header = await headers();
-  const userId = header.get("x-user-id");
-  const password = formData.get("password") as string;
+  /**
+   * 토큰 가져오기
+   * 토큰에서 UserId 추출
+   * db에서 userId 를찾아서 Password 가져오기
+   * 입력받은 password 와 비교하여 boolean
+   */
+  const path = formData.get("next") as string;
+  try {
+    const password = formData.get("password") as string;
+    if (!password) {
+      return {
+        success: false,
+        message: "비밀번호를 입력해주세요.",
+      };
+    }
 
-  if (!password) {
-    return {
-      success: false,
-      message: "비밀번호를 입력해주세요.",
-    };
+    const token = await getSession();
+    const payload = await decrypt(token);
+
+    const { data } = await getUserPasswordById(payload.userId);
+
+    const hashedPassword = data.password;
+
+    const isPasswordValid = await verifyPassword(password, hashedPassword);
+
+    if (!isPasswordValid) {
+      return {
+        success: false,
+        message: "비밀번호가 일치하지 않습니다.",
+      };
+    }
+
+    // 성공시 쿠키 설정
+    const cookieStore = await cookies();
+    cookieStore.set("password-verified", "true", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 30 * 60, // 30분
+      sameSite: "strict",
+    });
+  } catch (error) {
+    console.error(error);
+    await deleteSession();
+    redirect("/auth/login");
   }
 
-  if (!userId) {
-    throw new Error("인증 정보를 찾을 수 없습니다.");
-  }
-
-  const dbUser = await getUserPasswordById(userId);
-
-  if (!dbUser.success) {
-    return dbUser;
-  }
-
-  const { password: hashedPassword } = dbUser.data;
-
-  const isPasswordValid = await verifyPassword(password, hashedPassword);
-
-  if (!isPasswordValid) {
-    return {
-      success: false,
-      message: "비밀번호가 일치하지 않습니다.",
-    };
-  }
-
-  // 성공시 쿠키 설정
-  const cookieStore = await cookies();
-  cookieStore.set("password-verified", "true", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    maxAge: 30 * 60, // 30분
-    sameSite: "strict",
-  });
-
-  return {
-    success: true,
-    message: "비밀번호 확인이 완료되었습니다.",
-  };
+  redirect(path);
 };

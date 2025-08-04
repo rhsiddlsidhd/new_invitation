@@ -52,39 +52,10 @@ export async function deleteSession() {
   cookieStore.delete("session");
 }
 
-export async function getUserByToken() {
+export async function getSession() {
   const cookieStore = await cookies();
   const token = cookieStore.get("session")?.value;
   if (!token)
     throw new Error("세션이 존재하지 않습니다. 다시 로그인 해주세요.");
-
-  const payload = await decrypt(token);
-
-  if (!payload)
-    throw new Error(
-      "세션이 만료되었거나 유효하지 않습니다. 다시 로그인 해주세요."
-    );
-  return payload;
+  return token;
 }
-
-// export async function getUserOrRedirect() {
-//   const cookieStore = await cookies();
-//   try {
-//     const token = cookieStore.get("session")?.value;
-
-//     if (!token) {
-//       throw new Error("세션이 존재하지 않습니다. 다시 로그인해주세요.");
-//     }
-//     const payload = await decrypt(token);
-//     const result = await getUserById(payload.userId);
-
-//     return result;
-//   } catch (error) {
-//     const message =
-//       error instanceof Error
-//         ? error.message
-//         : "알 수 없는 오류가 발생했습니다.";
-//     console.error(message);
-//     redirect("/auth/login");
-//   }
-// }

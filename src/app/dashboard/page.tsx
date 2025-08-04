@@ -1,8 +1,9 @@
+import { decrypt, getSession } from "@/lib/session";
 import DashboardForm from "../../components/DashboardForm";
-import { getUserByToken } from "../../lib/session";
 
 export default async function page() {
-  const user = await getUserByToken();
+  const token = await getSession();
+  const payload = await decrypt(token);
 
-  return <DashboardForm user={user!.userId}></DashboardForm>;
+  return <DashboardForm user={payload.userId}></DashboardForm>;
 }
