@@ -1,16 +1,18 @@
 import DeleteForm from "@/components/DeleteForm";
-import { cookies } from "next/headers";
+import { decrypt, getSession, hasPasswordVerified } from "@/lib/session";
 import { redirect } from "next/navigation";
 import React from "react";
 
 const page = async () => {
-  const cookieStore = await cookies();
-  const isVerify = cookieStore.get("password-verified");
+  const isPasswordVerified = await hasPasswordVerified();
 
-  if (!isVerify?.value || isVerify.value !== "true") {
+  if (!isPasswordVerified) {
     redirect("/verify?next=/profile/delete");
   }
 
-  return <DeleteForm />;
+  const token = await getSession();
+  const payload = await decrypt(token);
+
+  return <DeleteForm user={payload.userId} />;
 };
 export default page;

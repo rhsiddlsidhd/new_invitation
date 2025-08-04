@@ -8,8 +8,6 @@ export default async function Home() {
     const token = await getSession();
     const payload = await decrypt(token);
     user = payload.userId;
-
-    // user = await getUserByToken();
   } catch {
     user = null;
   }

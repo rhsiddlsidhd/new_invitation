@@ -1,16 +1,12 @@
+"use client";
+
 import React, { useActionState, useEffect } from "react";
-import useAuthStore from "../store/authStore";
 import { useRouter } from "next/navigation";
 import { updatedUserPassword } from "../actions/user";
 
 const PasswordForm = () => {
   const [state, action, pending] = useActionState(updatedUserPassword, null);
-  const isPasswordVerified = useAuthStore((state) => state.isPasswordVerified);
   const router = useRouter();
-
-  useEffect(() => {
-    if (!isPasswordVerified) router.push("/verify");
-  }, [isPasswordVerified, router]);
 
   useEffect(() => {
     if (state && state.success) {

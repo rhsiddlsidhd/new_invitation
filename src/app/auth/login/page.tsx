@@ -57,6 +57,7 @@ export default function LoginPage() {
             type="password"
             id="password"
             name="password"
+            autoComplete="current-password"
             required
             style={{
               width: "100%",

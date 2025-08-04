@@ -1,6 +1,5 @@
 "use server";
 
-import { cookies } from "next/headers";
 import { decrypt, deleteSession, getSession } from "../lib/session";
 import {
   changePassword,
@@ -24,23 +23,11 @@ export const updateUserProfile = async (
 
   try {
     const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
 
     const token = await getSession();
     const payload = await decrypt(token);
 
-    const updateResult = await updateUserEmail(payload.userId, {
-      email,
-      password,
-    });
-    console.log("updateResult", updateResult);
-
-    if (!updateResult.success) return updateResult;
-
-    // 성공시 비밀번호 검증 상태 초기화
-    const cookieStore = await cookies();
-    cookieStore.delete("password-verified");
-
+    const updateResult = await updateUserEmail({ id: payload.userId, email });
     return updateResult;
   } catch {
     await deleteSession();
@@ -52,22 +39,31 @@ export const updatedUserPassword = async (
   prev: ActionState,
   formData: FormData
 ) => {
-  const password = formData.get("password") as string;
-  const passwordConfirm = formData.get("passwordConfirm") as string;
+  try {
+    const password = formData.get("password") as string;
+    const passwordConfirm = formData.get("passwordConfirm") as string;
 
-  const token = await getSession();
-  const payload = await decrypt(token);
+    const token = await getSession();
+    const payload = await decrypt(token);
 
-  if (password !== passwordConfirm) {
-    return {
-      success: false,
-      message: "비밀번호가 일치하지 않습니다.",
-    };
+    if (password !== passwordConfirm) {
+      return {
+        success: false,
+        message: "비밀번호가 일치하지 않습니다.",
+      };
+    }
+
+    const updatedResult = await changePassword(payload.userId, password);
+
+    return updatedResult;
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : "알 수 없는 오류가 발생했습니다.";
+    console.error(message);
+    redirect("/auth/login");
   }
-
-  const updatedResult = await changePassword(payload.userId, password);
-
-  return updatedResult;
 };
 
 export const deleteUserAction = async (
@@ -83,31 +79,35 @@ export const deleteUserAction = async (
    * user 의 isDelete를 true 로 변경
    */
 
-  const userId = formData.get("userId") as string;
+  try {
+    const userId = formData.get("userId") as string;
 
-  if (!userId) {
-    return {
-      success: false,
-      message: "사용자 ID를 입력해주세요.",
-    };
-  }
-  const token = await getSession();
-  const payload = await decrypt(token);
+    if (!userId) {
+      return {
+        success: false,
+        message: "사용자 ID를 입력해주세요.",
+      };
+    }
+    const token = await getSession();
+    const payload = await decrypt(token);
 
-  if (userId !== payload.userId) {
-    return {
-      success: false,
-      message: "입력하신 사용자 ID가 현재 로그인된 계정과 일치하지 않습니다.",
-    };
-  }
+    if (userId !== payload.userId) {
+      return {
+        success: false,
+        message: "입력하신 사용자 ID가 현재 로그인된 계정과 일치하지 않습니다.",
+      };
+    }
 
-  const deleteResult = await deleteUser(payload.userId);
-  await deleteSession();
+    const deleteResult = await deleteUser(payload.userId);
 
-  if (!deleteResult.success) {
     return deleteResult;
-  }
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : "알 수 없는 오류가 발생했습니다.";
+    console.error(message);
 
-  // 성공시 세션 삭제 및 리다이렉트 필요할 수 있음
-  return deleteResult;
+    redirect("/auth/login");
+  }
 };

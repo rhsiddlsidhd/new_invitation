@@ -5,9 +5,8 @@ import React from "react";
 
 const page = async () => {
   const cookieStore = await cookies();
-  const isVerify = cookieStore.get("password-verified");
 
-  if (!isVerify?.value || isVerify.value !== "true") {
+  if (!cookieStore.has("password-verified")) {
     redirect("/verify?next=/profile/password");
   }
   return <PasswordForm />;

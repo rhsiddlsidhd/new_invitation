@@ -1,10 +1,20 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 
 const ProfileForm = ({ user }: { user: { userId: string; email: string } }) => {
   const router = useRouter();
+
+  useEffect(() => {
+    const deleteCookie = async () => {
+      await fetch("/api/pwd-verified", {
+        method: "DELETE",
+      });
+    };
+    deleteCookie();
+  }, []);
+
   return (
     <div
       style={{

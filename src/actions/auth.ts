@@ -114,12 +114,6 @@ export const verifyPasswordAction = async (
   prev: ActionState,
   formData: FormData
 ) => {
-  /**
-   * 토큰 가져오기
-   * 토큰에서 UserId 추출
-   * db에서 userId 를찾아서 Password 가져오기
-   * 입력받은 password 와 비교하여 boolean
-   */
   const path = formData.get("next") as string;
   try {
     const password = formData.get("password") as string;

@@ -10,8 +10,10 @@ const page = async () => {
     const token = await getSession();
     const payload = await decrypt(token);
     const user = await getUserById(payload.userId);
+
     return <ProfileForm user={user.data} />;
-  } catch {
+  } catch (e) {
+    console.error("E", e);
     redirect("/auth/login");
   }
 };

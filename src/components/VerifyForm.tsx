@@ -21,6 +21,12 @@ const VerifyForm = ({ path }: VerifyFormProps) => {
       <form action={action}>
         <input type="hidden" name="next" value={path} />
         <input
+          type="text"
+          name="username"
+          style={{ display: "none" }}
+          autoComplete="username"
+        />
+        <input
           type="password"
           placeholder="현재 비밀번호"
           name="password"

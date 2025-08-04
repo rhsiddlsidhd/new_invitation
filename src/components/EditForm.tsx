@@ -10,13 +10,10 @@ const EditForm = () => {
   const { setUserEmail } = useAuthStore();
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (!isPasswordVerified) router.push("/verify");
-  // }, [isPasswordVerified, router, setIsPasswordVerified]);
-
   // 성공시 처리
   useEffect(() => {
     if (state && state.success && state.data) {
+      console.log(state);
       const { email } = state.data;
       alert(`${email}로 프로필이 수정되었습니다.`);
       setUserEmail(email);
@@ -43,16 +40,6 @@ const EditForm = () => {
             id="email"
             autoComplete="off"
             name="email"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">비밀번호</label>
-          <input
-            type="password"
-            id="password"
-            autoComplete="off"
-            name="password"
             required
           />
         </div>
