@@ -11,7 +11,7 @@ import { redirect } from "next/navigation";
 
 export const updateUserProfile = async (
   prev: ActionState,
-  formData: FormData
+  formData: FormData,
 ) => {
   /**
    * 이메일과 password 를 받음
@@ -37,7 +37,7 @@ export const updateUserProfile = async (
 
 export const updatedUserPassword = async (
   prev: ActionState,
-  formData: FormData
+  formData: FormData,
 ) => {
   try {
     const password = formData.get("password") as string;
@@ -68,7 +68,7 @@ export const updatedUserPassword = async (
 
 export const deleteUserAction = async (
   prev: ActionState,
-  formData: FormData
+  formData: FormData,
 ) => {
   /**
    * 계정 삭제 로직

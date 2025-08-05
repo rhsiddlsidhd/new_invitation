@@ -21,7 +21,7 @@ const userSchema = new Schema<UserDocument>(
     role: { type: String, enum: ["user", "admin"], default: "user" },
     isDelete: { type: Boolean, default: false },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);

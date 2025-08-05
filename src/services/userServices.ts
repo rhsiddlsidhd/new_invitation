@@ -31,7 +31,7 @@ export const checkUserDuplicate = async (email: string, userId: string) => {
   } catch (e) {
     console.error("사용자 중복 체크 오류", e);
     throw new Error(
-      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
     );
   }
 };
@@ -42,7 +42,7 @@ export const hashPassword = async (password: string) => {
   } catch (e) {
     console.error("비밀번호 해시 오류", e);
     throw new Error(
-      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
     );
   }
 };
@@ -70,7 +70,7 @@ export const createUser = async (user: NewUser) => {
   } catch (error) {
     console.error("사용자 생성 오류", error);
     throw new Error(
-      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
     );
   }
 };
@@ -91,7 +91,7 @@ interface LoginFailure {
 type UserCredentials = LoginSuccess | LoginFailure;
 
 export const checkUserIdExists = async (
-  userId: string
+  userId: string,
 ): Promise<UserCredentials> => {
   try {
     await dbConnect();
@@ -115,7 +115,7 @@ export const checkUserIdExists = async (
   } catch (error) {
     console.error("서버 오류", error);
     throw new Error(
-      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
     );
   }
 };
@@ -154,7 +154,7 @@ export const getUserById = async (userId: string): Promise<UserResponse> => {
 };
 
 export const getUserPasswordById = async (
-  userId: string
+  userId: string,
 ): Promise<UserPasswordResponse> => {
   await dbConnect();
   const user = await User.findOne({ userId, isDelete: false });
@@ -169,7 +169,7 @@ export const getUserPasswordById = async (
 
 export const updateUser = async (
   id: string,
-  updateData: Partial<{ email: string; password: string }>
+  updateData: Partial<{ email: string; password: string }>,
 ) => {
   try {
     await dbConnect();
@@ -187,7 +187,7 @@ export const updateUser = async (
     if (updateData.password) {
       const isPasswordValid = await bcrypt.compare(
         updateData.password,
-        user.password
+        user.password,
       );
       if (!isPasswordValid) {
         return {
@@ -207,7 +207,7 @@ export const updateUser = async (
       dataToUpdate,
       {
         new: true,
-      }
+      },
     );
 
     return {
@@ -235,7 +235,7 @@ export const updateUserEmail = async ({
     { email },
     {
       new: true,
-    }
+    },
   );
 
   if (!updatedUser) throw new Error("사용자를 찾을 수 없습니다.");
@@ -252,7 +252,7 @@ export const updateUserEmail = async ({
 
 export const changePassword = async (
   id: string,
-  newPassword: string
+  newPassword: string,
 ): Promise<{ success: boolean; message: string }> => {
   await dbConnect();
 
@@ -262,7 +262,7 @@ export const changePassword = async (
   // 비밀번호 업데이트
   const updated = await User.findOneAndUpdate(
     { userId: id },
-    { password: hashedNewPassword }
+    { password: hashedNewPassword },
   );
   if (!updated) throw new Error("사용자를 찾을 수 없습니다.");
 
@@ -278,7 +278,7 @@ export const deleteUser = async (id: string) => {
   const updatedUser = await User.findOneAndUpdate(
     { userId: id },
     { isDelete: true },
-    { new: true }
+    { new: true },
   );
 
   if (!updatedUser) throw new Error("사용자를 찾을 수 없습니다.");
@@ -291,14 +291,14 @@ export const deleteUser = async (id: string) => {
 
 export const verifyPassword = async (
   plainPassword: string,
-  hashedPassword: string
+  hashedPassword: string,
 ): Promise<boolean> => {
   try {
     return await bcrypt.compare(plainPassword, hashedPassword);
   } catch (error) {
     console.error("bcrypt 검증 오류:", error);
     throw new Error(
-      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
     );
   }
 };
@@ -334,7 +334,7 @@ interface FailAuthResult {
 type AuthResult = SuccessAuthResult | FailAuthResult;
 
 export const authenticateWithToken = async (
-  token: string
+  token: string,
 ): Promise<AuthResult> => {
   /**
    * Access token 검증 로직
@@ -393,7 +393,7 @@ const canRefreshToken = async (token: string): Promise<AuthResult> => {
 };
 
 export const getUserIdbyToken = async (
-  token: string
+  token: string,
 ): Promise<ApiResponse<UserId>> => {
   const secretKey = process.env.JWT_SECRET;
   if (!secretKey)

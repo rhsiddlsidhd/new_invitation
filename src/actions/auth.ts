@@ -112,7 +112,7 @@ export const singOut = async () => {
 
 export const verifyPasswordAction = async (
   prev: ActionState,
-  formData: FormData
+  formData: FormData,
 ) => {
   const path = formData.get("next") as string;
   try {

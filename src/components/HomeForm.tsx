@@ -21,7 +21,7 @@ const HomeForm = ({ user }: HomeFormProps) => {
   }, [user, setUserId]);
 
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} bg-gray-500 `}>
       {/* 네비게이션 바 */}
       <nav
         style={{

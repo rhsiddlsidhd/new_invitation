@@ -10,7 +10,7 @@ interface VerifyFormProps {
 const VerifyForm = ({ path }: VerifyFormProps) => {
   const [state, action, pending] = useActionState<ActionState, FormData>(
     verifyPasswordAction,
-    null
+    null,
   );
 
   return (
