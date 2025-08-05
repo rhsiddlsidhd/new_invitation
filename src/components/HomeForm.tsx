@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "../styles/page.module.css";
-import useAuthStore from "../store/authStore";
+
 import { singOut } from "../actions/auth";
 
 interface HomeFormProps {
@@ -12,16 +12,8 @@ interface HomeFormProps {
 }
 
 const HomeForm = ({ user }: HomeFormProps) => {
-  const setUserId = useAuthStore((state) => state.setUserId);
-
-  useEffect(() => {
-    console.log("user in HomeForm:", user);
-
-    setUserId(user ? user : "");
-  }, [user, setUserId]);
-
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} mt-[100px]`}>
       {/* 네비게이션 바 */}
       <nav
         style={{
@@ -30,7 +22,6 @@ const HomeForm = ({ user }: HomeFormProps) => {
           borderBottom: "1px solid #dee2e6",
           marginBottom: "20px",
         }}
-        // className="mx-4 mb-5 rounded-4xl border-b border-gray-200 bg-gray-50 p-5 hover:bg-red-50"
       >
         <div
           style={{

@@ -1,5 +1,4 @@
 import { dbConnect } from "../utils/mongodb";
-import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { ApiResponse, UserId } from "../types";
@@ -308,104 +307,104 @@ interface CreateTokens {
   accessToken: string;
 }
 
-export const createTokens = (userId: string): CreateTokens | undefined => {
-  const secretKey = process.env.JWT_SECRET;
-  if (!secretKey) return;
-  const refresh = jwt.sign({ userId }, secretKey, { expiresIn: "7d" });
-  const access = jwt.sign({ userId }, secretKey, { expiresIn: "1h" });
+// export const createTokens = (userId: string): CreateTokens | undefined => {
+//   const secretKey = process.env.JWT_SECRET;
+//   if (!secretKey) return;
+//   const refresh = jwt.sign({ userId }, secretKey, { expiresIn: "7d" });
+//   const access = jwt.sign({ userId }, secretKey, { expiresIn: "1h" });
 
-  return {
-    refreshToken: refresh,
-    accessToken: access,
-  };
-};
+//   return {
+//     refreshToken: refresh,
+//     accessToken: access,
+//   };
+// };
 
-interface SuccessAuthResult {
-  success: true;
-  decoded: jwt.JwtPayload;
-  newAccessToken: string | null;
-}
+// interface SuccessAuthResult {
+//   success: true;
+//   decoded: jwt.JwtPayload;
+//   newAccessToken: string | null;
+// }
 
 interface FailAuthResult {
   success: false;
   message: string;
 }
 
-type AuthResult = SuccessAuthResult | FailAuthResult;
+// type AuthResult = SuccessAuthResult | FailAuthResult;
 
-export const authenticateWithToken = async (
-  token: string,
-): Promise<AuthResult> => {
-  /**
-   * Access token 검증 로직
-   * access token의 유효성 확인 이후
-   * refresh token이 유효한지 확인
-   * 둘다 무효라면 false 반환
-   * access token이 유효하다면 true 반환
-   * refresh token이 유효하다면 access token 재발급 및 true 반환
-   */
-  const secretKey = process.env.JWT_SECRET;
-  if (!secretKey)
-    return { success: false, message: "JWT Secret이 설정되지 않았습니다." };
+// export const authenticateWithToken = async (
+//   token: string,
+// ): Promise<AuthResult> => {
+//   /**
+//    * Access token 검증 로직
+//    * access token의 유효성 확인 이후
+//    * refresh token이 유효한지 확인
+//    * 둘다 무효라면 false 반환
+//    * access token이 유효하다면 true 반환
+//    * refresh token이 유효하다면 access token 재발급 및 true 반환
+//    */
+//   const secretKey = process.env.JWT_SECRET;
+//   if (!secretKey)
+//     return { success: false, message: "JWT Secret이 설정되지 않았습니다." };
 
-  try {
-    // Access Token 검증
-    const decoded = jwt.verify(token, secretKey) as jwt.JwtPayload;
-    return {
-      success: true,
-      decoded,
-      newAccessToken: null,
-    };
-  } catch {
-    // Access Token 만료 → Refresh Token 시도
-    const cookieStore = await cookies();
-    const refreshTokenCookie = cookieStore.get("token");
+//   try {
+//     // Access Token 검증
+//     const decoded = jwt.verify(token, secretKey) as jwt.JwtPayload;
+//     return {
+//       success: true,
+//       decoded,
+//       newAccessToken: null,
+//     };
+//   } catch {
+//     // Access Token 만료 → Refresh Token 시도
+//     const cookieStore = await cookies();
+//     const refreshTokenCookie = cookieStore.get("token");
 
-    if (!refreshTokenCookie?.value) {
-      return { success: false, message: "Refresh Token이 없습니다." };
-    }
+//     if (!refreshTokenCookie?.value) {
+//       return { success: false, message: "Refresh Token이 없습니다." };
+//     }
 
-    return await canRefreshToken(refreshTokenCookie.value);
-  }
-};
+//     return await canRefreshToken(refreshTokenCookie.value);
+//   }
+// };
 
-const canRefreshToken = async (token: string): Promise<AuthResult> => {
-  const secretKey = process.env.JWT_SECRET;
-  if (!secretKey)
-    return { success: false, message: "JWT Secret이 설정되지 않았습니다." };
+// const canRefreshToken = async (token: string): Promise<AuthResult> => {
+//   const secretKey = process.env.JWT_SECRET;
+//   if (!secretKey)
+//     return { success: false, message: "JWT Secret이 설정되지 않았습니다." };
 
-  try {
-    const decoded = jwt.verify(token, secretKey) as jwt.JwtPayload;
+//   try {
+//     const decoded = jwt.verify(token, secretKey) as jwt.JwtPayload;
 
-    // 새 Access Token 발급
-    const newAccessToken = jwt.sign({ userId: decoded.userId }, secretKey, {
-      expiresIn: "1h",
-    });
+//     // 새 Access Token 발급
+//     const newAccessToken = jwt.sign({ userId: decoded.userId }, secretKey, {
+//       expiresIn: "1h",
+//     });
 
-    return {
-      success: true,
-      decoded,
-      newAccessToken,
-    };
-  } catch {
-    return { success: false, message: "Refresh Token이 유효하지 않습니다." };
-  }
-};
+//     return {
+//       success: true,
+//       decoded,
+//       newAccessToken,
+//     };
+//   } catch {
+//     return { success: false, message: "Refresh Token이 유효하지 않습니다." };
+//   }
+// };
 
-export const getUserIdbyToken = async (
-  token: string,
-): Promise<ApiResponse<UserId>> => {
-  const secretKey = process.env.JWT_SECRET;
-  if (!secretKey)
-    return { success: false, message: "JWT Secret이 설정되지 않았습니다." };
+// export const getUserIdbyToken = async (
+//   token: string,
+// ): Promise<ApiResponse<UserId>> => {
+//   const secretKey = process.env.JWT_SECRET;
+//   if (!secretKey)
+//     return { success: false, message: "JWT Secret이 설정되지 않았습니다." };
 
-  try {
-    const decoded = jwt.verify(token, secretKey) as jwt.JwtPayload;
-    return {
-      success: true,
-      data: { userId: decoded.userId },
-    };
-  } catch {
-    return { success: false, message: "유효하지 않은 토큰입니다." };
-  }
-};
+//   try {
+//     const decoded = jwt.verify(token, secretKey) as jwt.JwtPayload;
+//     return {
+//       success: true,
+//       data: { userId: decoded.userId },
+//     };
+//   } catch {
+//     return { success: false, message: "유효하지 않은 토큰입니다." };
+//   }
+// };
