@@ -30,3 +30,12 @@ export interface UserData {
 export interface UserId {
   userId: string;
 }
+
+export type Post = {
+  size: number;
+  x: number;
+  y: number;
+  z: number;
+  moveX: number;
+  moveY: number;
+};

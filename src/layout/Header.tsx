@@ -14,9 +14,14 @@ const Header = async () => {
   }
 
   return (
-    <div className="bg-trasparent fixed top-0 flex w-full items-center justify-between p-4 backdrop-blur-md">
-      <Logo />
-      <Nav user={user} />
+    <div className="bg-trasparent fixed bottom-5 z-50 w-full p-4 backdrop-blur-md">
+      <div className="relative flex items-center justify-between">
+        <Logo />
+        <div className="absolute left-1/2 -translate-x-1/2 transform">
+          <Nav user={user} />
+        </div>
+        <h1>create by 2025</h1>
+      </div>
     </div>
   );
 };

@@ -41,6 +41,7 @@ export default function LoginPage() {
             id="userId"
             name="userId"
             required
+            autoComplete="username"
             style={{
               width: "100%",
               padding: "8px",
