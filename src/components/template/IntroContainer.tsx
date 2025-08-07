@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import IntroBanner from "../molecules/IntroBanner";
-import { Post } from "@/types";
 import PostBoard from "../molecules/PostBoard";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Img from "../atoms/Img";
+import { Post } from "@/types";
 
 const IntroContainer = ({ posts }: { posts: Post[] }) => {
   const containerRef = useRef<HTMLDivElement>(null);

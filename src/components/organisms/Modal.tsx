@@ -41,6 +41,7 @@ const Modal = () => {
     <AnimatePresence>
       {isModalOpen && (
         <motion.div
+          key={modalType}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -59,7 +60,7 @@ const Modal = () => {
             {createModalContent(modalType)}
             <button
               onClick={() => setModalOpen(false)}
-              className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-500 px-2 py-2 hover:bg-red-400"
+              className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-500 px-2 py-2 hover:bg-red-400"
             >
               <CloseIcon />
             </button>
