@@ -70,6 +70,7 @@ const RegisterForm = () => {
             type="password"
             id="password"
             name="password"
+            autoComplete="new-password"
             required
             style={{
               width: "100%",
@@ -87,6 +88,7 @@ const RegisterForm = () => {
             type="password"
             id="confirmPassword"
             name="confirmPassword"
+            autoComplete="new-password"
             required
             style={{
               width: "100%",

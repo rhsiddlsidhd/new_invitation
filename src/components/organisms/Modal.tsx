@@ -44,7 +44,7 @@ const Modal = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className={`fixed inset-0 flex items-center justify-center bg-black/50 ${isModalOpen ? "pointer-events-auto" : "pointer-events-none"} z-10`}
+          className={`fixed inset-0 flex items-center justify-center bg-black/50 ${isModalOpen ? "pointer-events-auto" : "pointer-events-none"} z-50`}
         >
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}

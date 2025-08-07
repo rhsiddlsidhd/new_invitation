@@ -1,4 +1,5 @@
-import HomeForm from "../components/HomeForm";
+import CreateContainer from "@/components/template/CreateContainer";
+import IntroContainer from "@/components/template/IntroContainer";
 
 export default async function Home() {
   const createdPosts = Array.from({ length: 16 }, () => {
@@ -37,5 +38,10 @@ export default async function Home() {
     };
   });
 
-  return <HomeForm posts={createdPosts} />;
+  return (
+    <div className="">
+      <IntroContainer posts={createdPosts} />
+      <CreateContainer />
+    </div>
+  );
 }
