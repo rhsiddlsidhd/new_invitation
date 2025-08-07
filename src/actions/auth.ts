@@ -102,7 +102,9 @@ export const signIn = async (prev: ActionState, formData: FormData) => {
 
   await createSession(dbUserId);
 
-  redirect("/");
+  return {
+    success: true,
+  };
 };
 
 export const singOut = async () => {

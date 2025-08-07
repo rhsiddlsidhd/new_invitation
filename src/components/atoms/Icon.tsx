@@ -5,6 +5,9 @@ import {
   Bars3Icon,
   ArrowRightEndOnRectangleIcon,
 } from "@heroicons/react/24/solid";
+
+import { XMarkIcon } from "@heroicons/react/16/solid";
+
 import React from "react";
 
 interface IconProps {
@@ -41,3 +44,5 @@ export const UserIcon = createIcon(HeroUserIcon);
 export const SignOutIcon = createIcon(ArrowRightEndOnRectangleIcon);
 
 export const HamburgerIcon = createIcon(Bars3Icon);
+
+export const CloseIcon = createIcon(XMarkIcon);
