@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import IntroBanner from "../molecules/IntroBanner";
 import PostBoard from "../molecules/PostBoard";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";

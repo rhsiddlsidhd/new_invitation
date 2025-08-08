@@ -42,14 +42,14 @@ const PostBoard = ({
       variants={container}
       initial="hidden"
       animate="show"
-      className="perspective-distant transform-3d absolute left-0 top-0 h-full w-full"
+      className="absolute top-0 left-0 h-full w-full perspective-distant transform-3d"
       style={{ ...style }}
     >
       {posts.map((post, i) => {
         return (
           <Card
             key={i}
-            post={post}
+            custom={post}
             variants={item}
             className={`${squareSizes[post.size]} absolute -z-10`}
             style={{

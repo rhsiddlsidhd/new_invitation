@@ -5,7 +5,7 @@ import { motion, Variants } from "framer-motion";
 import { Post } from "@/types";
 
 interface CardProps {
-  post?: Post;
+  custom?: Post;
   variants?: Variants;
   children: React.ReactNode;
   style?: React.CSSProperties;
@@ -14,7 +14,7 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({
-  post,
+  custom,
   variants,
   children,
   style,
@@ -23,12 +23,12 @@ const Card: React.FC<CardProps> = ({
 }) => {
   return (
     <motion.div
-      className={`border-2 border-gray-300 bg-blue-100 text-lg font-bold transition-all duration-1000 ease-out hover:scale-110 ${className}`}
+      className={`bg-transparent ${className}`}
       style={{
         ...style,
       }}
       variants={variants}
-      custom={post}
+      custom={custom}
       onAnimationComplete={onAnimationComplete}
     >
       {children}
