@@ -5,8 +5,8 @@ import { motion, Variants } from "framer-motion";
 import { Post } from "@/types";
 
 interface CardProps {
-  post: Post;
-  variants: Variants;
+  post?: Post;
+  variants?: Variants;
   children: React.ReactNode;
   style?: React.CSSProperties;
   className?: string;
@@ -23,7 +23,7 @@ const Card: React.FC<CardProps> = ({
 }) => {
   return (
     <motion.div
-      className={`flex items-center justify-center border-2 border-gray-300 bg-blue-100 text-lg font-bold transition-all duration-1000 ease-out hover:scale-110 ${className}`}
+      className={`border-2 border-gray-300 bg-blue-100 text-lg font-bold transition-all duration-1000 ease-out hover:scale-110 ${className}`}
       style={{
         ...style,
       }}

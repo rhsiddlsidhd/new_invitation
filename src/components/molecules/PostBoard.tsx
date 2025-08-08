@@ -42,7 +42,7 @@ const PostBoard = ({
       variants={container}
       initial="hidden"
       animate="show"
-      className="absolute top-0 left-0 h-full w-full perspective-distant transform-3d"
+      className="perspective-distant transform-3d absolute left-0 top-0 h-full w-full"
       style={{ ...style }}
     >
       {posts.map((post, i) => {
@@ -65,7 +65,9 @@ const PostBoard = ({
               if (i === posts.length - 1) callback();
             }}
           >
-            <Img src="/marriage.jpg" />
+            <div className="relative h-full w-full">
+              <Img src="/marriage.jpg" />
+            </div>
           </Card>
         );
       })}
