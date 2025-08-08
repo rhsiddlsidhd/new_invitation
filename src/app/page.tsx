@@ -1,5 +1,7 @@
 import CreateContainer from "@/components/template/CreateContainer";
 import IntroContainer from "@/components/template/IntroContainer";
+import PreviewContainer from "@/components/template/PreviewContainer";
+import { decrypt, getSession } from "@/lib/session";
 
 export default async function Home() {
   const createdPosts = Array.from({ length: 16 }, () => {
@@ -33,15 +35,25 @@ export default async function Home() {
       x,
       y,
       z: Math.random() * 300 - 150,
-      moveX: (Math.random() - 0.5) * 20, // -20% ~ +20% 랜덤 이동
-      moveY: (Math.random() - 0.5) * 20, //
+      moveX: (Math.random() - 0.5) * 20,
+      moveY: (Math.random() - 0.5) * 20,
     };
   });
+  let user = null;
+  try {
+    const token = await getSession();
+    const payload = await decrypt(token);
+    user = payload.userId;
+  } catch {
+    user = null;
+  }
 
   return (
     <div className="">
       <IntroContainer posts={createdPosts} />
-      <CreateContainer />
+      <CreateContainer user={user} />
+      <PreviewContainer />
+      <div className="relative top-0 z-10 h-screen w-full bg-blue-500"></div>
     </div>
   );
 }
