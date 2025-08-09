@@ -53,7 +53,7 @@ export default async function Home() {
       <IntroContainer posts={createdPosts} />
       <CreateContainer user={user} />
       <PreviewContainer />
-      <div className="relative top-0 z-10 h-screen w-full bg-blue-500"></div>
+      {/* <div className="relative top-0 z-10 h-screen w-full bg-blue-500"></div> */}
     </div>
   );
 }
