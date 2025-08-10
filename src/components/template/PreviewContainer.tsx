@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   motion,
   useMotionValueEvent,
@@ -10,14 +10,13 @@ import {
 
 import PreviewHorizonalSlider from "../molecules/PreviewHorizonalSlider";
 import PreviewVerticalSlider from "../molecules/PreviewVerticalSlider";
+import Card from "../atoms/Card";
+import Img from "../atoms/Img";
+import Logo from "../atoms/Logo";
+import TemplateGallery from "../organisms/TemplateGallery";
 
 const PreviewContainer = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
 
   const { scrollYProgress: scrollYProgressCenter } = useScroll({
     target: containerRef,
@@ -29,13 +28,6 @@ const PreviewContainer = () => {
     offset: ["center end", "end end"],
   });
 
-  useMotionValueEvent(scrollYProgressEnd, "change", (latest) =>
-    console.log("Scroll Y Progress:", latest),
-  );
-
-  const y = useTransform(scrollYProgressEnd, [0, 1], ["50%", "-60%"]);
-
-  // className="relative z-20 flex w-full max-sm:block max-sm:h-[200vh] sm:p-2"
   return (
     <motion.section
       initial={{ backgroundColor: "#E7E6E2" }}
@@ -54,10 +46,7 @@ const PreviewContainer = () => {
         </div>
         <PreviewVerticalSlider scrollYProgress={scrollYProgressCenter} />
       </div>
-      <motion.div
-        style={{ y }}
-        className="fixed top-0 left-1/2 z-10 h-[200vh] w-11/12 -translate-x-1/2 border-2 border-white bg-white"
-      ></motion.div>
+      <TemplateGallery scroll={scrollYProgressEnd} />
     </motion.section>
   );
 };
