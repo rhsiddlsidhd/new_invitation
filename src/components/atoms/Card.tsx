@@ -10,6 +10,7 @@ interface CardProps {
   children: React.ReactNode;
   style?: React.CSSProperties;
   className?: string;
+  onClick?: () => void;
   onAnimationComplete?: () => void;
 }
 
@@ -18,6 +19,7 @@ const Card: React.FC<CardProps> = ({
   variants,
   children,
   style,
+  onClick,
   onAnimationComplete,
   className = "",
 }) => {
@@ -29,6 +31,7 @@ const Card: React.FC<CardProps> = ({
       }}
       variants={variants}
       custom={custom}
+      onClick={onClick}
       onAnimationComplete={onAnimationComplete}
     >
       {children}
