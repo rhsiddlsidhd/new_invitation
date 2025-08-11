@@ -4,6 +4,7 @@ import React from "react";
 import Label from "./atoms/Label";
 import Input from "./atoms/Input";
 import Img from "./atoms/Img";
+import GalleryPreview from "./molecules/GalleryPreview";
 
 type ParentRoleId =
   | "groom-father"
@@ -178,45 +179,7 @@ const DashboardForm = ({ user }: { user: string }) => {
 
             {/* 갤러리 Priview */}
 
-            <div className="overflow-hidden rounded-lg border-2 border-gray-200 bg-gray-50">
-              {/* 타입명 영역 */}
-              <div className="mx-4 flex items-center justify-between border-b border-gray-200 bg-transparent py-3">
-                <span className="font-semibold text-gray-700">갤러리</span>
-                {/* <span className="rounded bg-blue-100 px-3 py-1 text-sm font-bold text-blue-700">
-                  카드
-                </span> */}
-              </div>
-              {/* 이미지 목록 */}
-              <ul className="space-y-4 p-4">
-                {["/marriage.jpg", null, null, null].map((url, i) => (
-                  <li
-                    key={i}
-                    className="flex items-center gap-4 rounded-lg bg-white p-2 shadow-sm"
-                  >
-                    <div className="w-6 text-center font-mono text-gray-400">
-                      {i + 1}
-                    </div>
-                    <div className="relative flex aspect-[5/8] w-26 items-center justify-center overflow-hidden rounded border-2 border-gray-200 bg-gray-100">
-                      {url ? (
-                        <Img src={url} />
-                      ) : (
-                        <span className="text-xs text-gray-300">
-                          이미지 없음
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex-1 pl-2">
-                      <div className="font-semibold text-gray-700">
-                        카드 {i + 1}
-                      </div>
-                      <div className="text-xs text-gray-400">
-                        설명 또는 부가정보
-                      </div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <GalleryPreview />
           </div>
         </div>
         <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-5">
