@@ -107,8 +107,9 @@ export const signIn = async (prev: ActionState, formData: FormData) => {
   };
 };
 
-export const singOut = async () => {
+export const signOut = async () => {
   await deleteSession();
+  console.log("?");
 };
 
 export const verifyPasswordAction = async (

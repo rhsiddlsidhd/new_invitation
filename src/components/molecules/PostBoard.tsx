@@ -57,11 +57,6 @@ const PostBoard = ({
               top: `${post.y}%`,
             }}
             onAnimationComplete={() => {
-              console.log(
-                "Animation complete for post:",
-                i,
-                i === posts.length - 1,
-              );
               if (i === posts.length - 1) callback();
             }}
           >

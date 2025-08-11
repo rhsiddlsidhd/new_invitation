@@ -10,9 +10,6 @@ import {
 
 import PreviewHorizonalSlider from "../molecules/PreviewHorizonalSlider";
 import PreviewVerticalSlider from "../molecules/PreviewVerticalSlider";
-import Card from "../atoms/Card";
-import Img from "../atoms/Img";
-import Logo from "../atoms/Logo";
 import TemplateGallery from "../organisms/TemplateGallery";
 
 const PreviewContainer = () => {

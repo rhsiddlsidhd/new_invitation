@@ -1,3 +1,4 @@
+import { menus } from "@/contants";
 import { create } from "zustand";
 
 interface AuthStore {
@@ -12,7 +13,12 @@ interface AuthStore {
   // Modal 관련 상태
   isModalOpen: boolean;
   modalType: "login" | "register" | null;
-  setModalOpen: (isOpen: boolean, type?: "login" | "register" | null) => void;
+  nextPath: (typeof menus)[number]["path"] | null;
+  setModalOpen: (
+    isOpen: boolean,
+    type?: "login" | "register" | null,
+    nextPath?: (typeof menus)[number]["path"] | null,
+  ) => void;
 }
 
 const useAuthStore = create<AuthStore>((set) => ({
@@ -27,8 +33,9 @@ const useAuthStore = create<AuthStore>((set) => ({
   // Modal 관련 상태 초기값
   isModalOpen: false,
   modalType: null,
-  setModalOpen: (isOpen, type = null) =>
-    set({ isModalOpen: isOpen, modalType: type }),
+  nextPath: null,
+  setModalOpen: (isOpen, type = null, path = null) =>
+    set({ isModalOpen: isOpen, modalType: type, nextPath: path }),
 }));
 
 export default useAuthStore;

@@ -11,16 +11,21 @@ export default async function middleware(request: NextRequest) {
     const session = request.cookies.has("session");
 
     if (!session) {
-      return NextResponse.redirect(new URL("/auth/login", request.url));
+      return NextResponse.redirect(new URL("/", request.url));
     }
 
     return NextResponse.next();
   } catch (e) {
     console.error("Middleware error:", e);
-    return NextResponse.redirect(new URL("/auth/login", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 }
 
 export const config = {
-  matcher: ["/dashboard", "/profile/:path*", "/verify/:path*"],
+  matcher: [
+    "/dashboard",
+    "/profile/:path*",
+    "/verify/:path*",
+    "/invitation/:path*",
+  ],
 };

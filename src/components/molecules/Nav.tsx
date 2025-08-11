@@ -1,8 +1,9 @@
 "use client";
 import React from "react";
 import { HamburgerIcon, SignOutIcon, UserIcon } from "../atoms/Icon";
-import { singOut } from "@/actions/auth";
+
 import useAuthStore from "@/store/authStore";
+import { signOut } from "@/actions/auth";
 
 const Nav = ({
   user,
@@ -16,7 +17,7 @@ const Nav = ({
   return (
     <div className={`bg-translate flex gap-2 p-4 ${className}`}>
       {user ? (
-        <SignOutIcon size={32} onClick={singOut} />
+        <SignOutIcon size={32} onClick={signOut} />
       ) : (
         <UserIcon size={32} onClick={() => setModalOpen(true, "login")} />
       )}

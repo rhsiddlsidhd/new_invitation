@@ -8,7 +8,9 @@ import ScrollNavigationMenu from "../organisms/ScrollNavigationMenu ";
 const CreateContainer = ({ user }: { user: string | null }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isView, setIsView] = useState<boolean>(false);
-  const [textView, setTextView] = useState<"hide" | "show" | "pending">("hide");
+  const [textView, setTextView] = useState<"hidden" | "show" | "pending">(
+    "hidden",
+  );
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -22,16 +24,11 @@ const CreateContainer = ({ user }: { user: string | null }) => {
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     const viewState = latest > 0.3 && latest < 0.95;
+    const textState =
+      latest > 0.95 ? "pending" : latest > 0.5 ? "show" : "hidden";
 
     setIsView((prev) => (prev !== viewState ? viewState : prev));
-
-    if (latest > 0.95) {
-      setTextView("pending");
-    } else if (latest > 0.5) {
-      setTextView("show");
-    } else {
-      setTextView("hide");
-    }
+    setTextView((prev) => (prev !== textState ? textState : prev));
   });
 
   const y = useTransform(hideScrollYProgress, [0, 1], ["0%", "-300%"]);

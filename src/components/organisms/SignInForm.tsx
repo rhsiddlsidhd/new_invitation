@@ -1,16 +1,20 @@
 "use client";
 import { signIn } from "@/actions/auth";
 import useAuthStore from "@/store/authStore";
+import { useRouter } from "next/navigation";
+
 import React, { useActionState, useEffect } from "react";
 
 const SignInForm = () => {
   const [state, action, pending] = useActionState(signIn, null);
-  const { setModalOpen } = useAuthStore();
+  const { setModalOpen, nextPath } = useAuthStore();
+  const router = useRouter();
   useEffect(() => {
-    if (state && state.success) {
-      setModalOpen(false, null);
+    if (state && state.success && nextPath) {
+      router.push(nextPath);
+      setModalOpen(false, null, null);
     }
-  }, [state, setModalOpen]);
+  }, [state, setModalOpen, router, nextPath]);
   return (
     <div>
       {state && (

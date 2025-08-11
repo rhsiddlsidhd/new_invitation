@@ -12,8 +12,7 @@ const page = async () => {
     const user = await getUserById(payload.userId);
 
     return <ProfileForm user={user.data} />;
-  } catch (e) {
-    console.error("E", e);
+  } catch {
     redirect("/auth/login");
   }
 };

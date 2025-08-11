@@ -2,43 +2,30 @@ import { AnimatePresence } from "motion/react";
 import React from "react";
 import { motion, MotionValue, stagger } from "framer-motion";
 import useAuthStore from "@/store/authStore";
+import { useRouter } from "next/navigation";
+import { menus } from "@/contants";
 
 const ScrollNavigationMenu = ({
   textView,
   y,
   user,
 }: {
-  textView: "pending" | "show" | "hide";
+  textView: "pending" | "show" | "hidden";
   y: MotionValue<string>;
   user: string | null;
 }) => {
   const { setModalOpen } = useAuthStore();
-
-  const menus = ["My Info", "Create Invitation", "Contact"] as const;
+  const router = useRouter();
 
   const handleMenuClick = (
     menu: (typeof menus)[number],
     user: string | null,
   ) => {
-    switch (menu) {
-      case "My Info":
-        if (!user) {
-          setModalOpen(true, "login");
-          break;
-        }
-        console.log("Navigate to My Info");
-        break;
-      case "Create Invitation":
-        if (!user) {
-          setModalOpen(true, "login");
-          break;
-        }
-        console.log("Navigate to Create Invitation");
-        break;
-      case "Contact":
-        console.log("Navigate to Contact");
-        break;
+    if (menu.id !== "Contact" && !user) {
+      setModalOpen(true, "login", menu.path);
+      return;
     }
+    router.push(menu.path);
   };
 
   const menuVariants = {
@@ -70,7 +57,7 @@ const ScrollNavigationMenu = ({
         case "show":
           return {
             opacity: 1,
-            scale: 1,
+            scale: 0.8,
             x: 0,
             transition: { duration: 0.3 },
           };
@@ -87,21 +74,23 @@ const ScrollNavigationMenu = ({
           return {};
       }
     },
+
     exit: {
       opacity: 0,
       x: 20,
       transition: { duration: 0.1 },
     },
   };
+
   return (
     <AnimatePresence>
-      {textView !== "hide" && (
+      {textView !== "hidden" && (
         <motion.ul
           variants={menuVariants}
           initial="hidden"
           animate="visible"
           exit="exit"
-          className={`fixed top-2/4 right-0 -translate-y-1/2 cursor-pointer p-2 text-[5vw] font-bold text-white`}
+          className={`fixed top-2/4 right-0 -translate-y-1/2 text-[5vw] font-bold text-white`}
           style={{
             y,
           }}
@@ -109,14 +98,15 @@ const ScrollNavigationMenu = ({
           {menus.map((m) => {
             return (
               <motion.li
-                key={m}
-                className="z-50"
-                whileHover={{ scale: 1 }}
+                key={m.id}
+                className="z-50 cursor-pointer"
                 variants={item}
+                whileHover={{ scale: 0.95 }}
+                whileTap={{ scale: 0.7 }}
                 custom={{ textView }}
                 onClick={() => textView === "show" && handleMenuClick(m, user)}
               >
-                {m}
+                {m.id}
               </motion.li>
             );
           })}

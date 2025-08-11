@@ -12,6 +12,7 @@ interface CardProps {
   className?: string;
   onClick?: () => void;
   onAnimationComplete?: () => void;
+  ref?: React.Ref<HTMLDivElement>;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -21,6 +22,7 @@ const Card: React.FC<CardProps> = ({
   style,
   onClick,
   onAnimationComplete,
+  ref,
   className = "",
 }) => {
   return (
@@ -33,6 +35,7 @@ const Card: React.FC<CardProps> = ({
       custom={custom}
       onClick={onClick}
       onAnimationComplete={onAnimationComplete}
+      ref={ref}
     >
       {children}
     </motion.div>
