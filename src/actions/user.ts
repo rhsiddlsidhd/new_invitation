@@ -111,3 +111,14 @@ export const deleteUserAction = async (
     redirect("/auth/login");
   }
 };
+
+export const testAction = async (prev: ActionState, formData: FormData) => {
+  console.log(formData);
+  const groomName = formData.get("groom-name") as string;
+  const weddingDate = formData.get("wedding-date") as string;
+  console.log(weddingDate);
+  return {
+    success: true,
+    groomName,
+  };
+};

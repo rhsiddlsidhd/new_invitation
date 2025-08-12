@@ -4,18 +4,21 @@ const Input = ({
   placeholder,
   value,
   type,
+  name,
   id,
+  onClick,
   onChange,
   readOnly = false,
   required = false,
 }: {
   id?: string;
   type?: string;
+  name?: string;
   value?: string;
   placeholder?: string;
   readOnly?: boolean;
   required?: boolean;
-
+  onClick?: (e: React.MouseEvent<HTMLInputElement>) => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
   return (
@@ -24,7 +27,9 @@ const Input = ({
       placeholder={placeholder}
       id={id}
       type={type}
+      name={name}
       value={value}
+      onClick={onClick}
       onChange={onChange}
       readOnly={readOnly}
       required={required}

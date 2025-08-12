@@ -7,7 +7,7 @@ interface GalleryData {
   urls: string[];
 }
 
-const GalleryPreview = () => {
+const WeddingGallery = ({ readOnly }: { readOnly?: boolean }) => {
   const data: GalleryData[] = [
     {
       type: "A",
@@ -161,4 +161,4 @@ const GalleryPreview = () => {
   );
 };
 
-export default GalleryPreview;
+export default WeddingGallery;

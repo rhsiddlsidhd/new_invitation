@@ -14,7 +14,7 @@ const Header = async () => {
   }
 
   return (
-    <div className="bg-trasparent fixed bottom-5 z-50 w-full p-4 backdrop-blur-md max-sm:sticky max-sm:top-0">
+    <div className="bg-trasparent fixed bottom-0 z-50 w-full p-4 backdrop-blur-md max-sm:sticky max-sm:top-0">
       <div className="relative flex h-full w-full items-center justify-between">
         <Logo className="max-sm:hidden" />
         <div className="max-sm:w-full sm:absolute sm:left-1/2 sm:-translate-x-1/2">

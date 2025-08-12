@@ -4,6 +4,7 @@ import {
   UserIcon as HeroUserIcon,
   Bars3Icon,
   ArrowRightEndOnRectangleIcon,
+  DocumentArrowUpIcon,
 } from "@heroicons/react/24/solid";
 
 import { XMarkIcon } from "@heroicons/react/16/solid";
@@ -46,3 +47,5 @@ export const SignOutIcon = createIcon(ArrowRightEndOnRectangleIcon);
 export const HamburgerIcon = createIcon(Bars3Icon);
 
 export const CloseIcon = createIcon(XMarkIcon);
+
+export const DocArrowUpIcon = createIcon(DocumentArrowUpIcon);

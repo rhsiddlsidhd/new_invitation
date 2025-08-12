@@ -10,10 +10,10 @@ const SignInForm = () => {
   const { setModalOpen, nextPath } = useAuthStore();
   const router = useRouter();
   useEffect(() => {
-    if (state && state.success && nextPath) {
-      router.push(nextPath);
-      setModalOpen(false, null, null);
-    }
+    const success = state && state.success;
+    if (!success) return;
+    if (nextPath) router.push(nextPath);
+    setModalOpen(false, null, null);
   }, [state, setModalOpen, router, nextPath]);
   return (
     <div>
