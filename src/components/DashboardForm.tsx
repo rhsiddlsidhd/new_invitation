@@ -23,7 +23,7 @@ const DashboardForm = ({ user }: { user: string }) => {
 
       <div className="w-full gap-5 space-y-5">
         {/*  */}
-        <InvitationInfoForm readOnly={false} />
+        <InvitationInfoForm readOnly={true} />
         <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-5">
           <div
             style={{
@@ -62,7 +62,7 @@ const DashboardForm = ({ user }: { user: string }) => {
             <h3>초대장 관리</h3>
             <p>초대장을 생성하고 관리하세요.</p>
             <Link
-              href="/invitations"
+              href="/dashboard/edit"
               style={{
                 display: "inline-block",
                 marginTop: "10px",

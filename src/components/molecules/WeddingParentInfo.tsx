@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Label from "../atoms/Label";
@@ -60,58 +61,55 @@ const WeddingParentInfo = ({ readOnly }: { readOnly?: boolean }) => {
 
       <div style={{ minHeight }} className="relative">
         {/* Optional Parent Info */}
-        {btnNames.map((n) => {
-          const selected = n.id === showParentFields;
-          return (
-            <AnimatePresence key={n.id}>
-              <motion.div
-                initial={{ opacity: 0, y: "50%", pointerEvents: "none" }}
-                animate={{
-                  opacity: selected ? 1 : 0,
-                  y: selected ? 0 : "50%",
-                  pointerEvents: selected ? "auto" : "none",
-                }}
-                transition={{
-                  ease: "linear",
-                }}
-                className="absolute w-full"
-                ref={(el) => {
-                  fieldRef.current = el;
-                }}
-              >
-                <div className="flex flex-col sm:flex-row sm:gap-4">
-                  <div className="flex-1">
-                    <Label htmlFor={`${n.id}-name`}>성함</Label>
-                    <Input
-                      id={`${n.id}-name`}
-                      name={`${n.id}-name`}
-                      type="text"
-                      readOnly={readOnly}
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <Label htmlFor={`${n.id}-phone`}>전화번호</Label>
-                    <Input
-                      id={`${n.id}-phone`}
-                      name={`${n.id}-phone`}
-                      type="tel"
-                      readOnly={readOnly}
-                    />
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <Label htmlFor={`${n.id}-account`}>계좌번호</Label>
-                  <Input
-                    id={`${n.id}-account`}
-                    name={`${n.id}-account`}
-                    type="text"
-                    readOnly={readOnly}
-                  />
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          );
-        })}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={showParentFields}
+            initial={{ opacity: 0, y: "50%", pointerEvents: "none" }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              pointerEvents: "auto",
+            }}
+            exit={{ opacity: 0, y: "50%", pointerEvents: "none" }}
+            transition={{
+              ease: "linear",
+            }}
+            className="absolute w-full"
+            ref={(el) => {
+              fieldRef.current = el;
+            }}
+          >
+            <div className="flex flex-col sm:flex-row sm:gap-4">
+              <div className="flex-1">
+                <Label htmlFor={`${showParentFields}-name`}>성함</Label>
+                <Input
+                  id={`${showParentFields}-name`}
+                  name={`${showParentFields}-name`}
+                  type="text"
+                  readOnly={readOnly}
+                />
+              </div>
+              <div className="flex-1">
+                <Label htmlFor={`${showParentFields}-phone`}>전화번호</Label>
+                <Input
+                  id={`${showParentFields}-phone`}
+                  name={`${showParentFields}-phone`}
+                  type="tel"
+                  readOnly={readOnly}
+                />
+              </div>
+            </div>
+            <div className="flex-1">
+              <Label htmlFor={`${showParentFields}-account`}>계좌번호</Label>
+              <Input
+                id={`${showParentFields}-account`}
+                name={`${showParentFields}-account`}
+                type="text"
+                readOnly={readOnly}
+              />
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );

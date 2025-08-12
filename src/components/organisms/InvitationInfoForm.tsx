@@ -1,3 +1,4 @@
+"use client";
 import React, { useActionState } from "react";
 import WeddingPartyInfo from "../molecules/WeddingPartyInfo";
 import WeddingInfo from "../molecules/WeddingInfo";
@@ -38,7 +39,7 @@ const InvitationInfoForm = ({ readOnly }: { readOnly: boolean }) => {
     return <InvitationInfoContent readOnly={readOnly} />;
   }
   return (
-    <form action={action}>
+    <form action={action} className="m-auto max-w-[1028px] sm:mb-12 sm:p-12">
       <InvitationInfoContent readOnly={readOnly} />
       <motion.button whileTap={{ scale: 0.95 }} type="submit">
         Create
