@@ -1,11 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import Img from "../atoms/Img";
 import { motion, AnimatePresence } from "framer-motion";
-import { DocArrowUpIcon, PlusIcon } from "../atoms/Icon";
-import Label from "./../atoms/Label";
+import { PlusIcon } from "../atoms/Icon";
 import Btn from "../atoms/Btn";
-import OverlayCloseBtn from "./OverlayCloseBtn";
 import GalleryGridCard from "../organisms/GalleryGridCard";
 import GalleryGridCardCell from "./GalleryGridCardCell";
 
@@ -27,269 +25,183 @@ const getGridCardOfType = ({
   type: GalleryData["type"];
   urls?: GalleryData["urls"];
   mode?: "get" | "edit";
-  onChange?: (idx: number, url: string) => void;
-  inputRefs?: React.MutableRefObject<(HTMLInputElement | null)[][]>;
+
+  inputRefs?: React.RefObject<(HTMLInputElement | null)[][]>;
   cardIdx?: number;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onRemove?: (idx: number) => void;
 }) => {
   const defaultUrls = "/marriage.jpg";
 
-  // const handleModeDisplay = ({
-  //   mode,
-  //   idx,
-  // }: {
-  //   mode: "get" | "edit";
-  //   idx: number;
-  // }) => {
-  //   if (mode === "get") {
-  //     return <Img src={defaultUrls} />;
-  //   } else {
-  //     return (
-  //       <Label
-  //         htmlFor={`gallery-${type}-${idx}`}
-  //         className="relative flex h-full w-full items-center justify-center border-4"
-  //       >
-  //         <input
-  //           name={`gallery-${type}-${idx}`}
-  //           type="file"
-  //           className="absolute w-full opacity-0"
-  //           ref={(el) => {
-  //             if (inputRefs) {
-  //               if (!inputRefs.current[cardIdx])
-  //                 inputRefs.current[cardIdx] = [];
-  //               inputRefs.current[cardIdx][idx] = el;
-  //             }
-  //           }}
-  //           onChange={(e) => {
-  //             if (onChange) {
-  //               const files = e.target.files;
-  //               if (!files || files.length === 0) return;
-  //               const idx = Number(e.target.name.split("-")[2]);
-  //               const url = URL.createObjectURL(files[0]);
-  //               onChange(idx, url);
-  //             }
-  //           }}
-  //         />
-
-  //         {urls && urls[idx] ? (
-  //           <>
-  //             <Img src={urls[idx] ?? "/marriage.jpg"} />
-  //             <OverlayCloseBtn
-  //               size="sm"
-  //               onClick={(e) => {
-  //                 e.preventDefault();
-  //                 if (onRemove) onRemove(idx);
-  //                 if (inputRefs && inputRefs.current[cardIdx]?.[idx]) {
-  //                   inputRefs.current[cardIdx][idx]!.value = "";
-  //                 }
-  //               }}
-  //             />
-  //           </>
-  //         ) : (
-  //           <DocArrowUpIcon />
-  //         )}
-  //       </Label>
-  //     );
-  //   }
-  // };
-
-  const number: number = {
-    A: 2,
-    B: 3,
-    C: 4,
-    D: 5,
-    E: 6,
+  const __d = {
+    A: {
+      count: 2,
+      cardStyle:
+        "grid aspect-[5/8] w-34 grid-rows-2 gap-0.5 overflow-hidden rounded border-2 border-gray-200 bg-gray-100",
+    },
+    B: {
+      count: 3,
+      cardStyle:
+        "grid aspect-[5/8] w-34 grid-cols-2 grid-rows-4 gap-0.5 overflow-hidden rounded border-2 border-gray-200 bg-gray-100",
+    },
+    C: {
+      count: 4,
+      cardStyle:
+        "grid aspect-[5/8] w-34 grid-cols-2 gap-0.5 overflow-hidden rounded border-2 border-gray-200 bg-gray-100",
+    },
+    D: {
+      count: 5,
+      cardStyle:
+        "grid aspect-[5/8] w-34 grid-cols-2 grid-rows-6 gap-0.5 overflow-hidden rounded border-2 border-gray-200 bg-gray-100",
+    },
+    E: {
+      count: 6,
+      cardStyle:
+        "grid aspect-[5/8] w-34 grid-cols-2 grid-rows-3 gap-0.5 overflow-hidden rounded border-2 border-gray-200 bg-gray-100",
+    },
   }[type];
-  console.log(number);
-  // <Img key={i} src={defaultUrls} />
+
   switch (type) {
     // 2열
 
     case "A":
       return (
-        <GalleryGridCard>
-          {mode === "get"
-            ? Array.from({ length: number }, (_, i) => {
-                return (
-                  <div key={i} className="relative border-4 border-red-200">
-                    <Img src={defaultUrls} />
-                  </div>
-                );
-              })
-            : Array.from({ length: number }, (_, idx) => {
-                console.log("idx", idx);
-                return (
+        <GalleryGridCard className={__d.cardStyle}>
+          {Array.from({ length: __d.count }, (_, idx) => {
+            return (
+              <div className={`relative`} key={idx}>
+                {mode === "get" ? (
+                  <Img src={defaultUrls} />
+                ) : (
                   <GalleryGridCardCell
                     key={idx}
                     idx={idx}
                     type={type}
                     urls={urls}
                     cardIdx={cardIdx}
+                    inputRefs={inputRefs}
+                    onChange={onChange}
+                    onRemove={onRemove}
                   />
-                  // <Label
-                  //   key={idx}
-                  //   htmlFor={`gallery-${type}-${idx}`}
-                  //   className="relative flex h-full border-2 border-gray-300"
-                  // >
-                  //   <input
-                  //     name={`gallery-${type}-${idx}`}
-                  //     type="file"
-                  //     className="absolute w-full opacity-0"
-                  //     ref={(el) => {
-                  //       if (inputRefs) {
-                  //         if (!inputRefs.current[cardIdx])
-                  //           inputRefs.current[cardIdx] = [];
-                  //         inputRefs.current[cardIdx][idx] = el;
-                  //       }
-                  //     }}
-                  //     onChange={(e) => {
-                  //       if (onChange) {
-                  //         const files = e.target.files;
-                  //         if (!files || files.length === 0) return;
-                  //         const idx = Number(e.target.name.split("-")[2]);
-                  //         const url = URL.createObjectURL(files[0]);
-                  //         onChange(idx, url);
-                  //       }
-                  //     }}
-                  //   />
-
-                  //   {urls && urls[idx] ? (
-                  //     <div>
-                  //       <Img src={urls[idx]} />
-                  //       <OverlayCloseBtn
-                  //         size="sm"
-                  //         onClick={(e) => {
-                  //           e.preventDefault();
-                  //           if (onRemove) onRemove(idx);
-                  //           if (
-                  //             inputRefs &&
-                  //             inputRefs.current[cardIdx]?.[idx]
-                  //           ) {
-                  //             inputRefs.current[cardIdx][idx]!.value = "";
-                  //           }
-                  //         }}
-                  //       />
-                  //     </div>
-                  //   ) : (
-                  //     <DocArrowUpIcon className="m-auto" />
-                  //   )}
-                  // </Label>
-                );
-              })}
-
-          {/* {mode === "get" ? <Img src={defaultUrls} /> : <Label
-          htmlFor={`gallery-${type}-${idx}`}
-          className="relative flex h-full w-full items-center justify-center border-4"
-        >
-          <input
-            name={`gallery-${type}-${idx}`}
-            type="file"
-            className="absolute w-full opacity-0"
-            ref={(el) => {
-              if (inputRefs) {
-                if (!inputRefs.current[cardIdx])
-                  inputRefs.current[cardIdx] = [];
-                inputRefs.current[cardIdx][idx] = el;
-              }
-            }}
-            onChange={(e) => {
-              if (onChange) {
-                const files = e.target.files;
-                if (!files || files.length === 0) return;
-                const idx = Number(e.target.name.split("-")[2]);
-                const url = URL.createObjectURL(files[0]);
-                onChange(idx, url);
-              }
-            }}
-          />
-
-          {urls && urls[idx] ? (
-            <>
-              <Img src={urls[idx] ?? "/marriage.jpg"} />
-              <OverlayCloseBtn
-                size="sm"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (onRemove) onRemove(idx);
-                  if (inputRefs && inputRefs.current[cardIdx]?.[idx]) {
-                    inputRefs.current[cardIdx][idx]!.value = "";
-                  }
-                }}
-              />
-            </>
-          ) : (
-            <DocArrowUpIcon />
-          )}
-        </Label>} */}
+                )}
+              </div>
+            );
+          })}
         </GalleryGridCard>
       );
     case "B":
+      // 2행 4열
       return (
-        // 2행 4열
-        <ul className="grid aspect-[5/8] w-34 grid-cols-2 grid-rows-4 gap-0.5 overflow-hidden rounded border-2 border-gray-200 bg-gray-100">
-          {Array.from({ length: 3 }, (_, i) => {
-            const last = (i + 1) % 3 === 0;
+        <GalleryGridCard className={__d.cardStyle}>
+          {Array.from({ length: __d.count }, (_, idx) => {
+            const last = (idx + 1) % __d.count === 0;
             return (
-              <li
-                key={i}
-                className={`relative flex items-center justify-center border-2 border-gray-200 ${last ? "col-span-2 row-span-2" : "row-span-2"}`}
+              <div
+                className={`relative ${last ? "col-span-2 row-span-2" : "row-span-2"}`}
+                key={idx}
               >
-                {/* {handleModeDisplay({ mode, idx: i })} */}
-              </li>
+                {mode === "get" ? (
+                  <Img src={defaultUrls} />
+                ) : (
+                  <GalleryGridCardCell
+                    key={idx}
+                    idx={idx}
+                    type={type}
+                    urls={urls}
+                    cardIdx={cardIdx}
+                    inputRefs={inputRefs}
+                    onChange={onChange}
+                    onRemove={onRemove}
+                  />
+                )}
+              </div>
             );
           })}
-        </ul>
+        </GalleryGridCard>
       );
+
     case "C":
       return (
-        // 2행 2열
-        <ul className="grid aspect-[5/8] w-34 grid-cols-2 gap-0.5 overflow-hidden rounded border-2 border-gray-200 bg-gray-100">
-          {Array.from({ length: 4 }, (_, i) => {
+        <GalleryGridCard className={__d.cardStyle}>
+          {Array.from({ length: __d.count }, (_, idx) => {
             return (
-              <li
-                key={i}
-                className="relative flex items-center justify-center border-2 border-gray-200"
-              >
-                {/* {handleModeDisplay({ mode, idx: i })} */}
-              </li>
+              <div className={`relative`} key={idx}>
+                {mode === "get" ? (
+                  <Img src={defaultUrls} />
+                ) : (
+                  <GalleryGridCardCell
+                    key={idx}
+                    idx={idx}
+                    type={type}
+                    urls={urls}
+                    cardIdx={cardIdx}
+                    inputRefs={inputRefs}
+                    onChange={onChange}
+                    onRemove={onRemove}
+                  />
+                )}
+              </div>
             );
           })}
-        </ul>
+        </GalleryGridCard>
       );
+
     case "D":
       return (
-        //2행 6열
-        <ul className="grid aspect-[5/8] w-34 grid-cols-2 grid-rows-6 gap-0.5 overflow-hidden rounded border-2 border-gray-200 bg-gray-100">
-          {Array.from({ length: 5 }, (_, i) => {
-            const even = (i + 1) % 2 === 0;
-
+        <GalleryGridCard className={__d.cardStyle}>
+          {Array.from({ length: __d.count }, (_, idx) => {
+            const even = (idx + 1) % 2 === 0;
             return (
-              <li
-                key={i}
-                className={`relative flex items-center justify-center border-2 border-gray-200 ${even ? "row-span-3" : "row-span-2"}`}
+              <div
+                className={`relative ${even ? "row-span-3" : "row-span-2"}`}
+                key={idx}
               >
-                {/* {handleModeDisplay({ mode, idx: i })} */}
-              </li>
+                {mode === "get" ? (
+                  <Img src={defaultUrls} />
+                ) : (
+                  <GalleryGridCardCell
+                    key={idx}
+                    idx={idx}
+                    type={type}
+                    urls={urls}
+                    cardIdx={cardIdx}
+                    inputRefs={inputRefs}
+                    onChange={onChange}
+                    onRemove={onRemove}
+                  />
+                )}
+              </div>
             );
           })}
-        </ul>
+        </GalleryGridCard>
       );
+
     case "E":
       return (
-        //2행 3열
-        <ul className="grid aspect-[5/8] w-34 grid-cols-2 grid-rows-3 gap-0.5 overflow-hidden rounded border-2 border-gray-200 bg-gray-100">
-          {Array.from({ length: 6 }, (_, i) => {
+        <GalleryGridCard className={__d.cardStyle}>
+          {Array.from({ length: __d.count }, (_, idx) => {
             return (
-              <li
-                key={i}
-                className={`relative flex items-center justify-center border-2 border-gray-200`}
-              >
-                {/* {handleModeDisplay({ mode, idx: i })} */}
-              </li>
+              <div className={`relative`} key={idx}>
+                {mode === "get" ? (
+                  <Img src={defaultUrls} />
+                ) : (
+                  <GalleryGridCardCell
+                    key={idx}
+                    idx={idx}
+                    type={type}
+                    urls={urls}
+                    cardIdx={cardIdx}
+                    inputRefs={inputRefs}
+                    onChange={onChange}
+                    onRemove={onRemove}
+                  />
+                )}
+              </div>
             );
           })}
-        </ul>
+        </GalleryGridCard>
       );
+
     default:
       return null;
   }
@@ -426,16 +338,12 @@ const WeddingGalleryEdit = () => {
           onClick={(e) => {
             e.preventDefault();
             const id = crypto.randomUUID();
-            console.log(id);
             const count = { A: 2, B: 3, C: 4, D: 5, E: 6 }[activeType];
-            console.log(count);
-
             setGalleryData((prev) => [
               ...prev,
               { type: activeType, urls: new Array(count).fill(null), id },
             ]);
           }}
-          // className="mt-4 block w-full rounded-xl border-2 py-2 text-xs"
         >
           <PlusIcon className="m-auto" />
         </Btn>
@@ -455,15 +363,20 @@ const WeddingGalleryEdit = () => {
                   type: d.type,
                   urls: d.urls,
                   mode: "edit",
-                  onChange: (idx, url) => {
+                  inputRefs,
+                  cardIdx: i,
+                  onChange: (e) => {
+                    const files = e.target.files;
+                    if (!files || files.length === 0) return;
+                    const idx = Number(e.target.name.split("-")[2]);
+                    const url = URL.createObjectURL(files[0]);
+
                     setGalleryData((prev) => {
                       const next = [...prev];
                       next[i].urls[idx] = url;
                       return next;
                     });
                   },
-                  inputRefs,
-                  cardIdx: i,
                   onRemove: (idx) => {
                     setGalleryData((prev) => {
                       const next = [...prev];

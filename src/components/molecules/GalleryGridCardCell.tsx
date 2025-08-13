@@ -5,10 +5,11 @@ import OverlayCloseBtn from "./OverlayCloseBtn";
 import { DocArrowUpIcon } from "../atoms/Icon";
 import { GalleryData } from "./WeddingGallery";
 interface GalleryGridCardCellProps {
+  className?: string;
   type: string;
   idx: number;
   urls?: GalleryData["urls"];
-  onChange?: (idx: number, url: string) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   inputRefs?: React.MutableRefObject<(HTMLInputElement | null)[][]>;
   cardIdx: number;
   onRemove?: (idx: number) => void;
@@ -27,45 +28,44 @@ const GalleryGridCardCell = ({
     <Label
       key={idx}
       htmlFor={`gallery-${type}-${idx}`}
-      className="relative flex h-full border-2 border-gray-300"
+      className={`flex h-full w-full items-center justify-center border-2 border-gray-300`}
     >
+      {/* hidden 요소 */}
       <input
         name={`gallery-${type}-${idx}`}
         type="file"
-        className="absolute w-full opacity-0"
+        className="absolute h-full w-full opacity-0"
         ref={(el) => {
           if (inputRefs) {
             if (!inputRefs.current[cardIdx]) inputRefs.current[cardIdx] = [];
             inputRefs.current[cardIdx][idx] = el;
           }
         }}
-        onChange={(e) => {
-          if (onChange) {
-            const files = e.target.files;
-            if (!files || files.length === 0) return;
-            const idx = Number(e.target.name.split("-")[2]);
-            const url = URL.createObjectURL(files[0]);
-            onChange(idx, url);
-          }
-        }}
+        onChange={onChange}
       />
 
+      {/* View : Url 이 있으면 Url 그렇지 않으면 <DocArrowUpIcon /> */}
       {urls && urls[idx] ? (
-        <div>
+        <div className="relative h-full w-full">
           <Img src={urls[idx]} />
           <OverlayCloseBtn
             size="sm"
             onClick={(e) => {
+              console.log(e);
               e.preventDefault();
               if (onRemove) onRemove(idx);
-              if (inputRefs && inputRefs.current[cardIdx]?.[idx]) {
-                inputRefs.current[cardIdx][idx]!.value = "";
+              if (
+                inputRefs &&
+                inputRefs.current[cardIdx] &&
+                inputRefs.current[cardIdx][idx]
+              ) {
+                inputRefs.current[cardIdx][idx].value = "";
               }
             }}
           />
         </div>
       ) : (
-        <DocArrowUpIcon className="m-auto" />
+        <DocArrowUpIcon />
       )}
     </Label>
   );
