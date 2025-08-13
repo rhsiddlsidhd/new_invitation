@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Img from "../atoms/Img";
 import { CloseIcon, DocArrowUpIcon } from "../atoms/Icon";
 import Label from "../atoms/Label";
+import OverlayCloseBtn from "./OverlayCloseBtn";
 
 const WeddingThumnailEdit = () => {
   const inputRefs = useRef<Array<HTMLInputElement | null>>([null, null]);
@@ -44,9 +45,8 @@ const WeddingThumnailEdit = () => {
               {thumbnailPreviews[i] ? (
                 <div>
                   <Img src={thumbnailPreviews[i]} />
-                  <button
-                    type="button"
-                    className="absolute top-1 right-1 z-10 rounded-full bg-white/80 p-1 hover:bg-red-100"
+                  <OverlayCloseBtn
+                    size="md"
                     onClick={(e) => {
                       e.preventDefault();
                       setThumbnailPreviews((prev) => {
@@ -56,9 +56,7 @@ const WeddingThumnailEdit = () => {
                       });
                       if (inputRefs.current[i]) inputRefs.current[i].value = "";
                     }}
-                  >
-                    <CloseIcon className="h-4 w-4 text-gray-500 hover:text-red-500" />
-                  </button>
+                  />
                 </div>
               ) : (
                 <DocArrowUpIcon />

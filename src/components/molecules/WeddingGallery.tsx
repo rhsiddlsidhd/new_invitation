@@ -2,12 +2,17 @@
 import React, { useEffect, useState } from "react";
 import Img from "../atoms/Img";
 import { motion, AnimatePresence } from "framer-motion";
-import { CloseIcon, DocArrowUpIcon, PlusIcon } from "../atoms/Icon";
+import { DocArrowUpIcon, PlusIcon } from "../atoms/Icon";
 import Label from "./../atoms/Label";
+import Btn from "../atoms/Btn";
+import OverlayCloseBtn from "./OverlayCloseBtn";
+import GalleryGridCard from "../organisms/GalleryGridCard";
+import GalleryGridCardCell from "./GalleryGridCardCell";
 
-interface GalleryData {
+export interface GalleryData {
+  id: string;
   type: "A" | "B" | "C" | "D" | "E";
-  urls: string[];
+  urls: string[] | null[];
 }
 
 const getGridCardOfType = ({
@@ -29,18 +34,150 @@ const getGridCardOfType = ({
 }) => {
   const defaultUrls = "/marriage.jpg";
 
-  const handleModeDisplay = ({
-    mode,
-    idx,
-  }: {
-    mode: "get" | "edit";
-    idx: number;
-  }) => {
-    if (mode === "get") {
-      return <Img src={defaultUrls} />;
-    } else {
+  // const handleModeDisplay = ({
+  //   mode,
+  //   idx,
+  // }: {
+  //   mode: "get" | "edit";
+  //   idx: number;
+  // }) => {
+  //   if (mode === "get") {
+  //     return <Img src={defaultUrls} />;
+  //   } else {
+  //     return (
+  //       <Label
+  //         htmlFor={`gallery-${type}-${idx}`}
+  //         className="relative flex h-full w-full items-center justify-center border-4"
+  //       >
+  //         <input
+  //           name={`gallery-${type}-${idx}`}
+  //           type="file"
+  //           className="absolute w-full opacity-0"
+  //           ref={(el) => {
+  //             if (inputRefs) {
+  //               if (!inputRefs.current[cardIdx])
+  //                 inputRefs.current[cardIdx] = [];
+  //               inputRefs.current[cardIdx][idx] = el;
+  //             }
+  //           }}
+  //           onChange={(e) => {
+  //             if (onChange) {
+  //               const files = e.target.files;
+  //               if (!files || files.length === 0) return;
+  //               const idx = Number(e.target.name.split("-")[2]);
+  //               const url = URL.createObjectURL(files[0]);
+  //               onChange(idx, url);
+  //             }
+  //           }}
+  //         />
+
+  //         {urls && urls[idx] ? (
+  //           <>
+  //             <Img src={urls[idx] ?? "/marriage.jpg"} />
+  //             <OverlayCloseBtn
+  //               size="sm"
+  //               onClick={(e) => {
+  //                 e.preventDefault();
+  //                 if (onRemove) onRemove(idx);
+  //                 if (inputRefs && inputRefs.current[cardIdx]?.[idx]) {
+  //                   inputRefs.current[cardIdx][idx]!.value = "";
+  //                 }
+  //               }}
+  //             />
+  //           </>
+  //         ) : (
+  //           <DocArrowUpIcon />
+  //         )}
+  //       </Label>
+  //     );
+  //   }
+  // };
+
+  const number: number = {
+    A: 2,
+    B: 3,
+    C: 4,
+    D: 5,
+    E: 6,
+  }[type];
+  console.log(number);
+  // <Img key={i} src={defaultUrls} />
+  switch (type) {
+    // 2열
+
+    case "A":
       return (
-        <Label
+        <GalleryGridCard>
+          {mode === "get"
+            ? Array.from({ length: number }, (_, i) => {
+                return (
+                  <div key={i} className="relative border-4 border-red-200">
+                    <Img src={defaultUrls} />
+                  </div>
+                );
+              })
+            : Array.from({ length: number }, (_, idx) => {
+                console.log("idx", idx);
+                return (
+                  <GalleryGridCardCell
+                    key={idx}
+                    idx={idx}
+                    type={type}
+                    urls={urls}
+                    cardIdx={cardIdx}
+                  />
+                  // <Label
+                  //   key={idx}
+                  //   htmlFor={`gallery-${type}-${idx}`}
+                  //   className="relative flex h-full border-2 border-gray-300"
+                  // >
+                  //   <input
+                  //     name={`gallery-${type}-${idx}`}
+                  //     type="file"
+                  //     className="absolute w-full opacity-0"
+                  //     ref={(el) => {
+                  //       if (inputRefs) {
+                  //         if (!inputRefs.current[cardIdx])
+                  //           inputRefs.current[cardIdx] = [];
+                  //         inputRefs.current[cardIdx][idx] = el;
+                  //       }
+                  //     }}
+                  //     onChange={(e) => {
+                  //       if (onChange) {
+                  //         const files = e.target.files;
+                  //         if (!files || files.length === 0) return;
+                  //         const idx = Number(e.target.name.split("-")[2]);
+                  //         const url = URL.createObjectURL(files[0]);
+                  //         onChange(idx, url);
+                  //       }
+                  //     }}
+                  //   />
+
+                  //   {urls && urls[idx] ? (
+                  //     <div>
+                  //       <Img src={urls[idx]} />
+                  //       <OverlayCloseBtn
+                  //         size="sm"
+                  //         onClick={(e) => {
+                  //           e.preventDefault();
+                  //           if (onRemove) onRemove(idx);
+                  //           if (
+                  //             inputRefs &&
+                  //             inputRefs.current[cardIdx]?.[idx]
+                  //           ) {
+                  //             inputRefs.current[cardIdx][idx]!.value = "";
+                  //           }
+                  //         }}
+                  //       />
+                  //     </div>
+                  //   ) : (
+                  //     <DocArrowUpIcon className="m-auto" />
+                  //   )}
+                  // </Label>
+                );
+              })}
+
+          {/* {mode === "get" ? <Img src={defaultUrls} /> : <Label
           htmlFor={`gallery-${type}-${idx}`}
           className="relative flex h-full w-full items-center justify-center border-4"
         >
@@ -69,9 +206,8 @@ const getGridCardOfType = ({
           {urls && urls[idx] ? (
             <>
               <Img src={urls[idx] ?? "/marriage.jpg"} />
-              <button
-                type="button"
-                className="absolute top-1 right-1 z-10 rounded-full bg-white/80 p-1 hover:bg-red-100"
+              <OverlayCloseBtn
+                size="sm"
                 onClick={(e) => {
                   e.preventDefault();
                   if (onRemove) onRemove(idx);
@@ -79,31 +215,13 @@ const getGridCardOfType = ({
                     inputRefs.current[cardIdx][idx]!.value = "";
                   }
                 }}
-              >
-                <CloseIcon className="h-4 w-4 text-gray-500 hover:text-red-500" />
-              </button>
+              />
             </>
           ) : (
             <DocArrowUpIcon />
           )}
-        </Label>
-      );
-    }
-  };
-
-  switch (type) {
-    // 2열
-    case "A":
-      return (
-        <ul className="grid aspect-[5/8] w-34 grid-rows-2 gap-0.5 overflow-hidden rounded border-2 border-gray-200 bg-gray-100">
-          {Array.from({ length: 2 }, (_, i) => {
-            return (
-              <li key={i} className="relative border-2 border-gray-200">
-                {handleModeDisplay({ mode, idx: i })}
-              </li>
-            );
-          })}
-        </ul>
+        </Label>} */}
+        </GalleryGridCard>
       );
     case "B":
       return (
@@ -116,7 +234,7 @@ const getGridCardOfType = ({
                 key={i}
                 className={`relative flex items-center justify-center border-2 border-gray-200 ${last ? "col-span-2 row-span-2" : "row-span-2"}`}
               >
-                {handleModeDisplay({ mode, idx: i })}
+                {/* {handleModeDisplay({ mode, idx: i })} */}
               </li>
             );
           })}
@@ -132,7 +250,7 @@ const getGridCardOfType = ({
                 key={i}
                 className="relative flex items-center justify-center border-2 border-gray-200"
               >
-                {handleModeDisplay({ mode, idx: i })}
+                {/* {handleModeDisplay({ mode, idx: i })} */}
               </li>
             );
           })}
@@ -150,7 +268,7 @@ const getGridCardOfType = ({
                 key={i}
                 className={`relative flex items-center justify-center border-2 border-gray-200 ${even ? "row-span-3" : "row-span-2"}`}
               >
-                {handleModeDisplay({ mode, idx: i })}
+                {/* {handleModeDisplay({ mode, idx: i })} */}
               </li>
             );
           })}
@@ -166,7 +284,7 @@ const getGridCardOfType = ({
                 key={i}
                 className={`relative flex items-center justify-center border-2 border-gray-200`}
               >
-                {handleModeDisplay({ mode, idx: i })}
+                {/* {handleModeDisplay({ mode, idx: i })} */}
               </li>
             );
           })}
@@ -180,14 +298,17 @@ const getGridCardOfType = ({
 const WeddingGalleryReadOnly = () => {
   const data: GalleryData[] = [
     {
+      id: "2",
       type: "A",
       urls: ["/marriage.jpg", "/marriage.jpg"],
     },
     {
+      id: "3",
       type: "B",
       urls: ["/marriage.jpg", "/marriage.jpg", "/marriage.jpg"],
     },
     {
+      id: "4",
       type: "C",
       urls: [
         "/marriage.jpg",
@@ -197,6 +318,7 @@ const WeddingGalleryReadOnly = () => {
       ],
     },
     {
+      id: "5",
       type: "D",
       urls: [
         "/marriage.jpg",
@@ -207,6 +329,7 @@ const WeddingGalleryReadOnly = () => {
       ],
     },
     {
+      id: "6",
       type: "E",
       urls: [
         "/marriage.jpg",
@@ -233,9 +356,9 @@ const WeddingGalleryReadOnly = () => {
               key={i}
               className="flex items-center gap-4 rounded-lg bg-white p-2 shadow-sm"
             >
-              <div className="w-6 text-center font-mono text-gray-400">
+              <span className="w-6 text-center font-mono text-gray-400">
                 {i + 1}
-              </div>
+              </span>
               {getGridCardOfType(d)}
               <div className="flex-1 pl-2">
                 <div className="font-semibold text-gray-700">카드 {i + 1}</div>
@@ -271,15 +394,14 @@ const WeddingGalleryEdit = () => {
           <div className="flex flex-1/4 flex-col justify-between">
             {galleryTypes.map((w, i) => {
               return (
-                <motion.button
+                <Btn
                   key={i}
-                  className="w-full rounded-xl border-2 px-1 py-2 text-xs"
-                  whileTap={{ scale: 0.95 }}
+                  bgColor="bg-blue-300"
                   onClick={(e) => {
                     e.preventDefault();
                     setActiveType(w);
                   }}
-                >{`${w}버튼`}</motion.button>
+                >{`${w}버튼`}</Btn>
               );
             })}
           </div>
@@ -298,8 +420,9 @@ const WeddingGalleryEdit = () => {
             </AnimatePresence>
           </ul>
         </div>
-        <motion.button
-          whileTap={{ scale: 0.95 }}
+        <Btn
+          // bgColor=""
+          className="mt-4 bg-blue-300"
           onClick={(e) => {
             e.preventDefault();
             const id = crypto.randomUUID();
@@ -309,21 +432,24 @@ const WeddingGalleryEdit = () => {
 
             setGalleryData((prev) => [
               ...prev,
-              { type: activeType, urls: new Array(count).fill(null) },
+              { type: activeType, urls: new Array(count).fill(null), id },
             ]);
           }}
-          className="mt-4 block w-full rounded-xl border-2 py-2 text-xs"
+          // className="mt-4 block w-full rounded-xl border-2 py-2 text-xs"
         >
           <PlusIcon className="m-auto" />
-        </motion.button>
+        </Btn>
       </div>
       <ul className="space-y-4">
         {galleryData.map((d, i) => {
           return (
             <li
               key={i}
-              className="rounded-lg border-2 border-gray-200 p-3 shadow-sm"
+              className="relative flex items-center justify-between rounded-lg border-2 border-gray-200 p-6 shadow-sm"
             >
+              <span className="w-6 text-center font-mono text-gray-400">
+                {i + 1}
+              </span>
               <motion.div className="round-lg h-fit w-fit bg-white p-2 shadow-sm">
                 {getGridCardOfType({
                   type: d.type,
@@ -341,7 +467,7 @@ const WeddingGalleryEdit = () => {
                   onRemove: (idx) => {
                     setGalleryData((prev) => {
                       const next = [...prev];
-                      next[i].urls[idx] = "";
+                      next[i].urls[idx] = null;
                       return next;
                     });
                   },
