@@ -64,13 +64,13 @@ const WeddingParentInfo = ({ readOnly }: { readOnly?: boolean }) => {
         <AnimatePresence mode="wait">
           <motion.div
             key={showParentFields}
-            initial={{ opacity: 0, y: "50%", pointerEvents: "none" }}
+            initial={{ opacity: 0, y: "15%", pointerEvents: "none" }}
             animate={{
               opacity: 1,
               y: 0,
               pointerEvents: "auto",
             }}
-            exit={{ opacity: 0, y: "50%", pointerEvents: "none" }}
+            exit={{ opacity: 0, y: "15%", pointerEvents: "none" }}
             transition={{
               ease: "linear",
             }}

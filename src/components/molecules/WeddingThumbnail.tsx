@@ -42,13 +42,13 @@ const WeddingThumnailEdit = () => {
               className="relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-gray-50"
             >
               {thumbnailPreviews[i] ? (
-                <>
-                  {" "}
+                <div>
                   <Img src={thumbnailPreviews[i]} />
                   <button
                     type="button"
                     className="absolute top-1 right-1 z-10 rounded-full bg-white/80 p-1 hover:bg-red-100"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
                       setThumbnailPreviews((prev) => {
                         const next = [...prev];
                         next[i] = null;
@@ -58,8 +58,8 @@ const WeddingThumnailEdit = () => {
                     }}
                   >
                     <CloseIcon className="h-4 w-4 text-gray-500 hover:text-red-500" />
-                  </button>{" "}
-                </>
+                  </button>
+                </div>
               ) : (
                 <DocArrowUpIcon />
               )}
