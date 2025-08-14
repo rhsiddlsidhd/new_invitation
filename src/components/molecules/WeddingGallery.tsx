@@ -6,6 +6,7 @@ import { PlusIcon } from "../atoms/Icon";
 import Btn from "../atoms/Btn";
 import GalleryGridCard from "../organisms/GalleryGridCard";
 import GalleryGridCardCell from "./GalleryGridCardCell";
+import OverlayCloseBtn from "./OverlayCloseBtn";
 
 export interface GalleryData {
   id: string;
@@ -16,6 +17,7 @@ export interface GalleryData {
 const getGridCardOfType = ({
   type,
   urls,
+  id = "",
   mode = "get",
   onChange,
   inputRefs,
@@ -25,7 +27,7 @@ const getGridCardOfType = ({
   type: GalleryData["type"];
   urls?: GalleryData["urls"];
   mode?: "get" | "edit";
-
+  id?: string;
   inputRefs?: React.RefObject<(HTMLInputElement | null)[][]>;
   cardIdx?: number;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -76,7 +78,7 @@ const getGridCardOfType = ({
                   <GalleryGridCardCell
                     key={idx}
                     idx={idx}
-                    type={type}
+                    id={id}
                     urls={urls}
                     cardIdx={cardIdx}
                     inputRefs={inputRefs}
@@ -106,9 +108,9 @@ const getGridCardOfType = ({
                   <GalleryGridCardCell
                     key={idx}
                     idx={idx}
-                    type={type}
                     urls={urls}
                     cardIdx={cardIdx}
+                    id={id}
                     inputRefs={inputRefs}
                     onChange={onChange}
                     onRemove={onRemove}
@@ -132,8 +134,8 @@ const getGridCardOfType = ({
                   <GalleryGridCardCell
                     key={idx}
                     idx={idx}
-                    type={type}
                     urls={urls}
+                    id={id}
                     cardIdx={cardIdx}
                     inputRefs={inputRefs}
                     onChange={onChange}
@@ -162,9 +164,9 @@ const getGridCardOfType = ({
                   <GalleryGridCardCell
                     key={idx}
                     idx={idx}
-                    type={type}
                     urls={urls}
                     cardIdx={cardIdx}
+                    id={id}
                     inputRefs={inputRefs}
                     onChange={onChange}
                     onRemove={onRemove}
@@ -188,8 +190,8 @@ const getGridCardOfType = ({
                   <GalleryGridCardCell
                     key={idx}
                     idx={idx}
-                    type={type}
                     urls={urls}
+                    id={id}
                     cardIdx={cardIdx}
                     inputRefs={inputRefs}
                     onChange={onChange}
@@ -294,6 +296,11 @@ const WeddingGalleryEdit = () => {
     console.log("Gallery component mounted", galleryData);
   }, [galleryData]);
 
+  const deleteGalleryCard = (id: GalleryData["id"]) => {
+    console.log("deleteGalleryCard", id);
+    return setGalleryData((prev) => prev.filter((d) => d.id !== id));
+  };
+
   return (
     <div className="overflow-hidden rounded-lg border-2 border-gray-200 bg-gray-50 p-3">
       {/* 타입명 영역 */}
@@ -339,10 +346,16 @@ const WeddingGalleryEdit = () => {
             e.preventDefault();
             const id = crypto.randomUUID();
             const count = { A: 2, B: 3, C: 4, D: 5, E: 6 }[activeType];
-            setGalleryData((prev) => [
-              ...prev,
-              { type: activeType, urls: new Array(count).fill(null), id },
-            ]);
+            setGalleryData((prev) => {
+              if (prev.length === 5) {
+                alert("갤러리는 최대 5개까지 추가할 수 있습니다.");
+                return prev;
+              }
+              return [
+                ...prev,
+                { type: activeType, urls: new Array(count).fill(null), id },
+              ];
+            });
           }}
         >
           <PlusIcon className="m-auto" />
@@ -353,15 +366,20 @@ const WeddingGalleryEdit = () => {
           return (
             <li
               key={i}
-              className="relative flex items-center justify-between rounded-lg border-2 border-gray-200 p-6 shadow-sm"
+              className="relative flex items-center justify-between rounded-lg border-2 border-gray-200 px-10 py-2 shadow-sm"
             >
               <span className="w-6 text-center font-mono text-gray-400">
                 {i + 1}
               </span>
+              <OverlayCloseBtn
+                size="lg"
+                onClick={() => deleteGalleryCard(d.id)}
+              />
               <motion.div className="round-lg h-fit w-fit bg-white p-2 shadow-sm">
                 {getGridCardOfType({
                   type: d.type,
                   urls: d.urls,
+                  id: d.id,
                   mode: "edit",
                   inputRefs,
                   cardIdx: i,

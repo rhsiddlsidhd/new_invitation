@@ -26,13 +26,3 @@ const OverlayCloseBtn = ({
 };
 
 export default OverlayCloseBtn;
-
-/**
- * onClick={(e) => {
-                  e.preventDefault();
-                  if (onRemove) onRemove(idx);
-                  if (inputRefs && inputRefs.current[cardIdx]?.[idx]) {
-                    inputRefs.current[cardIdx][idx]!.value = "";
-                  }
-                }}
- */

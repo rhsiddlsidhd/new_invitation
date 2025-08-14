@@ -5,7 +5,7 @@ const Label = ({
   htmlFor,
   className,
 }: {
-  htmlFor: string;
+  htmlFor?: string;
   className?: string;
   children?: React.ReactNode;
 }) => {
