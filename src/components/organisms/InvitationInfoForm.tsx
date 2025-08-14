@@ -36,7 +36,7 @@ const InvitationInfoForm = ({ readOnly }: { readOnly: boolean }) => {
   const [state, action, pending] = useActionState(createInvitationInfo, null);
 
   useEffect(() => {
-    if (state) console.log(state.success);
+    if (state) console.log(state);
   }, [state]);
 
   if (readOnly) {
@@ -47,6 +47,7 @@ const InvitationInfoForm = ({ readOnly }: { readOnly: boolean }) => {
       action={action}
       className="m-auto flex max-w-[1028px] flex-col sm:mb-12 sm:p-12"
     >
+      {/* {state && !state.success && state. } */}
       <InvitationInfoContent readOnly={readOnly} />
       <div className="ml-auto w-1/4">
         <Btn className="my-4 bg-blue-300" type="submit">
