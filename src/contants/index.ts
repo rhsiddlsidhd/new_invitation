@@ -68,3 +68,40 @@ export const __galleryMockData: GalleryData[] = [
     ],
   },
 ];
+
+export const cardConfig: Record<
+  GalleryData["type"],
+  {
+    length: number;
+    gridClass: string;
+    getCellClass: (i: number) => string;
+  }
+> = {
+  A: {
+    length: 2,
+    gridClass: "grid-rows-2",
+    getCellClass: () => "",
+  },
+  B: {
+    length: 3,
+    gridClass: "grid-cols-2 grid-rows-4",
+    getCellClass: (i: number) =>
+      (i + 1) % 3 === 0 ? "col-span-2 row-span-2" : "row-span-2",
+  },
+  C: {
+    length: 4,
+    gridClass: "grid-cols-2",
+    getCellClass: () => "",
+  },
+  D: {
+    length: 5,
+    gridClass: "grid-cols-2 grid-rows-6",
+    getCellClass: (i: number) =>
+      (i + 1) % 2 === 0 ? "row-span-3" : "row-span-2",
+  },
+  E: {
+    length: 6,
+    gridClass: "grid-cols-2 grid-rows-3",
+    getCellClass: () => "",
+  },
+};

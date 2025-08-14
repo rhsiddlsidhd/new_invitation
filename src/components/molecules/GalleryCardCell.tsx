@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Img from "../atoms/Img";
 import { defaultUrls } from "@/contants";
 import Label from "../atoms/Label";
@@ -11,8 +11,6 @@ interface GalleryCardCellProps {
   mode?: "get" | "edit";
   urls?: GalleryData["urls"];
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  inputRefs?: React.RefObject<(HTMLInputElement | null)[][]>;
-  cardIdx?: number;
   onRemove?: (idx: number) => void;
   id?: string;
   className?: string;
@@ -20,15 +18,14 @@ interface GalleryCardCellProps {
 
 const GalleryCardCell = ({
   mode = "get",
-  cardIdx,
   id,
   idx,
-  inputRefs,
   onChange,
   onRemove,
   urls,
   className,
 }: GalleryCardCellProps) => {
+  const inputRef = useRef<HTMLInputElement>(null);
   if (mode === "get") {
     return (
       <div className={`relative ${className}`}>
@@ -47,12 +44,7 @@ const GalleryCardCell = ({
         name={`gallery-${id}-${idx}`}
         type="file"
         className="absolute h-full w-full opacity-0"
-        ref={(el) => {
-          if (inputRefs && cardIdx) {
-            if (!inputRefs.current[cardIdx]) inputRefs.current[cardIdx] = [];
-            inputRefs.current[cardIdx][idx] = el;
-          }
-        }}
+        ref={inputRef}
         onChange={onChange}
       />
       {hasImage ? (
@@ -63,15 +55,9 @@ const GalleryCardCell = ({
             onClick={(e) => {
               console.log(e);
               e.preventDefault();
+              if (!inputRef.current) return;
+              inputRef.current.value = "";
               if (onRemove) onRemove(idx);
-              if (
-                inputRefs &&
-                cardIdx &&
-                inputRefs.current[cardIdx] &&
-                inputRefs.current[cardIdx][idx]
-              ) {
-                inputRefs.current[cardIdx][idx].value = "";
-              }
             }}
           />
         </div>

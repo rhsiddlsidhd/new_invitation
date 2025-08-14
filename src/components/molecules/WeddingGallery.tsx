@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { PlusIcon } from "../atoms/Icon";
@@ -45,7 +45,6 @@ const WeddingGalleryEdit = () => {
   const [activeType, setActiveType] = useState<GalleryData["type"]>("A");
   const galleryTypes: GalleryData["type"][] = ["A", "B", "C", "D", "E"];
   const [galleryData, setGalleryData] = useState<GalleryData[]>([]);
-  const inputRefs = React.useRef<(HTMLInputElement | null)[][]>([]);
 
   const deleteGalleryCard = (id: GalleryData["id"]) => {
     return setGalleryData((prev) => prev.filter((d) => d.id !== id));
@@ -95,6 +94,7 @@ const WeddingGalleryEdit = () => {
             e.preventDefault();
             const id = crypto.randomUUID();
             const count = { A: 2, B: 3, C: 4, D: 5, E: 6 }[activeType];
+
             setGalleryData((prev) => {
               if (prev.length === 5) {
                 alert("갤러리는 최대 5개까지 추가할 수 있습니다.");
@@ -113,6 +113,7 @@ const WeddingGalleryEdit = () => {
       <ul className="space-y-4">
         {galleryData.map((d, cardIdx) => {
           const { type, id, urls } = d;
+
           return (
             <li
               key={cardIdx}
@@ -129,14 +130,14 @@ const WeddingGalleryEdit = () => {
                 <GalleryCard
                   type={type}
                   mode="edit"
-                  cardIdx={cardIdx}
                   id={id}
                   urls={urls}
-                  inputRefs={inputRefs}
                   onChange={(e) => {
                     const files = e.target.files;
                     if (!files || files.length === 0) return;
-                    const idx = Number(e.target.name.split("-")[2]);
+                    const lastIndex = e.target.name.lastIndexOf("-");
+                    const idx = Number(e.target.name.slice(lastIndex + 1));
+
                     const url = URL.createObjectURL(files[0]);
 
                     setGalleryData((prev) => {
