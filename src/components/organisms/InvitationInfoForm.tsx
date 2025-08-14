@@ -1,12 +1,12 @@
 "use client";
-import React, { useActionState } from "react";
+import React, { useActionState, useEffect } from "react";
 import WeddingPartyInfo from "../molecules/WeddingPartyInfo";
 import WeddingInfo from "../molecules/WeddingInfo";
 import WeddingParentInfo from "../molecules/WeddingParentInfo";
 import WeddingThumbnail from "../molecules/WeddingThumbnail";
 import WeddingGallery from "../molecules/WeddingGallery";
-import { motion } from "framer-motion";
-import { testAction } from "@/actions/user";
+import { createInvitationInfo } from "@/actions/invitation";
+import Btn from "../atoms/Btn";
 
 const InvitationInfoContent = ({ readOnly }: { readOnly: boolean }) => {
   return (
@@ -33,17 +33,26 @@ const InvitationInfoContent = ({ readOnly }: { readOnly: boolean }) => {
 };
 
 const InvitationInfoForm = ({ readOnly }: { readOnly: boolean }) => {
-  const [state, action, pending] = useActionState(testAction, null);
+  const [state, action, pending] = useActionState(createInvitationInfo, null);
+
+  useEffect(() => {
+    if (state) console.log(state.success);
+  }, [state]);
 
   if (readOnly) {
     return <InvitationInfoContent readOnly={readOnly} />;
   }
   return (
-    <form action={action} className="m-auto max-w-[1028px] sm:mb-12 sm:p-12">
+    <form
+      action={action}
+      className="m-auto flex max-w-[1028px] flex-col sm:mb-12 sm:p-12"
+    >
       <InvitationInfoContent readOnly={readOnly} />
-      <motion.button whileTap={{ scale: 0.95 }} type="submit">
-        Create
-      </motion.button>
+      <div className="ml-auto w-1/4">
+        <Btn className="my-4 bg-blue-300" type="submit">
+          제출
+        </Btn>
+      </div>
     </form>
   );
 };

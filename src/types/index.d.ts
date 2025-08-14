@@ -21,6 +21,11 @@ interface ApiResponseFail {
 
 export type ApiResponse<T = unknown> = ApiResponseSuccess<T> | ApiResponseFail;
 
+export type ActionState = {
+  success: boolean;
+  message?: string;
+} | null;
+
 export interface UserData {
   userId: string;
   email: string;

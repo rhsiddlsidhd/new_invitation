@@ -1,12 +1,13 @@
 "use server";
 
+import { ActionState } from "@/types";
 import { decrypt, deleteSession, getSession } from "../lib/session";
 import {
   changePassword,
   deleteUser,
   updateUserEmail,
 } from "../services/userServices";
-import { ActionState } from "./auth";
+
 import { redirect } from "next/navigation";
 
 export const updateUserProfile = async (
@@ -110,15 +111,4 @@ export const deleteUserAction = async (
 
     redirect("/auth/login");
   }
-};
-
-export const testAction = async (prev: ActionState, formData: FormData) => {
-  console.log(formData);
-  const groomName = formData.get("groom-name") as string;
-  const weddingDate = formData.get("wedding-date") as string;
-  console.log(weddingDate);
-  return {
-    success: true,
-    groomName,
-  };
 };

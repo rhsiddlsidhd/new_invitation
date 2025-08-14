@@ -61,54 +61,54 @@ const WeddingParentInfo = ({ readOnly }: { readOnly?: boolean }) => {
 
       <div style={{ minHeight }} className="relative">
         {/* Optional Parent Info */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={showParentFields}
-            initial={{ opacity: 0, y: "15%", pointerEvents: "none" }}
-            animate={{
-              opacity: 1,
-              y: 0,
-              pointerEvents: "auto",
-            }}
-            exit={{ opacity: 0, y: "15%", pointerEvents: "none" }}
-            transition={{
-              ease: "linear",
-            }}
-            className="absolute w-full"
-            ref={(el) => {
-              fieldRef.current = el;
-            }}
-          >
-            <div className="flex flex-col sm:flex-row sm:gap-4">
+        <AnimatePresence>
+          {btnNames.map((n) => (
+            <motion.div
+              key={n.id}
+              initial={{ opacity: 0, y: "15%", pointerEvents: "none" }}
+              animate={
+                showParentFields === n.id
+                  ? { opacity: 1, y: 0, pointerEvents: "auto" }
+                  : { opacity: 0, y: "15%", pointerEvents: "none" }
+              }
+              exit={{ opacity: 0, y: "15%", pointerEvents: "none" }}
+              transition={{ ease: "linear" }}
+              className="absolute w-full"
+              ref={(el) => {
+                fieldRef.current = el;
+              }}
+            >
+              <div className="flex flex-col sm:flex-row sm:gap-4">
+                <div className="flex-1">
+                  <Label htmlFor={`${n.id}-name`}>성함</Label>
+                  <Input
+                    id={`${n.id}-name`}
+                    name={`${n.id}-name`}
+                    type="text"
+                    readOnly={readOnly}
+                  />
+                </div>
+                <div className="flex-1">
+                  <Label htmlFor={`${n.id}-phone`}>전화번호</Label>
+                  <Input
+                    id={`${n.id}-phone`}
+                    name={`${n.id}-phone`}
+                    type="tel"
+                    readOnly={readOnly}
+                  />
+                </div>
+              </div>
               <div className="flex-1">
-                <Label htmlFor={`${showParentFields}-name`}>성함</Label>
+                <Label htmlFor={`${n.id}-account`}>계좌번호</Label>
                 <Input
-                  id={`${showParentFields}-name`}
-                  name={`${showParentFields}-name`}
+                  id={`${n.id}-account`}
+                  name={`${n.id}-account`}
                   type="text"
                   readOnly={readOnly}
                 />
               </div>
-              <div className="flex-1">
-                <Label htmlFor={`${showParentFields}-phone`}>전화번호</Label>
-                <Input
-                  id={`${showParentFields}-phone`}
-                  name={`${showParentFields}-phone`}
-                  type="tel"
-                  readOnly={readOnly}
-                />
-              </div>
-            </div>
-            <div className="flex-1">
-              <Label htmlFor={`${showParentFields}-account`}>계좌번호</Label>
-              <Input
-                id={`${showParentFields}-account`}
-                name={`${showParentFields}-account`}
-                type="text"
-                readOnly={readOnly}
-              />
-            </div>
-          </motion.div>
+            </motion.div>
+          ))}
         </AnimatePresence>
       </div>
     </div>

@@ -17,11 +17,7 @@ import {
   deleteSession,
   getSession,
 } from "@/lib/session";
-
-export type ActionState = {
-  success: boolean;
-  message?: string;
-} | null;
+import { ActionState } from "@/types";
 
 export async function signUp(prev: ActionState, formData: FormData) {
   const email = formData.get("email") as string;
