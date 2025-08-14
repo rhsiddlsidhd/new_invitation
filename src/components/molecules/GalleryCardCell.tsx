@@ -1,52 +1,63 @@
 import React from "react";
-import Label from "../atoms/Label";
 import Img from "../atoms/Img";
+import { defaultUrls } from "@/contants";
+import Label from "../atoms/Label";
+import { GalleryData } from "@/types";
 import OverlayCloseBtn from "./OverlayCloseBtn";
 import { DocArrowUpIcon } from "../atoms/Icon";
-import { GalleryData } from "./WeddingGallery";
-interface GalleryGridCardCellProps {
-  className?: string;
+
+interface GalleryCardCellProps {
   idx: number;
+  mode?: "get" | "edit";
   urls?: GalleryData["urls"];
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   inputRefs?: React.RefObject<(HTMLInputElement | null)[][]>;
-  cardIdx: number;
+  cardIdx?: number;
   onRemove?: (idx: number) => void;
-  id: string;
+  id?: string;
+  className?: string;
 }
 
-const GalleryGridCardCell = ({
-  idx,
-  urls,
-  id,
+const GalleryCardCell = ({
+  mode = "get",
   cardIdx,
+  id,
+  idx,
   inputRefs,
   onChange,
   onRemove,
-}: GalleryGridCardCellProps) => {
+  urls,
+  className,
+}: GalleryCardCellProps) => {
+  if (mode === "get") {
+    return (
+      <div className={`relative ${className}`}>
+        <Img src={defaultUrls} />
+      </div>
+    );
+  }
+
+  const hasImage = urls?.[idx];
+
   return (
     <Label
-      key={idx}
-      className={`flex h-full w-full items-center justify-center border-2 border-gray-300`}
+      className={`relative flex h-full w-full items-center justify-center border-2 border-gray-300 ${className}`}
     >
-      {/* hidden 요소 */}
       <input
         name={`gallery-${id}-${idx}`}
         type="file"
         className="absolute h-full w-full opacity-0"
         ref={(el) => {
-          if (inputRefs) {
+          if (inputRefs && cardIdx) {
             if (!inputRefs.current[cardIdx]) inputRefs.current[cardIdx] = [];
             inputRefs.current[cardIdx][idx] = el;
           }
         }}
         onChange={onChange}
       />
-
-      {/* View : Url 이 있으면 Url 그렇지 않으면 <DocArrowUpIcon /> */}
-      {urls && urls[idx] ? (
+      {hasImage ? (
         <div className="relative h-full w-full">
-          <Img src={urls[idx]} />
+          <Img src={hasImage} />
           <OverlayCloseBtn
             size="sm"
             onClick={(e) => {
@@ -55,6 +66,7 @@ const GalleryGridCardCell = ({
               if (onRemove) onRemove(idx);
               if (
                 inputRefs &&
+                cardIdx &&
                 inputRefs.current[cardIdx] &&
                 inputRefs.current[cardIdx][idx]
               ) {
@@ -70,4 +82,4 @@ const GalleryGridCardCell = ({
   );
 };
 
-export default GalleryGridCardCell;
+export default GalleryCardCell;

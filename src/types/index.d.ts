@@ -39,3 +39,9 @@ export type Post = {
   moveX: number;
   moveY: number;
 };
+
+export interface GalleryData {
+  id: string;
+  type: "A" | "B" | "C" | "D" | "E";
+  urls: string[] | null[];
+}

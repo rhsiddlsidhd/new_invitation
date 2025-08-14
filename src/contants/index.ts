@@ -1,3 +1,7 @@
+import { GalleryData } from "@/types";
+
+export const defaultUrls = "/marriage.jpg";
+
 export const squareSizes = [
   "w-16 h-16", // 64px
   "w-20 h-20", // 80px
@@ -22,3 +26,45 @@ export const menus = [
   { id: "Create Invitation", path: "/dashboard" },
   { id: "Contact", path: "#" },
 ] as const;
+
+export const __galleryMockData: GalleryData[] = [
+  {
+    id: "2",
+    type: "A",
+    urls: ["/marriage.jpg", "/marriage.jpg"],
+  },
+  {
+    id: "3",
+    type: "B",
+    urls: ["/marriage.jpg", "/marriage.jpg", "/marriage.jpg"],
+  },
+  {
+    id: "4",
+    type: "C",
+    urls: ["/marriage.jpg", "/marriage.jpg", "/marriage.jpg", "/marriage.jpg"],
+  },
+  {
+    id: "5",
+    type: "D",
+    urls: [
+      "/marriage.jpg",
+      "/marriage.jpg",
+      "/marriage.jpg",
+      "/marriage.jpg",
+      "/marriage.jpg",
+    ],
+  },
+  {
+    id: "6",
+    type: "E",
+    urls: [
+      "/marriage.jpg",
+      "/marriage.jpg",
+      "/marriage.jpg",
+      "/marriage.jpg",
+      "/marriage.jpg",
+      "/marriage.jpg",
+      "/marriage.jpg",
+    ],
+  },
+];
