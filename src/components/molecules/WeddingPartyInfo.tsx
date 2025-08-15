@@ -24,7 +24,7 @@ const WeddingPartyInfo = ({ readOnly }: { readOnly?: boolean }) => {
             type="tel"
             name="groom-phone"
             readOnly={readOnly}
-            placeholder="전화번호"
+            placeholder="000-0000-0000"
           />
         </div>
 
@@ -57,7 +57,7 @@ const WeddingPartyInfo = ({ readOnly }: { readOnly?: boolean }) => {
             id="bride-phone"
             name="bride-phone"
             type="tel"
-            placeholder="전화번호"
+            placeholder="000-0000-0000"
             readOnly={readOnly}
           />
         </div>

@@ -95,6 +95,7 @@ const WeddingParentInfo = ({ readOnly }: { readOnly?: boolean }) => {
                     name={`${n.id}-phone`}
                     type="tel"
                     readOnly={readOnly}
+                    placeholder="000-0000-0000"
                   />
                 </div>
               </div>

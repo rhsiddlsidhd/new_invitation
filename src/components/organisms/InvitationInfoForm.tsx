@@ -7,6 +7,7 @@ import WeddingThumbnail from "../molecules/WeddingThumbnail";
 import WeddingGallery from "../molecules/WeddingGallery";
 import { createInvitationInfo } from "@/actions/invitation";
 import Btn from "../atoms/Btn";
+import { useRouter } from "next/navigation";
 
 const InvitationInfoContent = ({ readOnly }: { readOnly: boolean }) => {
   return (
@@ -34,10 +35,16 @@ const InvitationInfoContent = ({ readOnly }: { readOnly: boolean }) => {
 
 const InvitationInfoForm = ({ readOnly }: { readOnly: boolean }) => {
   const [state, action, pending] = useActionState(createInvitationInfo, null);
-
+  const router = useRouter();
   useEffect(() => {
-    if (state) console.log(state);
-  }, [state]);
+    if (state && !state.success && "error" in state) {
+      // 여기서만 state.error 사용 가능
+      console.log(state.error);
+    } else if (state && state.success) {
+      alert(state.message);
+      router.push("/dashboard");
+    }
+  }, [state, router]);
 
   if (readOnly) {
     return <InvitationInfoContent readOnly={readOnly} />;
@@ -47,7 +54,7 @@ const InvitationInfoForm = ({ readOnly }: { readOnly: boolean }) => {
       action={action}
       className="m-auto flex max-w-[1028px] flex-col sm:mb-12 sm:p-12"
     >
-      {/* {state && !state.success && state. } */}
+      {/* {state && !state.success && state.error } */}
       <InvitationInfoContent readOnly={readOnly} />
       <div className="ml-auto w-1/4">
         <Btn className="my-4 bg-blue-300" type="submit">

@@ -1,7 +1,5 @@
 import { dbConnect } from "../utils/mongodb";
 import bcrypt from "bcryptjs";
-import { cookies } from "next/headers";
-import { ApiResponse, UserId } from "../types";
 import User from "@/models/userSchema";
 import { deleteSession } from "@/lib/session";
 

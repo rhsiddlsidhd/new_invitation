@@ -15,9 +15,10 @@ const WeddingThumnailEdit = () => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
-    const name = e.target.name;
+    console.log("files", files);
+    const id = e.target.id;
 
-    const idx = Number(name.split("-")[1]);
+    const idx = Number(id.split("-")[1]);
 
     const url = URL.createObjectURL(files[0]);
     setThumbnailPreviews((prev) => {
@@ -65,9 +66,10 @@ const WeddingThumnailEdit = () => {
               <input
                 type="file"
                 id={`thumbnail-${i}`}
-                name={`thumbnail-${i}`}
+                name={`thumbnail`}
                 className="absolute h-full w-full cursor-pointer opacity-0"
                 onChange={handleUploadFiles}
+                accept="image/*"
                 ref={(el) => {
                   inputRefs.current[i] = el;
                 }}
