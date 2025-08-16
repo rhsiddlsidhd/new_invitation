@@ -10,7 +10,7 @@ interface GalleryCardCellProps {
   idx: number;
   mode?: "get" | "edit";
   urls?: GalleryData["urls"];
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>, idx: number) => void;
   onRemove?: (idx: number) => void;
   id?: string;
   className?: string;
@@ -41,12 +41,14 @@ const GalleryCardCell = ({
       className={`relative flex h-full w-full items-center justify-center border-2 border-gray-300 ${className}`}
     >
       <input
-        // name={`gallery-${id}-${idx}`}
         name={`gallery-${id}`}
         type="file"
         className="absolute h-full w-full opacity-0"
+        data-idx={idx}
         ref={inputRef}
-        onChange={onChange}
+        onChange={(e) => {
+          if (onChange) onChange(e, idx);
+        }}
         accept="image/*"
         /**
          * input에 media 파일을 넣었더니 Error를 던지기 전에 터져버림

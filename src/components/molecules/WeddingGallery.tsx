@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { PlusIcon } from "../atoms/Icon";
@@ -132,12 +132,9 @@ const WeddingGalleryEdit = () => {
                   mode="edit"
                   id={id}
                   urls={urls}
-                  onChange={(e) => {
+                  onChange={(e: ChangeEvent<HTMLInputElement>, idx: number) => {
                     const files = e.target.files;
-                    if (!files || files.length === 0) return;
-                    const lastIndex = e.target.name.lastIndexOf("-");
-                    const idx = Number(e.target.name.slice(lastIndex + 1));
-
+                    if (!files?.length) return;
                     const url = URL.createObjectURL(files[0]);
 
                     setGalleryData((prev) => {

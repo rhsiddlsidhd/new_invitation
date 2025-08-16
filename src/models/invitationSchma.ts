@@ -2,10 +2,11 @@ import mongoose, { Schema } from "mongoose";
 
 interface IGallery {
   id: string;
+  type: "A" | "B" | "C" | "D" | "E";
   images: string[];
 }
 
-export interface InvitationDocument extends Document {
+export interface InvitationDocument {
   userId: string;
   groomName: string;
   groomPhone: string;
@@ -34,11 +35,12 @@ export interface InvitationDocument extends Document {
 
 export type InvitationInput = Omit<
   InvitationDocument,
-  keyof mongoose.Document | "createdAt" | "updatedAt" | "userId"
+  "createdAt" | "updatedAt" | "userId"
 >;
 
 const gallerySchema = new Schema<IGallery>({
   id: { type: String },
+  type: { type: String, enum: ["A", "B", "C", "D", "E"], required: true },
   images: { type: [String] },
 });
 
