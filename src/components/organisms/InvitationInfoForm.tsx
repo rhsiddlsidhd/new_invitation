@@ -10,6 +10,7 @@ import Btn from "../atoms/Btn";
 import { useRouter } from "next/navigation";
 
 const InvitationInfoContent = ({ readOnly }: { readOnly: boolean }) => {
+  console.log("content", readOnly);
   return (
     <div className="w-full rounded-xl border border-[#ddd] bg-white p-6">
       <h3 className="mb-4 text-lg font-semibold">청첩장 정보</h3>

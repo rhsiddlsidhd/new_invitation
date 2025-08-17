@@ -8,7 +8,7 @@ import { DocArrowUpIcon } from "../atoms/Icon";
 
 interface GalleryCardCellProps {
   idx: number;
-  mode?: "get" | "edit";
+  readOnly: boolean;
   urls?: GalleryData["urls"];
   onChange?: (e: React.ChangeEvent<HTMLInputElement>, idx: number) => void;
   onRemove?: (idx: number) => void;
@@ -17,8 +17,8 @@ interface GalleryCardCellProps {
 }
 
 const GalleryCardCell = ({
-  mode = "get",
   id,
+  readOnly,
   idx,
   onChange,
   onRemove,
@@ -26,15 +26,17 @@ const GalleryCardCell = ({
   className,
 }: GalleryCardCellProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  if (mode === "get") {
+  const hasImage = urls?.[idx];
+
+  if (readOnly) {
     return (
-      <div className={`relative ${className}`}>
+      <Label
+        className={`relative flex h-full w-full items-center justify-center border-2 border-gray-300 ${className}`}
+      >
         <Img src={defaultUrls} />
-      </div>
+      </Label>
     );
   }
-
-  const hasImage = urls?.[idx];
 
   return (
     <Label
@@ -50,15 +52,6 @@ const GalleryCardCell = ({
           if (onChange) onChange(e, idx);
         }}
         accept="image/*"
-        /**
-         * input에 media 파일을 넣었더니 Error를 던지기 전에 터져버림
-         *
-         * input에 들어올 파일 타입을 accept 속성을 통해서 제한으로 해결
-         *
-         * 백엔드에서는 Image 파일 타입중에서도 일부 타입만 허용하도록 설정
-         *
-         * 이외에는 전부 Error : 지원하지 않는 이미지 형식입니다. 를 던져주며 해결
-         */
       />
       {hasImage ? (
         <div className="relative h-full w-full">
@@ -66,7 +59,6 @@ const GalleryCardCell = ({
           <OverlayCloseBtn
             size="sm"
             onClick={(e) => {
-              console.log(e);
               e.preventDefault();
               if (!inputRef.current) return;
               inputRef.current.value = "";

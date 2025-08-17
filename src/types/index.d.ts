@@ -50,3 +50,7 @@ export interface GalleryData {
   type: "A" | "B" | "C" | "D" | "E";
   urls: string[] | null[];
 }
+
+export interface ViewGalleryData extends GalleryData {
+  mode: "get" | "edit";
+}
