@@ -89,7 +89,7 @@ const WeddingGalleryEdit = () => {
           </ul>
         </div>
         <Btn
-          className="mt-4 bg-blue-300"
+          className="mt-4 w-full bg-blue-300"
           onClick={(e) => {
             e.preventDefault();
             const id = crypto.randomUUID();

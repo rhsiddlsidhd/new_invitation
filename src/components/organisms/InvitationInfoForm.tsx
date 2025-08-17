@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 
 const InvitationInfoContent = ({ readOnly }: { readOnly: boolean }) => {
   return (
-    <div className="rounded-xl border border-[#ddd] bg-white p-6">
+    <div className="w-full rounded-xl border border-[#ddd] bg-white p-6">
       <h3 className="mb-4 text-lg font-semibold">청첩장 정보</h3>
       <div className="flex flex-col gap-4">
         {/* Groom && Bride Info */}
@@ -46,21 +46,20 @@ const InvitationInfoForm = ({ readOnly }: { readOnly: boolean }) => {
     }
   }, [state, router]);
 
-  if (readOnly) {
-    return <InvitationInfoContent readOnly={readOnly} />;
-  }
   return (
     <form
       action={action}
-      className="m-auto flex max-w-[1028px] flex-col sm:mb-12 sm:p-12"
+      className="m-auto flex max-w-[1028px] flex-col sm:mb-24"
     >
       {/* {state && !state.success && state.error } */}
       <InvitationInfoContent readOnly={readOnly} />
-      <div className="ml-auto w-1/4">
-        <Btn className="my-4 bg-blue-300" type="submit">
-          제출
-        </Btn>
-      </div>
+      {!readOnly && (
+        <div className="ml-auto w-1/4">
+          <Btn className="my-4 w-full bg-blue-300" type="submit">
+            제출
+          </Btn>
+        </div>
+      )}
     </form>
   );
 };
