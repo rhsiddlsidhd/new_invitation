@@ -13,3 +13,10 @@ export const createInvitation = async ({ data }: { data: InvitationInput }) => {
     data: savedInvitation,
   };
 };
+
+export const getInvitation = async (userId: string) => {
+  await dbConnect();
+
+  const res = await Invitation.findOne({ userId });
+  return res;
+};

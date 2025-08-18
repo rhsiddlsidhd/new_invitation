@@ -9,14 +9,19 @@ import { createInvitationInfo } from "@/actions/invitation";
 import Btn from "../atoms/Btn";
 import { useRouter } from "next/navigation";
 
-const InvitationInfoContent = ({ readOnly }: { readOnly: boolean }) => {
-  console.log("content", readOnly);
+const InvitationInfoContent = ({
+  readOnly,
+  data,
+}: {
+  readOnly: boolean;
+  data?: any;
+}) => {
   return (
     <div className="w-full rounded-xl border border-[#ddd] bg-white p-6">
       <h3 className="mb-4 text-lg font-semibold">청첩장 정보</h3>
       <div className="flex flex-col gap-4">
         {/* Groom && Bride Info */}
-        <WeddingPartyInfo readOnly={readOnly} />
+        <WeddingPartyInfo readOnly={readOnly} data={data} />
         <hr className="my-2 border-gray-200" />
         {/* Wedding Info */}
         <WeddingInfo readOnly={readOnly} />
@@ -34,7 +39,13 @@ const InvitationInfoContent = ({ readOnly }: { readOnly: boolean }) => {
   );
 };
 
-const InvitationInfoForm = ({ readOnly }: { readOnly: boolean }) => {
+const InvitationInfoForm = ({
+  readOnly,
+  data,
+}: {
+  readOnly: boolean;
+  data?: any;
+}) => {
   const [state, action, pending] = useActionState(createInvitationInfo, null);
   const router = useRouter();
   useEffect(() => {
@@ -53,7 +64,7 @@ const InvitationInfoForm = ({ readOnly }: { readOnly: boolean }) => {
       className="m-auto flex max-w-[1028px] flex-col sm:mb-24"
     >
       {/* {state && !state.success && state.error } */}
-      <InvitationInfoContent readOnly={readOnly} />
+      <InvitationInfoContent readOnly={readOnly} data={data} />
       {!readOnly && (
         <div className="ml-auto w-1/4">
           <Btn className="my-4 w-full bg-blue-300" type="submit">

@@ -1,7 +1,8 @@
 "use client";
 import React, { useActionState } from "react";
 
-import { verifyPasswordAction, ActionState } from "../actions/auth";
+import { verifyPasswordAction } from "../actions/auth";
+import { ActionState } from "@/types";
 
 interface VerifyFormProps {
   path: string;

@@ -68,7 +68,8 @@ const WeddingInfo = ({ readOnly }: { readOnly?: boolean }) => {
               type={field.type}
               value={field.value}
               id={field.name}
-              onClick={field.onClick}
+              name={field.name}
+              onClick={!readOnly ? field.onClick : undefined}
               required={field.required}
               readOnly={field.name === "wedding-address" ? true : readOnly}
             />

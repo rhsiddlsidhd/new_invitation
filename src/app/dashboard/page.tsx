@@ -9,6 +9,13 @@ export default async function page() {
   try {
     const token = await getSession();
     const payload = await decrypt(token);
+    const res = await fetch(
+      `http://localhost:3000/api/invitation/${payload.userId}`,
+    );
+
+    // console.log("response", res);
+    const data = await res.json();
+
     return (
       <div className="m-auto w-full max-w-[1028px] p-2 sm:mb-24 sm:p-6">
         <header className="mb-7 flex justify-between rounded-xl bg-[#f5f5f5] p-5">
@@ -22,7 +29,7 @@ export default async function page() {
         </header>
 
         <div className="w-full gap-5 space-y-5">
-          <InvitationInfoForm readOnly={true} />
+          <InvitationInfoForm readOnly={true} data={data} />
           <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-5">
             <div
               style={{
@@ -79,7 +86,8 @@ export default async function page() {
         </div>
       </div>
     );
-  } catch {
+  } catch (e) {
+    console.error(e);
     redirect("/");
   }
 }

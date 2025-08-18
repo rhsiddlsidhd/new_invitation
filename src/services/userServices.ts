@@ -290,14 +290,7 @@ export const verifyPassword = async (
   plainPassword: string,
   hashedPassword: string,
 ): Promise<boolean> => {
-  try {
-    return await bcrypt.compare(plainPassword, hashedPassword);
-  } catch (error) {
-    console.error("bcrypt 검증 오류:", error);
-    throw new Error(
-      "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
-    );
-  }
+  return await bcrypt.compare(plainPassword, hashedPassword);
 };
 
 interface CreateTokens {

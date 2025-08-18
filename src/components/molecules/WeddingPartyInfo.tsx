@@ -12,7 +12,13 @@ export interface Field {
   value?: string;
 }
 
-const WeddingPartyInfo = ({ readOnly }: { readOnly?: boolean }) => {
+const WeddingPartyInfo = ({
+  readOnly,
+  data,
+}: {
+  readOnly?: boolean;
+  data?: any;
+}) => {
   const groomFields: Field[] = [
     {
       label: "신랑 성함",
@@ -20,6 +26,7 @@ const WeddingPartyInfo = ({ readOnly }: { readOnly?: boolean }) => {
       type: "text",
       required: true,
       placeholder: "신랑 성함",
+      value: data?.data["groomName"],
     },
     {
       label: "전화 번호",
@@ -27,6 +34,7 @@ const WeddingPartyInfo = ({ readOnly }: { readOnly?: boolean }) => {
       type: "tel",
       required: true,
       placeholder: "000-0000-0000",
+      value: data?.data["groomPhone"],
     },
     {
       label: "계좌 번호",
@@ -74,6 +82,7 @@ const WeddingPartyInfo = ({ readOnly }: { readOnly?: boolean }) => {
                 id={field.name}
                 readOnly={readOnly}
                 placeholder={field.placeholder}
+                value={readOnly ? field.value : undefined}
               />
             </div>
           );

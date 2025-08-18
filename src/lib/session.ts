@@ -65,3 +65,8 @@ export async function hasPasswordVerified() {
   const cookieStore = await cookies();
   return cookieStore.has("password-verified");
 }
+
+export async function deletePasswordVerified() {
+  const cookieStore = await cookies();
+  return cookieStore.delete("password-verified");
+}
