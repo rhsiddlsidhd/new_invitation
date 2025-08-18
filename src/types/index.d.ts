@@ -48,9 +48,9 @@ export type Post = {
 export interface GalleryData {
   id: string;
   type: "A" | "B" | "C" | "D" | "E";
-  urls: string[] | null[];
+  images: string[] | null[];
 }
 
-export interface ViewGalleryData extends GalleryData {
-  mode: "get" | "edit";
-}
+// export interface ViewGalleryData extends GalleryData {
+//   mode: "get" | "edit";
+// }

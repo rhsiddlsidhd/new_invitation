@@ -1,0 +1,73 @@
+import { GalleryData } from "@/types";
+import { create } from "zustand";
+
+interface UserStore {
+  userId: string;
+  groomName: string;
+  groomPhone: string;
+  groomAccount: string;
+  brideName: string;
+  bridePhone: string;
+  brideAccount: string;
+  weddingDate: string;
+  weddingAddress: string;
+  weddingDetailAddress: string;
+  groomFatherName: string;
+  groomFatherPhone: string;
+  groomFatherAccount: string;
+  groomMotherName: string;
+  groomMotherPhone: string;
+  groomMotherAccount: string;
+  brideFatherName: string;
+  brideFatherPhone: string;
+  brideFatherAccount: string;
+  brideMotherName: string;
+  brideMotherPhone: string;
+  brideMotherAccount: string;
+  thumbnails: string[];
+  galleries: GalleryData[];
+  setUser: (user: Partial<UserStore>) => void;
+  clearUser: () => void;
+  errors: Record<string, string[] | undefined>;
+  setErrors: (errors: Record<string, string[] | undefined>) => void;
+  clearErrors: () => void;
+}
+
+const initialState: Omit<
+  UserStore,
+  "setUser" | "clearUser" | "errors" | "setErrors" | "clearErrors"
+> = {
+  userId: "",
+  groomName: "",
+  groomPhone: "",
+  groomAccount: "",
+  brideName: "",
+  bridePhone: "",
+  brideAccount: "",
+  weddingDate: "",
+  weddingAddress: "",
+  weddingDetailAddress: "",
+  groomFatherName: "",
+  groomFatherPhone: "",
+  groomFatherAccount: "",
+  groomMotherName: "",
+  groomMotherPhone: "",
+  groomMotherAccount: "",
+  brideFatherName: "",
+  brideFatherPhone: "",
+  brideFatherAccount: "",
+  brideMotherName: "",
+  brideMotherPhone: "",
+  brideMotherAccount: "",
+  thumbnails: ["", ""],
+  galleries: [],
+};
+
+export const useUserStore = create<UserStore>((set) => ({
+  ...initialState,
+  setUser: (user) => set((state) => ({ ...state, ...user })),
+  clearUser: () => set(() => ({ ...initialState })),
+  clearErrors: () => set(() => ({ errors: {} })),
+  setErrors: (errors) => set(() => ({ errors })),
+  errors: {},
+}));

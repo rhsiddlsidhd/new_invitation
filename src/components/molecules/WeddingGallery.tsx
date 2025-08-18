@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import { GalleryData } from "@/types";
 import GalleryItems from "../organisms/GalleryItems";
 import GalleryController from "../organisms/GalleryController";
+import { useUserStore } from "@/store/userStore";
 
 const WeddingGallery = ({ readOnly }: { readOnly: boolean }) => {
-  const mockData: GalleryData[] = [
-    { id: "123", type: "A", urls: ["/marriage.jpg", "/marriage.jpg"] },
-  ];
+  const galleries = useUserStore((state) => state.galleries);
+
   const [activeType, setActiveType] = useState<GalleryData["type"]>("A");
   const [galleryData, setGalleryData] = useState<GalleryData[]>([]);
   const deleteGalleryCard = (id: GalleryData["id"]) =>
@@ -32,27 +32,27 @@ const WeddingGallery = ({ readOnly }: { readOnly: boolean }) => {
               }
               return [
                 ...prev,
-                { type: activeType, urls: new Array(count).fill(null), id },
+                { type: activeType, images: new Array(count).fill(null), id },
               ];
             });
           }}
         />
       )}
       <GalleryItems
-        viewData={readOnly ? mockData : galleryData}
+        viewData={readOnly ? galleries : galleryData}
         readOnly={readOnly}
         onChange={(cardIdx, idx, file) => {
           const url = URL.createObjectURL(file);
           setGalleryData((prev) => {
             const next = [...prev];
-            next[cardIdx].urls[idx] = url;
+            next[cardIdx].images[idx] = url;
             return next;
           });
         }}
         onRemove={(cardIdx, idx) => {
           setGalleryData((prev) => {
             const next = [...prev];
-            next[cardIdx].urls[idx] = null;
+            next[cardIdx].images[idx] = null;
             return next;
           });
         }}

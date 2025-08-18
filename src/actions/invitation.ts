@@ -9,11 +9,18 @@ import { redirect } from "next/navigation";
 import path from "path";
 import z from "zod";
 
+type ValidationResult<T> =
+  | { success: true; data: T }
+  | { success: false; error: Record<string, string[] | undefined> };
+
 function toCamelCase(str: string) {
   return str.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
 }
 
-const validateAndFlatten = <T>(schema: z.ZodSchema<T>, data: unknown) => {
+const validateAndFlatten = <T>(
+  schema: z.ZodSchema<T>,
+  data: unknown,
+): ValidationResult<T> => {
   const result = schema.safeParse(data);
   return result.success
     ? { success: true as const, data: result.data }
@@ -171,20 +178,30 @@ export const createInvitationInfo = async (
       galleriesToValidate,
     );
 
-    if (
-      !fileValidation.success ||
-      !textValidation.success ||
-      !galleryValidation.success
-    ) {
+    if (!textValidation.success) {
+      const error = textValidation.error;
       return {
         success: false,
-        error: {
-          ...fileValidation.error,
-          ...textValidation.error,
-          ...galleryValidation.error,
-        },
+        error,
       };
     }
+
+    if (!fileValidation.success) {
+      const error = fileValidation.error;
+      return {
+        success: false,
+        error,
+      };
+    }
+
+    if (!galleryValidation.success) {
+      const error = galleryValidation.error;
+      return {
+        success: false,
+        error,
+      };
+    }
+
     const thumbnailFiles = fileValidation.data.thumbnail;
     const galleryFiles = galleryValidation.data;
 

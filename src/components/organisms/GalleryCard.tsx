@@ -8,7 +8,7 @@ import Label from "../atoms/Label";
 
 const GalleryCard = ({
   type,
-  urls,
+  images,
   id,
   readOnly,
   onChange,
@@ -16,15 +16,11 @@ const GalleryCard = ({
 }: {
   type: GalleryData["type"];
   readOnly: boolean;
-  urls?: GalleryData["urls"];
+  images?: GalleryData["images"];
   id?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>, idx: number) => void;
   onRemove?: (idx: number) => void;
 }) => {
-  useEffect(() => {
-    console.log("Card", readOnly);
-  }, [readOnly]);
-
   if (!cardConfig[type]) return;
 
   const config = cardConfig[type];
@@ -43,7 +39,7 @@ const GalleryCard = ({
       {Array.from({ length: config.length }, (_, i) => (
         <GalleryCardCell
           idx={i}
-          urls={urls}
+          image={images && images[i]}
           id={id}
           onChange={onChange}
           onRemove={onRemove}

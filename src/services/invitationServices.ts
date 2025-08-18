@@ -14,9 +14,14 @@ export const createInvitation = async ({ data }: { data: InvitationInput }) => {
   };
 };
 
-export const getInvitation = async (userId: string) => {
+export const getInvitation = async (
+  userId: string,
+): Promise<InvitationInput | null> => {
   await dbConnect();
 
-  const res = await Invitation.findOne({ userId });
+  const res = await Invitation.findOne({ userId })
+    .select("-_id -createdAt -updatedAt -__v -galleries._id")
+    .lean();
+
   return res;
 };

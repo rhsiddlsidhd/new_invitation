@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import GalleryCard from "./GalleryCard";
 import { GalleryData } from "@/types";
 import OverlayCloseBtn from "../molecules/OverlayCloseBtn";
+import { useUserStore } from "@/store/userStore";
 
 interface GalleryItemsProps {
   viewData: GalleryData[];
@@ -19,10 +20,11 @@ const GalleryItems = ({
   onDeleteCard,
   onRemove,
 }: GalleryItemsProps) => {
+  const errors = useUserStore((state) => state.errors);
   return (
     <ul className="my-4">
       {viewData.map((d, cardIdx) => {
-        const { type, id, urls } = d;
+        const { type, id, images } = d;
         console.log("map", readOnly);
         return (
           <li
@@ -38,7 +40,7 @@ const GalleryItems = ({
                 type={type}
                 readOnly={readOnly}
                 id={id}
-                urls={urls}
+                images={images}
                 onChange={(e: ChangeEvent<HTMLInputElement>, idx: number) => {
                   const files = e.target.files;
                   if (!files?.length) return;
@@ -46,6 +48,9 @@ const GalleryItems = ({
                 }}
                 onRemove={(idx) => onRemove && onRemove(cardIdx, idx)}
               />
+              <span className="mx-2 text-xs text-red-300">
+                {errors[cardIdx]?.[0]}
+              </span>
             </motion.div>
 
             {!readOnly && (
@@ -54,6 +59,11 @@ const GalleryItems = ({
                 onClick={() => onDeleteCard && onDeleteCard(d.id)}
               />
             )}
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: errors[cardIdx] ? 1 : 0 }}
+              className="absolute inset-0 h-full w-full rounded-lg border-1 border-red-300"
+            />
           </li>
         );
       })}

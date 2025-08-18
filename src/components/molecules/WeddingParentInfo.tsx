@@ -1,10 +1,11 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import Label from "../atoms/Label";
 import Input from "../atoms/Input";
 import { Field } from "./WeddingPartyInfo";
 import Btn from "../atoms/Btn";
+import { useUserStore } from "@/store/userStore";
 
 type ParentRoleId =
   | "groom-father"
@@ -15,6 +16,21 @@ type ParentRoleId =
 type ParentRoleName = "신랑측 부" | "신랑측 모" | "신부측 부" | "신부측 모";
 
 const WeddingParentInfo = ({ readOnly }: { readOnly?: boolean }) => {
+  const {
+    groomFatherName,
+    groomFatherAccount,
+    groomFatherPhone,
+    groomMotherName,
+    groomMotherPhone,
+    groomMotherAccount,
+    brideMotherName,
+    brideMotherPhone,
+    brideMotherAccount,
+    brideFatherAccount,
+    brideFatherName,
+    brideFatherPhone,
+    errors,
+  } = useUserStore();
   const [showParentFields, setShowParentFields] =
     useState<ParentRoleId>("groom-father");
   const fieldRef = useRef<HTMLDivElement>(null);
@@ -34,18 +50,21 @@ const WeddingParentInfo = ({ readOnly }: { readOnly?: boolean }) => {
           name: "groom-father-name",
           type: "text",
           required: false,
+          value: groomFatherName,
         },
         {
           label: "전화번호",
           name: "groom-father-phone",
           type: "tel",
           required: false,
+          value: groomFatherPhone,
         },
         {
           label: "계좌번호",
           name: "groom-father-account",
           type: "tel",
           required: false,
+          value: groomFatherAccount,
         },
       ],
     },
@@ -58,18 +77,21 @@ const WeddingParentInfo = ({ readOnly }: { readOnly?: boolean }) => {
           name: "groom-mother-name",
           type: "text",
           required: false,
+          value: groomMotherName,
         },
         {
           label: "전화번호",
           name: "groom-mother-phone",
           type: "tel",
           required: false,
+          value: groomMotherPhone,
         },
         {
           label: "계좌번호",
           name: "groom-mother-account",
           type: "tel",
           required: false,
+          value: groomMotherAccount,
         },
       ],
     },
@@ -82,18 +104,21 @@ const WeddingParentInfo = ({ readOnly }: { readOnly?: boolean }) => {
           name: "bride-father-name",
           type: "text",
           required: false,
+          value: brideFatherName,
         },
         {
           label: "전화번호",
           name: "bride-father-phone",
           type: "tel",
           required: false,
+          value: brideFatherPhone,
         },
         {
           label: "계좌번호",
           name: "bride-father-account",
           type: "tel",
           required: false,
+          value: brideFatherAccount,
         },
       ],
     },
@@ -106,18 +131,21 @@ const WeddingParentInfo = ({ readOnly }: { readOnly?: boolean }) => {
           name: "bride-mother-name",
           type: "text",
           required: false,
+          value: brideMotherName,
         },
         {
           label: "전화번호",
           name: "bride-mother-phone",
           type: "tel",
           required: false,
+          value: brideMotherPhone,
         },
         {
           label: "계좌번호",
           name: "bride-mother-account",
           type: "tel",
           required: false,
+          value: brideMotherAccount,
         },
       ],
     },
@@ -160,54 +188,60 @@ const WeddingParentInfo = ({ readOnly }: { readOnly?: boolean }) => {
 
       <div style={{ minHeight }} className="relative">
         {/* Optional Parent Info */}
-        <AnimatePresence>
-          {parentFields.map((v) => {
-            return (
-              <motion.div
-                key={v.roleId}
-                initial={{ opacity: 0, y: "15%", pointerEvents: "none" }}
-                animate={
-                  showParentFields === v.roleId
-                    ? { opacity: 1, y: 0, pointerEvents: "auto" }
-                    : { opacity: 0, y: "15%", pointerEvents: "none" }
-                }
-                exit={{ opacity: 0, y: "15%", pointerEvents: "none" }}
-                transition={{ ease: "linear" }}
-                className="absolute w-full"
-                ref={(el) => {
-                  fieldRef.current = el;
-                }}
-              >
-                {/* 성함/전화번호 한 줄 */}
-                <div className="flex flex-col sm:flex-row sm:gap-4">
-                  {v.fields.slice(0, 2).map((field) => (
-                    <div key={field.name} className="flex-1">
-                      <Label htmlFor={field.name}>{field.label}</Label>
-                      <Input
-                        id={field.name}
-                        name={field.name}
-                        type={field.type}
-                        readOnly={readOnly}
-                        placeholder={field.placeholder}
-                      />
-                    </div>
-                  ))}
-                </div>
-                {/* 계좌번호는 아래 한 줄 */}
-                <div className="mt-2 flex-1">
-                  <Label htmlFor={v.fields[2].name}>{v.fields[2].label}</Label>
-                  <Input
-                    id={v.fields[2].name}
-                    name={v.fields[2].name}
-                    type={v.fields[2].type}
-                    readOnly={readOnly}
-                    placeholder={v.fields[2].placeholder}
-                  />
-                </div>
-              </motion.div>
-            );
-          })}
-        </AnimatePresence>
+        {parentFields.map((v) => {
+          return (
+            <motion.div
+              key={v.roleId}
+              initial={{ opacity: 0, y: "15%", pointerEvents: "none" }}
+              animate={
+                showParentFields === v.roleId
+                  ? { opacity: 1, y: 0, pointerEvents: "auto" }
+                  : { opacity: 0, y: "15%", pointerEvents: "none" }
+              }
+              exit={{ opacity: 0, y: "15%", pointerEvents: "none" }}
+              transition={{ ease: "linear" }}
+              className="absolute w-full"
+              ref={(el) => {
+                fieldRef.current = el;
+              }}
+            >
+              <div className="flex flex-col sm:flex-row sm:gap-4">
+                {v.fields.slice(0, 2).map((field) => (
+                  <div key={field.name} className="flex-1">
+                    <Label htmlFor={field.name}>
+                      {field.label}
+                      <span className="mx-2 text-xs text-red-300">
+                        {errors[field.name]?.[0]}
+                      </span>
+                    </Label>
+                    <Input
+                      id={field.name}
+                      name={field.name}
+                      type={field.type}
+                      readOnly={readOnly}
+                      placeholder={field.placeholder}
+                      value={readOnly ? field.value : undefined}
+                      error={errors[field.name]?.[0]}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-2 flex-1">
+                <Label htmlFor={v.fields[2].name}>{v.fields[2].label}</Label>
+                <Input
+                  id={v.fields[2].name}
+                  name={v.fields[2].name}
+                  type={v.fields[2].type}
+                  readOnly={readOnly}
+                  placeholder={v.fields[2].placeholder}
+                  value={readOnly ? v.fields[2].value : undefined}
+                  error={errors[v.fields[2].name]?.[0]}
+                />
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
     </div>
   );

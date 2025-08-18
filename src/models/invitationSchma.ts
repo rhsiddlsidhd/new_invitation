@@ -72,6 +72,7 @@ const invitationSchema = new Schema<InvitationDocument>({
 });
 
 const Invitation =
-  mongoose.models.Invitation || mongoose.model("Invitation", invitationSchema);
+  (mongoose.models.Invitation as mongoose.Model<InvitationDocument>) ||
+  mongoose.model<InvitationDocument>("Invitation", invitationSchema);
 
 export default Invitation;

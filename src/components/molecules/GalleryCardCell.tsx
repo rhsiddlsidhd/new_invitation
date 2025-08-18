@@ -9,7 +9,7 @@ import { DocArrowUpIcon } from "../atoms/Icon";
 interface GalleryCardCellProps {
   idx: number;
   readOnly: boolean;
-  urls?: GalleryData["urls"];
+  image?: string | null;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>, idx: number) => void;
   onRemove?: (idx: number) => void;
   id?: string;
@@ -22,18 +22,17 @@ const GalleryCardCell = ({
   idx,
   onChange,
   onRemove,
-  urls,
+  image,
   className,
 }: GalleryCardCellProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const hasImage = urls?.[idx];
 
   if (readOnly) {
     return (
       <Label
         className={`relative flex h-full w-full items-center justify-center border-2 border-gray-300 ${className}`}
       >
-        <Img src={defaultUrls} />
+        <Img src={image ?? "/marriage.jpg"} />
       </Label>
     );
   }
@@ -53,9 +52,9 @@ const GalleryCardCell = ({
         }}
         accept="image/*"
       />
-      {hasImage ? (
+      {image ? (
         <div className="relative h-full w-full">
-          <Img src={hasImage} />
+          <Img src={image} />
           <OverlayCloseBtn
             size="sm"
             onClick={(e) => {
