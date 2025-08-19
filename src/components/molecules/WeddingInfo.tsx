@@ -5,11 +5,15 @@ import Input from "../atoms/Input";
 import { Address, useDaumPostcodePopup } from "react-daum-postcode";
 import { Field } from "./WeddingPartyInfo";
 import { useUserStore } from "@/store/userStore";
+import { useModalStore } from "@/store/modalStore";
+import Btn from "../atoms/Btn";
 
 const WeddingInfo = ({ readOnly }: { readOnly?: boolean }) => {
   const [address, setAddress] = useState<string>("");
   const { weddingDate, weddingAddress, weddingDetailAddress, errors } =
     useUserStore();
+
+  const { isOpen, setModalOpen } = useModalStore();
 
   const open = useDaumPostcodePopup(
     "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js",
@@ -30,7 +34,7 @@ const WeddingInfo = ({ readOnly }: { readOnly?: boolean }) => {
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
 
-    setAddress(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+    setAddress(fullAddress);
   };
 
   const handleDaumAddressPopup = () => {
@@ -66,7 +70,6 @@ const WeddingInfo = ({ readOnly }: { readOnly?: boolean }) => {
   return (
     <div className="flex flex-col gap-2">
       {field.map((field, i) => {
-        console.log(field.name, readOnly);
         return (
           <div key={i}>
             <Label htmlFor={field.name}>
@@ -94,6 +97,18 @@ const WeddingInfo = ({ readOnly }: { readOnly?: boolean }) => {
           </div>
         );
       })}
+      <Btn
+        type={isOpen ? "submit" : "button"}
+        onClick={(e) => {
+          if (!isOpen) {
+            e.preventDefault();
+            setModalOpen(true, "wedding-date-info");
+          }
+        }}
+        className="mt-4 ml-auto block"
+      >
+        수정하기
+      </Btn>
     </div>
   );
 };

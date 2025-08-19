@@ -1,5 +1,5 @@
 "use client";
-import React, { useActionState, useEffect, useState } from "react";
+import React, { useActionState, useEffect } from "react";
 import WeddingPartyInfo from "../molecules/WeddingPartyInfo";
 import WeddingInfo from "../molecules/WeddingInfo";
 import WeddingParentInfo from "../molecules/WeddingParentInfo";
@@ -11,14 +11,7 @@ import { useRouter } from "next/navigation";
 import { InvitationInput } from "@/models/invitationSchma";
 import { useUserStore } from "@/store/userStore";
 
-const InvitationInfoContent = ({
-  readOnly,
-  errors,
-}: {
-  readOnly: boolean;
-  errors?: Record<string, string[] | undefined> | undefined;
-}) => {
-  console.log("errors", errors);
+const InvitationInfoContent = ({ readOnly }: { readOnly: boolean }) => {
   return (
     <div className="w-full rounded-xl border border-[#ddd] bg-white p-6">
       <h3 className="mb-4 text-lg font-semibold">청첩장 정보</h3>
@@ -66,9 +59,10 @@ const InvitationInfoForm = ({
 
   useEffect(() => {
     if (data) {
-      setUser(data);
+      setUser({ ...data, isUser: true });
     } else {
       clearUser();
+      setUser({ isUser: false });
     }
   }, [data, setUser, clearUser]);
 
@@ -78,12 +72,7 @@ const InvitationInfoForm = ({
       className="m-auto flex max-w-[1028px] flex-col sm:mb-24"
     >
       {/* {state && !state.success && state.error } */}
-      <InvitationInfoContent
-        readOnly={readOnly}
-        errors={
-          state && "error" in state && state.error ? state.error : undefined
-        }
-      />
+      <InvitationInfoContent readOnly={readOnly} />
       {!readOnly && (
         <div className="ml-auto w-1/4">
           <Btn className="my-4 w-full bg-blue-300" type="submit">

@@ -11,14 +11,14 @@ interface AuthStore {
   isPasswordVerified: boolean;
   setIsPasswordVerified: (value: boolean) => void;
   // Modal 관련 상태
-  isModalOpen: boolean;
-  modalType: "login" | "register" | null;
-  nextPath: (typeof menus)[number]["path"] | null;
-  setModalOpen: (
-    isOpen: boolean,
-    type?: "login" | "register" | null,
-    nextPath?: (typeof menus)[number]["path"] | null,
-  ) => void;
+  // isModalOpen: boolean;
+  // modalType: ModalType;
+  // nextPath: (typeof menus)[number]["path"] | null;
+  // setModalOpen: (
+  //   isOpen: boolean,
+  //   type?: ModalType,
+  //   nextPath?: (typeof menus)[number]["path"] | null,
+  // ) => void;
 }
 
 const useAuthStore = create<AuthStore>((set) => ({
@@ -31,11 +31,11 @@ const useAuthStore = create<AuthStore>((set) => ({
   isPasswordVerified: false,
   setIsPasswordVerified: (value) => set({ isPasswordVerified: value }),
   // Modal 관련 상태 초기값
-  isModalOpen: false,
-  modalType: null,
-  nextPath: null,
-  setModalOpen: (isOpen, type = null, path = null) =>
-    set({ isModalOpen: isOpen, modalType: type, nextPath: path }),
+  // isModalOpen: false,
+  // modalType: null,
+  // nextPath: null,
+  // setModalOpen: (isOpen, type = null, path = null) =>
+  // set({ isModalOpen: isOpen, modalType: type, nextPath: path }),
 }));
 
 export default useAuthStore;

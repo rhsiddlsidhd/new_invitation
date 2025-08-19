@@ -1,4 +1,4 @@
-import Header from "@/layout/Header";
+import Header from "@/components/layout/Header";
 import Modal from "@/components/organisms/Modal";
 import "./globals.css";
 

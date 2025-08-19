@@ -31,11 +31,12 @@ interface UserStore {
   errors: Record<string, string[] | undefined>;
   setErrors: (errors: Record<string, string[] | undefined>) => void;
   clearErrors: () => void;
+  isUser: boolean;
 }
 
 const initialState: Omit<
   UserStore,
-  "setUser" | "clearUser" | "errors" | "setErrors" | "clearErrors"
+  "setUser" | "clearUser" | "errors" | "setErrors" | "clearErrors" | "isUser"
 > = {
   userId: "",
   groomName: "",
@@ -65,9 +66,10 @@ const initialState: Omit<
 
 export const useUserStore = create<UserStore>((set) => ({
   ...initialState,
+  errors: {},
+  isUser: false,
   setUser: (user) => set((state) => ({ ...state, ...user })),
   clearUser: () => set(() => ({ ...initialState })),
   clearErrors: () => set(() => ({ errors: {} })),
   setErrors: (errors) => set(() => ({ errors })),
-  errors: {},
 }));

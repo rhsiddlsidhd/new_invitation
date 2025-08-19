@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Label from "../atoms/Label";
 import Input from "../atoms/Input";
 import { useUserStore } from "@/store/userStore";
 import { motion } from "framer-motion";
+import Btn from "../atoms/Btn";
+import useAuthStore from "@/store/authStore";
+import { useModalStore } from "@/store/modalStore";
 export interface Field {
   label: string;
   name: string;
@@ -23,7 +26,11 @@ const WeddingPartyInfo = ({ readOnly }: { readOnly?: boolean }) => {
     brideAccount,
     bridePhone,
     errors,
+    isUser,
   } = useUserStore();
+
+  const { setModalOpen, isOpen } = useModalStore();
+
   const groomFields: Field[] = [
     {
       label: "신랑 성함",
@@ -79,58 +86,76 @@ const WeddingPartyInfo = ({ readOnly }: { readOnly?: boolean }) => {
   ];
 
   return (
-    <div className="flex flex-col gap-4 sm:flex-row">
-      <div className="flex flex-1 flex-col gap-2">
-        {groomFields.map((field, i) => {
-          return (
-            <div key={i} className="flex-1">
-              <Label htmlFor={field.name}>
-                {field.label}
-                <span className="mx-2 text-xs text-red-300">
-                  {errors[field.name]?.[0]}
-                </span>
-              </Label>
+    <div>
+      <div className="flex flex-col gap-4 sm:flex-row">
+        <div className="flex flex-1 flex-col gap-2">
+          {groomFields.map((field, i) => {
+            return (
+              <div key={i} className="flex-1">
+                <Label htmlFor={field.name}>
+                  {field.label}
+                  {!readOnly && (
+                    <span className="mx-2 text-xs text-red-300">
+                      {errors[field.name]?.[0]}
+                    </span>
+                  )}
+                </Label>
 
-              <Input
-                name={field.name}
-                type={field.type}
-                id={field.name}
-                readOnly={readOnly}
-                placeholder={field.placeholder}
-                required={field.required}
-                value={readOnly ? field.value : undefined}
-                error={errors[field.name]?.[0]}
-              />
-            </div>
-          );
-        })}
+                <Input
+                  name={field.name}
+                  type={field.type}
+                  id={field.name}
+                  readOnly={readOnly}
+                  placeholder={field.placeholder}
+                  required={field.required}
+                  value={readOnly ? field.value : undefined}
+                  error={!readOnly ? errors[field.name]?.[0] : undefined}
+                />
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="flex flex-1 flex-col gap-2">
+          {brideFields.map((field, i) => {
+            return (
+              <div key={i} className="flex-1">
+                <Label htmlFor={field.name}>
+                  {field.label}
+                  {!readOnly && (
+                    <span className="mx-2 text-xs text-red-300">
+                      {errors[field.name]?.[0]}
+                    </span>
+                  )}
+                </Label>
+
+                <Input
+                  name={field.name}
+                  type={field.type}
+                  id={field.name}
+                  readOnly={readOnly}
+                  placeholder={field.placeholder}
+                  required={field.required}
+                  value={readOnly ? field.value : undefined}
+                  error={!readOnly ? errors[field.name]?.[0] : undefined}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
-
-      <div className="flex flex-1 flex-col gap-2">
-        {brideFields.map((field, i) => {
-          return (
-            <div key={i} className="flex-1">
-              <Label htmlFor={field.name}>
-                {field.label}
-                <span className="mx-2 text-xs text-red-300">
-                  {errors[field.name]?.[0]}
-                </span>
-              </Label>
-
-              <Input
-                name={field.name}
-                type={field.type}
-                id={field.name}
-                readOnly={readOnly}
-                placeholder={field.placeholder}
-                required={field.required}
-                value={readOnly ? field.value : undefined}
-                error={errors[field.name]?.[0]}
-              />
-            </div>
-          );
-        })}
-      </div>
+      <Btn
+        type={isOpen ? "submit" : "button"}
+        onClick={(e) => {
+          if (!isOpen) {
+            e.preventDefault();
+            setModalOpen(true, "wedding-party-info");
+          }
+        }}
+        className="mt-4 ml-auto block"
+      >
+        수정하기
+      </Btn>
     </div>
   );
 };

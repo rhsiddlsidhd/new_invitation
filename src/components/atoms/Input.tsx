@@ -46,7 +46,7 @@ const Input = ({
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: error ? 1 : 0 }}
-        className="absolute inset-0 h-full w-full rounded-lg border-1 border-red-300"
+        className="pointer-events-none absolute inset-0 h-full w-full rounded-lg border-1 border-red-300"
       />
     </div>
   );

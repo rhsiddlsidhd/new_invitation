@@ -3,3 +3,11 @@
 @theme {
   /* --color-tennis: #54606e; */
 }
+
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

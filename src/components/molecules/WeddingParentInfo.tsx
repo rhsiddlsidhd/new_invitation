@@ -6,6 +6,7 @@ import Input from "../atoms/Input";
 import { Field } from "./WeddingPartyInfo";
 import Btn from "../atoms/Btn";
 import { useUserStore } from "@/store/userStore";
+import { useModalStore } from "@/store/modalStore";
 
 type ParentRoleId =
   | "groom-father"
@@ -16,6 +17,7 @@ type ParentRoleId =
 type ParentRoleName = "신랑측 부" | "신랑측 모" | "신부측 부" | "신부측 모";
 
 const WeddingParentInfo = ({ readOnly }: { readOnly?: boolean }) => {
+  const { isOpen, setModalOpen } = useModalStore();
   const {
     groomFatherName,
     groomFatherAccount,
@@ -172,6 +174,7 @@ const WeddingParentInfo = ({ readOnly }: { readOnly?: boolean }) => {
         {parentFields.map((item, i) => {
           return (
             <Btn
+              pending={readOnly && item.fields.every((v) => v.value === "")}
               key={i}
               bgColor="bg-blue-300"
               className="h-fit"
@@ -243,6 +246,18 @@ const WeddingParentInfo = ({ readOnly }: { readOnly?: boolean }) => {
           );
         })}
       </div>
+      <Btn
+        type={isOpen ? "submit" : "button"}
+        onClick={(e) => {
+          if (!isOpen) {
+            e.preventDefault();
+            setModalOpen(true, "wedding-parent-info");
+          }
+        }}
+        className="mt-4 ml-auto block"
+      >
+        수정하기
+      </Btn>
     </div>
   );
 };

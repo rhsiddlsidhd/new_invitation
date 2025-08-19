@@ -1,5 +1,6 @@
 import { decrypt, getSession } from "@/lib/session";
 import Invitation, { InvitationInput } from "@/models/invitationSchma";
+import User from "@/models/userSchema";
 import { dbConnect } from "@/utils/mongodb";
 
 export const createInvitation = async ({ data }: { data: InvitationInput }) => {
@@ -22,6 +23,28 @@ export const getInvitation = async (
   const res = await Invitation.findOne({ userId })
     .select("-_id -createdAt -updatedAt -__v -galleries._id")
     .lean();
+
+  return res;
+};
+
+export const patchInvitation = async ({
+  data,
+  id,
+}: {
+  data: Partial<InvitationInput>;
+  id: string;
+}) => {
+  await dbConnect();
+
+  const res = await Invitation.findOneAndUpdate(
+    { userId: id },
+    { $set: data },
+    { new: true },
+  )
+    .select(" -__v -_id -galleries._id")
+    .lean();
+
+  if (!res) throw new Error("Failed to update invitation");
 
   return res;
 };

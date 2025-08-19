@@ -13,7 +13,6 @@ const EditForm = () => {
   // 성공시 처리
   useEffect(() => {
     if (state && state.success && state.data) {
-      console.log(state);
       const { email } = state.data;
       alert(`${email}로 프로필이 수정되었습니다.`);
       setUserEmail(email);

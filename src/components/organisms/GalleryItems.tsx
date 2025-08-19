@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useEffect } from "react";
 import { motion } from "framer-motion";
 import GalleryCard from "./GalleryCard";
 import { GalleryData } from "@/types";
@@ -21,15 +21,17 @@ const GalleryItems = ({
   onRemove,
 }: GalleryItemsProps) => {
   const errors = useUserStore((state) => state.errors);
+  useEffect(() => {
+    console.log("errors", errors);
+  }, [errors]);
   return (
     <ul className="my-4">
       {viewData.map((d, cardIdx) => {
         const { type, id, images } = d;
-        console.log("map", readOnly);
         return (
           <li
             key={cardIdx}
-            className="relative flex items-center justify-between rounded-lg border-2 border-gray-200 px-10 py-2 shadow-sm"
+            className="relative my-4 flex items-center justify-between rounded-lg border-2 border-gray-200 px-10 py-2 shadow-sm"
           >
             <span className="w-6 text-center font-mono text-gray-400">
               {cardIdx + 1}
@@ -48,9 +50,11 @@ const GalleryItems = ({
                 }}
                 onRemove={(idx) => onRemove && onRemove(cardIdx, idx)}
               />
-              <span className="mx-2 text-xs text-red-300">
-                {errors[cardIdx]?.[0]}
-              </span>
+              {!readOnly && (
+                <span className="mx-2 text-xs text-red-300">
+                  {errors[id]?.[0]}
+                </span>
+              )}
             </motion.div>
 
             {!readOnly && (
@@ -59,11 +63,13 @@ const GalleryItems = ({
                 onClick={() => onDeleteCard && onDeleteCard(d.id)}
               />
             )}
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: errors[cardIdx] ? 1 : 0 }}
-              className="absolute inset-0 h-full w-full rounded-lg border-1 border-red-300"
-            />
+            {!readOnly && (
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: errors[id] ? 1 : 0 }}
+                className="absolute inset-0 h-full w-full rounded-lg border-1 border-red-300"
+              />
+            )}
           </li>
         );
       })}
