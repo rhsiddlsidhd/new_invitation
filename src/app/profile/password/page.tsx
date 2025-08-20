@@ -1,4 +1,4 @@
-import PasswordForm from "@/components/PasswordForm";
+import PasswordForm from "@/components/organisms/forms/PasswordForm";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import React from "react";

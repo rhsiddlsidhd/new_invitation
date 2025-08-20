@@ -2,16 +2,15 @@
 
 import React, { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { CloseIcon } from "../atoms/Icon";
-import SignInForm from "./SignInForm";
-import RegisterForm from "./RegisterForm";
+import SignInForm from "../forms/SignInForm";
+import RegisterForm from "../forms/RegisterForm";
 
-import WeddingPartyInfoForm from "./forms/WeddingPartyInfoForm";
+import WeddingPartyInfoForm from "../forms/WeddingPartyInfoForm";
 import { ModalType, useModalStore } from "@/store/modalStore";
-import WeddingDateForm from "./forms/WeddingDateForm";
-import WeddingParentForm from "./forms/WeddingParentForm";
-import WeddingThumbnailForm from "./forms/WeddingThumbnailForm";
-import WeddingGalleryForm from "./forms/WeddingGalleryForm";
+import WeddingDateForm from "../forms/WeddingDateForm";
+import WeddingParentForm from "../forms/WeddingParentForm";
+import WeddingThumbnailForm from "../forms/WeddingThumbnailForm";
+import WeddingGalleryForm from "../forms/WeddingGalleryForm";
 
 const Modal = () => {
   const { isOpen, modalType, setModalOpen } = useModalStore();

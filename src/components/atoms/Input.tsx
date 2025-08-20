@@ -9,6 +9,7 @@ const Input = ({
   id,
   error,
   className,
+  autoComplete,
   onClick,
   onChange,
   readOnly = false,
@@ -23,6 +24,7 @@ const Input = ({
   placeholder?: string;
   readOnly?: boolean;
   required?: boolean;
+  autoComplete?: string;
   disabled?: boolean;
   error?: string;
   onClick?: (e: React.MouseEvent<HTMLInputElement>) => void;
@@ -42,6 +44,7 @@ const Input = ({
         disabled={disabled}
         readOnly={readOnly}
         required={required}
+        autoComplete={autoComplete}
       />
       <motion.div
         initial={{ scale: 0 }}

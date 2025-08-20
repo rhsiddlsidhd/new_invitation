@@ -3,6 +3,10 @@
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
+import Label from "./atoms/Label";
+import Input from "./atoms/Input";
+import Btn from "./atoms/Btn";
+
 const ProfileForm = ({ user }: { user: { userId: string; email: string } }) => {
   const router = useRouter();
 
@@ -16,285 +20,82 @@ const ProfileForm = ({ user }: { user: { userId: string; email: string } }) => {
   }, []);
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        backgroundColor: "#f5f5f5",
-        padding: "20px",
-      }}
-    >
+    <div className="h-screen bg-[#f5f5f5] p-5">
       {/* 헤더 */}
-      <div
-        style={{
-          maxWidth: "800px",
-          margin: "0 auto",
-          marginBottom: "30px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: "20px 0",
-          }}
-        >
-          <h1
-            style={{
-              fontSize: "32px",
-              fontWeight: "bold",
-              color: "#333",
-              margin: 0,
-            }}
-          >
-            내 프로필
-          </h1>
-          <button
+      <div className="m-auto w-full max-w-[800px]">
+        <div className="flex items-center justify-between p-5">
+          <h1 className="text-3xl font-bold">내 프로필</h1>
+          <Btn
+            bgColor="bg-[#007cba]"
             onClick={() => router.push("/dashboard")}
-            style={{
-              padding: "10px 20px",
-              backgroundColor: "#007cba",
-              color: "white",
-              border: "none",
-              borderRadius: "8px",
-              cursor: "pointer",
-              fontSize: "14px",
-              fontWeight: "500",
-            }}
+            className="py-3"
           >
-            대시보드로 돌아가기
-          </button>
+            대시보드
+          </Btn>
         </div>
       </div>
 
       {/* 메인 콘텐츠 */}
-      <div
-        style={{
-          maxWidth: "800px",
-          margin: "0 auto",
-        }}
-      >
+      <div className="m-auto w-full max-w-[800px]">
         {/* 프로필 카드 */}
-        <div
-          style={{
-            backgroundColor: "white",
-            borderRadius: "12px",
-            padding: "40px",
-            boxShadow: "0 2px 20px rgba(0,0,0,0.08)",
-            marginBottom: "30px",
-          }}
-        >
+        <div className="my-4 rounded-2xl bg-white p-5 shadow-2xl">
           {/* 프로필 아바타 영역 */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "40px",
-              paddingBottom: "30px",
-              borderBottom: "1px solid #e9ecef",
-            }}
-          >
-            <div
-              style={{
-                width: "80px",
-                height: "80px",
-                backgroundColor: "#007cba",
-                borderRadius: "50%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginRight: "20px",
-              }}
-            >
-              <span
-                style={{
-                  color: "white",
-                  fontSize: "32px",
-                  fontWeight: "bold",
-                }}
-              >
+          <div className="flex items-center gap-4 border-b-1 border-[#e9ecef] pb-8">
+            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#007cba]">
+              <span className="text-3xl font-bold text-white">
                 {user.userId.charAt(0).toUpperCase()}
               </span>
             </div>
             <div>
-              <h2
-                style={{
-                  fontSize: "24px",
-                  fontWeight: "bold",
-                  color: "#333",
-                  margin: "0 0 8px 0",
-                }}
-              >
-                {user.userId}
-              </h2>
+              <h2 className="text-2xl font-bold text-[#333]">{user.userId}</h2>
             </div>
           </div>
 
-          {/* 정보 섹션 */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "30px",
-            }}
-          >
-            {/* 사용자 ID */}
-            <div>
-              <label
-                style={{
-                  display: "block",
-                  fontSize: "14px",
-                  fontWeight: "600",
-                  color: "#555",
-                  marginBottom: "8px",
-                }}
-              >
-                사용자 ID
-              </label>
-              <div
-                style={{
-                  padding: "16px",
-                  backgroundColor: "#f8f9fa",
-                  borderRadius: "8px",
-                  border: "1px solid #e9ecef",
-                  fontSize: "16px",
-                  color: "#333",
-                }}
-              >
-                {user.userId}
-              </div>
+          <div className="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
+            <div className="my-2">
+              <Label className="font-bold text-[#555]">사용자 ID</Label>
+              <Input
+                readOnly
+                value={user.userId}
+                className="bg-[#f8f9fa] py-4"
+              />
             </div>
 
-            {/* 이메일 */}
-            <div>
-              <label
-                style={{
-                  display: "block",
-                  fontSize: "14px",
-                  fontWeight: "600",
-                  color: "#555",
-                  marginBottom: "8px",
-                }}
-              >
-                이메일 주소
-              </label>
-              <div
-                style={{
-                  padding: "16px",
-                  backgroundColor: "#f8f9fa",
-                  borderRadius: "8px",
-                  border: "1px solid #e9ecef",
-                  fontSize: "16px",
-                  color: "#333",
-                }}
-              >
-                {user.email}
-              </div>
+            <div className="my-2">
+              <Label className="font-bold text-[#555]">이메일 주소</Label>
+              <Input
+                readOnly
+                value={user.email}
+                className="bg-[#f8f9fa] py-4"
+              />
             </div>
           </div>
         </div>
 
-        {/* 액션 버튼 영역 */}
-        <div
-          style={{
-            backgroundColor: "white",
-            borderRadius: "12px",
-            padding: "30px",
-            boxShadow: "0 2px 20px rgba(0,0,0,0.08)",
-          }}
-        >
-          <h3
-            style={{
-              fontSize: "20px",
-              fontWeight: "bold",
-              color: "#333",
-              marginBottom: "20px",
-            }}
-          >
-            계정 관리
-          </h3>
+        <div className="my-4 rounded-2xl bg-white p-5 shadow-2xl">
+          <h3 className="mb-4 text-xl font-bold text-[#333]">계정 관리</h3>
 
-          <div
-            style={{
-              display: "flex",
-              gap: "15px",
-              flexWrap: "wrap",
-            }}
-          >
-            <button
-              style={{
-                padding: "12px 24px",
-                backgroundColor: "#28a745",
-                color: "white",
-                border: "none",
-                borderRadius: "8px",
-                cursor: "pointer",
-                fontSize: "16px",
-                fontWeight: "500",
-                transition: "background-color 0.2s",
-              }}
+          <div className="grid grid-cols-3 gap-4 max-sm:grid-cols-1">
+            <Btn
+              bgColor="bg-[#28a745]"
               onClick={() => router.push("/verify?next=/profile/edit")}
-              onMouseOver={(e) =>
-                ((e.target as HTMLButtonElement).style.backgroundColor =
-                  "#218838")
-              }
-              onMouseOut={(e) =>
-                ((e.target as HTMLButtonElement).style.backgroundColor =
-                  "#28a745")
-              }
             >
               프로필 수정
-            </button>
+            </Btn>
 
-            <button
-              style={{
-                padding: "12px 24px",
-                backgroundColor: "#6c757d",
-                color: "white",
-                border: "none",
-                borderRadius: "8px",
-                cursor: "pointer",
-                fontSize: "16px",
-                fontWeight: "500",
-                transition: "background-color 0.2s",
-              }}
+            <Btn
+              bgColor="bg-[#6c757d]"
               onClick={() => router.push("/verify?next=/profile/password")}
-              onMouseOver={(e) =>
-                ((e.target as HTMLButtonElement).style.backgroundColor =
-                  "#5a6268")
-              }
-              onMouseOut={(e) =>
-                ((e.target as HTMLButtonElement).style.backgroundColor =
-                  "#6c757d")
-              }
             >
               비밀번호 변경
-            </button>
+            </Btn>
 
-            <button
-              style={{
-                padding: "12px 24px",
-                backgroundColor: "#b81f1f",
-                color: "white",
-                border: "none",
-                borderRadius: "8px",
-                cursor: "pointer",
-                fontSize: "16px",
-                fontWeight: "500",
-                transition: "background-color 0.2s",
-              }}
+            <Btn
+              bgColor="bg-[#b81f1f]"
               onClick={() => router.push("/verify?next=/profile/delete")}
-              onMouseOver={(e) =>
-                ((e.target as HTMLButtonElement).style.backgroundColor =
-                  "#b81f1fd3")
-              }
-              onMouseOut={(e) =>
-                ((e.target as HTMLButtonElement).style.backgroundColor =
-                  "#b81f1f")
-              }
             >
               계정 삭제
-            </button>
+            </Btn>
           </div>
         </div>
       </div>

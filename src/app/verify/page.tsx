@@ -1,11 +1,24 @@
-import VerifyForm from "../../components/VerifyForm";
+import { redirect } from "next/navigation";
+import VerifyForm from "../../components/organisms/forms/VerifyForm";
+import { getSession } from "@/lib/session";
 
-const page = async (props: { searchParams: Promise<{ next: string }> }) => {
-  const { searchParams } = await props;
+const Page = async ({
+  searchParams,
+}: {
+  searchParams?: Promise<{ next?: string }>;
+}) => {
+  try {
+    await getSession();
+    const resolvedParams = await searchParams;
 
-  const resolvedSearchParams = await searchParams;
+    if (!resolvedParams?.next) {
+      redirect("/");
+    }
 
-  return <VerifyForm path={resolvedSearchParams.next} />;
+    return <VerifyForm path={resolvedParams.next} />;
+  } catch {
+    redirect("/");
+  }
 };
 
-export default page;
+export default Page;

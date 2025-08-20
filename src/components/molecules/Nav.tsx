@@ -1,9 +1,8 @@
 "use client";
 import React from "react";
 import { HamburgerIcon, SignOutIcon, UserIcon } from "../atoms/Icon";
-
-import useAuthStore from "@/store/authStore";
 import { signOut } from "@/actions/auth";
+import { useModalStore } from "@/store/modalStore";
 
 const Nav = ({
   user,
@@ -12,7 +11,7 @@ const Nav = ({
   user: string | null;
   className?: string;
 }) => {
-  const { setModalOpen } = useAuthStore();
+  const { setModalOpen } = useModalStore();
 
   return (
     <div className={`bg-translate flex gap-2 p-4 ${className}`}>

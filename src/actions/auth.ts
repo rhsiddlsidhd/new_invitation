@@ -146,10 +146,10 @@ export const verifyPasswordAction = async (
       sameSite: "strict",
     });
   } catch (error) {
-    console.error(error);
+    console.error("??", error);
     await deleteSession();
-    redirect("/auth/login");
+    return redirect("/");
   }
 
-  redirect(path);
+  return redirect(path);
 };

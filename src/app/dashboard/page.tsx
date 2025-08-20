@@ -1,6 +1,6 @@
 import { decrypt, getSession } from "@/lib/session";
 import Link from "next/link";
-import InvitationInfoForm from "@/components/organisms/InvitationInfoForm";
+import InvitationInfoForm from "@/components/organisms/forms/InvitationInfoForm";
 import Btn from "@/components/atoms/Btn";
 import { signOut } from "@/actions/auth";
 import { redirect } from "next/navigation";

@@ -1,9 +1,9 @@
 import { AnimatePresence } from "motion/react";
 import React from "react";
 import { motion, MotionValue, stagger } from "framer-motion";
-import useAuthStore from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import { menus } from "@/contants";
+import { useModalStore } from "@/store/modalStore";
 
 const ScrollNavigationMenu = ({
   textView,
@@ -14,7 +14,7 @@ const ScrollNavigationMenu = ({
   y: MotionValue<string>;
   user: string | null;
 }) => {
-  const { setModalOpen } = useAuthStore();
+  const { setModalOpen } = useModalStore();
   const router = useRouter();
 
   const handleMenuClick = (

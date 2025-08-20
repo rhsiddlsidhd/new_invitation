@@ -1,12 +1,12 @@
 "use client";
 import React, { useActionState, useEffect } from "react";
-import WeddingPartyInfo from "../molecules/WeddingPartyInfo";
-import WeddingInfo from "../molecules/WeddingInfo";
-import WeddingParentInfo from "../molecules/WeddingParentInfo";
-import WeddingThumbnail from "../molecules/WeddingThumbnail";
-import WeddingGallery from "../molecules/WeddingGallery";
+import WeddingPartyInfo from "../../molecules/WeddingPartyInfo";
+import WeddingInfo from "../../molecules/WeddingInfo";
+import WeddingParentInfo from "../../molecules/WeddingParentInfo";
+import WeddingThumbnail from "../../molecules/WeddingThumbnail";
+import WeddingGallery from "../../molecules/WeddingGallery";
 import { createInvitationInfo } from "@/actions/invitation";
-import Btn from "../atoms/Btn";
+import Btn from "../../atoms/Btn";
 import { useRouter } from "next/navigation";
 import { InvitationInput } from "@/models/invitationSchma";
 import { useUserStore } from "@/store/userStore";
@@ -69,7 +69,7 @@ const InvitationInfoForm = ({
   return (
     <form
       action={action}
-      className="m-auto flex max-w-[1028px] flex-col sm:mb-24"
+      className="m-auto mt-4 flex max-w-[1028px] flex-col sm:mb-24"
     >
       {/* {state && !state.success && state.error } */}
       <InvitationInfoContent readOnly={readOnly} />

@@ -13,7 +13,7 @@ const page = async () => {
 
     return <ProfileForm user={user.data} />;
   } catch {
-    redirect("/auth/login");
+    redirect("/");
   }
 };
 

@@ -22,52 +22,10 @@ export const squareSizes = [
 export const introMessage = "Wedding Invitations!" as const;
 
 export const menus = [
-  { id: "My Info", path: "#" },
+  { id: "My Info", path: "/profile" },
   { id: "Create Invitation", path: "/dashboard" },
   { id: "Contact", path: "#" },
 ] as const;
-
-export const __galleryMockData: GalleryData[] = [
-  {
-    id: "2",
-    type: "A",
-    urls: ["/marriage.jpg", "/marriage.jpg"],
-  },
-  {
-    id: "3",
-    type: "B",
-    urls: ["/marriage.jpg", "/marriage.jpg", "/marriage.jpg"],
-  },
-  {
-    id: "4",
-    type: "C",
-    urls: ["/marriage.jpg", "/marriage.jpg", "/marriage.jpg", "/marriage.jpg"],
-  },
-  {
-    id: "5",
-    type: "D",
-    urls: [
-      "/marriage.jpg",
-      "/marriage.jpg",
-      "/marriage.jpg",
-      "/marriage.jpg",
-      "/marriage.jpg",
-    ],
-  },
-  {
-    id: "6",
-    type: "E",
-    urls: [
-      "/marriage.jpg",
-      "/marriage.jpg",
-      "/marriage.jpg",
-      "/marriage.jpg",
-      "/marriage.jpg",
-      "/marriage.jpg",
-      "/marriage.jpg",
-    ],
-  },
-];
 
 export const cardConfig: Record<
   GalleryData["type"],

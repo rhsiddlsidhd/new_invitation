@@ -1,4 +1,4 @@
-import InvitationInfoForm from "@/components/organisms/InvitationInfoForm";
+import InvitationInfoForm from "@/components/organisms/forms/InvitationInfoForm";
 import { decrypt, getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 
