@@ -1,13 +1,25 @@
 import InvitationInfoForm from "@/components/organisms/forms/InvitationInfoForm";
+import { isUserInvitationInfo } from "@/lib/invitation";
+
 import { decrypt, getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 
 const page = async () => {
   try {
     const token = await getSession();
-    await decrypt(token);
+    const payload = await decrypt(token);
+    const useHasInvitation = await isUserInvitationInfo(payload.userId);
+
+    if (useHasInvitation) {
+      throw new Error("ALLREADY_HAS_INVITATION");
+    }
+
     return <InvitationInfoForm readOnly={false} />;
-  } catch {
+  } catch (e) {
+    if (e instanceof Error) {
+      return e.message === "ALLREADY_HAS_INVITATION" && redirect("/dashboard");
+    }
+    console.error("에러", e);
     redirect("/");
   }
 };

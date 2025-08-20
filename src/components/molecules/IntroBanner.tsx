@@ -2,6 +2,7 @@ import { introMessage } from "@/contants";
 import React from "react";
 import { motion, MotionStyle } from "framer-motion";
 import Btn from "../atoms/Btn";
+import Link from "next/link";
 
 const IntroBanner = ({
   style,
@@ -15,7 +16,7 @@ const IntroBanner = ({
     >
       <h1 className="mb-4 text-4xl font-bold text-gray-800">{introMessage}</h1>
       <Btn pending={false} bgColor="bg-blue-500">
-        Sample
+        <Link href={"/detail/sample"}>Sample</Link>
       </Btn>
     </motion.div>
   );
