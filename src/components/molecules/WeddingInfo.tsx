@@ -102,7 +102,8 @@ const WeddingInfo = ({ readOnly }: { readOnly?: boolean }) => {
         onClick={(e) => {
           if (!isOpen) {
             e.preventDefault();
-            setModalOpen(true, "wedding-date-info");
+            setModalOpen({ isOpen: true, type: "wedding-date-info" });
+            // true, "wedding-date-info"
           }
         }}
         className="mt-4 ml-auto block"

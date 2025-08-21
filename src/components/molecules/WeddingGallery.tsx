@@ -67,7 +67,7 @@ const WeddingGallery = ({ readOnly }: { readOnly: boolean }) => {
         onClick={(e) => {
           if (!isOpen) {
             e.preventDefault();
-            setModalOpen(true, "wedding-gallery");
+            setModalOpen({ isOpen: true, type: "wedding-gallery" });
           }
         }}
         className="mt-4 ml-auto block"

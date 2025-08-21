@@ -8,6 +8,7 @@ import {
   PlusIcon as HeroPlusIcon,
   SpeakerWaveIcon,
   SpeakerXMarkIcon,
+  PhoneIcon as HeroPhoneIcon,
 } from "@heroicons/react/24/solid";
 
 import { HeartIcon as HeroHeartIcon } from "@heroicons/react/24/outline";
@@ -62,3 +63,5 @@ export const SpeakerOnIcon = createIcon(SpeakerWaveIcon);
 export const SpeakerOffIcon = createIcon(SpeakerXMarkIcon);
 
 export const HeartIcon = createIcon(HeroHeartIcon);
+
+export const PhoneIcon = createIcon(HeroPhoneIcon);

@@ -11,9 +11,10 @@ import WeddingDateForm from "../forms/WeddingDateForm";
 import WeddingParentForm from "../forms/WeddingParentForm";
 import WeddingThumbnailForm from "../forms/WeddingThumbnailForm";
 import WeddingGalleryForm from "../forms/WeddingGalleryForm";
+import Overlay from "./../../atoms/Overlay/index";
 
 const Modal = () => {
-  const { isOpen, modalType, setModalOpen } = useModalStore();
+  const { isOpen, modalType, config, setModalOpen } = useModalStore();
   const modalref = React.useRef<HTMLDivElement>(null);
 
   const createModalContent = (modalType: ModalType) => {
@@ -32,6 +33,8 @@ const Modal = () => {
         return <WeddingThumbnailForm />;
       case "wedding-gallery":
         return <WeddingGalleryForm />;
+      case "wedding-contact":
+        return <div className="border-2 border-white">123</div>;
       default:
         return null;
     }
@@ -44,7 +47,7 @@ const Modal = () => {
         modalref.current &&
         !modalref.current.contains(event.target as Node)
       ) {
-        setModalOpen(false);
+        setModalOpen({ isOpen: false });
       }
     });
     document.body.style.overflow = isOpen ? "hidden" : "auto";
@@ -56,13 +59,14 @@ const Modal = () => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
-          key={modalType}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className={`fixed inset-0 flex items-center justify-center bg-black/50 ${isOpen ? "pointer-events-auto" : "pointer-events-none"} z-50`}
-        >
+        // <motion.div
+        //   key={modalType}
+        //   initial={{ opacity: 0 }}
+        //   animate={{ opacity: 1 }}
+        //   exit={{ opacity: 0 }}
+        //   className={`fixed inset-0 flex items-center justify-center bg-black/50 ${isOpen ? "pointer-events-auto" : "pointer-events-none"} z-50`}
+        // >
+        <Overlay key={modalType} isOpen={isOpen}>
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{
@@ -70,7 +74,8 @@ const Modal = () => {
               opacity: 1,
             }}
             exit={{ scale: 0.8, opacity: 0 }}
-            className="scrollbar-hide relative max-h-[80vh] w-full max-w-md origin-top-left overflow-y-scroll rounded-lg bg-white p-6"
+            className={`scrollbar-hide relative max-h-[80vh] w-full max-w-md origin-top-left overflow-y-scroll rounded-lg ${config && config.backgroundColor === "white" ? "bg-white" : "bg-transparent"} p-6`}
+            // scrollbar-hide relative max-h-[80vh] w-full max-w-md origin-top-left overflow-y-scroll rounded-lg bg-white p-6
             ref={modalref}
           >
             {createModalContent(modalType)}
@@ -81,7 +86,8 @@ const Modal = () => {
               <CloseIcon />
             </button> */}
           </motion.div>
-        </motion.div>
+          {/* </motion.div> */}
+        </Overlay>
       )}
     </AnimatePresence>
   );
