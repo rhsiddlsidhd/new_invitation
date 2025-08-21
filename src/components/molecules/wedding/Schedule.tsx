@@ -1,28 +1,18 @@
 "use client";
+import DateDisplay from "@/components/atoms/Date";
 import React from "react";
 
 const Schedule = ({ date }: { date: string }) => {
   // 시.. 시간데이터를 안받았다... 하
-  const newDate = new Date(date);
-  const weddingDay = {
-    year: newDate.getFullYear(),
-    month: newDate.getMonth() + 1,
-    date: newDate.getDate(),
-    day: newDate.getDay(),
-  };
-  const weekdaysOfEng = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
+
   return (
-    <div className="flex justify-center">
-      {weddingDay.year}/{weddingDay.month}/{weddingDay.date}
-      <span className="mx-2">{weekdaysOfEng[weddingDay.day]}</span>
+    <div className="flex flex-col items-center justify-center gap-2 p-4">
+      <div className="text-3xl font-light tracking-widest">
+        <DateDisplay date={date} type="slash" />
+      </div>
+      <div className="text-sm tracking-widest">
+        <DateDisplay date={date} type="weekdayEng" />
+      </div>
     </div>
   );
 };

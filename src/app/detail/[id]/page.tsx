@@ -15,7 +15,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
     const data: InvitationInput = res;
 
     return (
-      <section className="m-auto w-full border-2 border-black bg-[#b3b1b1]">
+      <section className="w-full bg-[#f0f0f0]">
         <InvitationContainer data={data} />
       </section>
     );
