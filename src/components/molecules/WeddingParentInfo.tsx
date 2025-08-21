@@ -251,7 +251,8 @@ const WeddingParentInfo = ({ readOnly }: { readOnly?: boolean }) => {
         onClick={(e) => {
           if (!isOpen) {
             e.preventDefault();
-            setModalOpen(true, "wedding-parent-info");
+            setModalOpen({ isOpen: true, type: "wedding-parent-info" });
+            // true, "wedding-parent-info"
           }
         }}
         className="mt-4 ml-auto block"

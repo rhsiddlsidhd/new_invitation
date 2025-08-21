@@ -12,6 +12,7 @@ import WeddingParentForm from "../forms/WeddingParentForm";
 import WeddingThumbnailForm from "../forms/WeddingThumbnailForm";
 import WeddingGalleryForm from "../forms/WeddingGalleryForm";
 import Overlay from "./../../atoms/Overlay/index";
+import Contact from "../panel/Contact";
 
 const Modal = () => {
   const { isOpen, modalType, config, setModalOpen } = useModalStore();
@@ -34,7 +35,7 @@ const Modal = () => {
       case "wedding-gallery":
         return <WeddingGalleryForm />;
       case "wedding-contact":
-        return <div className="border-2 border-white">123</div>;
+        return <Contact />;
       default:
         return null;
     }

@@ -18,7 +18,10 @@ const Nav = ({
       {user ? (
         <SignOutIcon size={32} onClick={signOut} />
       ) : (
-        <UserIcon size={32} onClick={() => setModalOpen(true, "login")} />
+        <UserIcon
+          size={32}
+          onClick={() => setModalOpen({ isOpen: true, type: "login" })}
+        />
       )}
 
       <HamburgerIcon size={32} onClick={() => console.log("햄버거")} />

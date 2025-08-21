@@ -23,7 +23,7 @@ const RegisterForm = () => {
 
   useEffect(() => {
     if (state && state.success) {
-      setModalOpen(true, "login");
+      setModalOpen({ isOpen: true, type: "login" });
     }
   }, [state, setModalOpen]);
 
@@ -89,7 +89,7 @@ const RegisterForm = () => {
         <motion.div
           whileHover={{ opacity: 0.75 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => setModalOpen(true, "login")}
+          onClick={() => setModalOpen({ isOpen: true, type: "login" })}
           className="cursor-pointer text-[#007cba]"
         >
           이미 계정이 있으신가요? 로그인

@@ -2,15 +2,35 @@
 
 import Btn from "@/components/atoms/Btn";
 import DateDisplay from "@/components/atoms/Date";
-import { CloseIcon, HeartIcon, PhoneIcon } from "@/components/atoms/Icon";
+import { PhoneIcon } from "@/components/atoms/Icon";
 import Img from "@/components/atoms/Img";
-import Overlay from "@/components/atoms/Overlay";
+
 import MusicBtn from "@/components/molecules/btns/MusicBtn";
 import Schedule from "@/components/molecules/wedding/Schedule";
 import { InvitationInput } from "@/models/invitationSchma";
 import { useModalStore } from "@/store/modalStore";
-import { AnimatePresence } from "motion/react";
-import React, { useEffect, useState } from "react";
+
+import React from "react";
+
+type PhonePayloadId =
+  | "groom"
+  | "groomFather"
+  | "groomMother"
+  | "bride"
+  | "brideFather"
+  | "brideMother";
+export interface PhonePayload {
+  id: PhonePayloadId;
+  role:
+    | "신랑"
+    | "신랑 아버지"
+    | "신랑 어머니"
+    | "신부"
+    | "신부 아버지"
+    | "신부 어머니";
+  name: string;
+  phone: string;
+}
 
 const InvitationContainer = ({ data }: { data: InvitationInput }) => {
   const {
@@ -24,12 +44,70 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
     brideMotherName,
     weddingAddress,
     weddingDetailAddress,
+    bridePhone,
+    groomPhone,
+    brideFatherPhone,
+    brideMotherPhone,
+    groomMotherPhone,
+    groomFatherPhone,
   } = data;
   const { setModalOpen } = useModalStore();
 
-  const groomParent = [groomFatherName, groomMotherName];
+  // const groomParent = [groomFatherName, groomMotherName];
 
-  const brideParent = [brideFatherName, brideMotherName];
+  // const brideParent = [brideFatherName, brideMotherName];
+
+  type PartyRow = {
+    parentNames: string[];
+    childName: string;
+    childSuffix: "아들" | "딸";
+  };
+
+  const partyRows: PartyRow[] = [
+    {
+      parentNames: [groomFatherName, groomMotherName].filter(
+        Boolean,
+      ) as string[],
+      childName: groomName,
+      childSuffix: "아들",
+    },
+    {
+      parentNames: [brideFatherName, brideMotherName].filter(
+        Boolean,
+      ) as string[],
+      childName: brideName,
+      childSuffix: "딸",
+    },
+  ];
+
+  const phonePayload: PhonePayload[] = [
+    { id: "groom", name: groomName, phone: groomPhone, role: "신랑" },
+    {
+      id: "groomFather",
+      name: groomFatherName,
+      phone: groomFatherPhone,
+      role: "신랑 아버지",
+    },
+    {
+      id: "groomMother",
+      name: groomMotherName,
+      phone: groomMotherPhone,
+      role: "신랑 어머니",
+    },
+    { id: "bride", name: brideName, phone: bridePhone, role: "신부" },
+    {
+      id: "brideFather",
+      name: brideFatherName,
+      phone: brideFatherPhone,
+      role: "신부 아버지",
+    },
+    {
+      id: "brideMother",
+      name: brideMotherName,
+      phone: brideMotherPhone,
+      role: "신부 어머니",
+    },
+  ];
 
   return (
     <div className="m-auto w-full max-w-[432px] bg-white p-2">
@@ -61,7 +139,7 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
         <div className="p-4 text-center text-xl font-semibold">
           소중한 분들을 초대합니다
         </div>
-        <div className="m-auto max-w-5/6 text-center text-sm whitespace-pre-line text-gray-500">{`저희 두 사람의의 작은 만남이 
+        <div className="m-auto max-w-5/6 text-center text-sm whitespace-pre-line text-gray-400">{`저희 두 사람의의 작은 만남이 
         사랑의 결실을 이루어
         소중한 결혼식을 올리게 되었습니다.
         
@@ -72,30 +150,25 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
         <hr className="mx-auto my-6 w-1/5 opacity-20" />
 
         <div className="m-auto text-sm text-gray-500">
-          <div>
-            {groomParent.map((p, i) => {
-              const isFirst = i === 0;
+          {partyRows
+            .filter((r) => r.parentNames.length > 0)
+            .map((row, i) => {
+              const parents = row.parentNames.join("ㆍ");
               return (
-                <span key={i}>
-                  {p ?? ""}
-                  {isFirst && "ㆍ"}
-                </span>
+                <p
+                  key={i}
+                  className="grid grid-cols-[1fr_1fr_1fr] items-center gap-2 text-xs text-gray-500"
+                >
+                  <span className="justify-self-end truncate font-bold opacity-50">
+                    {parents}
+                  </span>
+                  <span className="truncate opacity-50">
+                    의 {row.childSuffix}
+                  </span>
+                  <span className="text-sm font-bold">{row.childName}</span>
+                </p>
               );
             })}
-            <span>의 아들 {groomName}</span>
-          </div>
-          <div>
-            {brideParent.map((p, i) => {
-              const isFirst = i === 0;
-              return (
-                <span key={i}>
-                  {p ?? ""}
-                  {isFirst && "ㆍ"}
-                </span>
-              );
-            })}
-            <span>의 딸 {brideName}</span>
-          </div>
         </div>
         <div className="mx-auto my-6">
           <Btn
@@ -107,20 +180,12 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
                 isOpen: true,
                 type: "wedding-contact",
                 config: { backgroundColor: "transparent" },
+                payload: phonePayload,
               })
             }
           >
             <PhoneIcon size={14} /> 연락하기
           </Btn>
-          {/* <AnimatePresence>
-            {isOpen && (
-              <Overlay isOpen={isOpen} className="backdrop-blur-sm">
-                <Btn onClick={() => setIsOpen(!isOpen)}>
-                  <CloseIcon />
-                </Btn>
-              </Overlay>
-            )}
-          </AnimatePresence> */}
         </div>
       </div>
     </div>

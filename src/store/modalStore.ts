@@ -24,12 +24,14 @@ interface ModalState {
     type?: ModalType;
     path?: (typeof menus)[number]["path"] | null;
     config?: ModalConfig;
+    payload?: unknown;
   }) => void;
   errors: Record<string, string[] | undefined>;
   setErrors: (errors: Record<string, string[] | undefined>) => void;
   modalType: ModalType;
   nextPath: (typeof menus)[number]["path"] | null;
   config?: ModalConfig;
+  payload?: unknown;
 }
 
 const initialState: Omit<ModalState, "setModalOpen" | "setErrors"> = {
@@ -40,16 +42,18 @@ const initialState: Omit<ModalState, "setModalOpen" | "setErrors"> = {
   config: {
     backgroundColor: "white",
   },
+  payload: null,
 };
 
 export const useModalStore = create<ModalState>((set) => ({
   ...initialState,
-  setModalOpen: ({ isOpen, type = null, path = null, config }) =>
+  setModalOpen: ({ isOpen, type, path, config, payload }) =>
     set({
       isOpen: isOpen,
-      modalType: type,
-      nextPath: path,
+      modalType: type ?? null,
+      nextPath: path ?? null,
       config: config ?? { backgroundColor: "white" },
+      payload: payload ?? null,
     }),
   setErrors: (errors) => set({ errors }),
 }));

@@ -15,7 +15,7 @@ const WeddingParentForm = () => {
     } else {
       alert(state.message);
       setUser({ ...state.data });
-      setModalOpen(false);
+      setModalOpen({ isOpen: false });
       clearErrors();
     }
   }, [state, setErrors, clearErrors, setModalOpen, setUser]);

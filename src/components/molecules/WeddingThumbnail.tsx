@@ -99,7 +99,7 @@ const WeddingThumbnail = ({ readOnly }: { readOnly?: boolean }) => {
         onClick={(e) => {
           if (!isOpen) {
             e.preventDefault();
-            setModalOpen(true, "wedding-thumbnail");
+            setModalOpen({ isOpen: true, type: "wedding-thumbnail" });
           }
         }}
         className="mt-4 ml-auto block"

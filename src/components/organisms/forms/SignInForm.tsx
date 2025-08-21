@@ -25,7 +25,7 @@ const SignInForm = () => {
     const success = state && state.success;
     if (!success) return;
     if (nextPath) router.push(nextPath);
-    setModalOpen(false, null, null);
+    setModalOpen({ isOpen: false });
   }, [state, setModalOpen, router, nextPath]);
 
   const signInFields: SignInFields[] = [
@@ -76,7 +76,8 @@ const SignInForm = () => {
         <motion.button
           whileHover={{ opacity: 0.75 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => setModalOpen(true, "register")}
+          onClick={() => setModalOpen({ isOpen: true, type: "register" })}
+          // true, "register"
           className="cursor-pointer text-[#007cba]"
         >
           계정이 없으신가요? 회원가입
