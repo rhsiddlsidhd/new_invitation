@@ -192,6 +192,7 @@ const saveFile = async ({
   await mkdir(dirPath, { recursive: true });
   const filePath = path.join(dirPath, filename);
   await writeFile(filePath, buffer);
+  console.log("filePath", filePath);
   return { success: true, path: `/assets/${filename}` };
 };
 
@@ -441,6 +442,7 @@ export const updateInvitationInfo = async (
       thumbnailFiles.map(async (file) => {
         const filename = `${Date.now()}-${file.name.replaceAll(" ", "-")}`;
         const buffer = await file.arrayBuffer();
+        // const buffer = await file.
         const { path } = await saveFile({
           buffer: Buffer.from(buffer),
           filename,

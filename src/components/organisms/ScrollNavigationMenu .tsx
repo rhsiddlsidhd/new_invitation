@@ -22,7 +22,8 @@ const ScrollNavigationMenu = ({
     user: string | null,
   ) => {
     if (menu.id !== "Contact" && !user) {
-      setModalOpen(true, "login", menu.path);
+      setModalOpen({ isOpen: true, type: "login", path: menu.path });
+      // true, "login", menu.path
       return;
     }
     router.push(menu.path);
