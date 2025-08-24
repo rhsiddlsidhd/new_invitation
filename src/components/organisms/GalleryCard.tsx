@@ -10,6 +10,7 @@ const GalleryCard = ({
   type,
   images,
   id,
+  size = "md",
   readOnly,
   onChange,
   onRemove,
@@ -17,16 +18,22 @@ const GalleryCard = ({
   type: GalleryData["type"];
   readOnly: boolean;
   images?: GalleryData["images"];
+  size?: "sm" | "md" | "lg" | "full";
   id?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>, idx: number) => void;
   onRemove?: (idx: number) => void;
 }) => {
   if (!cardConfig[type]) return;
-
+  const sizeClass = {
+    sm: "w-24",
+    md: "w-34",
+    lg: "w-44",
+    full: "w-full",
+  };
   const config = cardConfig[type];
   return (
     <Label
-      className={`grid aspect-[5/8] w-34 gap-0.5 overflow-hidden rounded border-2 border-gray-200 bg-gray-100 ${config.gridClass}`}
+      className={`grid aspect-[5/8] ${sizeClass[size]} gap-1 overflow-hidden rounded border-2 border-gray-200 bg-gray-100 p-1 ${config.gridClass}`}
     >
       {!readOnly && (
         <input

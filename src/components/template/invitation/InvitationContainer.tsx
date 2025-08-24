@@ -7,6 +7,7 @@ import Img from "@/components/atoms/Img";
 
 import MusicBtn from "@/components/molecules/btns/MusicBtn";
 import Schedule from "@/components/molecules/wedding/Schedule";
+import GalleryCard from "@/components/organisms/GalleryCard";
 import { InvitationInput } from "@/models/invitationSchma";
 import { useModalStore } from "@/store/modalStore";
 
@@ -50,12 +51,9 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
     brideMotherPhone,
     groomMotherPhone,
     groomFatherPhone,
+    galleries,
   } = data;
   const { setModalOpen } = useModalStore();
-
-  // const groomParent = [groomFatherName, groomMotherName];
-
-  // const brideParent = [brideFatherName, brideMotherName];
 
   type PartyRow = {
     parentNames: string[];
@@ -63,6 +61,7 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
     childSuffix: "아들" | "딸";
   };
 
+  console.log(galleries);
   const partyRows: PartyRow[] = [
     {
       parentNames: [groomFatherName, groomMotherName].filter(
@@ -110,7 +109,7 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
   ];
 
   return (
-    <div className="m-auto w-full max-w-[432px] bg-white p-2">
+    <div className="m-auto w-full max-w-[432px] bg-white p-4">
       <div>
         <div className="flex justify-end">
           <MusicBtn />
@@ -186,6 +185,28 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
           >
             <PhoneIcon size={14} /> 연락하기
           </Btn>
+        </div>
+
+        <div className="mt-10 flex flex-col gap-2">
+          <div className="text-center text-xs font-bold tracking-widest text-gray-500">
+            Gallery
+          </div>
+          <div className="p-4 text-center text-xl font-semibold">
+            웨딩 갤러리
+          </div>
+          <div>
+            {galleries.map((gallery, idx) => {
+              return (
+                <GalleryCard
+                  key={idx}
+                  type={gallery.type}
+                  images={gallery.images}
+                  readOnly={true}
+                  size="full"
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

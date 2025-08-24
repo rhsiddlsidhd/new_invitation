@@ -39,7 +39,7 @@ const GalleryCardCell = ({
 
   return (
     <Label
-      className={`relative flex h-full w-full items-center justify-center border-2 border-gray-300 ${className}`}
+      className={`relative flex h-full w-full items-center justify-center shadow-md ${className}`}
     >
       <input
         name={`gallery-${id}`}
