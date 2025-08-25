@@ -1,7 +1,6 @@
 "use client";
 
-import { updateInvitationInfo } from "@/actions/invitation";
-import { patchGallery } from "@/actions/invitation/patchImage";
+import { patchGallery } from "@/actions/invitation/patchGallery";
 import WeddingGallery from "@/components/molecules/WeddingGallery";
 import { useModalStore } from "@/store/modalStore";
 import { useUserStore } from "@/store/userStore";
@@ -11,7 +10,8 @@ import {
   GalleryMapServer,
 } from "@/types";
 import { validateAndFlatten } from "@/utils/validation";
-import { GalleryMapSchema } from "@/utils/validation/schema";
+import { GalleryMapSchema } from "@/utils/validation/schema.client";
+
 import React, { startTransition, useActionState, useEffect } from "react";
 
 const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;

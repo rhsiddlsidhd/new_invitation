@@ -8,93 +8,17 @@ import {
 } from "@/services/invitationServices";
 import { ActionState } from "@/types";
 import { validateAndFlatten } from "@/utils/validation";
-import { GallerySchema } from "@/utils/validation/schema";
+import { GallerySchema } from "@/utils/validation/schema.client";
+import {
+  WeddingDateInfoSchema,
+  WeddingParentInfoSchema,
+  WeddingPartyInfoSchema,
+} from "@/utils/validation/schema.server";
 import { writeFile, mkdir } from "fs/promises";
 import { redirect } from "next/navigation";
 
 import path from "path";
 import z from "zod";
-
-const phoneRegex = /^01[016789]-?\d{3,4}-?\d{4}$/;
-const accountRegex = /^[0-9-]{8,30}$/;
-
-function toCamelCase(str: string) {
-  return str.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
-}
-
-const WeddingPartyInfoSchema = z
-  .object({
-    "groom-name": z
-      .string()
-      .min(1, "신랑 이름을 입력해주세요.")
-      .max(20, "이름은 20자 이하로 입력해주세요."),
-    "groom-phone": z
-      .string()
-      .regex(phoneRegex, "유효한 신랑 전화번호를 입력해주세요."),
-    "groom-account": z
-      .string()
-      .regex(accountRegex, "유효한 신랑 계좌번호를 입력해주세요."),
-    "bride-name": z
-      .string()
-      .min(1, "신부 이름을 입력해주세요.")
-      .max(20, "이름은 20자 이하로 입력해주세요."),
-    "bride-phone": z
-      .string()
-      .regex(phoneRegex, "유효한 신부 전화번호를 입력해주세요."),
-    "bride-account": z
-      .string()
-      .regex(accountRegex, "유효한 신부 계좌번호를 입력해주세요."),
-  })
-  .transform((data) => {
-    const camelCaseData: Record<string, string> = {};
-    for (const key in data) {
-      camelCaseData[toCamelCase(key)] = data[
-        key as keyof typeof data
-      ] as string;
-    }
-    return camelCaseData;
-  });
-
-const WeddingDateInfoSchema = z
-  .object({
-    "wedding-date": z.string().min(1, "결혼 날짜를 입력해주세요."),
-    "wedding-address": z.string().min(1, "결혼식 주소를 입력해주세요."),
-    "wedding-detail-address": z.string().min(1, "상세 주소를 입력해주세요."),
-  })
-  .transform((data) => {
-    const camelCaseData: Record<string, string> = {};
-    for (const key in data) {
-      camelCaseData[toCamelCase(key)] = data[
-        key as keyof typeof data
-      ] as string;
-    }
-    return camelCaseData;
-  });
-
-const WeddingParentInfoSchema = z
-  .object({
-    "groom-father-name": z.string().optional(),
-    "groom-father-phone": z.string().optional(),
-    "groom-father-account": z.string().optional(),
-    "groom-mother-name": z.string().optional(),
-    "groom-mother-phone": z.string().optional(),
-    "groom-mother-account": z.string().optional(),
-    "bride-father-name": z.string().optional(),
-    "bride-father-phone": z.string().optional(),
-    "bride-father-account": z.string().optional(),
-    "bride-mother-name": z.string().optional(),
-    "bride-mother-phone": z.string().optional(),
-    "bride-mother-account": z.string().optional(),
-  })
-  .transform((data) => {
-    const camelCaseData: Record<string, string> = {};
-    for (const key in data) {
-      camelCaseData[toCamelCase(key)] = data[
-        key as keyof typeof data
-      ] as string;
-    }
-    return camelCaseData;
-  });
 
 const FileSchema = z.record(
   z.string(),

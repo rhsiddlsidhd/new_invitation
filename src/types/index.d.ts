@@ -107,3 +107,5 @@ export type GalleryEntry = {
   type: GalleryType;
   images: string[];
 };
+
+export type Thumbnail = CloudinaryUploadResPonse;
