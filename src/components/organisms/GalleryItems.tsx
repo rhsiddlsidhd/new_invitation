@@ -21,9 +21,7 @@ const GalleryItems = ({
   onRemove,
 }: GalleryItemsProps) => {
   const errors = useUserStore((state) => state.errors);
-  // useEffect(() => {
-  //   console.log("errors", errors);
-  // }, [errors]);
+
   return (
     <ul className="my-4">
       {viewData.map((d, cardIdx) => {
@@ -67,7 +65,7 @@ const GalleryItems = ({
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: errors[id] ? 1 : 0 }}
-                className="absolute inset-0 h-full w-full rounded-lg border-1 border-red-300"
+                className="pointer-events-none absolute inset-0 h-full w-full rounded-lg border-1 border-red-300"
               />
             )}
           </li>

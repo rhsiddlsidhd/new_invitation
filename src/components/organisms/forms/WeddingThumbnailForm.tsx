@@ -16,6 +16,7 @@ const WeddingThumbnailForm = () => {
   const { setModalOpen } = useModalStore();
   useEffect(() => {
     if (!state) return;
+    console.log(state);
     if (!state.success) {
       setErrors(state.error);
     } else {
@@ -30,10 +31,12 @@ const WeddingThumbnailForm = () => {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
-    const thumbnailFiles = formData.getAll("thumbnail");
+    const thumbnailFiles = formData
+      .getAll("thumbnail")
+      .filter((f): f is File => f instanceof File);
 
     const validation = validateAndFlatten(ThumbnailSchema, thumbnailFiles);
-
+    console.log("validation", validation);
     if (!validation.success) {
       setErrors(validation.error);
       return;

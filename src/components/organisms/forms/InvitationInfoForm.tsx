@@ -116,8 +116,6 @@ const InvitationInfoForm = ({
 
         if (isType && gallery) {
           gallery.type = value as "A" | "B" | "C" | "D" | "E";
-        } else {
-          console.log("응?", value);
         }
       }
     }
@@ -134,6 +132,8 @@ const InvitationInfoForm = ({
       setErrors(thumbnailValidation.error);
       return;
     }
+
+    console.log("galleryValidation", galleryValidation);
 
     if (!galleryValidation.success) {
       setErrors(galleryValidation.error);
@@ -203,7 +203,6 @@ const InvitationInfoForm = ({
       onSubmit={handleSubmit}
       className="m-auto mt-4 flex max-w-[1028px] flex-col sm:mb-24"
     >
-      {/* {state && !state.success && state.error } */}
       <InvitationInfoContent readOnly={readOnly} />
       {!readOnly && (
         <div className="ml-auto w-1/4">

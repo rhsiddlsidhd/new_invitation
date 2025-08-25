@@ -44,7 +44,7 @@ const GalleryCardCell = ({
       <input
         name={`gallery-${id}`}
         type="file"
-        className="absolute h-full w-full opacity-0"
+        className="absolute h-full w-full cursor-pointer opacity-0"
         data-idx={idx}
         ref={inputRef}
         onChange={(e) => {

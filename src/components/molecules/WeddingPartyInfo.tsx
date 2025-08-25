@@ -86,6 +86,10 @@ const WeddingPartyInfo = ({ readOnly }: { readOnly?: boolean }) => {
     },
   ];
 
+  useEffect(() => {
+    console.log("errors", errors);
+  }, [errors]);
+
   return (
     <div>
       <div className="flex flex-col gap-4 sm:flex-row">

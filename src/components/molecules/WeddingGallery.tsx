@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GalleryData } from "@/types";
 import GalleryItems from "../organisms/GalleryItems";
 import GalleryController from "../organisms/GalleryController";
@@ -8,7 +8,7 @@ import Btn from "../atoms/Btn";
 import { useModalStore } from "@/store/modalStore";
 
 const WeddingGallery = ({ readOnly }: { readOnly: boolean }) => {
-  const { galleries, isUser } = useUserStore();
+  const { galleries, isUser, errors, clearErrors } = useUserStore();
   const { isOpen, setModalOpen } = useModalStore();
   const [activeType, setActiveType] = useState<GalleryData["type"]>("A");
   const [galleryData, setGalleryData] = useState<GalleryData[]>([]);
@@ -50,6 +50,7 @@ const WeddingGallery = ({ readOnly }: { readOnly: boolean }) => {
             next[cardIdx].images[idx] = url;
             return next;
           });
+          clearErrors();
         }}
         onRemove={(cardIdx, idx) => {
           setGalleryData((prev) => {

@@ -13,9 +13,11 @@ import WeddingThumbnailForm from "../forms/WeddingThumbnailForm";
 import WeddingGalleryForm from "../forms/WeddingGalleryForm";
 import Overlay from "./../../atoms/Overlay/index";
 import Contact from "../panel/Contact";
+import { useUserStore } from "@/store/userStore";
 
 const Modal = () => {
   const { isOpen, modalType, config, setModalOpen } = useModalStore();
+  const { clearErrors } = useUserStore();
   const modalref = React.useRef<HTMLDivElement>(null);
 
   const createModalContent = (modalType: ModalType) => {
@@ -49,6 +51,7 @@ const Modal = () => {
         !modalref.current.contains(event.target as Node)
       ) {
         setModalOpen({ isOpen: false });
+        clearErrors();
       }
     });
     document.body.style.overflow = isOpen ? "hidden" : "auto";

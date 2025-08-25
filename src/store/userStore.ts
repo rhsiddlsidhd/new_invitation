@@ -30,8 +30,10 @@ interface UserStore {
   galleries: IGallery[];
   setUser: (user: Partial<UserStore>) => void;
   clearUser: () => void;
-  errors: Record<string, string[] | undefined>;
-  setErrors: (errors: Record<string, string[] | undefined>) => void;
+  // errors: Record<string, string[] | undefined>;
+  errors: Partial<Record<string, string[]>>;
+  // setErrors: (errors: Record<string, string[] | undefined>) => void;
+  setErrors: (errors: Partial<Record<string, string[]>>) => void;
   clearErrors: () => void;
   isUser: boolean;
 }
@@ -73,5 +75,9 @@ export const useUserStore = create<UserStore>((set) => ({
   setUser: (user) => set((state) => ({ ...state, ...user })),
   clearUser: () => set(() => ({ ...initialState })),
   clearErrors: () => set(() => ({ errors: {} })),
-  setErrors: (errors) => set(() => ({ errors })),
+  // setErrors: (errors) => set(() => ({ errors })),
+  setErrors: (errors) =>
+    set((state) => ({
+      errors: { ...state.errors, ...errors },
+    })),
 }));

@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Img from "../atoms/Img";
 import { DocArrowUpIcon } from "../atoms/Icon";
 import Label from "../atoms/Label";
@@ -11,7 +11,7 @@ import { useModalStore } from "@/store/modalStore";
 
 const WeddingThumbnail = ({ readOnly }: { readOnly?: boolean }) => {
   const { isOpen, setModalOpen } = useModalStore();
-  const { thumbnails, errors, isUser } = useUserStore();
+  const { thumbnails, errors, isUser, clearErrors } = useUserStore();
   const handleUploadFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
@@ -25,6 +25,8 @@ const WeddingThumbnail = ({ readOnly }: { readOnly?: boolean }) => {
       next[idx] = url;
       return next;
     });
+
+    clearErrors();
   };
   const [thumbnailPreviews, setThumbnailPreviews] = useState<(string | null)[]>(
     [null, null],
@@ -35,57 +37,61 @@ const WeddingThumbnail = ({ readOnly }: { readOnly?: boolean }) => {
 
   return (
     <div>
-      <div className="flex justify-center gap-4 p-4">
-        {viewData.map((url, i) => {
-          return (
-            <Label
-              className={`relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-gray-50`}
-              key={i}
-            >
-              {url ? (
-                <div className="relative h-full w-full">
-                  <Img src={url} />
-                  {!readOnly && (
-                    <OverlayCloseBtn
-                      size="md"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setThumbnailPreviews((prev) => {
-                          const next = [...prev];
-                          next[i] = null;
-                          return next;
-                        });
-                        if (inputRefs.current[i])
-                          inputRefs.current[i].value = "";
-                      }}
-                    />
-                  )}
-                </div>
-              ) : (
-                <DocArrowUpIcon />
-              )}
-              {!readOnly && (
-                <input
-                  type="file"
-                  id={`thumbnail-${i}`}
-                  name={`thumbnail`}
-                  onChange={handleUploadFiles}
-                  ref={(el) => {
-                    inputRefs.current[i] = el;
-                  }}
-                  className="absolute h-full w-full cursor-pointer opacity-0"
-                />
-              )}
-              {!readOnly && (
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: errors["thumbnail"] ? 1 : 0 }}
-                  className="absolute inset-0 h-full w-full rounded-lg border-1 border-red-300"
-                />
-              )}
-            </Label>
-          );
-        })}
+      <div className="flex flex-col">
+        <div className="flex justify-center gap-4 p-4">
+          {viewData.map((url, i) => {
+            return (
+              <Label
+                className={`relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-gray-50`}
+                key={i}
+              >
+                {url ? (
+                  <div className="relative h-full w-full">
+                    <Img src={url} />
+                    {!readOnly && (
+                      <OverlayCloseBtn
+                        size="md"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setThumbnailPreviews((prev) => {
+                            const next = [...prev];
+                            next[i] = null;
+                            return next;
+                          });
+                          if (inputRefs.current[i])
+                            inputRefs.current[i].value = "";
+                        }}
+                      />
+                    )}
+                  </div>
+                ) : (
+                  <DocArrowUpIcon />
+                )}
+                {!readOnly && (
+                  <input
+                    type="file"
+                    id={`thumbnail-${i}`}
+                    name={`thumbnail`}
+                    onChange={handleUploadFiles}
+                    ref={(el) => {
+                      inputRefs.current[i] = el;
+                    }}
+                    className="absolute h-full w-full cursor-pointer opacity-0"
+                  />
+                )}
+                {!readOnly && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: errors[i] ? 1 : 0 }}
+                    className="absolute inset-0 h-full w-full rounded-lg border-1 border-red-300 p-2 text-xs text-red-300"
+                  >
+                    {errors[i] && errors[i][0]}
+                  </motion.div>
+                )}
+              </Label>
+            );
+          })}
+        </div>
       </div>
       <div className="flex flex-col items-center justify-center text-xs break-keep">
         {!readOnly && (

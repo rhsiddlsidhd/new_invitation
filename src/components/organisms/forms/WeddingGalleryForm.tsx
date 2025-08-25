@@ -98,8 +98,6 @@ const WeddingGalleryForm = () => {
       serverMap.set(key, { type: item.type, images: imagesOnly });
     });
 
-    console.log("serverMap", serverMap);
-
     startTransition(() => {
       action({ data: serverMap });
     });
