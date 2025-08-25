@@ -21,9 +21,9 @@ const GalleryItems = ({
   onRemove,
 }: GalleryItemsProps) => {
   const errors = useUserStore((state) => state.errors);
-  useEffect(() => {
-    console.log("errors", errors);
-  }, [errors]);
+  // useEffect(() => {
+  //   console.log("errors", errors);
+  // }, [errors]);
   return (
     <ul className="my-4">
       {viewData.map((d, cardIdx) => {

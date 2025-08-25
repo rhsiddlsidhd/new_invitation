@@ -17,9 +17,8 @@ import {
   deleteSession,
   getSession,
 } from "@/lib/session";
-import { ActionState } from "@/types";
 
-export async function signUp(prev: ActionState, formData: FormData) {
+export async function signUp(prev: unknown, formData: FormData) {
   const email = formData.get("email") as string;
   const userId = formData.get("userId") as string;
   const password = formData.get("password") as string;
@@ -68,7 +67,7 @@ export async function signUp(prev: ActionState, formData: FormData) {
   return result;
 }
 
-export const signIn = async (prev: ActionState, formData: FormData) => {
+export const signIn = async (prev: unknown, formData: FormData) => {
   const userId = formData.get("userId") as string;
   const password = formData.get("password") as string;
 
@@ -108,7 +107,7 @@ export const signOut = async () => {
 };
 
 export const verifyPasswordAction = async (
-  prev: ActionState,
+  prev: unknown,
   formData: FormData,
 ) => {
   const path = formData.get("next") as string;

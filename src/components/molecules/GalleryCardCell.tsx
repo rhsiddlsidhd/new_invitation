@@ -27,6 +27,8 @@ const GalleryCardCell = ({
 }: GalleryCardCellProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
+  console.log("image", image);
+
   if (readOnly) {
     return (
       <Label

@@ -1,3 +1,4 @@
+import { IGallery } from "@/models/invitationSchma";
 import { GalleryData } from "@/types";
 import { create } from "zustand";
 
@@ -25,7 +26,8 @@ interface UserStore {
   brideMotherPhone: string;
   brideMotherAccount: string;
   thumbnails: string[];
-  galleries: GalleryData[];
+  // galleries: GalleryData[];
+  galleries: IGallery[];
   setUser: (user: Partial<UserStore>) => void;
   clearUser: () => void;
   errors: Record<string, string[] | undefined>;

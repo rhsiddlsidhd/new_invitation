@@ -1,6 +1,7 @@
+import { CloudinaryUploadResPonse } from "@/types";
 import mongoose, { Schema } from "mongoose";
 
-interface IGallery {
+export interface IGallery {
   id: string;
   type: "A" | "B" | "C" | "D" | "E";
   images: string[];

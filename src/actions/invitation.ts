@@ -7,15 +7,13 @@ import {
   patchInvitation,
 } from "@/services/invitationServices";
 import { ActionState } from "@/types";
+import { validateAndFlatten } from "@/utils/validation";
+import { GallerySchema } from "@/utils/validation/schema";
 import { writeFile, mkdir } from "fs/promises";
 import { redirect } from "next/navigation";
 
 import path from "path";
 import z from "zod";
-
-type ValidationResult<T> =
-  | { success: true; data: T }
-  | { success: false; error: Record<string, string[] | undefined> };
 
 const phoneRegex = /^01[016789]-?\d{3,4}-?\d{4}$/;
 const accountRegex = /^[0-9-]{8,30}$/;
@@ -129,56 +127,6 @@ const thumbnailsSchema = z.map(
       ),
   ),
 );
-
-const GalleryMapSchema = z.map(
-  z.string(),
-  z.object({
-    type: z.enum(["A", "B", "C", "D", "E"]),
-    files: z.array(
-      z
-        .instanceof(File)
-        .refine(
-          (file) => file && file instanceof File && file.size > 0,
-          "이미지를 등록해주세요",
-        )
-        .refine(
-          (file) =>
-            ["image/png", "image/jpeg", "image/webp"].includes(file.type),
-          "지원하지 않는 이미지 형식입니다.",
-        ),
-    ),
-  }),
-);
-
-const GallerySchema = z.object({
-  id: z.string(),
-  files: z.array(
-    z
-      .instanceof(File)
-      .refine(
-        (file) => file && file instanceof File && file.size > 0,
-        "이미지를 등록해주세요",
-      )
-      .refine(
-        (file) => ["image/png", "image/jpeg", "image/webp"].includes(file.type),
-        "지원하지 않는 이미지 형식입니다.",
-      ),
-  ),
-  type: z.enum(["A", "B", "C", "D", "E"]),
-});
-
-const validateAndFlatten = <T>(
-  schema: z.ZodSchema<T>,
-  data: unknown,
-): ValidationResult<T> => {
-  const result = schema.safeParse(data);
-  return result.success
-    ? { success: true as const, data: result.data }
-    : {
-        success: false as const,
-        error: z.flattenError(result.error).fieldErrors,
-      };
-};
 
 const saveFile = async ({
   buffer,
@@ -450,38 +398,44 @@ export const updateInvitationInfo = async (
       }),
     );
 
-    const galleriesArray = Array.from(galleryValidation.data, ([id, data]) => ({
-      id,
-      ...data,
-    }));
+    // const galleriesArray = Array.from(galleryValidation.data, ([id, data]) => ({
+    //   id,
+    //   ...data,
+    // }));
 
-    const galleries = await Promise.all(
-      galleriesArray.map(async (g) => {
-        const imageUrls = await Promise.all(
-          g.files.map(async (f) => {
-            const filename = `${Date.now()}-${f.name.replaceAll(" ", "-")}`;
-            const buffer = await f.arrayBuffer();
-            const { path } = await saveFile({
-              buffer: Buffer.from(buffer),
-              filename,
-            });
-            return path;
-          }),
-        );
-        return {
-          id: g.id,
-          type: g.type,
-          images: imageUrls,
-        };
-      }),
-    );
+    // const galleries = await Promise.all(
+    //   galleriesArray.map(async (g) => {
+    //     const imageUrls = await Promise.all(
+    //       g.files.map(async (f) => {
+    //         const filename = `${Date.now()}-${f.name.replaceAll(" ", "-")}`;
+    //         const buffer = await f.arrayBuffer();
+    //         const { path } = await saveFile({
+    //           buffer: Buffer.from(buffer),
+    //           filename,
+    //         });
+    //         return path;
+    //       }),
+    //     );
+    //     return {
+    //       id: g.id,
+    //       type: g.type,
+    //       images: imageUrls,
+    //     };
+    //   }),
+    // );
 
     let saveData: Partial<InvitationInput> = {};
 
+    // if (Object.keys(inputValidation.data).length > 0) {
+    //   saveData = { ...inputValidation.data };
+    // } else if (galleries.length > 0) {
+    //   saveData = { galleries };
+    // } else if (thumbnails.length > 0) {
+    //   saveData = { thumbnails };
+    // }
+
     if (Object.keys(inputValidation.data).length > 0) {
       saveData = { ...inputValidation.data };
-    } else if (galleries.length > 0) {
-      saveData = { galleries };
     } else if (thumbnails.length > 0) {
       saveData = { thumbnails };
     }

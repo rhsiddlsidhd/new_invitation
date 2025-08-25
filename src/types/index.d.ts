@@ -21,10 +21,23 @@ interface ApiResponseFail {
 
 export type ApiResponse<T = unknown> = ApiResponseSuccess<T> | ApiResponseFail;
 
-export type ActionState = {
-  success: boolean;
-  message?: string;
-} | null;
+interface ActionSuccessState<T = unknown> {
+  success: true;
+  message: string;
+  data?: T;
+}
+
+interface ActionFailState {
+  success: false;
+  error: Record<string, string[] | undefined>;
+}
+
+export type ActionState<T = unknown> = ActionSuccessState<T> | ActionFailState;
+
+// export type ActionState = {
+//   success: boolean;
+//   message?: string;
+// } | null;
 
 export interface UserData {
   userId: string;
@@ -54,3 +67,43 @@ export interface GalleryData {
 // export interface ViewGalleryData extends GalleryData {
 //   mode: "get" | "edit";
 // }
+
+type GalleryType = "A" | "B" | "C" | "D" | "E";
+
+export interface CloudinaryUploadResPonse {
+  asset_id: string;
+  public_id: string;
+  version: number;
+  signature: string;
+  width: number;
+  height: number;
+  format: string;
+  resource_type: string;
+  created_at: string;
+  bytes: number;
+  type: string;
+  url: string;
+  secure_url: string;
+  folder?: string;
+  original_filename: string;
+}
+
+interface GalleryMapClientItem {
+  type: GalleryType;
+  images: (File | CloudinaryUploadResPonse)[];
+}
+
+export type GalleryMapClient = Map<string, GalleryMapClientItem>;
+
+type GalleryMapServerItem = {
+  type: GalleryType;
+  images: CloudinaryUploadResPonse[];
+};
+
+export type GalleryMapServer = Map<string, GalleryMapServerItem>;
+
+export type GalleryEntry = {
+  id: string;
+  type: GalleryType;
+  images: string[];
+};
