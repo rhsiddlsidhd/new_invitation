@@ -12,32 +12,34 @@ import {
 export const patchText = async (prev: unknown, formData: FormData) => {
   const token = await getSession();
   const { userId } = await decrypt(token);
-  const textField: Map<string, string> = new Map();
+  const textField: Record<string, string> = {};
 
   for (const [key, value] of formData.entries()) {
     if (typeof value === "string") {
-      textField.set(key, value);
+      textField[key] = value;
     }
   }
 
-  console.log("textField", textField);
-
   const keys = Object.keys(textField);
-  console.log('keys',keys)
-  // const inputValidation = keys.some((k) => ["groom-name"].includes(k))
-  //   ? validateAndFlatten(WeddingPartyInfoSchema, textField)
-  //   : keys.some((k) => ["wedding-date"].includes(k))
-  //     ? validateAndFlatten(WeddingDateInfoSchema, textField)
-  //     : validateAndFlatten(WeddingParentInfoSchema, textField);
 
-  // if (!inputValidation.success) {
-  //   return {
-  //     success: false,
-  //     error: inputValidation.error,
-  //   };
-  // }
+  const validation = keys.some((k) => ["groom-name"].includes(k))
+    ? validateAndFlatten(WeddingPartyInfoSchema, textField)
+    : keys.some((k) => ["wedding-date"].includes(k))
+      ? validateAndFlatten(WeddingDateInfoSchema, textField)
+      : validateAndFlatten(WeddingParentInfoSchema, textField);
 
-  // console.log("inputValidation", inputValidation);
+  if (!validation.success) {
+    return {
+      success: false,
+      error: validation.error,
+    };
+  }
 
-  // const data = await patchInvitation({id:userId,data:{}})
+  const data = await patchInvitation({ id: userId, data: validation.data });
+
+  return {
+    success: true,
+    message: "프로필 수정 완료",
+    data,
+  };
 };

@@ -70,7 +70,7 @@ export interface GalleryData {
 
 type GalleryType = "A" | "B" | "C" | "D" | "E";
 
-export interface CloudinaryUploadResPonse {
+export interface CloudinaryUploadResponse {
   asset_id: string;
   public_id: string;
   version: number;

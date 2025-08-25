@@ -1,4 +1,3 @@
-import { updateInvitationInfo } from "@/actions/invitation";
 import { patchThumbnail } from "@/actions/invitation/patchThumbnail";
 import WeddingThumbnail from "@/components/molecules/WeddingThumbnail";
 import { useModalStore } from "@/store/modalStore";

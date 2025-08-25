@@ -10,7 +10,7 @@ import Btn from "../atoms/Btn";
 
 const WeddingInfo = ({ readOnly }: { readOnly?: boolean }) => {
   const [address, setAddress] = useState<string>("");
-  const { weddingDate, weddingAddress, weddingDetailAddress, errors } =
+  const { weddingDate, weddingAddress, weddingDetailAddress, errors, isUser } =
     useUserStore();
 
   const { isOpen, setModalOpen } = useModalStore();
@@ -97,19 +97,21 @@ const WeddingInfo = ({ readOnly }: { readOnly?: boolean }) => {
           </div>
         );
       })}
-      <Btn
-        type={isOpen ? "submit" : "button"}
-        onClick={(e) => {
-          if (!isOpen) {
-            e.preventDefault();
-            setModalOpen({ isOpen: true, type: "wedding-date-info" });
-            // true, "wedding-date-info"
-          }
-        }}
-        className="mt-4 ml-auto block"
-      >
-        수정하기
-      </Btn>
+      {isUser && (
+        <Btn
+          type={isOpen ? "submit" : "button"}
+          onClick={(e) => {
+            if (!isOpen) {
+              e.preventDefault();
+              setModalOpen({ isOpen: true, type: "wedding-date-info" });
+              // true, "wedding-date-info"
+            }
+          }}
+          className="mt-4 ml-auto block"
+        >
+          수정하기
+        </Btn>
+      )}
     </div>
   );
 };

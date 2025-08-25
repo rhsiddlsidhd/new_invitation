@@ -1,6 +1,5 @@
 "use server";
 
-import { updateInvitationInfo } from "@/actions/invitation";
 import { cloudinary } from "@/lib/cloudinary/config";
 import { decrypt, getSession } from "@/lib/session";
 import { patchInvitation } from "@/services/invitationServices";

@@ -32,6 +32,7 @@ const WeddingParentInfo = ({ readOnly }: { readOnly?: boolean }) => {
     brideFatherName,
     brideFatherPhone,
     errors,
+    isUser,
   } = useUserStore();
   const [showParentFields, setShowParentFields] =
     useState<ParentRoleId>("groom-father");
@@ -246,19 +247,21 @@ const WeddingParentInfo = ({ readOnly }: { readOnly?: boolean }) => {
           );
         })}
       </div>
-      <Btn
-        type={isOpen ? "submit" : "button"}
-        onClick={(e) => {
-          if (!isOpen) {
-            e.preventDefault();
-            setModalOpen({ isOpen: true, type: "wedding-parent-info" });
-            // true, "wedding-parent-info"
-          }
-        }}
-        className="mt-4 ml-auto block"
-      >
-        수정하기
-      </Btn>
+      {isUser && (
+        <Btn
+          type={isOpen ? "submit" : "button"}
+          onClick={(e) => {
+            if (!isOpen) {
+              e.preventDefault();
+              setModalOpen({ isOpen: true, type: "wedding-parent-info" });
+              // true, "wedding-parent-info"
+            }
+          }}
+          className="mt-4 ml-auto block"
+        >
+          수정하기
+        </Btn>
+      )}
     </div>
   );
 };

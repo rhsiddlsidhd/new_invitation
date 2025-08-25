@@ -1,4 +1,3 @@
-import { CloudinaryUploadResPonse } from "@/types";
 import mongoose, { Schema } from "mongoose";
 
 export interface IGallery {

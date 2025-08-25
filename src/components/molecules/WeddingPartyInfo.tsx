@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import Btn from "../atoms/Btn";
 import useAuthStore from "@/store/authStore";
 import { useModalStore } from "@/store/modalStore";
+import { readonly } from "zod";
 export interface Field {
   label: string;
   name: string;
@@ -144,19 +145,21 @@ const WeddingPartyInfo = ({ readOnly }: { readOnly?: boolean }) => {
           })}
         </div>
       </div>
-      <Btn
-        type={isOpen ? "submit" : "button"}
-        onClick={(e) => {
-          if (!isOpen) {
-            e.preventDefault();
-            setModalOpen({ isOpen: true, type: "wedding-party-info" });
-            // true, "wedding-party-info"
-          }
-        }}
-        className="mt-4 ml-auto block"
-      >
-        수정하기
-      </Btn>
+
+      {isUser && (
+        <Btn
+          type={isOpen ? "submit" : "button"}
+          onClick={(e) => {
+            if (!isOpen) {
+              e.preventDefault();
+              setModalOpen({ isOpen: true, type: "wedding-party-info" });
+            }
+          }}
+          className="mt-4 ml-auto block"
+        >
+          수정하기
+        </Btn>
+      )}
     </div>
   );
 };

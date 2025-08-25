@@ -5,7 +5,7 @@ import WeddingGallery from "@/components/molecules/WeddingGallery";
 import { useModalStore } from "@/store/modalStore";
 import { useUserStore } from "@/store/userStore";
 import {
-  CloudinaryUploadResPonse,
+  CloudinaryUploadResponse,
   GalleryMapClient,
   GalleryMapServer,
 } from "@/types";
@@ -66,7 +66,7 @@ const WeddingGalleryForm = () => {
       return;
     }
 
-    for (const [id, gallery] of galleries) {
+    for (const [id, gallery] of galleryValidation.data) {
       const uploadImages = await Promise.all(
         gallery.images.map(async (file) => {
           const formData = new FormData();
@@ -83,7 +83,7 @@ const WeddingGalleryForm = () => {
           return data;
         }),
       );
-      const isGallery = galleries.get(id);
+      const isGallery = galleryValidation.data.get(id);
       if (isGallery) {
         gallery.images = uploadImages;
       }
@@ -93,7 +93,7 @@ const WeddingGalleryForm = () => {
 
     galleries.forEach((item, key) => {
       const imagesOnly = item.images.filter(
-        (v): v is CloudinaryUploadResPonse => typeof v === "object",
+        (v): v is CloudinaryUploadResponse => typeof v === "object",
       );
       serverMap.set(key, { type: item.type, images: imagesOnly });
     });

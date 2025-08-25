@@ -8,7 +8,7 @@ import Btn from "../atoms/Btn";
 import { useModalStore } from "@/store/modalStore";
 
 const WeddingGallery = ({ readOnly }: { readOnly: boolean }) => {
-  const galleries = useUserStore((state) => state.galleries);
+  const { galleries, isUser } = useUserStore();
   const { isOpen, setModalOpen } = useModalStore();
   const [activeType, setActiveType] = useState<GalleryData["type"]>("A");
   const [galleryData, setGalleryData] = useState<GalleryData[]>([]);
@@ -62,18 +62,20 @@ const WeddingGallery = ({ readOnly }: { readOnly: boolean }) => {
           deleteGalleryCard(id);
         }}
       />
-      <Btn
-        type={isOpen ? "submit" : "button"}
-        onClick={(e) => {
-          if (!isOpen) {
-            e.preventDefault();
-            setModalOpen({ isOpen: true, type: "wedding-gallery" });
-          }
-        }}
-        className="mt-4 ml-auto block"
-      >
-        수정하기
-      </Btn>
+      {isUser && (
+        <Btn
+          type={isOpen ? "submit" : "button"}
+          onClick={(e) => {
+            if (!isOpen) {
+              e.preventDefault();
+              setModalOpen({ isOpen: true, type: "wedding-gallery" });
+            }
+          }}
+          className="mt-4 ml-auto block"
+        >
+          수정하기
+        </Btn>
+      )}
     </div>
   );
 };

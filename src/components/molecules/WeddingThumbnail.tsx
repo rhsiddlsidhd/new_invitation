@@ -11,8 +11,7 @@ import { useModalStore } from "@/store/modalStore";
 
 const WeddingThumbnail = ({ readOnly }: { readOnly?: boolean }) => {
   const { isOpen, setModalOpen } = useModalStore();
-  const thumbnails = useUserStore((state) => state.thumbnails);
-  const errors = useUserStore((state) => state.errors);
+  const { thumbnails, errors, isUser } = useUserStore();
   const handleUploadFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
@@ -94,18 +93,20 @@ const WeddingThumbnail = ({ readOnly }: { readOnly?: boolean }) => {
         )}
         <span className="text-sm text-gray-500">현재 등록된 썸네일</span>
       </div>
-      <Btn
-        type={isOpen ? "submit" : "button"}
-        onClick={(e) => {
-          if (!isOpen) {
-            e.preventDefault();
-            setModalOpen({ isOpen: true, type: "wedding-thumbnail" });
-          }
-        }}
-        className="mt-4 ml-auto block"
-      >
-        수정하기
-      </Btn>
+      {isUser && (
+        <Btn
+          type={isOpen ? "submit" : "button"}
+          onClick={(e) => {
+            if (!isOpen) {
+              e.preventDefault();
+              setModalOpen({ isOpen: true, type: "wedding-thumbnail" });
+            }
+          }}
+          className="mt-4 ml-auto block"
+        >
+          수정하기
+        </Btn>
+      )}
     </div>
   );
 };

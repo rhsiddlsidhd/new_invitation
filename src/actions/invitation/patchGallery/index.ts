@@ -4,7 +4,7 @@ import { decrypt, getSession } from "@/lib/session";
 import { patchInvitation } from "@/services/invitationServices";
 import { ActionState, GalleryEntry, GalleryMapServer } from "@/types";
 import { validateAndFlatten } from "@/utils/validation";
-import { gallerySchema } from "@/utils/validation/schema.server";
+import { galleryMapSchema } from "@/utils/validation/schema.server";
 
 export const patchGallery = async (
   prev: unknown,
@@ -12,7 +12,7 @@ export const patchGallery = async (
 ): Promise<ActionState<GalleryEntry[]>> => {
   const token = await getSession();
   const { userId } = await decrypt(token);
-  const validation = validateAndFlatten(gallerySchema, payload.data);
+  const validation = validateAndFlatten(galleryMapSchema, payload.data);
 
   if (!validation.success) {
     return {
