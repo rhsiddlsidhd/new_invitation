@@ -11,7 +11,10 @@ import {
   PhoneIcon as HeroPhoneIcon,
 } from "@heroicons/react/24/solid";
 
-import { HeartIcon as HeroHeartIcon } from "@heroicons/react/24/outline";
+import {
+  HeartIcon as HeroHeartIcon,
+  ArrowUpIcon as HeroArrowUpIcon,
+} from "@heroicons/react/24/outline";
 
 import { XMarkIcon } from "@heroicons/react/16/solid";
 
@@ -65,3 +68,5 @@ export const SpeakerOffIcon = createIcon(SpeakerXMarkIcon);
 export const HeartIcon = createIcon(HeroHeartIcon);
 
 export const PhoneIcon = createIcon(HeroPhoneIcon);
+
+export const ArrowUpIcon = createIcon(HeroArrowUpIcon);

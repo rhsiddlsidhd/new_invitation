@@ -6,6 +6,9 @@ import { PhoneIcon } from "@/components/atoms/Icon";
 import Img from "@/components/atoms/Img";
 
 import MusicBtn from "@/components/molecules/btns/MusicBtn";
+import Calender from "@/components/molecules/wedding/Calender";
+import DigitalWatch from "@/components/molecules/wedding/DigitalWatch";
+import Gallery from "@/components/molecules/wedding/Gallery";
 import Schedule from "@/components/molecules/wedding/Schedule";
 import GalleryCard from "@/components/organisms/GalleryCard";
 import { InvitationInput } from "@/models/invitationSchma";
@@ -194,20 +197,19 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
           <div className="p-4 text-center text-xl font-semibold">
             웨딩 갤러리
           </div>
-          <div>
-            {galleries.map((gallery, idx) => {
-              return (
-                <GalleryCard
-                  key={idx}
-                  type={gallery.type}
-                  images={gallery.images}
-                  readOnly={true}
-                  size="full"
-                />
-              );
-            })}
-          </div>
+          <Gallery data={galleries} />
         </div>
+        <div className="mt-10 flex flex-col gap-2">
+          <p className="text-center text-lg font-bold tracking-widest text-gray-500">
+            <DateDisplay date={weddingDate} type="dot" />
+          </p>
+          <p className="text-center font-bold text-gray-500">
+            <DateDisplay date={weddingDate} type="weekdayKr" />
+          </p>
+          <Calender date={weddingDate} />
+          <DigitalWatch date={weddingDate} />
+        </div>
+        <div className="mt-10 flex flex-col gap-2"></div>
       </div>
     </div>
   );

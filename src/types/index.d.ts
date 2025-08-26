@@ -102,6 +102,12 @@ type GalleryMapServerItem = {
 
 export type GalleryMapServer = Map<string, GalleryMapServerItem>;
 
+export type GalleryPayload = {
+  id: string;
+  type: GalleryType;
+  images: CloudinaryUploadResponse[];
+};
+
 export type GalleryEntry = {
   id: string;
   type: GalleryType;

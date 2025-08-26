@@ -7,7 +7,7 @@ function toCamelCase(str: string) {
   return str.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
 }
 
-const cloudinaryUploadResponseSchema = z.object({
+const CloudinaryUploadResponseSchema = z.object({
   asset_id: z.string(),
   public_id: z.string(),
   version: z.number(),
@@ -151,8 +151,16 @@ export const galleryMapSchema = z.map(
   z.string(),
   z.object({
     type: z.enum(["A", "B", "C", "D", "E"]),
-    images: z.array(cloudinaryUploadResponseSchema),
+    images: z.array(CloudinaryUploadResponseSchema),
   }),
 );
 
-export const ThumbnailSchema = z.array(cloudinaryUploadResponseSchema);
+export const gallerySchema = z.array(
+  z.object({
+    id: z.string(),
+    type: z.enum(["A", "B", "C", "D", "E"]),
+    images: z.array(CloudinaryUploadResponseSchema),
+  }),
+);
+
+export const ThumbnailSchema = z.array(CloudinaryUploadResponseSchema);

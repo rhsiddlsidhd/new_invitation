@@ -10,18 +10,20 @@ const Btn = ({
   type = "button",
   textColor,
   bgColor = "bg-black",
+  tap = true,
 }: {
   pending?: boolean;
   className?: string;
   textColor?: string;
   children: React.ReactNode;
   type?: "button" | "submit" | "reset";
+  tap?: boolean;
   onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   bgColor?: string;
 }) => {
   return (
     <motion.button
-      whileTap={{ scale: 0.95 }}
+      whileTap={{ scale: tap ? 0.95 : 1 }}
       type={type}
       disabled={pending}
       className={`cursor-pointer rounded-sm border-2 border-none p-2 ${textColor ?? "text-white"} ${

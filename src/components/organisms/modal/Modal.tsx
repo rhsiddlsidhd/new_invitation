@@ -58,7 +58,7 @@ const Modal = () => {
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [isOpen, setModalOpen]);
+  }, [isOpen, setModalOpen, clearErrors]);
 
   return (
     <AnimatePresence>

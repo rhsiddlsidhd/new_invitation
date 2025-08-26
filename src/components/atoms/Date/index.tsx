@@ -4,6 +4,7 @@ import React from "react";
 interface DateDisplayProps {
   date: string;
   type: "slash" | "dot" | "text" | "weekdayKr" | "weekdayEng";
+
   className?: string;
 }
 
@@ -53,6 +54,7 @@ const DateDisplay = ({ date, type, className }: DateDisplayProps) => {
     case "weekdayEng":
       formatted = `${weekdaysOfEng[weddingDay.day]}`;
       break;
+
     default:
       formatted = `${weddingDay.year}-${weddingDay.month}-${weddingDay.date}`;
   }
