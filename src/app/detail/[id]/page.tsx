@@ -1,11 +1,14 @@
 import InvitationContainer from "@/components/template/invitation/InvitationContainer";
 import { getUserInvitationInfo } from "@/lib/invitation";
 import { InvitationInput } from "@/models/invitationSchma";
+import Script from "next/script";
+
+
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   try {
     const { id } = await params;
-    // console.log(id);
+
     const res = await getUserInvitationInfo({ userId: "rhsiddlsidhd1" });
 
     if (!res) {

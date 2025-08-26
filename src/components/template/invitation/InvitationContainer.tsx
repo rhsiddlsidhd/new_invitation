@@ -9,6 +9,7 @@ import MusicBtn from "@/components/molecules/btns/MusicBtn";
 import Calender from "@/components/molecules/wedding/Calender";
 import DigitalWatch from "@/components/molecules/wedding/DigitalWatch";
 import Gallery from "@/components/molecules/wedding/Gallery";
+import KakaoMap from "@/components/molecules/wedding/KakaoMap";
 import Schedule from "@/components/molecules/wedding/Schedule";
 import GalleryCard from "@/components/organisms/GalleryCard";
 import { InvitationInput } from "@/models/invitationSchma";
@@ -214,6 +215,7 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
             Location
           </div>
           <div className="p-4 text-center text-xl font-semibold">오시는 길</div>
+          <KakaoMap address={weddingAddress} />
         </div>
       </div>
     </div>
