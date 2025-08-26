@@ -31,7 +31,7 @@ const DigitalWatch = ({ date }: { date: string }) => {
 
   return (
     <div>
-      <div className="m-auto grid grid-cols-4 gap-2">
+      <div className="m-auto grid w-3/4 grid-cols-4 gap-2 max-sm:w-full">
         {Object.entries(countdown).map(([key, value], i) => {
           return (
             <div key={i} className="text-center">

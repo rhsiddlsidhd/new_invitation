@@ -209,7 +209,12 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
           <Calender date={weddingDate} />
           <DigitalWatch date={weddingDate} />
         </div>
-        <div className="mt-10 flex flex-col gap-2"></div>
+        <div className="mt-10 flex flex-col gap-2">
+          <div className="text-center text-xs font-bold tracking-widest text-gray-500 uppercase">
+            Location
+          </div>
+          <div className="p-4 text-center text-xl font-semibold">오시는 길</div>
+        </div>
       </div>
     </div>
   );
