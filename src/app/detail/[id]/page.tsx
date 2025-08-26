@@ -1,9 +1,6 @@
 import InvitationContainer from "@/components/template/invitation/InvitationContainer";
 import { getUserInvitationInfo } from "@/lib/invitation";
 import { InvitationInput } from "@/models/invitationSchma";
-import Script from "next/script";
-
-
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   try {

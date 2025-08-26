@@ -214,7 +214,13 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
           <div className="text-center text-xs font-bold tracking-widest text-gray-500 uppercase">
             Location
           </div>
-          <div className="p-4 text-center text-xl font-semibold">오시는 길</div>
+          <p className="p-4 text-center text-xl font-semibold">오시는 길</p>
+          <p className="p-4 text-center text-sm font-semibold text-gray-500">
+            {weddingAddress}
+          </p>
+          <p className="p-2 text-center text-sm font-semibold text-gray-500">
+            {weddingDetailAddress}
+          </p>
           <KakaoMap address={weddingAddress} />
         </div>
       </div>

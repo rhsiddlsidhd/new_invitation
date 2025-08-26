@@ -1,6 +1,6 @@
 import useKakaoLoader from "@/lib/kakao/useKakaoLoader";
 import React, { useEffect, useState } from "react";
-import { Map } from "react-kakao-maps-sdk";
+import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 const KakaoMap = ({ address }: { address: string }) => {
   useKakaoLoader();
@@ -44,22 +44,19 @@ const KakaoMap = ({ address }: { address: string }) => {
   }, [address]);
 
   return (
-    <div>
+    <div className="flex justify-center">
       {geoState.lat !== null && geoState.lng !== null && (
-        <Map // 지도를 표시할 Container
+        <Map
           id="map"
           center={{
-            // 지도의 중심좌표
             lat: geoState.lat,
             lng: geoState.lng,
           }}
-          style={{
-            // 지도의 크기
-            width: "100%",
-            height: "350px",
-          }}
-          level={3} // 지도의 확대 레벨
-        />
+          className="aspect-[10/16] w-full"
+          level={3}
+        >
+          <MapMarker position={{ lat: geoState.lat, lng: geoState.lng }} />
+        </Map>
       )}
     </div>
   );
