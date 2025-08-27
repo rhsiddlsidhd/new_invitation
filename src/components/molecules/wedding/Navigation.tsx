@@ -93,7 +93,7 @@ const Navigation = ({ address }: { address: string }) => {
   }, [address]);
 
   return (
-    <div className="h-screen space-y-2">
+    <div className="space-y-2">
       <p className="text-sm font-bold">네비게이션</p>
       <p className="text-xs text-gray-400">
         원하시는 앱을 선택하시면 길안내가 시작됩니다.

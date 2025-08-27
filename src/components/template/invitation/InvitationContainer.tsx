@@ -12,6 +12,7 @@ import Gallery from "@/components/molecules/wedding/Gallery";
 import KakaoMap from "@/components/molecules/wedding/KakaoMap";
 import Navigation from "@/components/molecules/wedding/Navigation";
 import Schedule from "@/components/molecules/wedding/Schedule";
+import Subway from "@/components/molecules/wedding/Subway";
 import GalleryCard from "@/components/organisms/GalleryCard";
 import { InvitationInput } from "@/models/invitationSchma";
 import { useModalStore } from "@/store/modalStore";
@@ -226,6 +227,7 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
         </div>
         <div className="mt-10 flex flex-col gap-2">
           <Navigation address={weddingAddress} />
+          <Subway />
         </div>
       </div>
     </div>

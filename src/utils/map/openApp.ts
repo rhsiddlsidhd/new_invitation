@@ -4,7 +4,6 @@ export interface GeoState {
 }
 
 const openTmap = (address: string) => {
-  console.log("ㅋㅋㅋㅋㅋㅋㅋ", address);
   const timeout = setTimeout(() => {
     window.location.href = `https://map.naver.com/v5/search/${encodeURIComponent(address)}`;
   }, 3000);
