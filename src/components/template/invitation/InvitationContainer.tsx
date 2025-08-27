@@ -10,6 +10,7 @@ import Calender from "@/components/molecules/wedding/Calender";
 import DigitalWatch from "@/components/molecules/wedding/DigitalWatch";
 import Gallery from "@/components/molecules/wedding/Gallery";
 import KakaoMap from "@/components/molecules/wedding/KakaoMap";
+import Navigation from "@/components/molecules/wedding/Navigation";
 import Schedule from "@/components/molecules/wedding/Schedule";
 import GalleryCard from "@/components/organisms/GalleryCard";
 import { InvitationInput } from "@/models/invitationSchma";
@@ -222,6 +223,9 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
             {weddingDetailAddress}
           </p>
           <KakaoMap address={weddingAddress} />
+        </div>
+        <div className="mt-10 flex flex-col gap-2">
+          <Navigation address={weddingAddress} />
         </div>
       </div>
     </div>

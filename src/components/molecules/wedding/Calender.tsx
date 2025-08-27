@@ -51,7 +51,7 @@ const Calender = ({ date }: { date: string }) => {
       </ul>
       <ul className="grid grid-cols-7">
         {monthCalender.map((day, idx) => {
-          const Dday = idx === weddingDay.date;
+          const Dday = day === weddingDay.date;
           return (
             <li
               key={idx}
