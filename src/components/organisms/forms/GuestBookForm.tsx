@@ -1,5 +1,5 @@
 import Btn from "@/components/atoms/Btn";
-import React, { useActionState } from "react";
+import React, { useActionState, useEffect } from "react";
 
 import Input from "@/components/atoms/Input";
 import { postGuestbook } from "@/actions/guestbook/postGuestbook";
@@ -7,9 +7,9 @@ import { useModalStore } from "@/store/modalStore";
 const GuestBookForm = () => {
   const [state, action, pending] = useActionState(postGuestbook, null);
   const { payload } = useModalStore();
-  useEffect(()=>{
-    console.log(payload)
-  },[])
+  useEffect(() => {
+    console.log(payload);
+  }, [payload]);
   return (
     <form action={action} className="flex flex-col gap-2">
       <input type="hidden" name="owner" />
