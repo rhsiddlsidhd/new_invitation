@@ -15,6 +15,8 @@ export type ModalType =
   | "wedding-thumbnail"
   | "wedding-gallery"
   | "wedding-contact"
+  | "guest-book-view"
+  | "guest-book-write"
   | null;
 
 interface ModalState {

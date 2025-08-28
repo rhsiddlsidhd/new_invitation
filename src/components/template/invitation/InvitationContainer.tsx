@@ -39,6 +39,11 @@ export interface PhonePayload {
   phone: string;
 }
 
+interface GuestBookBtn {
+  label: string;
+  onClick: () => void;
+}
+
 const InvitationContainer = ({ data }: { data: InvitationInput }) => {
   const {
     weddingDate,
@@ -111,6 +116,28 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
       name: brideMotherName,
       phone: brideMotherPhone,
       role: "신부 어머니",
+    },
+  ];
+
+  const btns: GuestBookBtn[] = [
+    {
+      label: "방명록 작성하기",
+      onClick: () => {
+        setModalOpen({
+          isOpen: true,
+          type: "guest-book-write",
+        });
+      },
+    },
+    {
+      label: "방명록 전체보기",
+      onClick: () => {
+        setModalOpen({
+          isOpen: true,
+          type: "guest-book-view",
+          config: { backgroundColor: "transparent" },
+        });
+      },
     },
   ];
 
@@ -210,7 +237,7 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
             <DateDisplay date={weddingDate} type="weekdayKr" />
           </p>
           <Calender date={weddingDate} />
-          <DigitalWatch date={weddingDate} />
+          {/* <DigitalWatch date={weddingDate} /> */}
         </div>
         <div className="mt-10 flex flex-col gap-2">
           <div className="text-center text-xs font-bold tracking-widest text-gray-500 uppercase">
@@ -228,6 +255,34 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
         <div className="mt-10 flex flex-col gap-2">
           <Navigation address={weddingAddress} />
           <Subway />
+        </div>
+        <div className="mt-10 flex flex-col gap-2">
+          <div className="relative aspect-[3/4] w-full">
+            <div className="absolute top-0 z-10 h-10 w-full bg-[linear-gradient(to_top,transparent_0%,white_70%,white_100%)]" />
+            <Img src={thumbnails[1]} />
+            <div className="absolute bottom-0 z-10 h-10 w-full bg-[linear-gradient(to_bottom,transparent_0%,white_70%,white_100%)]" />
+          </div>
+          <div className="text-center text-xs font-bold tracking-widest text-gray-500 uppercase">
+            Guestbook
+          </div>
+          <p className="p-4 text-center text-xl font-semibold">방명록</p>
+          <p className="text-center text-sm font-semibold text-gray-500">
+            신랑 신부의 <br />
+            결혼을 축하해주세요.
+          </p>
+          {btns.map((btn, i) => {
+            return (
+              <Btn
+                onClick={btn.onClick}
+                key={i}
+                bgColor="bg-gray-200"
+                textColor="black"
+                className="m-auto w-fit px-6 py-2 text-sm font-semibold shadow-2xl"
+              >
+                {btn.label}
+              </Btn>
+            );
+          })}
         </div>
       </div>
     </div>

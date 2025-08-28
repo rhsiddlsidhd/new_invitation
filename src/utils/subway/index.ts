@@ -45,7 +45,7 @@ export const createSelecedSubwayMap = (
 
   __data.forEach((item) => {
     if (!newMap.has(item.STATION_NM)) newMap.set(item.STATION_NM, []);
-    console.log(newMap.get(item.STATION_NM));
+
     newMap.get(item.STATION_NM).push(item.LINE_NUM);
   });
 

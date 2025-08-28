@@ -14,6 +14,8 @@ import WeddingGalleryForm from "../forms/WeddingGalleryForm";
 import Overlay from "./../../atoms/Overlay/index";
 import Contact from "../panel/Contact";
 import { useUserStore } from "@/store/userStore";
+import GuestBook from "@/components/molecules/wedding/GuestBook";
+import GuestBookForm from "../forms/GuestBookForm";
 
 const Modal = () => {
   const { isOpen, modalType, config, setModalOpen } = useModalStore();
@@ -38,6 +40,10 @@ const Modal = () => {
         return <WeddingGalleryForm />;
       case "wedding-contact":
         return <Contact />;
+      case "guest-book-view":
+        return <GuestBook />;
+      case "guest-book-write":
+        return <GuestBookForm />;
       default:
         return null;
     }
