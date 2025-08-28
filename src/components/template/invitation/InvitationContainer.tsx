@@ -4,7 +4,6 @@ import Btn from "@/components/atoms/Btn";
 import DateDisplay from "@/components/atoms/Date";
 import { PhoneIcon } from "@/components/atoms/Icon";
 import Img from "@/components/atoms/Img";
-
 import MusicBtn from "@/components/molecules/btns/MusicBtn";
 import Calender from "@/components/molecules/wedding/Calender";
 import DigitalWatch from "@/components/molecules/wedding/DigitalWatch";
@@ -14,7 +13,7 @@ import Navigation from "@/components/molecules/wedding/Navigation";
 import Schedule from "@/components/molecules/wedding/Schedule";
 import Subway from "@/components/molecules/wedding/Subway";
 import GalleryCard from "@/components/organisms/GalleryCard";
-import { InvitationInput } from "@/models/invitationSchma";
+import { InvitationInput } from "@/models/invitationSchema";
 import { useModalStore } from "@/store/modalStore";
 
 import React from "react";
@@ -46,6 +45,7 @@ interface GuestBookBtn {
 
 const InvitationContainer = ({ data }: { data: InvitationInput }) => {
   const {
+    userId,
     weddingDate,
     thumbnails,
     groomName,
@@ -72,7 +72,6 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
     childSuffix: "아들" | "딸";
   };
 
-  console.log(galleries);
   const partyRows: PartyRow[] = [
     {
       parentNames: [groomFatherName, groomMotherName].filter(
@@ -126,6 +125,7 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
         setModalOpen({
           isOpen: true,
           type: "guest-book-write",
+          payload: { userId },
         });
       },
     },
@@ -257,10 +257,10 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
           <Subway />
         </div>
         <div className="mt-10 flex flex-col gap-2">
-          <div className="relative aspect-[3/4] w-full">
-            <div className="absolute top-0 z-10 h-10 w-full bg-[linear-gradient(to_top,transparent_0%,white_70%,white_100%)]" />
+          <div className="relative mb-3 aspect-[3/4] w-full">
+            <div className="absolute -top-2 z-10 h-15 w-full bg-[linear-gradient(to_top,transparent_0%,white_70%,white_100%)]" />
             <Img src={thumbnails[1]} />
-            <div className="absolute bottom-0 z-10 h-10 w-full bg-[linear-gradient(to_bottom,transparent_0%,white_70%,white_100%)]" />
+            <div className="absolute -bottom-2 z-10 h-15 w-full bg-[linear-gradient(to_bottom,transparent_0%,white_70%,white_100%)]" />
           </div>
           <div className="text-center text-xs font-bold tracking-widest text-gray-500 uppercase">
             Guestbook

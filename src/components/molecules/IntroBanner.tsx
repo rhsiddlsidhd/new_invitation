@@ -16,7 +16,7 @@ const IntroBanner = ({
     >
       <h1 className="mb-4 text-4xl font-bold text-gray-800">{introMessage}</h1>
       <Btn pending={false} bgColor="bg-blue-500">
-        <Link href={"/detail/sample"}>Sample</Link>
+        <Link href={"/detail/rhsiddlsidhd1"}>Sample</Link>
       </Btn>
     </motion.div>
   );

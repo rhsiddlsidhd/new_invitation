@@ -1,6 +1,6 @@
 import GalleryCard from "@/components/organisms/GalleryCard";
 import React, { useMemo, useState } from "react";
-import { IGallery } from "@/models/invitationSchma";
+import { IGallery } from "@/models/invitationSchema";
 
 import { PlusIcon } from "@/components/atoms/Icon";
 import { motion } from "framer-motion";

@@ -115,3 +115,9 @@ export type GalleryEntry = {
 };
 
 export type Thumbnail = CloudinaryUploadResPonse;
+
+export interface GuestBook {
+  name: string;
+  password: string;
+  message: string;
+}

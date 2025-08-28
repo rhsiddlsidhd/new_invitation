@@ -1,4 +1,4 @@
-import Invitation from "@/models/invitationSchma";
+import Invitation from "@/models/invitationSchema";
 import { dbConnect } from "@/utils/mongodb";
 
 export const isUserInvitationInfo = async (userId: string) => {

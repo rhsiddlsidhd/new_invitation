@@ -1,12 +1,12 @@
 import InvitationContainer from "@/components/template/invitation/InvitationContainer";
 import { getUserInvitationInfo } from "@/lib/invitation";
-import { InvitationInput } from "@/models/invitationSchma";
+import { InvitationInput } from "@/models/invitationSchema";
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   try {
     const { id } = await params;
 
-    const res = await getUserInvitationInfo({ userId: "rhsiddlsidhd1" });
+    const res = await getUserInvitationInfo({ userId: id });
 
     if (!res) {
       throw new Error("유저를 찾을 수 없습니다.");

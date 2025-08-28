@@ -35,7 +35,7 @@ export interface InvitationDocument {
 
 export type InvitationInput = Omit<
   InvitationDocument,
-  "createdAt" | "updatedAt" | "userId"
+  "createdAt" | "updatedAt"
 >;
 
 const gallerySchema = new Schema<IGallery>({

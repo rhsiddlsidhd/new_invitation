@@ -2,7 +2,7 @@
 
 import { cloudinary } from "@/lib/cloudinary/config";
 import { decrypt, getSession } from "@/lib/session";
-import { InvitationInput } from "@/models/invitationSchma";
+import { InvitationInput } from "@/models/invitationSchema";
 import { createInvitation } from "@/services/invitationServices";
 import { CloudinaryUploadResponse, GalleryEntry } from "@/types";
 import { validateAndFlatten } from "@/utils/validation";

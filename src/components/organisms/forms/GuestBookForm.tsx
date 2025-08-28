@@ -1,21 +1,22 @@
 import Btn from "@/components/atoms/Btn";
-import React from "react";
+import React, { useActionState } from "react";
 
 import Input from "@/components/atoms/Input";
-
+import { postGuestbook } from "@/actions/guestbook/postGuestbook";
+import { useModalStore } from "@/store/modalStore";
 const GuestBookForm = () => {
+  const [state, action, pending] = useActionState(postGuestbook, null);
+  const { payload } = useModalStore();
+  useEffect(()=>{
+    console.log(payload)
+  },[])
   return (
-    <form
-      onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log("submit");
-      }}
-      className="flex flex-col gap-2"
-    >
+    <form action={action} className="flex flex-col gap-2">
+      <input type="hidden" name="owner" />
       <Input
         type="text"
         autoComplete="username"
-        name="guestName"
+        name="name"
         placeholder="이름을 입력하세요"
         required
       />
@@ -23,12 +24,13 @@ const GuestBookForm = () => {
       <Input
         type="password"
         autoComplete="current-password"
-        name="guestPassword"
+        name="password"
         placeholder="비밀번호를 입력하세요"
         required
       />
 
       <textarea
+        name="message"
         placeholder="메시지를 입력하세요"
         className="w-full rounded-lg border border-gray-300 p-2"
       />

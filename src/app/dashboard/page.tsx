@@ -4,7 +4,7 @@ import InvitationInfoForm from "@/components/organisms/forms/InvitationInfoForm"
 import Btn from "@/components/atoms/Btn";
 import { signOut } from "@/actions/auth";
 import { redirect } from "next/navigation";
-import { InvitationInput } from "@/models/invitationSchma";
+import { InvitationInput } from "@/models/invitationSchema";
 import Box from "@/components/atoms/Box";
 
 type InvitationApiResponse = {

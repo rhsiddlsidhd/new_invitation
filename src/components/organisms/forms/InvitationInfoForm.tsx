@@ -7,7 +7,7 @@ import WeddingThumbnail from "../../molecules/WeddingThumbnail";
 import WeddingGallery from "../../molecules/WeddingGallery";
 import Btn from "../../atoms/Btn";
 import { useRouter } from "next/navigation";
-import { InvitationInput } from "@/models/invitationSchma";
+import { InvitationInput } from "@/models/invitationSchema";
 import { useUserStore } from "@/store/userStore";
 import { postInvitationInfo } from "@/actions/invitation/postInvitation";
 import { CloudinaryUploadResponse, GalleryMapClient } from "@/types";
