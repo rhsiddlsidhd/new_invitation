@@ -5,6 +5,7 @@ import DateDisplay from "@/components/atoms/Date";
 import { PhoneIcon } from "@/components/atoms/Icon";
 import Img from "@/components/atoms/Img";
 import MusicBtn from "@/components/molecules/btns/MusicBtn";
+import Account from "@/components/molecules/wedding/Account";
 import Calender from "@/components/molecules/wedding/Calender";
 import Gallery from "@/components/molecules/wedding/Gallery";
 import KakaoMap from "@/components/molecules/wedding/KakaoMap";
@@ -18,24 +19,33 @@ import { set } from "mongoose";
 
 import React, { useEffect } from "react";
 
-type PhonePayloadId =
+type PersonPayloadId =
   | "groom"
   | "groomFather"
   | "groomMother"
   | "bride"
   | "brideFather"
   | "brideMother";
-export interface PhonePayload {
-  id: PhonePayloadId;
-  role:
-    | "신랑"
-    | "신랑 아버지"
-    | "신랑 어머니"
-    | "신부"
-    | "신부 아버지"
-    | "신부 어머니";
+
+type PersonPayloadType =
+  | "신랑"
+  | "신랑 아버지"
+  | "신랑 어머니"
+  | "신부"
+  | "신부 아버지"
+  | "신부 어머니";
+interface PersonPayload {
+  id: PersonPayloadId;
+  role: PersonPayloadType;
   name: string;
+}
+
+export interface PhonePayload extends PersonPayload {
   phone: string;
+}
+
+export interface AccountPayload extends PersonPayload {
+  account: string;
 }
 
 interface GuestBookBtn {
@@ -73,6 +83,12 @@ const InvitationContainer = ({
     groomMotherPhone,
     groomFatherPhone,
     galleries,
+    brideAccount,
+    brideFatherAccount,
+    brideMotherAccount,
+    groomAccount,
+    groomMotherAccount,
+    groomFatherAccount,
   } = userInfo;
 
   const { setModalOpen } = useModalStore();
@@ -129,6 +145,35 @@ const InvitationContainer = ({
     },
   ];
 
+  const accountPayload: AccountPayload[] = [
+    { id: "groom", account: groomAccount, name: groomName, role: "신랑" },
+    {
+      id: "groomFather",
+      account: groomFatherAccount,
+      name: groomFatherName,
+      role: "신랑 아버지",
+    },
+    {
+      id: "groomMother",
+      account: groomMotherAccount,
+      name: groomMotherName,
+      role: "신랑 어머니",
+    },
+    { id: "bride", account: brideAccount, name: brideName, role: "신부" },
+    {
+      id: "brideFather",
+      account: brideFatherAccount,
+      name: brideFatherName,
+      role: "신부 아버지",
+    },
+    {
+      id: "brideMother",
+      account: brideMotherAccount,
+      name: brideMotherName,
+      role: "신부 어머니",
+    },
+  ];
+
   const btns: GuestBookBtn[] = [
     {
       label: "방명록 작성하기",
@@ -154,7 +199,7 @@ const InvitationContainer = ({
   ];
 
   return (
-    <div className="m-auto mb-20 w-full max-w-[432px] bg-white p-4">
+    <div className="m-auto w-full max-w-[432px] bg-white p-4">
       <div>
         <div className="flex justify-end">
           <MusicBtn />
@@ -295,6 +340,20 @@ const InvitationContainer = ({
               </Btn>
             );
           })}
+        </div>
+        <div className="mt-10 flex flex-col gap-2">
+          <div className="text-center text-xs font-bold tracking-widest text-gray-500 uppercase">
+            ACCOUNT
+          </div>
+          <p className="p-4 text-center text-xl font-semibold">
+            마음 전하실 곳
+          </p>
+          <p className="text-center text-sm font-semibold text-gray-500">
+            참석이 어려우신 분들을 위해 <br /> 계좌번호를 기재하였습니다.
+            <br />
+            너그라운 마음으로 양해 부탁드립니다.
+          </p>
+          <Account data={accountPayload} />
         </div>
       </div>
     </div>
