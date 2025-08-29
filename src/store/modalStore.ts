@@ -28,6 +28,7 @@ interface ModalState {
     config?: ModalConfig;
     payload?: unknown;
   }) => void;
+
   errors: Record<string, string[] | undefined>;
   setErrors: (errors: Record<string, string[] | undefined>) => void;
   modalType: ModalType;

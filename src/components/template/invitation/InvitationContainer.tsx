@@ -6,17 +6,17 @@ import { PhoneIcon } from "@/components/atoms/Icon";
 import Img from "@/components/atoms/Img";
 import MusicBtn from "@/components/molecules/btns/MusicBtn";
 import Calender from "@/components/molecules/wedding/Calender";
-import DigitalWatch from "@/components/molecules/wedding/DigitalWatch";
 import Gallery from "@/components/molecules/wedding/Gallery";
 import KakaoMap from "@/components/molecules/wedding/KakaoMap";
 import Navigation from "@/components/molecules/wedding/Navigation";
 import Schedule from "@/components/molecules/wedding/Schedule";
 import Subway from "@/components/molecules/wedding/Subway";
-import GalleryCard from "@/components/organisms/GalleryCard";
 import { InvitationInput } from "@/models/invitationSchema";
 import { useModalStore } from "@/store/modalStore";
+import { GuestBook } from "@/types";
+import { set } from "mongoose";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 type PhonePayloadId =
   | "groom"
@@ -43,7 +43,17 @@ interface GuestBookBtn {
   onClick: () => void;
 }
 
-const InvitationContainer = ({ data }: { data: InvitationInput }) => {
+export type GuestBookView = Omit<GuestBook, "userId" | "password"> & {
+  _id: string;
+};
+
+const InvitationContainer = ({
+  userInfo,
+  guestBook,
+}: {
+  userInfo: InvitationInput;
+  guestBook: GuestBookView[];
+}) => {
   const {
     userId,
     weddingDate,
@@ -63,7 +73,8 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
     groomMotherPhone,
     groomFatherPhone,
     galleries,
-  } = data;
+  } = userInfo;
+
   const { setModalOpen } = useModalStore();
 
   type PartyRow = {
@@ -136,13 +147,14 @@ const InvitationContainer = ({ data }: { data: InvitationInput }) => {
           isOpen: true,
           type: "guest-book-view",
           config: { backgroundColor: "transparent" },
+          payload: guestBook,
         });
       },
     },
   ];
 
   return (
-    <div className="m-auto w-full max-w-[432px] bg-white p-4">
+    <div className="m-auto mb-20 w-full max-w-[432px] bg-white p-4">
       <div>
         <div className="flex justify-end">
           <MusicBtn />

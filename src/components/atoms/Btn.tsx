@@ -26,7 +26,7 @@ const Btn = ({
       whileTap={{ scale: tap ? 0.95 : 1 }}
       type={type}
       disabled={pending}
-      className={`cursor-pointer rounded-sm border-2 border-none p-2 ${textColor ?? "text-white"} ${
+      className={`min-w-fit cursor-pointer rounded-sm border-2 border-none p-2 ${textColor ?? "text-white"} ${
         pending ? "bg-gray-400" : bgColor
       } ${pending ? "cursor-not-allowed" : "hover:opacity-80"} ${className}`}
       onClick={onClick}

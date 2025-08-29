@@ -5,12 +5,15 @@ interface GuestBookDocument extends GuestBookType, Document {
   userId: string;
 }
 
-const guestBookSchema = new Schema<GuestBookDocument>({
-  userId: { type: String, required: true },
-  name: { type: String, required: true },
-  password: { type: String, required: true },
-  message: { type: String, required: true },
-});
+const guestBookSchema = new Schema<GuestBookDocument>(
+  {
+    userId: { type: String, required: true },
+    name: { type: String, required: true },
+    password: { type: String, required: true },
+    message: { type: String, required: true },
+  },
+  { timestamps: true },
+);
 
 const GuestBook: Model<GuestBookDocument> =
   mongoose.models.GuestBook ||

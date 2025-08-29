@@ -1,31 +1,46 @@
 "use server";
 
-import { decrypt, getSession } from "@/lib/session";
 import { createGuestBook } from "@/services/guestBookServices";
 import { hashPassword } from "@/services/userServices";
 import { GuestBook } from "@/types";
 
 const isGuestbookKey = (key: string): key is keyof GuestBook => {
-  return ["name", "password", "message"].includes(key);
+  return ["name", "password", "message", "userId"].includes(key);
 };
 
 export const postGuestbook = async (prev: unknown, formData: FormData) => {
-  const token = await getSession();
-  const { userId } = await decrypt(token);
   //방명록글의 ID 는 토큰으로 가져오면 안되고 params로 가져와야
   //특정되지 않은 유저들이 배포받은 사용자의 청첩장 방명록 글에 DATA CREATE 가능
-  const saveData: GuestBook = { name: "", password: "", message: "" };
+  const saveData: GuestBook = {
+    userId: "",
+    name: "",
+    password: "",
+    message: "",
+  };
 
-  for (const [key, value] of formData.entries()) {
-    // if (typeof value === "string" && isGuestbookKey(key)) saveData[key] = value;
-    if (typeof value === "string" && isGuestbookKey(key)) {
-      const processedValue =
-        key === "password" ? await hashPassword(value) : value;
+  try {
+    for (const [key, value] of formData.entries()) {
+      if (typeof value === "string" && isGuestbookKey(key)) {
+        const processedValue =
+          key === "password" ? await hashPassword(value) : value.trim();
 
-      saveData[key] = processedValue;
+        saveData[key] = processedValue;
+      }
     }
-  }
 
-  const res = await createGuestBook({ id: userId, data: saveData });
-  console.log("res", res);
+    await createGuestBook({ data: saveData });
+
+    return {
+      success: true,
+      message: "방명록 작성이 완료되었습니다.",
+    };
+  } catch (e) {
+    const message =
+      e instanceof Error ? e.message : "서버 에러가 발생했습니다.";
+    console.error(message);
+    return {
+      success: false,
+      error: message,
+    };
+  }
 };

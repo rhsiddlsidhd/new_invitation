@@ -4,15 +4,44 @@ import React, { useActionState, useEffect } from "react";
 import Input from "@/components/atoms/Input";
 import { postGuestbook } from "@/actions/guestbook/postGuestbook";
 import { useModalStore } from "@/store/modalStore";
+import { useRouter } from "next/navigation";
+
+interface Payload {
+  userId: string;
+}
+
+const isPayload = (payload: unknown): payload is Payload => {
+  if (!payload) return false;
+  if (
+    typeof payload === "object" &&
+    "userId" in payload &&
+    typeof payload.userId === "string"
+  )
+    return true;
+  return false;
+};
+
 const GuestBookForm = () => {
   const [state, action, pending] = useActionState(postGuestbook, null);
-  const { payload } = useModalStore();
+  const { payload, setModalOpen } = useModalStore();
+  const router = useRouter();
+
   useEffect(() => {
-    console.log(payload);
-  }, [payload]);
+    if (state && !state.success && state.error) {
+      alert("잠시 후에 다시 시도해주세요.");
+      setModalOpen({ isOpen: false });
+    } else if (state && state.success && state.message) {
+      alert(state.message);
+      setModalOpen({ isOpen: false });
+      router.refresh();
+    }
+  }, [state, setModalOpen, router]);
+
   return (
     <form action={action} className="flex flex-col gap-2">
-      <input type="hidden" name="owner" />
+      {isPayload(payload) && (
+        <input type="hidden" name="userId" value={payload.userId} />
+      )}
       <Input
         type="text"
         autoComplete="username"
@@ -40,7 +69,7 @@ const GuestBookForm = () => {
         type="submit"
         className="w-full font-bold"
       >
-        축하 글 전달하기
+        {pending ? "전송 중..." : "축하 글 전달하기"}
       </Btn>
     </form>
   );

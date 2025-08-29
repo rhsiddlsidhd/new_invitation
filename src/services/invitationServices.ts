@@ -39,7 +39,7 @@ export const patchInvitation = async ({
   id: string;
 }) => {
   await dbConnect();
-  console.log("data", data);
+
   const res = await Invitation.findOneAndUpdate(
     { userId: id },
     { $set: data },
@@ -47,9 +47,29 @@ export const patchInvitation = async ({
   )
     .select(" -__v -_id -galleries._id")
     .lean();
-  console.log("res", res);
 
   if (!res) throw new Error("Failed to update invitation");
 
   return res;
+};
+
+export const getUserInvitationInfo = async ({ userId }: { userId: string }) => {
+  await dbConnect();
+  const res = await Invitation.findOne({ userId })
+    .select("-_id -__v -galleries._id")
+    .lean();
+  return res;
+};
+
+export const isUserInvitationInfo = async (userId: string) => {
+  try {
+    await dbConnect();
+
+    const res = await Invitation.exists({ userId });
+
+    return !!res;
+  } catch (e) {
+    console.error("GetUserInvitationInfo Error:", e);
+    return false;
+  }
 };

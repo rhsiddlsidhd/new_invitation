@@ -24,8 +24,6 @@ export const patchGallery = async (
       };
     }
 
-    // 여기서 validation.data.images 가지고
-
     const galleryEntries: GalleryEntry[] = payload.data.map((item) => {
       const imageUrls = item.images.map((img) =>
         cloudinary.url(img.public_id, {
