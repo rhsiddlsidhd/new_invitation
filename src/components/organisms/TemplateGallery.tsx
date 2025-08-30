@@ -61,6 +61,10 @@ const TemplateGallery = ({ scroll }: { scroll: MotionValue<number> }) => {
     };
   }, []);
 
+  useEffect(() => {
+    console.log("pointerEvents", pointerEvents);
+  }, [pointerEvents]);
+
   return (
     <motion.div
       style={{

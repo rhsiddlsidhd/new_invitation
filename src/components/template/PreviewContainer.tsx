@@ -1,12 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import {
-  motion,
-  useMotionValueEvent,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import React, { useRef, useState } from "react";
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 
 import PreviewHorizonalSlider from "../molecules/PreviewHorizonalSlider";
 import PreviewVerticalSlider from "../molecules/PreviewVerticalSlider";
@@ -14,6 +9,7 @@ import TemplateGallery from "../organisms/TemplateGallery";
 
 const PreviewContainer = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isTemplateGallery, setIsTemplateGallery] = useState<boolean>(false);
 
   const { scrollYProgress: scrollYProgressCenter } = useScroll({
     target: containerRef,
@@ -23,6 +19,13 @@ const PreviewContainer = () => {
   const { scrollYProgress: scrollYProgressEnd } = useScroll({
     target: containerRef,
     offset: ["center end", "end end"],
+  });
+
+  useMotionValueEvent(scrollYProgressEnd, "change", (latest) => {
+    console.log("latest", latest);
+    const isScrollEnd = latest === 1;
+    console.log("isScrollEnd", isScrollEnd);
+    setIsTemplateGallery((prev) => (prev !== isScrollEnd ? isScrollEnd : prev));
   });
 
   return (
@@ -43,7 +46,17 @@ const PreviewContainer = () => {
         </div>
         <PreviewVerticalSlider scrollYProgress={scrollYProgressCenter} />
       </div>
-      <TemplateGallery scroll={scrollYProgressEnd} />
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: isTemplateGallery ? 0 : 1,
+          pointerEvents: isTemplateGallery ? "none" : "auto",
+        }}
+        transition={{ delay: 0.6 }}
+      >
+        <TemplateGallery scroll={scrollYProgressEnd} />
+      </motion.div>
     </motion.section>
   );
 };
