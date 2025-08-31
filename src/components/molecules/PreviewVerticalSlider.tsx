@@ -8,27 +8,28 @@ const PreviewVerticalSlider = ({
 }: {
   scrollYProgress: MotionValue<number>;
 }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [scrollY, setScrollY] = useState<number>(0);
+  // const containerRef = useRef<HTMLDivElement>(null);
+  // const [scrollY, setScrollY] = useState<number>(0);
 
-  const CARDHEIGHT = 300;
+  // const CARDHEIGHT = 300;
 
-  const y = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [0, CARDHEIGHT * 2 - scrollY],
-  );
+  // const y = useTransform(
+  //   scrollYProgress,
+  //   [0, 1],
+  //   [0, CARDHEIGHT * 2 - scrollY],
+  // );
 
-  useEffect(() => {
-    if (!containerRef.current) return;
-    const height = containerRef.current.scrollHeight;
-    setScrollY(height);
-  }, []);
+  // useEffect(() => {
+  //   if (!containerRef.current) return;
+  //   const height = containerRef.current.scrollHeight;
+  //   setScrollY(height);
+  // }, []);
 
   return (
     <div className="sticky top-0 h-screen w-[240px] p-2 max-sm:hidden max-sm:w-full">
-      <motion.div ref={containerRef} className="" style={{ y }}>
-        {Array.from({ length: 6 }, (_, i) => {
+      <motion.div className="border-2 border-blue-400">
+        {/* ref={containerRef} style={{ y }} */}
+        {Array.from({ length: 3 }, (_, i) => {
           return (
             <div key={i} className="h-[300px] w-full">
               <Card className="h-full w-full">

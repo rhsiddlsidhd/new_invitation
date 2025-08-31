@@ -22,7 +22,8 @@ const Footer = () => {
 
   return (
     <div
-      className="relative z-50 h-screen w-full bg-black text-white"
+      style={{ height: "100vh" }}
+      className="relative z-50 bg-black text-white"
       // ref={containerRef}
     >
       <div className="flex h-[25vh] items-center justify-center">

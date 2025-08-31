@@ -48,11 +48,11 @@ const PreviewContainer = () => {
       </div>
 
       <motion.div
-      // initial={{ opacity: 0 }}
-      // animate={{
-      //   opacity: isTemplateGallery ? 0 : 1,
-      // }}
-      // transition={{ delay: 0.6, ease: "easeOut" }}
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: isTemplateGallery ? 0 : 1,
+        }}
+        transition={{ delay: 0.6, ease: "easeOut" }}
       >
         <TemplateGallery scroll={scrollYProgressEnd} />
       </motion.div>

@@ -12,7 +12,7 @@ interface SnapBoxProps {
 
 type ScrollDirection = "up" | "down";
 
-const SnapBox = ({
+const ScrollViewBox = ({
   triggerOnce = false,
   zIndex = 0,
 
@@ -29,7 +29,7 @@ const SnapBox = ({
     setScrollDirection(diff > 0 ? "down" : "up");
   });
   const isInView = useInView(boxRef, {
-    amount: 0.2,
+    amount: 0.175,
     once: triggerOnce,
   });
 
@@ -45,8 +45,6 @@ const SnapBox = ({
       ref={boxRef}
       style={{
         height: `${height}vh`,
-        color: isInView ? "red" : "black",
-        fontSize: isInView ? "3rem" : "1rem",
       }}
       className={`relative w-full overflow-hidden z-[${zIndex}]`}
     >
@@ -55,4 +53,4 @@ const SnapBox = ({
   );
 };
 
-export default SnapBox;
+export default ScrollViewBox;

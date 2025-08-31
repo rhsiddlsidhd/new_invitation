@@ -2,7 +2,7 @@ import Header from "@/components/layout/Header";
 import Modal from "@/components/organisms/modal/Modal";
 import "./globals.css";
 import Footer from "@/components/layout/Footer";
-import SnapBox from "@/components/template/Box/SnapBox";
+import ScrollViewBox from "@/components/template/Box/ScrollVIewBox";
 
 export default function RootLayout({
   children,
@@ -12,12 +12,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {/* <Header /> */}
+        <Header />
         {children}
         <Modal />
-        <SnapBox>
+        <ScrollViewBox height={100}>
           <Footer />
-        </SnapBox>
+        </ScrollViewBox>
       </body>
     </html>
   );

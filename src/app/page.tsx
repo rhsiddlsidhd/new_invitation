@@ -1,5 +1,4 @@
-import SnapBox from "@/components/template/Box/SnapBox";
-import SnapContainer from "@/components/template/container/SnapContainer";
+import ScrollViewBox from "@/components/template/Box/ScrollVIewBox";
 import CreateContainer from "@/components/template/CreateContainer";
 import IntroContainer from "@/components/template/IntroContainer";
 import PreviewContainer from "@/components/template/PreviewContainer";
@@ -51,23 +50,17 @@ export default async function Home() {
   }
 
   return (
-    <SnapContainer>
-      <SnapBox height={200}>
-        {/* height={200} */}
-        {/* <div className="h-full w-full bg-red-300">스냅 1</div> */}
+    <div>
+      <ScrollViewBox height={200}>
         <IntroContainer posts={createdPosts} />
-      </SnapBox>
-      <SnapBox height={200}>
-        {/* height={150} */}
-        {/* <div className="h-full w-full bg-green-300">스냅 2</div> */}
+      </ScrollViewBox>
+      <ScrollViewBox height={150}>
         <CreateContainer user={user} />
-      </SnapBox>
-      <SnapBox zIndex={20} height={200}>
-        {/*  height={250} */}
-        {/* <div className="h-full w-full bg-blue-300">스냅 3</div> */}
+      </ScrollViewBox>
+      <ScrollViewBox zIndex={20} height={200}>
         <PreviewContainer />
-      </SnapBox>
+      </ScrollViewBox>
       {/* <div className="relative top-0 z-10 h-screen w-full bg-blue-500"></div> */}
-    </SnapContainer>
+    </div>
   );
 }
