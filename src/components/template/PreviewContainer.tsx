@@ -31,7 +31,7 @@ const PreviewContainer = () => {
   return (
     <motion.section
       initial={{ backgroundColor: "#E7E6E2" }}
-      className="relative z-20 h-[500vh] w-full"
+      className="relative z-20 h-[250vh] w-full"
       ref={containerRef}
     >
       <div className="flex h-full max-sm:block">
@@ -48,12 +48,11 @@ const PreviewContainer = () => {
       </div>
 
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{
-          opacity: isTemplateGallery ? 0 : 1,
-          pointerEvents: isTemplateGallery ? "none" : "auto",
-        }}
-        transition={{ delay: 0.6 }}
+      // initial={{ opacity: 0 }}
+      // animate={{
+      //   opacity: isTemplateGallery ? 0 : 1,
+      // }}
+      // transition={{ delay: 0.6, ease: "easeOut" }}
       >
         <TemplateGallery scroll={scrollYProgressEnd} />
       </motion.div>

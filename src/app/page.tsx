@@ -49,7 +49,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="">
+    <div>
       <IntroContainer posts={createdPosts} />
       <CreateContainer user={user} />
       <PreviewContainer />
