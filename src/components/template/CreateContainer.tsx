@@ -1,4 +1,5 @@
 "use client";
+
 import { useMotionValueEvent, useScroll } from "motion/react";
 import React, { useRef, useState } from "react";
 import { useTransform } from "framer-motion";
@@ -23,6 +24,7 @@ const CreateContainer = ({ user }: { user: string | null }) => {
   });
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    console.log("latest", latest);
     const viewState = latest > 0.3 && latest < 0.95;
     const textState =
       latest > 0.95 ? "pending" : latest > 0.5 ? "show" : "hidden";
@@ -35,7 +37,8 @@ const CreateContainer = ({ user }: { user: string | null }) => {
 
   return (
     <div
-      className="relative z-20 h-[150vh] w-full overflow-hidden"
+      style={{ height: "100%" }}
+      className="relative z-10"
       ref={containerRef}
     >
       <LineOverlay isView={isView} />

@@ -14,8 +14,8 @@ const IntroBanner = ({
       className="z-10 rounded-lg bg-white/80 p-8 text-center shadow-lg backdrop-blur-sm"
       style={{ ...style }}
     >
-      <h1 className="mb-4 text-4xl font-bold text-gray-800">{introMessage}</h1>
-      <Btn pending={false} bgColor="bg-blue-500">
+      <h1 className="text-4xl font-bold text-gray-800">{introMessage}</h1>
+      <Btn pending={false} className="text-lg uppercase" bgColor="bg-blue-500">
         <Link href={"/detail/rhsiddlsidhd1"}>Sample</Link>
       </Btn>
     </motion.div>

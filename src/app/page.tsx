@@ -1,3 +1,5 @@
+import SnapBox from "@/components/template/Box/SnapBox";
+import SnapContainer from "@/components/template/container/SnapContainer";
 import CreateContainer from "@/components/template/CreateContainer";
 import IntroContainer from "@/components/template/IntroContainer";
 import PreviewContainer from "@/components/template/PreviewContainer";
@@ -49,11 +51,23 @@ export default async function Home() {
   }
 
   return (
-    <div>
-      <IntroContainer posts={createdPosts} />
-      <CreateContainer user={user} />
-      <PreviewContainer />
+    <SnapContainer>
+      <SnapBox height={200}>
+        {/* height={200} */}
+        {/* <div className="h-full w-full bg-red-300">스냅 1</div> */}
+        <IntroContainer posts={createdPosts} />
+      </SnapBox>
+      <SnapBox height={200}>
+        {/* height={150} */}
+        {/* <div className="h-full w-full bg-green-300">스냅 2</div> */}
+        <CreateContainer user={user} />
+      </SnapBox>
+      <SnapBox zIndex={20} height={200}>
+        {/*  height={250} */}
+        {/* <div className="h-full w-full bg-blue-300">스냅 3</div> */}
+        <PreviewContainer />
+      </SnapBox>
       {/* <div className="relative top-0 z-10 h-screen w-full bg-blue-500"></div> */}
-    </div>
+    </SnapContainer>
   );
 }

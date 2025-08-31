@@ -31,7 +31,7 @@ const PreviewContainer = () => {
   return (
     <motion.section
       initial={{ backgroundColor: "#E7E6E2" }}
-      className="relative z-20 h-[250vh] w-full"
+      style={{ height: "100%" }}
       ref={containerRef}
     >
       <div className="flex h-full max-sm:block">

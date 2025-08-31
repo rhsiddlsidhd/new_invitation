@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useRef, useState } from "react";
 import IntroBanner from "../molecules/IntroBanner";
 import PostBoard from "../molecules/PostBoard";
@@ -51,10 +52,7 @@ const IntroContainer = ({ posts }: { posts: Post[] }) => {
   });
 
   return (
-    <div
-      className="relative h-[200vh] w-full overflow-hidden"
-      ref={containerRef}
-    >
+    <div style={{ height: "100%" }} ref={containerRef}>
       <motion.div className="fixed top-0 flex h-screen w-full items-center justify-center">
         <IntroBanner style={{ y, opacity: bannerOpacity }} />
         <PostBoard
