@@ -1,19 +1,9 @@
 import TemplateGallery from "@/components/organisms/TemplateGallery";
-import { decrypt, getSession } from "@/lib/session";
+
 import React from "react";
 
-const page = async () => {
-  let user;
-  try {
-    const token = await getSession();
-    const payload = await decrypt(token);
-    user = payload.userId;
-  } catch (e) {
-    console.log("TemplateGallery error", e);
-    user = null;
-  }
-
-  return <TemplateGallery user={user} />;
+const page = () => {
+  return <TemplateGallery />;
 };
 
 export default page;

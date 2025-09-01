@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Logo from "../atoms/Logo";
 import Card from "../atoms/Card";
 import Img from "../atoms/Img";
@@ -7,11 +7,12 @@ import { motion } from "framer-motion";
 import { useModalStore } from "@/store/modalStore";
 import { useRouter } from "next/navigation";
 
-const TemplateGallery = ({ user }: { user: string | null }) => {
+const TemplateGallery = () => {
   const cardRef = useRef<HTMLDivElement>(null);
   const listContainerRef = useRef<HTMLDivElement>(null);
   const { setModalOpen } = useModalStore();
   const router = useRouter();
+  const [user, setUser] = useState<string | null>(null);
 
   const cardList = [
     {
@@ -27,6 +28,17 @@ const TemplateGallery = ({ user }: { user: string | null }) => {
       des: "러블리 핑크",
     },
   ];
+
+  useEffect(() => {
+    fetch("/api/session")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setUser(data.userId);
+        }
+      })
+      .catch(() => setUser(null));
+  }, []);
 
   const handleNavigation = (query: string) => {
     if (!user) {

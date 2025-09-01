@@ -29,19 +29,12 @@ const Subway = () => {
   );
 
   const getAllSubway = async (): Promise<SubwayInfo[]> => {
-    const res = await fetch(
-      `http://openAPI.seoul.go.kr:8088/${process.env.NEXT_PUBLIC_SEOUL_PUBLIC_API_KEY}/json/SearchInfoBySubwayNameService/1/1000`,
-    );
-
-    // console.log("res", res);
-    // const text = await res.text();
-
     try {
-      // const { SearchInfoBySubwayNameService } = JSON.parse(
-      //   text,
-      // ) as SubwayApiResponse;
-      const { SearchInfoBySubwayNameService } =
-        (await res.json()) as SubwayApiResponse;
+      const res = await fetch(
+        `http://openAPI.seoul.go.kr:8088/${process.env.NEXT_PUBLIC_SEOUL_PUBLIC_API_KEY}/json/SearchInfoBySubwayNameService/1/1000`,
+      );
+
+      const { SearchInfoBySubwayNameService } = await res.json();
 
       switch (SearchInfoBySubwayNameService.RESULT.CODE) {
         case "INFO-200":
@@ -76,13 +69,18 @@ const Subway = () => {
   };
 
   const getSelectedSubway = async (): Promise<SubwayInfo[]> => {
-    const selected = "진접";
-    const res = await fetch(
-      `http://openAPI.seoul.go.kr:8088/${process.env.NEXT_PUBLIC_SEOUL_PUBLIC_API_KEY}/json/SearchInfoBySubwayNameService/1/1000/${selected}`,
-    );
-    // console.log("selected", res);
-    const subwayData = await res.json();
-    return subwayData.SearchInfoBySubwayNameService.row;
+    try {
+      const selected = "진접";
+      const res = await fetch(
+        `http://openAPI.seoul.go.kr:8088/${process.env.NEXT_PUBLIC_SEOUL_PUBLIC_API_KEY}/json/SearchInfoBySubwayNameService/1/1000/${selected}`,
+      );
+
+      const subwayData = await res.json();
+      return subwayData.SearchInfoBySubwayNameService.row;
+    } catch (e) {
+      console.error("Error fetching selected subway data", e);
+      return [];
+    }
   };
 
   useEffect(() => {
