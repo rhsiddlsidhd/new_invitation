@@ -16,7 +16,7 @@ import { InvitationInput } from "@/models/invitationSchema";
 import { useModalStore } from "@/store/modalStore";
 import { GuestBook } from "@/types";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AnimateViewBox from "../Box/AnimateViewBox";
 import DigitalWatch from "@/components/molecules/wedding/DigitalWatch";
 
@@ -61,9 +61,11 @@ export type GuestBookView = Omit<GuestBook, "userId" | "password"> & {
 const InvitationContainer = ({
   userInfo,
   guestBook,
+  type,
 }: {
   userInfo: InvitationInput;
   guestBook: GuestBookView[];
+  type?: string;
 }) => {
   const {
     userId,
@@ -93,6 +95,7 @@ const InvitationContainer = ({
   } = userInfo;
 
   const { setModalOpen } = useModalStore();
+  const [config, setConfig] = useState<Record<string, string>>({});
 
   type PartyRow = {
     parentNames: string[];
@@ -199,8 +202,21 @@ const InvitationContainer = ({
     },
   ];
 
+  useEffect(() => {
+    if (!type) return;
+    switch (type) {
+      case "blue":
+        setConfig((prev) => ({ ...prev, backgroundColor: "bg-blue-100" }));
+        break;
+      case "pink":
+        setConfig((prev) => ({ ...prev, backgroundColor: "bg-pink-100" }));
+    }
+  }, [type]);
+
   return (
-    <div className="m-auto w-full max-w-[432px] bg-white p-4">
+    <div
+      className={`m-auto w-full max-w-[432px] p-4 ${!type ? "bg-white" : config.backgroundColor}`}
+    >
       <AnimateViewBox triggerOnce>
         <div className="flex justify-end">
           <MusicBtn />
@@ -208,7 +224,7 @@ const InvitationContainer = ({
 
         <Schedule date={weddingDate} />
 
-        <div className="relative aspect-[3/4] w-full border-2 border-black">
+        <div className="relative aspect-[3/4] w-full">
           <Img src={thumbnails[0]} />
         </div>
 

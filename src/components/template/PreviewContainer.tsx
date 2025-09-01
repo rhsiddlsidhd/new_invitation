@@ -93,35 +93,18 @@ const PreviewContainer = () => {
       </motion.div>
 
       {/* <PreviewVerticalSlider isViewScratch={isViewScratch} /> */}
-
-      {/* <motion.div
+      {/* 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{
-          opacity: isTemplateGallery ? 0 : 1,
+          opacity: isViewScratch === "hidden" ? 0 : 1,
         }}
         transition={{ delay: 0.6, ease: "easeOut" }}
       >
-        <TemplateGallery scroll={scrollYProgressEnd} />
+        <TemplateGallery scroll={scrollYProgress} />
       </motion.div> */}
     </motion.section>
   );
 };
 
 export default PreviewContainer;
-
-/**
- * 
- * <div className="flex h-full max-sm:block">
-        <div className="sticky top-0 flex-3/4 shrink grow overflow-hidden text-[4.5vw] max-sm:top-1/4 max-sm:flex max-sm:flex-col sm:h-screen">
-          <p className="max-sm:p-2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita,
-            illo reiciendis! Quod similique alias ab ex commodi sed nemo quia
-            nesciunt natus. Beatae commodi amet magnam praesentium libero rerum
-            impedit!
-          </p>
-           <PreviewHorizonalSlider scrollYProgress={scrollYProgressCenter} /> 
-        </div>
-        <PreviewVerticalSlider scrollYProgress={scrollYProgressCenter} /> 
-      </div>
- * 
- */

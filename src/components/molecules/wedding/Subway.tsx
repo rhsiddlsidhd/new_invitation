@@ -33,6 +33,7 @@ const Subway = () => {
       `http://openAPI.seoul.go.kr:8088/${process.env.NEXT_PUBLIC_SEOUL_PUBLIC_API_KEY}/json/SearchInfoBySubwayNameService/1/1000`,
     );
 
+    // console.log("res", res);
     // const text = await res.text();
 
     try {
@@ -79,7 +80,7 @@ const Subway = () => {
     const res = await fetch(
       `http://openAPI.seoul.go.kr:8088/${process.env.NEXT_PUBLIC_SEOUL_PUBLIC_API_KEY}/json/SearchInfoBySubwayNameService/1/1000/${selected}`,
     );
-
+    // console.log("selected", res);
     const subwayData = await res.json();
     return subwayData.SearchInfoBySubwayNameService.row;
   };

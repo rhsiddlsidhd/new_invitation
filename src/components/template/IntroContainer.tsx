@@ -26,6 +26,7 @@ const IntroContainer = ({ posts }: { posts: Post[] }) => {
     damping: 30,
     mass: 1,
   });
+
   const y = useSpring(useTransform(scrollYProgress, [0, 1], ["0%", "-300%"]), {
     stiffness: 100,
     damping: 30,

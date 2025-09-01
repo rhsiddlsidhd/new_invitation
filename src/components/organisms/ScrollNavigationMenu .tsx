@@ -21,7 +21,7 @@ const ScrollNavigationMenu = ({
     menu: (typeof menus)[number],
     user: string | null,
   ) => {
-    if (menu.id !== "Contact" && !user) {
+    if (menu.id !== "Shop" && !user) {
       setModalOpen({ isOpen: true, type: "login", path: menu.path });
       return;
     }

@@ -24,7 +24,7 @@ export const introMessage = "Wedding Invitations!" as const;
 export const menus = [
   { id: "My Info", path: "/profile" },
   { id: "Create Invitation", path: "/dashboard" },
-  { id: "Contact", path: "#" },
+  { id: "Shop", path: "/shop" },
 ] as const;
 
 export const cardConfig: Record<
