@@ -4,22 +4,17 @@ import InvitationInfoForm from "@/components/organisms/forms/InvitationInfoForm"
 import Btn from "@/components/atoms/Btn";
 import { signOut } from "@/actions/auth";
 import { redirect } from "next/navigation";
-import { InvitationInput } from "@/models/invitationSchema";
 import Box from "@/components/atoms/Box";
-
-type InvitationApiResponse = {
-  success: boolean;
-  data: InvitationInput;
-};
+import { getInvitation } from "@/services/invitationServices";
 
 export default async function page() {
   try {
     const token = await getSession();
     const payload = await decrypt(token);
-    const res = await fetch(
-      `http://localhost:3000/api/invitation/${payload.userId}`,
-    );
-    const { data }: InvitationApiResponse = await res.json();
+
+    const res = await getInvitation(payload.userId);
+
+    const data = res;
 
     return (
       <div className="m-auto w-full max-w-[1028px] p-2 sm:mb-24 sm:p-6">

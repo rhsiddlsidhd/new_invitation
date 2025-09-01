@@ -8,7 +8,8 @@ const page = async () => {
     const token = await getSession();
     const payload = await decrypt(token);
     user = payload.userId;
-  } catch {
+  } catch (e) {
+    console.log("TemplateGallery error", e);
     user = null;
   }
 
