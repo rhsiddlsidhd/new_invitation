@@ -44,6 +44,7 @@ const TemplateGallery = () => {
   const handleNavigation = (query: string) => {
     if (!user) {
       setModalOpen({ isOpen: true, type: "login" });
+      router.refresh();
       return;
     }
     router.push(`/detail/${user}?t=${query}`);
