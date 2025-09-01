@@ -40,7 +40,7 @@ const Page = async ({
   } catch (e) {
     const message = e instanceof Error ? e.message : e;
     if (message === "유저를 찾을 수 없습니다.") {
-      redirect('/dashboard" ');
+      redirect("/dashboard");
     }
     console.error("Detail Page Server Error", message);
   }
