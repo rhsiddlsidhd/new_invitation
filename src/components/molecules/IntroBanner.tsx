@@ -11,11 +11,15 @@ const IntroBanner = ({
 }) => {
   return (
     <motion.div
-      className="z-10 rounded-lg bg-white/80 p-8 text-center shadow-lg backdrop-blur-sm"
+      className="z-10 flex flex-col items-center gap-4 rounded-lg bg-white/80 p-8 text-center shadow-lg backdrop-blur-sm"
       style={{ ...style }}
     >
       <h1 className="text-4xl font-bold text-gray-800">{introMessage}</h1>
-      <Btn pending={false} className="text-lg uppercase" bgColor="bg-blue-500">
+      <Btn
+        pending={false}
+        className="w-fit text-lg uppercase"
+        bgColor="bg-blue-500"
+      >
         <Link href={"/detail/rhsiddlsidhd1"}>Sample</Link>
       </Btn>
     </motion.div>

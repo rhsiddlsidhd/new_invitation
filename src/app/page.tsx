@@ -51,7 +51,7 @@ export default async function Home() {
 
   return (
     <div>
-      <ScrollViewBox height={200}>
+      <ScrollViewBox height={150}>
         <IntroContainer posts={createdPosts} />
       </ScrollViewBox>
       <ScrollViewBox height={150}>

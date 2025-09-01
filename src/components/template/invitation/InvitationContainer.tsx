@@ -18,6 +18,7 @@ import { GuestBook } from "@/types";
 import { set } from "mongoose";
 
 import React, { useEffect } from "react";
+import ScrollViewBox from "../Box/ScrollVIewBox";
 
 type PersonPayloadId =
   | "groom"
@@ -200,7 +201,7 @@ const InvitationContainer = ({
 
   return (
     <div className="m-auto w-full max-w-[432px] bg-white p-4">
-      <div>
+      <ScrollViewBox>
         <div className="flex justify-end">
           <MusicBtn />
         </div>
@@ -220,8 +221,9 @@ const InvitationContainer = ({
           <DateDisplay date={weddingDate} type="weekdayKr" className="ml-2" />
           <div>{weddingDetailAddress}</div>
         </div>
-      </div>
-      <div className="mt-10 flex flex-col gap-2">
+      </ScrollViewBox>
+
+      <ScrollViewBox className="mt-10 flex flex-col gap-2">
         <div className="text-center text-xs font-bold tracking-widest text-gray-500">
           INVITATION
         </div>
@@ -263,7 +265,7 @@ const InvitationContainer = ({
           <Btn
             bgColor="bg-gray-200"
             textColor="black"
-            className="flex items-center gap-2 px-6 shadow-2xl"
+            className="flex items-center gap-2 px-6"
             onClick={() =>
               setModalOpen({
                 isOpen: true,
@@ -276,85 +278,80 @@ const InvitationContainer = ({
             <PhoneIcon size={14} /> 연락하기
           </Btn>
         </div>
-
-        <div className="mt-10 flex flex-col gap-2">
-          <div className="text-center text-xs font-bold tracking-widest text-gray-500">
-            Gallery
-          </div>
-          <div className="p-4 text-center text-xl font-semibold">
-            웨딩 갤러리
-          </div>
-          <Gallery data={galleries} />
+      </ScrollViewBox>
+      <div className="mt-10 flex flex-col gap-2">
+        <div className="text-center text-xs font-bold tracking-widest text-gray-500">
+          Gallery
         </div>
-        <div className="mt-10 flex flex-col gap-2">
-          <p className="text-center text-lg font-bold tracking-widest text-gray-500">
-            <DateDisplay date={weddingDate} type="dot" />
-          </p>
-          <p className="text-center font-bold text-gray-500">
-            <DateDisplay date={weddingDate} type="weekdayKr" />
-          </p>
-          <Calender date={weddingDate} />
-          {/* <DigitalWatch date={weddingDate} /> */}
+        <div className="p-4 text-center text-xl font-semibold">웨딩 갤러리</div>
+        <Gallery data={galleries} />
+      </div>
+      <div className="mt-10 flex flex-col gap-2">
+        <p className="text-center text-lg font-bold tracking-widest text-gray-500">
+          <DateDisplay date={weddingDate} type="dot" />
+        </p>
+        <p className="text-center font-bold text-gray-500">
+          <DateDisplay date={weddingDate} type="weekdayKr" />
+        </p>
+        <Calender date={weddingDate} />
+        {/* <DigitalWatch date={weddingDate} /> */}
+      </div>
+      <div className="mt-10 flex flex-col gap-2">
+        <div className="text-center text-xs font-bold tracking-widest text-gray-500 uppercase">
+          Location
         </div>
-        <div className="mt-10 flex flex-col gap-2">
-          <div className="text-center text-xs font-bold tracking-widest text-gray-500 uppercase">
-            Location
-          </div>
-          <p className="p-4 text-center text-xl font-semibold">오시는 길</p>
-          <p className="p-4 text-center text-sm font-semibold text-gray-500">
-            {weddingAddress}
-          </p>
-          <p className="p-2 text-center text-sm font-semibold text-gray-500">
-            {weddingDetailAddress}
-          </p>
-          <KakaoMap address={weddingAddress} />
+        <p className="p-4 text-center text-xl font-semibold">오시는 길</p>
+        <p className="p-4 text-center text-sm font-semibold text-gray-500">
+          {weddingAddress}
+        </p>
+        <p className="p-2 text-center text-sm font-semibold text-gray-500">
+          {weddingDetailAddress}
+        </p>
+        <KakaoMap address={weddingAddress} />
+      </div>
+      <div className="mt-10 flex flex-col gap-2">
+        <Navigation address={weddingAddress} />
+        <Subway />
+      </div>
+      <div className="mt-10 flex flex-col gap-2">
+        <div className="relative mb-3 aspect-[3/4] w-full">
+          <div className="absolute -top-2 z-10 h-15 w-full bg-[linear-gradient(to_top,transparent_0%,white_70%,white_100%)]" />
+          <Img src={thumbnails[1]} />
+          <div className="absolute -bottom-2 z-10 h-15 w-full bg-[linear-gradient(to_bottom,transparent_0%,white_70%,white_100%)]" />
         </div>
-        <div className="mt-10 flex flex-col gap-2">
-          <Navigation address={weddingAddress} />
-          <Subway />
+        <div className="text-center text-xs font-bold tracking-widest text-gray-500 uppercase">
+          Guestbook
         </div>
-        <div className="mt-10 flex flex-col gap-2">
-          <div className="relative mb-3 aspect-[3/4] w-full">
-            <div className="absolute -top-2 z-10 h-15 w-full bg-[linear-gradient(to_top,transparent_0%,white_70%,white_100%)]" />
-            <Img src={thumbnails[1]} />
-            <div className="absolute -bottom-2 z-10 h-15 w-full bg-[linear-gradient(to_bottom,transparent_0%,white_70%,white_100%)]" />
-          </div>
-          <div className="text-center text-xs font-bold tracking-widest text-gray-500 uppercase">
-            Guestbook
-          </div>
-          <p className="p-4 text-center text-xl font-semibold">방명록</p>
-          <p className="text-center text-sm font-semibold text-gray-500">
-            신랑 신부의 <br />
-            결혼을 축하해주세요.
-          </p>
-          {btns.map((btn, i) => {
-            return (
-              <Btn
-                onClick={btn.onClick}
-                key={i}
-                bgColor="bg-gray-200"
-                textColor="black"
-                className="m-auto w-fit px-6 py-2 text-sm font-semibold shadow-2xl"
-              >
-                {btn.label}
-              </Btn>
-            );
-          })}
+        <p className="p-4 text-center text-xl font-semibold">방명록</p>
+        <p className="text-center text-sm font-semibold text-gray-500">
+          신랑 신부의 <br />
+          결혼을 축하해주세요.
+        </p>
+        {btns.map((btn, i) => {
+          return (
+            <Btn
+              onClick={btn.onClick}
+              key={i}
+              bgColor="bg-gray-200"
+              textColor="black"
+              className="m-auto w-fit px-6 py-2 text-sm font-semibold shadow-2xl"
+            >
+              {btn.label}
+            </Btn>
+          );
+        })}
+      </div>
+      <div className="mt-10 flex flex-col gap-2">
+        <div className="text-center text-xs font-bold tracking-widest text-gray-500 uppercase">
+          ACCOUNT
         </div>
-        <div className="mt-10 flex flex-col gap-2">
-          <div className="text-center text-xs font-bold tracking-widest text-gray-500 uppercase">
-            ACCOUNT
-          </div>
-          <p className="p-4 text-center text-xl font-semibold">
-            마음 전하실 곳
-          </p>
-          <p className="text-center text-sm font-semibold text-gray-500">
-            참석이 어려우신 분들을 위해 <br /> 계좌번호를 기재하였습니다.
-            <br />
-            너그라운 마음으로 양해 부탁드립니다.
-          </p>
-          <Account data={accountPayload} />
-        </div>
+        <p className="p-4 text-center text-xl font-semibold">마음 전하실 곳</p>
+        <p className="text-center text-sm font-semibold text-gray-500">
+          참석이 어려우신 분들을 위해 <br /> 계좌번호를 기재하였습니다.
+          <br />
+          너그라운 마음으로 양해 부탁드립니다.
+        </p>
+        <Account data={accountPayload} />
       </div>
     </div>
   );

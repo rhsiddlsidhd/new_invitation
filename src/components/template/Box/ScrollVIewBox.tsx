@@ -8,6 +8,7 @@ interface SnapBoxProps {
   zIndex?: number;
   triggerOnce?: boolean;
   children: React.ReactNode;
+  className?: string;
 }
 
 type ScrollDirection = "up" | "down";
@@ -15,11 +16,12 @@ type ScrollDirection = "up" | "down";
 const ScrollViewBox = ({
   triggerOnce = false,
   zIndex = 0,
-
   height,
   children,
+  className,
 }: SnapBoxProps) => {
   const boxRef = useRef<HTMLDivElement>(null);
+  const [hasScrolled, setHasScrolled] = useState(false);
   const { scrollY } = useScroll();
   const [scrollDirection, setScrollDirection] =
     useState<ScrollDirection>("down");
@@ -29,24 +31,29 @@ const ScrollViewBox = ({
     setScrollDirection(diff > 0 ? "down" : "up");
   });
   const isInView = useInView(boxRef, {
-    amount: 0.175,
+    amount: "some",
     once: triggerOnce,
   });
 
   useEffect(() => {
     if (scrollDirection === "up") return;
-    if (isInView) {
+    if (isInView && !hasScrolled) {
       if (!boxRef.current) return;
       boxRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      setHasScrolled(true);
     }
-  }, [isInView, scrollDirection]);
+    if (!isInView) {
+      setHasScrolled(false);
+    }
+  }, [isInView, scrollDirection, hasScrolled]);
   return (
     <div
       ref={boxRef}
       style={{
-        height: `${height}vh`,
+        height: `${height ? `${height}vh` : "h-fit"}`,
+        pointerEvents: `${isInView ? "auto" : "none"}`,
       }}
-      className={`relative w-full overflow-hidden z-[${zIndex}]`}
+      className={`relative w-full overflow-hidden z-[${zIndex}] ${className}`}
     >
       {children}
     </div>

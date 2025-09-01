@@ -24,10 +24,9 @@ const CreateContainer = ({ user }: { user: string | null }) => {
   });
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    console.log("latest", latest);
     const viewState = latest > 0.3 && latest < 0.95;
     const textState =
-      latest > 0.95 ? "pending" : latest > 0.5 ? "show" : "hidden";
+      latest >= 1 ? "pending" : latest > 0.5 ? "show" : "hidden";
 
     setIsView((prev) => (prev !== viewState ? viewState : prev));
     setTextView((prev) => (prev !== textState ? textState : prev));

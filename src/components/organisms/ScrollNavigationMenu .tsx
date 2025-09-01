@@ -23,7 +23,6 @@ const ScrollNavigationMenu = ({
   ) => {
     if (menu.id !== "Contact" && !user) {
       setModalOpen({ isOpen: true, type: "login", path: menu.path });
-      // true, "login", menu.path
       return;
     }
     router.push(menu.path);
@@ -44,6 +43,7 @@ const ScrollNavigationMenu = ({
         when: "afterChildren",
         delayChildren: stagger(0.1, { from: "last" }),
       },
+      y: "100%",
     },
   };
 
@@ -64,9 +64,9 @@ const ScrollNavigationMenu = ({
           };
         case "pending":
           return {
-            opacity: 1,
+            opacity: 0,
             scale: 0.9,
-            x: 0,
+            x: "100%",
             filter: "brightness(0.8)",
             transition: { duration: 0.3 },
             pointerEvents: "none",
