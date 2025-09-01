@@ -31,7 +31,7 @@ const Subway = () => {
   const getAllSubway = async (): Promise<SubwayInfo[]> => {
     try {
       const res = await fetch(
-        `http://openAPI.seoul.go.kr:8088/${process.env.NEXT_PUBLIC_SEOUL_PUBLIC_API_KEY}/json/SearchInfoBySubwayNameService/1/1000`,
+        `https://openAPI.seoul.go.kr:8088/${process.env.NEXT_PUBLIC_SEOUL_PUBLIC_API_KEY}/json/SearchInfoBySubwayNameService/1/1000`,
       );
 
       const { SearchInfoBySubwayNameService } = await res.json();
@@ -72,7 +72,7 @@ const Subway = () => {
     try {
       const selected = "진접";
       const res = await fetch(
-        `http://openAPI.seoul.go.kr:8088/${process.env.NEXT_PUBLIC_SEOUL_PUBLIC_API_KEY}/json/SearchInfoBySubwayNameService/1/1000/${selected}`,
+        `https://openAPI.seoul.go.kr:8088/${process.env.NEXT_PUBLIC_SEOUL_PUBLIC_API_KEY}/json/SearchInfoBySubwayNameService/1/1000/${selected}`,
       );
 
       const subwayData = await res.json();
