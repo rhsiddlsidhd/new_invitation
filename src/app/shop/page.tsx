@@ -2,7 +2,7 @@ import TemplateGallery from "@/components/organisms/TemplateGallery";
 
 import React from "react";
 
-const page = () => {
+const page = async () => {
   return <TemplateGallery />;
 };
 

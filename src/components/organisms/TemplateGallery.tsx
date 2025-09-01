@@ -33,6 +33,7 @@ const TemplateGallery = () => {
     fetch("/api/session")
       .then((res) => res.json())
       .then((data) => {
+        console.log("data", data);
         if (data.success) {
           setUser(data.userId);
         }
