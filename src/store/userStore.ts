@@ -1,5 +1,4 @@
 import { IGallery } from "@/models/invitationSchema";
-import { GalleryData } from "@/types";
 import { create } from "zustand";
 
 interface UserStore {

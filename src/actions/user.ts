@@ -1,6 +1,5 @@
 "use server";
 
-import { ActionState } from "@/types";
 import { decrypt, deleteSession, getSession } from "../lib/session";
 import {
   changePassword,
@@ -10,10 +9,7 @@ import {
 
 import { redirect } from "next/navigation";
 
-export const updateUserProfile = async (
-  prev: ActionState,
-  formData: FormData,
-) => {
+export const updateUserProfile = async (prev: unknown, formData: FormData) => {
   /**
    * 이메일과 password 를 받음
    * password 비교
@@ -37,7 +33,7 @@ export const updateUserProfile = async (
 };
 
 export const updatedUserPassword = async (
-  prev: ActionState,
+  prev: unknown,
   formData: FormData,
 ) => {
   try {
@@ -67,10 +63,7 @@ export const updatedUserPassword = async (
   }
 };
 
-export const deleteUserAction = async (
-  prev: ActionState,
-  formData: FormData,
-) => {
+export const deleteUserAction = async (prev: unknown, formData: FormData) => {
   /**
    * 계정 삭제 로직
    * 현재 유저 ID 를 formData 로 전달
@@ -99,9 +92,12 @@ export const deleteUserAction = async (
       };
     }
 
-    const deleteResult = await deleteUser(payload.userId);
+    await deleteUser(payload.userId);
 
-    return deleteResult;
+    return {
+      success: true,
+      message: `삭제 완료되었습니다.`,
+    };
   } catch (error) {
     const message =
       error instanceof Error

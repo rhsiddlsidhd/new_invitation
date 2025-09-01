@@ -3,7 +3,7 @@
 import { cloudinary } from "@/lib/cloudinary/config";
 import { decrypt, getSession } from "@/lib/session";
 import { patchInvitation } from "@/services/invitationServices";
-import { ActionState, Thumbnail } from "@/types";
+import { Thumbnail } from "@/types";
 
 import { validateAndFlatten } from "@/utils/validation";
 import { ThumbnailSchema } from "@/utils/validation/schema.server";
@@ -11,7 +11,7 @@ import { ThumbnailSchema } from "@/utils/validation/schema.server";
 export const patchThumbnail = async (
   prev: unknown,
   payload: { data: Thumbnail[] },
-): Promise<ActionState<string[]>> => {
+) => {
   console.log("data", payload.data);
   const token = await getSession();
   const { userId } = await decrypt(token);

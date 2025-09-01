@@ -2,8 +2,6 @@
 import React, { useActionState } from "react";
 
 import { verifyPasswordAction } from "../../../actions/auth";
-import { ActionState } from "@/types";
-
 import Alert from "../../atoms/Alert";
 import Input from "../../atoms/Input";
 import Btn from "../../atoms/Btn";
@@ -14,10 +12,7 @@ interface VerifyFormProps {
 }
 
 const VerifyForm = ({ path }: VerifyFormProps) => {
-  const [state, action, pending] = useActionState<ActionState, FormData>(
-    verifyPasswordAction,
-    null,
-  );
+  const [state, action, pending] = useActionState(verifyPasswordAction, null);
 
   return (
     <div className="flex h-screen items-center justify-center">

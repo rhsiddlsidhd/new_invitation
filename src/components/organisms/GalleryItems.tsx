@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect } from "react";
+import React, { ChangeEvent } from "react";
 import { motion } from "framer-motion";
 import GalleryCard from "./GalleryCard";
 import { GalleryData } from "@/types";

@@ -2,11 +2,8 @@ import React, { useEffect } from "react";
 import Label from "../atoms/Label";
 import Input from "../atoms/Input";
 import { useUserStore } from "@/store/userStore";
-import { motion } from "framer-motion";
 import Btn from "../atoms/Btn";
-import useAuthStore from "@/store/authStore";
 import { useModalStore } from "@/store/modalStore";
-import { readonly } from "zod";
 export interface Field {
   label: string;
   name: string;

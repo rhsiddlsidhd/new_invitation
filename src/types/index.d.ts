@@ -32,8 +32,6 @@ interface ActionFailState {
   error: Record<string, string[] | undefined>;
 }
 
-export type ActionState<T = unknown> = ActionSuccessState<T> | ActionFailState;
-
 // export type ActionState = {
 //   success: boolean;
 //   message?: string;

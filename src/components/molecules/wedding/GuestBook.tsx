@@ -2,8 +2,6 @@ import { GuestBookView } from "@/components/template/invitation/InvitationContai
 import { useModalStore } from "@/store/modalStore";
 import React, { useEffect, useState } from "react";
 import OverlayCloseBtn from "../OverlayCloseBtn";
-import Input from "@/components/atoms/Input";
-import Btn from "@/components/atoms/Btn";
 import { motion } from "framer-motion";
 import GuestBookDeleteForm from "@/components/organisms/forms/GuestBookDeleteForm";
 

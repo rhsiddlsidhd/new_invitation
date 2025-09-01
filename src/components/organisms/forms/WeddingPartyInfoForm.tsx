@@ -5,7 +5,7 @@ import { useUserStore } from "@/store/userStore";
 import React, { useActionState, useEffect } from "react";
 
 const WeddingPartyInfoForm = () => {
-  const [state, action, pending] = useActionState(patchText, null);
+  const [state, action] = useActionState(patchText, null);
 
   const { setErrors, clearErrors, setUser } = useUserStore();
   const { setModalOpen } = useModalStore();

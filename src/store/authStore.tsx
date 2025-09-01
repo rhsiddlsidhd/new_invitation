@@ -1,4 +1,3 @@
-import { menus } from "@/contants";
 import { create } from "zustand";
 
 interface AuthStore {

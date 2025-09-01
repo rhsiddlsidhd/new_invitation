@@ -2,14 +2,14 @@
 import { cloudinary } from "@/lib/cloudinary/config";
 import { decrypt, getSession } from "@/lib/session";
 import { patchInvitation } from "@/services/invitationServices";
-import { ActionState, GalleryEntry, GalleryPayload } from "@/types";
+import { GalleryEntry, GalleryPayload } from "@/types";
 import { validateAndFlatten } from "@/utils/validation";
 import { gallerySchema } from "@/utils/validation/schema.server";
 
 export const patchGallery = async (
   prev: unknown,
   payload: { data: GalleryPayload[] },
-): Promise<ActionState<GalleryEntry[]>> => {
+) => {
   try {
     const token = await getSession();
     const { userId } = await decrypt(token);

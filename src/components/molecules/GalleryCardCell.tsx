@@ -1,8 +1,6 @@
 import React, { useRef } from "react";
 import Img from "../atoms/Img";
-import { defaultUrls } from "@/contants";
 import Label from "../atoms/Label";
-import { GalleryData } from "@/types";
 import OverlayCloseBtn from "./OverlayCloseBtn";
 import { DocArrowUpIcon } from "../atoms/Icon";
 

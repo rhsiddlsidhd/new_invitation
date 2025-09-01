@@ -1,5 +1,5 @@
 // your config path
-import { NextRequest } from "next/server";
+import { UploadApiErrorResponse, UploadApiResponse } from "cloudinary";
 import { cloudinary } from "./config";
 
 type Result<T, E> = { success: true; data: T } | { success: false; error: E };
@@ -20,7 +20,7 @@ export const uploadToCloudinary = (
         use_filename: true,
       })
       .then((result) => {
-        resolve({ success: true, result });
+        resolve({ success: true, data: result });
       })
       .catch((error) => {
         reject({ success: false, error });

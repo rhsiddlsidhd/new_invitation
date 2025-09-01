@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Img from "../atoms/Img";
 import { DocArrowUpIcon } from "../atoms/Icon";
 import Label from "../atoms/Label";

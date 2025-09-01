@@ -1,20 +1,13 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   motion,
   MotionValue,
   useMotionValueEvent,
   useScroll,
-  useSpring,
   useTransform,
 } from "framer-motion";
-
-import PreviewHorizonalSlider from "../molecules/PreviewHorizonalSlider";
-import PreviewVerticalSlider from "../molecules/PreviewVerticalSlider";
-import TemplateGallery from "../organisms/TemplateGallery";
-import Card from "../atoms/Card";
-import Img from "../atoms/Img";
 
 type ViewState = "hidden" | "show";
 
@@ -32,8 +25,6 @@ const Word = ({
     "inset(0 0% 0 0)",
   ]);
 
-  const springClipPath = useSpring(clipPath);
-
   return (
     <motion.span style={{ clipPath }} className="inline-block">
       {children}
@@ -43,7 +34,7 @@ const Word = ({
 
 const PreviewContainer = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isTemplateGallery, setIsTemplateGallery] = useState<boolean>(false);
+
   const [isViewScratch, setIsViewScratch] = useState<ViewState>("hidden");
 
   const { scrollYProgress } = useScroll({

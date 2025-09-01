@@ -2,7 +2,6 @@ import { GuestBookView } from "@/components/template/invitation/InvitationContai
 import GuestBook from "@/models/guestBookSchema";
 import { GuestBook as GuestBookType } from "@/types";
 import { dbConnect } from "@/utils/mongodb";
-import { id } from "zod/v4/locales";
 import { verifyPassword } from "./userServices";
 
 export const createGuestBook = async ({ data }: { data: GuestBookType }) => {

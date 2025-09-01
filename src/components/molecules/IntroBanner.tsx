@@ -11,7 +11,7 @@ const IntroBanner = ({
 }) => {
   return (
     <motion.div
-      className="z-10 flex flex-col items-center gap-4 rounded-lg bg-white/80 p-8 text-center shadow-lg backdrop-blur-sm"
+      className="z-10 flex max-w-9/10 flex-col items-center gap-4 rounded-lg bg-white/80 p-8 text-center shadow-lg backdrop-blur-sm"
       style={{ ...style }}
     >
       <h1 className="text-4xl font-bold text-gray-800">{introMessage}</h1>

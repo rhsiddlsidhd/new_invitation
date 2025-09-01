@@ -15,10 +15,10 @@ import Subway from "@/components/molecules/wedding/Subway";
 import { InvitationInput } from "@/models/invitationSchema";
 import { useModalStore } from "@/store/modalStore";
 import { GuestBook } from "@/types";
-import { set } from "mongoose";
 
-import React, { useEffect } from "react";
-import ScrollViewBox from "../Box/ScrollVIewBox";
+import React from "react";
+import AnimateViewBox from "../Box/AnimateViewBox";
+import DigitalWatch from "@/components/molecules/wedding/DigitalWatch";
 
 type PersonPayloadId =
   | "groom"
@@ -201,7 +201,7 @@ const InvitationContainer = ({
 
   return (
     <div className="m-auto w-full max-w-[432px] bg-white p-4">
-      <ScrollViewBox>
+      <AnimateViewBox triggerOnce>
         <div className="flex justify-end">
           <MusicBtn />
         </div>
@@ -221,9 +221,9 @@ const InvitationContainer = ({
           <DateDisplay date={weddingDate} type="weekdayKr" className="ml-2" />
           <div>{weddingDetailAddress}</div>
         </div>
-      </ScrollViewBox>
+      </AnimateViewBox>
 
-      <ScrollViewBox className="mt-10 flex flex-col gap-2">
+      <AnimateViewBox triggerOnce className="mt-10 flex flex-col gap-2">
         <div className="text-center text-xs font-bold tracking-widest text-gray-500">
           INVITATION
         </div>
@@ -278,15 +278,15 @@ const InvitationContainer = ({
             <PhoneIcon size={14} /> 연락하기
           </Btn>
         </div>
-      </ScrollViewBox>
-      <div className="mt-10 flex flex-col gap-2">
+      </AnimateViewBox>
+      <AnimateViewBox triggerOnce className="mt-10 flex flex-col gap-2">
         <div className="text-center text-xs font-bold tracking-widest text-gray-500">
           Gallery
         </div>
         <div className="p-4 text-center text-xl font-semibold">웨딩 갤러리</div>
         <Gallery data={galleries} />
-      </div>
-      <div className="mt-10 flex flex-col gap-2">
+      </AnimateViewBox>
+      <AnimateViewBox triggerOnce className="mt-10 flex flex-col gap-2">
         <p className="text-center text-lg font-bold tracking-widest text-gray-500">
           <DateDisplay date={weddingDate} type="dot" />
         </p>
@@ -294,9 +294,9 @@ const InvitationContainer = ({
           <DateDisplay date={weddingDate} type="weekdayKr" />
         </p>
         <Calender date={weddingDate} />
-        {/* <DigitalWatch date={weddingDate} /> */}
-      </div>
-      <div className="mt-10 flex flex-col gap-2">
+        <DigitalWatch date={weddingDate} />
+      </AnimateViewBox>
+      <AnimateViewBox triggerOnce className="mt-10 flex flex-col gap-2">
         <div className="text-center text-xs font-bold tracking-widest text-gray-500 uppercase">
           Location
         </div>
@@ -308,12 +308,12 @@ const InvitationContainer = ({
           {weddingDetailAddress}
         </p>
         <KakaoMap address={weddingAddress} />
-      </div>
-      <div className="mt-10 flex flex-col gap-2">
+      </AnimateViewBox>
+      <AnimateViewBox triggerOnce className="mt-10 flex flex-col gap-2">
         <Navigation address={weddingAddress} />
         <Subway />
-      </div>
-      <div className="mt-10 flex flex-col gap-2">
+      </AnimateViewBox>
+      <AnimateViewBox triggerOnce className="mt-10 flex flex-col gap-2">
         <div className="relative mb-3 aspect-[3/4] w-full">
           <div className="absolute -top-2 z-10 h-15 w-full bg-[linear-gradient(to_top,transparent_0%,white_70%,white_100%)]" />
           <Img src={thumbnails[1]} />
@@ -340,8 +340,8 @@ const InvitationContainer = ({
             </Btn>
           );
         })}
-      </div>
-      <div className="mt-10 flex flex-col gap-2">
+      </AnimateViewBox>
+      <AnimateViewBox triggerOnce className="mt-10 flex flex-col gap-2">
         <div className="text-center text-xs font-bold tracking-widest text-gray-500 uppercase">
           ACCOUNT
         </div>
@@ -352,7 +352,7 @@ const InvitationContainer = ({
           너그라운 마음으로 양해 부탁드립니다.
         </p>
         <Account data={accountPayload} />
-      </div>
+      </AnimateViewBox>
     </div>
   );
 };

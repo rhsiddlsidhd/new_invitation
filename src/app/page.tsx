@@ -1,3 +1,4 @@
+import Footer from "@/components/layout/Footer";
 import ScrollViewBox from "@/components/template/Box/ScrollVIewBox";
 import CreateContainer from "@/components/template/CreateContainer";
 import IntroContainer from "@/components/template/IntroContainer";
@@ -60,7 +61,9 @@ export default async function Home() {
       <ScrollViewBox zIndex={20} height={200}>
         <PreviewContainer />
       </ScrollViewBox>
-      {/* <div className="relative top-0 z-10 h-screen w-full bg-blue-500"></div> */}
+      <ScrollViewBox height={100}>
+        <Footer />
+      </ScrollViewBox>
     </div>
   );
 }

@@ -16,7 +16,7 @@ const Account = ({ data }: { data: AccountPayload[] }) => {
   };
 
   return (
-    <div className="m-auto flex h-[50vh] w-3/4 flex-col gap-2 text-xs">
+    <div className="m-auto mb-[6rem] flex w-3/4 flex-col gap-2 text-xs">
       {/* Groom Section */}
       <Btn
         textColor="black"

@@ -11,13 +11,13 @@ const UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
 const WeddingThumbnailForm = () => {
   // const [state, action, pending] = useActionState(updateInvitationInfo, null);
-  const [state, action, pending] = useActionState(patchThumbnail, null);
+  const [state, action] = useActionState(patchThumbnail, null);
   const { setErrors, clearErrors, setUser } = useUserStore();
   const { setModalOpen } = useModalStore();
   useEffect(() => {
     if (!state) return;
     console.log(state);
-    if (!state.success) {
+    if (!state.success && state.error) {
       setErrors(state.error);
     } else {
       alert(state.message);

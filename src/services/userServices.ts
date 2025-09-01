@@ -280,10 +280,6 @@ export const deleteUser = async (id: string) => {
 
   if (!updatedUser) throw new Error("사용자를 찾을 수 없습니다.");
   await deleteSession();
-  return {
-    success: true,
-    message: `${id}가 삭제 완료되었습니다.`,
-  };
 };
 
 export const verifyPassword = async (
@@ -292,11 +288,6 @@ export const verifyPassword = async (
 ): Promise<boolean> => {
   return await bcrypt.compare(plainPassword, hashedPassword);
 };
-
-interface CreateTokens {
-  refreshToken: string;
-  accessToken: string;
-}
 
 // export const createTokens = (userId: string): CreateTokens | undefined => {
 //   const secretKey = process.env.JWT_SECRET;
@@ -315,11 +306,6 @@ interface CreateTokens {
 //   decoded: jwt.JwtPayload;
 //   newAccessToken: string | null;
 // }
-
-interface FailAuthResult {
-  success: false;
-  message: string;
-}
 
 // type AuthResult = SuccessAuthResult | FailAuthResult;
 

@@ -2,8 +2,6 @@
 import { PhoneIcon } from "@/components/atoms/Icon";
 import { PhonePayload } from "@/components/template/invitation/InvitationContainer";
 import { useModalStore } from "@/store/modalStore";
-import { section } from "motion/react-client";
-import React, { useEffect } from "react";
 
 const Contact = () => {
   // data는 모달에서 전달되는 payload입니다. 실제 타입에 맞춰 캐스트하여 사용하세요.

@@ -1,6 +1,6 @@
 "use client";
 import { GalleryData } from "@/types";
-import React, { ChangeEvent, useEffect } from "react";
+import React, { ChangeEvent } from "react";
 
 import GalleryCardCell from "../molecules/GalleryCardCell";
 import { cardConfig } from "@/contants";

@@ -4,13 +4,7 @@ import { patchGallery } from "@/actions/invitation/patchGallery";
 import WeddingGallery from "@/components/molecules/WeddingGallery";
 import { useModalStore } from "@/store/modalStore";
 import { useUserStore } from "@/store/userStore";
-import {
-  CloudinaryUploadResponse,
-  GalleryEntry,
-  GalleryMapClient,
-  GalleryMapServer,
-  GalleryPayload,
-} from "@/types";
+import { GalleryMapClient, GalleryPayload } from "@/types";
 import { validateAndFlatten } from "@/utils/validation";
 import { GalleryMapSchema } from "@/utils/validation/schema.client";
 
@@ -21,12 +15,12 @@ const UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
 const WeddingGalleryForm = () => {
   // const [state, action, pending] = useActionState(updateInvitationInfo, null);
-  const [state, action, pending] = useActionState(patchGallery, null);
+  const [state, action] = useActionState(patchGallery, null);
   const { setErrors, clearErrors, setUser } = useUserStore();
   const { setModalOpen } = useModalStore();
   useEffect(() => {
     if (!state) return;
-    if (!state.success) {
+    if (!state.success && state.error) {
       setErrors(state.error);
     } else {
       alert(state.message);

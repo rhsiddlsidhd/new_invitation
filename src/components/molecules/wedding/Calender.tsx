@@ -1,4 +1,3 @@
-import DateDisplay from "@/components/atoms/Date";
 import React, { useMemo } from "react";
 
 const Calender = ({ date }: { date: string }) => {

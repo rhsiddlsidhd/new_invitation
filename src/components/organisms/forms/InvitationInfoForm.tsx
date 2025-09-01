@@ -51,7 +51,7 @@ const InvitationInfoForm = ({
   readOnly: boolean;
   data?: InvitationInput;
 }) => {
-  const [state, action, pending] = useActionState(postInvitationInfo, null);
+  const [state, action] = useActionState(postInvitationInfo, null);
   const { setUser, clearUser, setErrors, clearErrors } = useUserStore();
 
   const router = useRouter();

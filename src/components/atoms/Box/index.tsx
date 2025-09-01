@@ -7,8 +7,6 @@ const Box = ({
   children: React.ReactNode;
   className?: string;
 }) => {
-  const config = {};
-
   return (
     <div
       className={`rounded-lg border-1 border-[#ddd] bg-white p-5 ${className}`}

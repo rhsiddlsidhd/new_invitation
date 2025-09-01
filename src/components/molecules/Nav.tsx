@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { HamburgerIcon, SignOutIcon, UserIcon } from "../atoms/Icon";
+import { SignOutIcon, UserIcon } from "../atoms/Icon";
 import { signOut } from "@/actions/auth";
 import { useModalStore } from "@/store/modalStore";
 
@@ -24,7 +24,7 @@ const Nav = ({
         />
       )}
 
-      <HamburgerIcon size={32} onClick={() => console.log("햄버거")} />
+      {/* <HamburgerIcon size={32} onClick={() => console.log("햄버거")} /> */}
     </div>
   );
 };
