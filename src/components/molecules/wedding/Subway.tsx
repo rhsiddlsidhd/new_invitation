@@ -30,9 +30,10 @@ const Subway = () => {
 
   const getAllSubway = async (): Promise<SubwayInfo[]> => {
     try {
-      const res = await fetch(
-        `https://openAPI.seoul.go.kr:8088/${process.env.NEXT_PUBLIC_SEOUL_PUBLIC_API_KEY}/json/SearchInfoBySubwayNameService/1/1000`,
-      );
+      // const res = await fetch(
+      //   `http://openAPI.seoul.go.kr:8088/${process.env.NEXT_PUBLIC_SEOUL_PUBLIC_API_KEY}/json/SearchInfoBySubwayNameService/1/1000`,
+      // );
+      const res = await fetch("/subway");
 
       const { SearchInfoBySubwayNameService } = await res.json();
 
@@ -69,11 +70,15 @@ const Subway = () => {
   };
 
   const getSelectedSubway = async (): Promise<SubwayInfo[]> => {
+    // Next Proxy 로 우회 요청할 거임
+    // 클라이언트측에서 http 요청을 하면 CORS 에러가 남
+    // 서버측으로 API 요청 > 서버는 데이터 Res > 해당 데이터를 클라이언트로 전달
+    const parmas = "진접";
     try {
-      const selected = "진접";
-      const res = await fetch(
-        `https://openAPI.seoul.go.kr:8088/${process.env.NEXT_PUBLIC_SEOUL_PUBLIC_API_KEY}/json/SearchInfoBySubwayNameService/1/1000/${selected}`,
-      );
+      const res = await fetch(`/subway/${parmas}`);
+      console.log("station res", res);
+      if (!res.ok)
+        throw new Error(`selected subway proxy failed: ${res.statusText}`);
 
       const subwayData = await res.json();
       return subwayData.SearchInfoBySubwayNameService.row;
