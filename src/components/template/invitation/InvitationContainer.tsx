@@ -229,7 +229,7 @@ const InvitationContainer = ({
         </div>
 
         <div className="flex justify-center py-4 text-lg tracking-widest">
-          <span>{groomName}</span>ㆍ<span>{groomMotherName}</span>
+          <span>{groomName}</span>ㆍ<span>{brideName}</span>
         </div>
 
         <div className="text-center text-sm text-gray-500">
