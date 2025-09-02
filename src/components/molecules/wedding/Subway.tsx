@@ -30,9 +30,6 @@ const Subway = () => {
 
   const getAllSubway = async (): Promise<SubwayInfo[]> => {
     try {
-      // const res = await fetch(
-      //   `http://openAPI.seoul.go.kr:8088/${process.env.NEXT_PUBLIC_SEOUL_PUBLIC_API_KEY}/json/SearchInfoBySubwayNameService/1/1000`,
-      // );
       const res = await fetch("/subway");
 
       const { SearchInfoBySubwayNameService } = await res.json();
