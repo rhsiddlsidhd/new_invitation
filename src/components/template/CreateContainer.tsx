@@ -24,7 +24,6 @@ const CreateContainer = ({
   const y = useTransform(scrollY, [offsetStart, offsetEnd], [0, 1]);
 
   useMotionValueEvent(y, "change", (latest) => {
-    console.log("la", latest);
     const viewState = latest > 0.1 && latest < 0.5;
     const textState =
       latest >= 0.5 ? "pending" : latest > 0.2 ? "show" : "hidden";

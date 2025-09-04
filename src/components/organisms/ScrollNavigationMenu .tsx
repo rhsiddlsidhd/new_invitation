@@ -1,6 +1,6 @@
 import { AnimatePresence } from "motion/react";
 import React, { useEffect, useState } from "react";
-import { motion, MotionValue, stagger } from "framer-motion";
+import { motion, stagger } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { menus } from "@/contants";
 import { useModalStore } from "@/store/modalStore";
@@ -96,9 +96,6 @@ const ScrollNavigationMenu = ({
           animate="visible"
           exit="exit"
           className={`fixed top-2/4 right-0 -translate-y-1/2 text-[5vw] font-bold text-white`}
-          // style={{
-          //   y,
-          // }}
         >
           {menus.map((m) => {
             return (

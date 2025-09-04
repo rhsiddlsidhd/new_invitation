@@ -4,9 +4,20 @@ import ScrollViewBox from "@/components/template/Box/ScrollVIewBox";
 import CreateContainer from "@/components/template/CreateContainer";
 import IntroContainer from "@/components/template/IntroContainer";
 import PreviewContainer from "@/components/template/PreviewContainer";
-import { decrypt, getSession } from "@/lib/session";
-import { useScroll } from "motion/react";
-import { useCallback, useEffect, useState } from "react";
+import { MotionValue, useScroll } from "motion/react";
+import { useEffect, useState } from "react";
+
+interface Sections {
+  component: React.FC<{
+    offsetStart: number;
+    offsetEnd: number;
+    scrollY: MotionValue<number>;
+  }>;
+  height: number;
+  offsetStart: number;
+  offsetEnd: number;
+  zIndex?: number;
+}
 
 const sections = [
   { component: IntroContainer, height: 150 },
@@ -16,19 +27,27 @@ const sections = [
 ];
 
 export default function Home() {
-  const [sectionsPx, setSectionsPx] = useState<Record<string, any>[]>([]);
+  const [sectionsPx, setSectionsPx] = useState<Sections[]>([]);
   const { scrollY } = useScroll();
 
   useEffect(() => {
     const pxHeight = (vh: number) => window.innerHeight * (vh / 100);
 
     let cumulative = 0;
-    const calculated = sections.map(({ component, height, zIndex }) => {
-      const start = cumulative;
-      const end = cumulative + pxHeight(height);
-      cumulative = end;
-      return { component, height, zIndex, offsetStart: start, offsetEnd: end };
-    });
+    const calculated: Sections[] = sections.map(
+      ({ component, height, zIndex }) => {
+        const start = cumulative;
+        const end = cumulative + pxHeight(height);
+        cumulative = end;
+        return {
+          component,
+          height,
+          zIndex,
+          offsetStart: start,
+          offsetEnd: end,
+        };
+      },
+    );
 
     setSectionsPx(calculated);
   }, []);

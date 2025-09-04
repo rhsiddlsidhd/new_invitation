@@ -5,7 +5,6 @@ import {
   motion,
   MotionValue,
   useMotionValueEvent,
-  useScroll,
   useTransform,
 } from "framer-motion";
 
