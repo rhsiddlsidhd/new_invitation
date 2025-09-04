@@ -1,69 +1,54 @@
+"use client";
 import Footer from "@/components/layout/Footer";
 import ScrollViewBox from "@/components/template/Box/ScrollVIewBox";
 import CreateContainer from "@/components/template/CreateContainer";
 import IntroContainer from "@/components/template/IntroContainer";
 import PreviewContainer from "@/components/template/PreviewContainer";
 import { decrypt, getSession } from "@/lib/session";
+import { useScroll } from "motion/react";
+import { useCallback, useEffect, useState } from "react";
 
-export default async function Home() {
-  const createdPosts = Array.from({ length: 16 }, () => {
-    // {x,y,z,delay,moveX,moveY}[]
-    let x, y;
-    const zone = Math.floor(Math.random() * 4);
-    switch (zone) {
-      case 0: // 왼쪽영역
-        x = Math.random() * 25 + 5; // 5% ~ 30%
-        y = Math.random() * 80 + 10; // 10% ~ 90%
-        break;
-      case 1: // 오른쪽영역
-        x = Math.random() * 25 + 70; // 70% ~ 95%
-        y = Math.random() * 80 + 10; // 10%
-        break;
-      case 2: // 위쪽영역
-        x = Math.random() * 60 + 20; // 20% ~ 80%
-        y = Math.random() * 20 + 5; // 5%
-        break;
-      case 3: // 아래쪽영역
-        x = Math.random() * 60 + 20; // 20% ~ 80%
-        y = Math.random() * 20 + 75; // 75% ~ 95%
-        break;
-      default:
-        x = 10;
-        y = 10;
-    }
+const sections = [
+  { component: IntroContainer, height: 150 },
+  { component: CreateContainer, height: 200 },
+  { component: PreviewContainer, height: 200, zIndex: 20 },
+  { component: Footer, height: 100 },
+];
 
-    return {
-      size: Math.floor(Math.random() * 14),
-      x,
-      y,
-      z: Math.random() * 300 - 150,
-      moveX: (Math.random() - 0.5) * 20,
-      moveY: (Math.random() - 0.5) * 20,
-    };
-  });
-  let user = null;
-  try {
-    const token = await getSession();
-    const payload = await decrypt(token);
-    user = payload.userId;
-  } catch {
-    user = null;
-  }
+export default function Home() {
+  const [sectionsPx, setSectionsPx] = useState<Record<string, any>[]>([]);
+  const { scrollY } = useScroll();
+
+  useEffect(() => {
+    const pxHeight = (vh: number) => window.innerHeight * (vh / 100);
+
+    let cumulative = 0;
+    const calculated = sections.map(({ component, height, zIndex }) => {
+      const start = cumulative;
+      const end = cumulative + pxHeight(height);
+      cumulative = end;
+      return { component, height, zIndex, offsetStart: start, offsetEnd: end };
+    });
+
+    setSectionsPx(calculated);
+  }, []);
 
   return (
     <div>
-      <ScrollViewBox height={150}>
-        <IntroContainer posts={createdPosts} />
-      </ScrollViewBox>
-      <ScrollViewBox height={150}>
-        <CreateContainer user={user} />
-      </ScrollViewBox>
-      <ScrollViewBox zIndex={20} height={200}>
-        <PreviewContainer />
-      </ScrollViewBox>
-      <ScrollViewBox height={100}>
-        <Footer />
-      </ScrollViewBox>
+      {sectionsPx.map(
+        (
+          { component: Component, height, zIndex, offsetStart, offsetEnd },
+          index,
+        ) => (
+          <ScrollViewBox key={index} height={height} zIndex={zIndex}>
+            <Component
+              offsetStart={offsetStart}
+              offsetEnd={offsetEnd}
+              scrollY={scrollY}
+            />
+          </ScrollViewBox>
+        ),
+      )}
     </div>
   );
 }

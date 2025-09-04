@@ -32,18 +32,22 @@ const Word = ({
   );
 };
 
-const PreviewContainer = () => {
+const PreviewContainer = ({
+  offsetStart,
+  offsetEnd,
+  scrollY,
+}: {
+  offsetStart: number;
+  offsetEnd: number;
+  scrollY: MotionValue<number>;
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [isViewScratch, setIsViewScratch] = useState<ViewState>("hidden");
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
+  const y = useTransform(scrollY, [offsetStart, offsetEnd], [0, 1]);
 
-    offset: ["start start", "end start"],
-  });
-
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+  useMotionValueEvent(y, "change", (latest) => {
     const value = latest > 0 && latest < 1 ? "show" : "hidden";
     setIsViewScratch(value);
   });
@@ -60,7 +64,6 @@ const PreviewContainer = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: isViewScratch === "show" ? 1 : 0 }}
-        // className="fixed top-0 h-screen w-5/7 font-extrabold max-sm:top-1/6 max-sm:w-full"
         className="fixed top-0 h-screen w-full font-extrabold max-sm:top-1/6"
       >
         <p
@@ -80,11 +83,7 @@ const PreviewContainer = () => {
             const startRange = (index / arr.length) * 0.45;
             const endRange = ((index + 1) / arr.length) * 0.45;
             return (
-              <Word
-                key={index}
-                progress={scrollYProgress}
-                range={[startRange, endRange]}
-              >
+              <Word key={index} progress={y} range={[startRange, endRange]}>
                 {char}
               </Word>
             );

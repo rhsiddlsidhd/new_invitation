@@ -30,6 +30,7 @@ const ScrollViewBox = ({
     const diff = current - prev;
     setScrollDirection(diff > 0 ? "down" : "up");
   });
+
   const isInView = useInView(boxRef, {
     amount: "some",
     once: triggerOnce,
@@ -46,6 +47,7 @@ const ScrollViewBox = ({
       setHasScrolled(false);
     }
   }, [isInView, scrollDirection, hasScrolled]);
+
   return (
     <div
       ref={boxRef}

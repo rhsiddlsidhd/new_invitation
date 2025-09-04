@@ -235,7 +235,7 @@ const InvitationContainer = ({
         <div className="text-center text-sm text-gray-500">
           <DateDisplay date={weddingDate} type="text" className="" />
           <DateDisplay date={weddingDate} type="weekdayKr" className="ml-2" />
-          <div>{weddingDetailAddress}</div>
+          <div>{weddingAddress}</div>
         </div>
       </AnimateViewBox>
 

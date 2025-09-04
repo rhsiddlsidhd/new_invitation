@@ -1,5 +1,5 @@
 import { AnimatePresence } from "motion/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion, MotionValue, stagger } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { menus } from "@/contants";
@@ -7,20 +7,24 @@ import { useModalStore } from "@/store/modalStore";
 
 const ScrollNavigationMenu = ({
   textView,
-  y,
-  user,
 }: {
   textView: "pending" | "show" | "hidden";
-  y: MotionValue<string>;
-  user: string | null;
 }) => {
   const { setModalOpen } = useModalStore();
   const router = useRouter();
+  const [user, setUser] = useState<boolean>(false);
 
-  const handleMenuClick = (
-    menu: (typeof menus)[number],
-    user: string | null,
-  ) => {
+  useEffect(() => {
+    const fetchIsUser = async () => {
+      const res = await fetch("/api/auth");
+      if (!res.ok) return setUser(false);
+      setUser(true);
+    };
+
+    fetchIsUser();
+  }, []);
+
+  const handleMenuClick = (menu: (typeof menus)[number], user: boolean) => {
     if (menu.id !== "Shop" && !user) {
       setModalOpen({ isOpen: true, type: "login", path: menu.path });
       return;
@@ -92,9 +96,9 @@ const ScrollNavigationMenu = ({
           animate="visible"
           exit="exit"
           className={`fixed top-2/4 right-0 -translate-y-1/2 text-[5vw] font-bold text-white`}
-          style={{
-            y,
-          }}
+          // style={{
+          //   y,
+          // }}
         >
           {menus.map((m) => {
             return (
