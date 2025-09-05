@@ -4,6 +4,7 @@ import { motion, stagger } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { menus } from "@/contants";
 import { useModalStore } from "@/store/modalStore";
+import useAuthStore from "@/store/authStore";
 
 const ScrollNavigationMenu = ({
   textView,
@@ -12,20 +13,10 @@ const ScrollNavigationMenu = ({
 }) => {
   const { setModalOpen } = useModalStore();
   const router = useRouter();
-  const [user, setUser] = useState<boolean>(false);
+  const { isAuthenticated } = useAuthStore();
 
-  useEffect(() => {
-    const fetchIsUser = async () => {
-      const res = await fetch("/api/auth");
-      if (!res.ok) return setUser(false);
-      setUser(true);
-    };
-
-    fetchIsUser();
-  }, []);
-
-  const handleMenuClick = (menu: (typeof menus)[number], user: boolean) => {
-    if (menu.id !== "Shop" && !user) {
+  const handleMenuClick = (menu: (typeof menus)[number], isAuth: boolean) => {
+    if (menu.id !== "Shop" && !isAuth) {
       setModalOpen({ isOpen: true, type: "login", path: menu.path });
       return;
     }
@@ -106,7 +97,9 @@ const ScrollNavigationMenu = ({
                 whileHover={{ scale: 0.95 }}
                 whileTap={{ scale: 0.7 }}
                 custom={{ textView }}
-                onClick={() => textView === "show" && handleMenuClick(m, user)}
+                onClick={() =>
+                  textView === "show" && handleMenuClick(m, isAuthenticated)
+                }
               >
                 {m.id}
               </motion.li>

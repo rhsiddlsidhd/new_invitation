@@ -6,8 +6,9 @@ import React, { useActionState, useEffect } from "react";
 import Alert from "../../atoms/Alert";
 import Label from "../../atoms/Label";
 import Input from "../../atoms/Input";
-import Btn from "../../atoms/Btn";
+import Btn from "../../atoms/Btn/index";
 import { motion } from "framer-motion";
+import useAuthStore from "./../../../store/authStore";
 
 interface SignInFields {
   type: "text" | "password";
@@ -20,13 +21,15 @@ interface SignInFields {
 const SignInForm = () => {
   const [state, action, pending] = useActionState(signIn, null);
   const { setModalOpen, nextPath } = useModalStore();
+  const { setIsAuthenticated } = useAuthStore();
   const router = useRouter();
   useEffect(() => {
     const success = state && state.success;
     if (!success) return;
-    if (nextPath) router.push(nextPath);
+    setIsAuthenticated(true);
     setModalOpen({ isOpen: false });
-  }, [state, setModalOpen, router, nextPath]);
+    if (nextPath) router.push(nextPath);
+  }, [state, setModalOpen, router, nextPath, setIsAuthenticated]);
 
   const signInFields: SignInFields[] = [
     {

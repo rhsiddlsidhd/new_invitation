@@ -5,7 +5,7 @@ import { verifyPasswordAction } from "../../../actions/auth";
 import Alert from "../../atoms/Alert";
 import Input from "../../atoms/Input";
 import Btn from "../../atoms/Btn";
-import Box from "../../atoms/Box";
+import Box from "../../layout/Block";
 
 interface VerifyFormProps {
   path: string;

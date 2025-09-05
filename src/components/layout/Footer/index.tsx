@@ -1,6 +1,5 @@
-"use client";
+import BlurWord from "@/components/molecules/typography/BlurWord";
 import React from "react";
-import BlurWord from "../molecules/typography/BlurWord";
 
 const Footer = () => {
   return (

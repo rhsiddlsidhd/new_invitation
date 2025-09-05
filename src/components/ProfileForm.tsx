@@ -5,9 +5,9 @@ import React, { useEffect } from "react";
 
 import Label from "./atoms/Label";
 import Input from "./atoms/Input";
-import Btn from "./atoms/Btn";
+import Btn from "./atoms/Btn/index";
 
-const ProfileForm = ({ user }: { user: { userId: string; email: string } }) => {
+const ProfileForm = () => {
   const router = useRouter();
 
   useEffect(() => {
@@ -43,11 +43,11 @@ const ProfileForm = ({ user }: { user: { userId: string; email: string } }) => {
           <div className="flex items-center gap-4 border-b-1 border-[#e9ecef] pb-8">
             <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#007cba]">
               <span className="text-3xl font-bold text-white">
-                {user.userId.charAt(0).toUpperCase()}
+                {/* {user.userId.charAt(0).toUpperCase()} */}
               </span>
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-[#333]">{user.userId}</h2>
+              {/* <h2 className="text-2xl font-bold text-[#333]">{user.userId}</h2> */}
             </div>
           </div>
 
@@ -56,7 +56,7 @@ const ProfileForm = ({ user }: { user: { userId: string; email: string } }) => {
               <Label className="font-bold text-[#555]">사용자 ID</Label>
               <Input
                 readOnly
-                value={user.userId}
+                // value={user.userId}
                 className="bg-[#f8f9fa] py-4"
               />
             </div>
@@ -65,7 +65,7 @@ const ProfileForm = ({ user }: { user: { userId: string; email: string } }) => {
               <Label className="font-bold text-[#555]">이메일 주소</Label>
               <Input
                 readOnly
-                value={user.email}
+                // value={user.email}
                 className="bg-[#f8f9fa] py-4"
               />
             </div>

@@ -1,11 +1,11 @@
 "use client";
-import Footer from "@/components/layout/Footer";
 import ScrollViewBox from "@/components/template/Box/ScrollVIewBox";
 import CreateContainer from "@/components/template/CreateContainer";
 import IntroContainer from "@/components/template/IntroContainer";
 import PreviewContainer from "@/components/template/PreviewContainer";
 import { MotionValue, useScroll } from "motion/react";
 import { useEffect, useState } from "react";
+import Footer from "../components/layout/Footer/index";
 
 interface Sections {
   component: React.FC<{

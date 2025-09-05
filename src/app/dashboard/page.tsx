@@ -1,11 +1,12 @@
 import { decrypt, getSession } from "@/lib/session";
 import Link from "next/link";
 import InvitationInfoForm from "@/components/organisms/forms/InvitationInfoForm";
-import Btn from "@/components/atoms/Btn";
 import { signOut } from "@/actions/auth";
 import { redirect } from "next/navigation";
-import Box from "@/components/atoms/Box";
+import Box from "@/components/layout/Block";
 import { getInvitation } from "@/services/invitationServices";
+import Btn from "@/components/atoms/Btn/index";
+import SignOutBtn from "@/components/molecules/btns/SignOutBtn";
 
 export default async function page() {
   try {
@@ -23,9 +24,7 @@ export default async function page() {
             <h1>대시보드</h1>
             <p>{payload.userId}님 환영합니다.</p>
           </div>
-          <Btn bgColor="bg-[#dc3545]" onClick={signOut}>
-            로그아웃
-          </Btn>
+          <SignOutBtn>로그아웃</SignOutBtn>
         </header>
 
         <div className="w-full gap-5 space-y-5">
