@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import IntroBanner from "../molecules/IntroBanner";
-import PostBoard from "../molecules/PostBoard";
 import { motion, useTransform, useSpring, MotionValue } from "framer-motion";
 import Img from "../atoms/Img";
+import FloatingCard from "../molecules/FloatingCard";
+import HeroBox from "../molecules/boxs/HeroBox";
 
 const IntroContainer = ({
   offsetStart,
@@ -70,15 +70,14 @@ const IntroContainer = ({
   return (
     <div style={{ height: "100%" }} ref={containerRef}>
       <div className="fixed top-0 flex h-screen w-full items-center justify-center">
-        <IntroBanner style={{ y, opacity: bannerOpacity }} />
-        <PostBoard
+        <HeroBox style={{ y, opacity: bannerOpacity }} />
+        <FloatingCard
           callback={() => setShowBanner(true)}
           style={{ scale, opacity }}
         />
         <motion.div
           style={{
             scale: lateScale,
-            filter: "brightness(0.85)",
           }}
           className="absolute inset-0 z-0 h-full w-full"
         >

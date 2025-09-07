@@ -6,7 +6,7 @@ import { squareSizes } from "@/contants";
 import Card from "../atoms/Card";
 import Img from "../atoms/Img";
 
-const PostBoard = ({
+const FloatingCard = ({
   callback,
   style,
 }: {
@@ -67,16 +67,21 @@ const PostBoard = ({
 
   const item = {
     hidden: (post: Post) => ({
+      left: `${post.x}%`,
+      top: `${post.y}%`,
       transform: `translate3d(-50%, -50%, ${post.z}px)`,
       scale: 0.8,
       opacity: 0,
     }),
     show: (post: Post) => ({
+      left: `${post.x}%`,
+      top: `${post.y}%`,
       transform: `translate3d(calc(-50% + ${post.moveX}%), calc(-50% + ${post.moveY}%), ${post.z}px)`,
       opacity: 1,
       scale: 1,
     }),
   };
+
   return (
     <motion.div
       variants={container}
@@ -92,17 +97,11 @@ const PostBoard = ({
             custom={post}
             variants={item}
             className={`${squareSizes[post.size]} absolute -z-10`}
-            style={{
-              left: `${post.x}%`,
-              top: `${post.y}%`,
-            }}
             onAnimationComplete={() => {
               if (i === posts.length - 1) callback();
             }}
           >
-            <div className="relative h-full w-full">
-              <Img src="/marriage.jpg" />
-            </div>
+            <Img src="/marriage.jpg" />
           </Card>
         );
       })}
@@ -110,4 +109,4 @@ const PostBoard = ({
   );
 };
 
-export default PostBoard;
+export default FloatingCard;

@@ -3,7 +3,7 @@ import Link from "next/link";
 import InvitationInfoForm from "@/components/organisms/forms/InvitationInfoForm";
 import { signOut } from "@/actions/auth";
 import { redirect } from "next/navigation";
-import Box from "@/components/layout/Block";
+import Box from "@/components/layout/Box";
 import { getInvitation } from "@/services/invitationServices";
 import Btn from "@/components/atoms/Btn/index";
 import SignOutBtn from "@/components/molecules/btns/SignOutBtn";

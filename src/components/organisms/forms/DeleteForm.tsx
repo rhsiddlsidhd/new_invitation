@@ -2,7 +2,7 @@
 import React, { useActionState } from "react";
 import { deleteUserAction } from "../../../actions/user";
 
-import Box from "../../layout/Block";
+import Box from "../../layout/Box";
 import Label from "../../atoms/Label";
 import Input from "../../atoms/Input";
 import Alert from "../../atoms/Alert";

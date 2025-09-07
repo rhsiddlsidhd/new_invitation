@@ -4,7 +4,7 @@ import React, { useActionState, useEffect } from "react";
 import useAuthStore from "../../../store/authStore";
 import { useRouter } from "next/navigation";
 import { updateUserProfile } from "../../../actions/user";
-import Box from "../../layout/Block";
+import Box from "../../layout/Box";
 import Alert from "../../atoms/Alert";
 import Label from "../../atoms/Label";
 import Input from "../../atoms/Input";
