@@ -1,12 +1,11 @@
 "use client";
 import ScrollViewBox from "@/components/template/Box/ScrollVIewBox";
-import CreateContainer from "@/components/template/CreateContainer";
-
-import PreviewContainer from "@/components/template/PreviewContainer";
 import { MotionValue, useScroll } from "motion/react";
 import { useEffect, useState } from "react";
 import Footer from "../components/layout/Footer/index";
-import IntroContainer from "@/components/template/IntroContainer";
+import HeroSection from "@/components/organisms/section/HeroSection/index";
+import NavigationSection from "@/components/organisms/section/NavigationSection/index";
+import RecommendedSection from "@/components/organisms/section/RecommendedSection";
 
 interface Sections {
   component: React.FC<{
@@ -21,9 +20,9 @@ interface Sections {
 }
 
 const sections = [
-  { component: IntroContainer, height: 150 },
-  { component: CreateContainer, height: 200 },
-  { component: PreviewContainer, height: 200, zIndex: 20 },
+  { component: HeroSection, height: 150 },
+  { component: NavigationSection, height: 200 },
+  { component: RecommendedSection, height: 200, zIndex: 20 },
   { component: Footer, height: 100 },
 ];
 
@@ -34,23 +33,30 @@ export default function Home() {
   useEffect(() => {
     const pxHeight = (vh: number) => window.innerHeight * (vh / 100);
 
-    let cumulative = 0;
-    const calculated: Sections[] = sections.map(
-      ({ component, height, zIndex }) => {
-        const start = cumulative;
-        const end = cumulative + pxHeight(height);
-        cumulative = end;
-        return {
-          component,
-          height,
-          zIndex,
-          offsetStart: start,
-          offsetEnd: end,
-        };
-      },
-    );
+    const calculateSections = () => {
+      let cumulative = 0;
+      const calculated: Sections[] = sections.map(
+        ({ component, height, zIndex }) => {
+          const start = cumulative;
+          const end = cumulative + pxHeight(height);
+          cumulative = end;
+          return {
+            component,
+            height,
+            zIndex,
+            offsetStart: start,
+            offsetEnd: end,
+          };
+        },
+      );
+      setSectionsPx(calculated);
+    };
 
-    setSectionsPx(calculated);
+    calculateSections();
+    window.addEventListener("resize", calculateSections);
+    return () => {
+      window.removeEventListener("resize", calculateSections);
+    };
   }, []);
 
   return (

@@ -63,3 +63,6 @@ export const cardConfig: Record<
     getCellClass: () => "",
   },
 };
+
+export const recommendedText =
+  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita illo reiciendis! Quod similique alias ab ex commodi sed nemo quianesciunt natus. Beatae commodi amet magnam praesentium libero rerumimpedit!" as const;

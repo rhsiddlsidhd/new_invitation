@@ -2,10 +2,10 @@
 
 import React from "react";
 import { motion, Variants } from "framer-motion";
-import { Post } from "@/types";
+import { Particle } from "@/types";
 
 interface CardProps {
-  custom?: Post;
+  custom?: Particle;
   variants?: Variants;
   children: React.ReactNode;
   style?: React.CSSProperties;

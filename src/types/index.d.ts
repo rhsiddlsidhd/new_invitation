@@ -47,7 +47,7 @@ export interface UserId {
   userId: string;
 }
 
-export type Post = {
+export type Particle = {
   size: number;
   x: number;
   y: number;
