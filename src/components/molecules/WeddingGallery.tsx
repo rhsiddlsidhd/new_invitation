@@ -40,6 +40,7 @@ const WeddingGallery = ({ readOnly }: { readOnly: boolean }) => {
           }}
         />
       )}
+
       <GalleryItems
         viewData={readOnly ? galleries : galleryData}
         readOnly={readOnly}

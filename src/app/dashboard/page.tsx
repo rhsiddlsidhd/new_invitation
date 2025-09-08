@@ -1,11 +1,9 @@
 import { decrypt, getSession } from "@/lib/session";
 import Link from "next/link";
 import InvitationInfoForm from "@/components/organisms/forms/InvitationInfoForm";
-import { signOut } from "@/actions/auth";
 import { redirect } from "next/navigation";
 import Box from "@/components/layout/Box";
 import { getInvitation } from "@/services/invitationServices";
-import Btn from "@/components/atoms/Btn/index";
 import SignOutBtn from "@/components/molecules/btns/SignOutBtn";
 
 export default async function page() {
@@ -31,7 +29,6 @@ export default async function page() {
           <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-5">
             <Box>
               <h3>내 정보</h3>
-
               <Link
                 className="mt-4 inline-block rounded-sm bg-[#007cba] px-4 py-2 text-white"
                 href={`/profile`}
@@ -46,15 +43,7 @@ export default async function page() {
                 <p>초대장을 생성하고 관리하세요.</p>
                 <Link
                   href="/dashboard/edit"
-                  style={{
-                    display: "inline-block",
-                    marginTop: "10px",
-                    padding: "8px 16px",
-                    backgroundColor: "#28a745",
-                    color: "white",
-                    textDecoration: "none",
-                    borderRadius: "4px",
-                  }}
+                  className="mt-4 inline-block rounded-sm bg-[#28a745] px-4 py-2 text-white"
                 >
                   등록하기
                 </Link>

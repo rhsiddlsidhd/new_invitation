@@ -171,7 +171,7 @@ const WeddingParentInfo = ({ readOnly }: { readOnly?: boolean }) => {
 
   return (
     <div>
-      <div className="flex gap-1 space-y-4">
+      <div className="mb-2 grid grid-cols-4 gap-2 max-sm:grid-cols-2 sm:max-w-fit">
         {parentFields.map((item, i) => {
           return (
             <Btn

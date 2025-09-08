@@ -16,9 +16,9 @@ const GalleryController = ({
 }) => {
   const galleryTypes: GalleryData["type"][] = ["A", "B", "C", "D", "E"];
   return (
-    <div className="relative p-3">
-      <div className="flex">
-        <div className="flex flex-1/4 flex-col justify-between">
+    <div className="relative p-2">
+      <div className="flex max-sm:flex-col-reverse">
+        <div className="grid flex-1/4 gap-2">
           {galleryTypes.map((w, i) => {
             return (
               <Btn
@@ -28,7 +28,7 @@ const GalleryController = ({
                   e.preventDefault();
                   onActiveType(w);
                 }}
-              >{`${w}버튼`}</Btn>
+              >{`${w}타입`}</Btn>
             );
           })}
         </div>
@@ -48,7 +48,7 @@ const GalleryController = ({
         </ul>
       </div>
       <Btn
-        className="mt-4 w-full bg-blue-300"
+        className="mt-2 w-full bg-blue-300"
         onClick={(e) => {
           e.preventDefault();
           onAddGallery();
