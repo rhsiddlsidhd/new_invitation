@@ -1,21 +1,52 @@
-import React, { useEffect } from "react";
-import Label from "../atoms/Label";
-import Input from "../atoms/Input";
+import React, { useMemo } from "react";
 import { useUserStore } from "@/store/userStore";
-import Btn from "../atoms/Btn";
 import { useModalStore } from "@/store/modalStore";
-export interface Field {
-  label: string;
-  name: string;
-  type: string;
-  required: boolean;
-  placeholder?: string;
-  onChange?: () => void;
-  onClick?: () => void;
-  value?: string;
-}
+import Label from "@/components/atoms/Label";
+import Input from "@/components/atoms/Input";
+import Btn from "@/components/atoms/Btn";
+import { PanelField } from "@/types";
 
-const WeddingPartyInfo = ({ readOnly }: { readOnly?: boolean }) => {
+const createCoupleFields = (
+  role: "groom" | "bride",
+  {
+    name,
+    phone,
+    account,
+  }: {
+    name: string;
+    phone: string;
+    account: string;
+  },
+): PanelField[] => {
+  return [
+    {
+      label: role === "groom" ? "신랑 성함" : "신부 성함",
+      name: role === "groom" ? "groom-name" : "bride-name",
+      type: "text",
+      required: true,
+      placeholder: role === "groom" ? "신랑 성함" : "신부 성함",
+      value: name,
+    },
+    {
+      label: "전화 번호",
+      name: role === "groom" ? "groom-phone" : "bride-phone",
+      type: "tel",
+      required: true,
+      placeholder: "000-0000-0000",
+      value: phone,
+    },
+    {
+      label: "계좌 번호",
+      name: role === "groom" ? "groom-account" : "bride-account",
+      type: "text",
+      required: true,
+      placeholder: "계좌 번호",
+      value: account,
+    },
+  ];
+};
+
+const WeddingCoupleInfoPanel = ({ readOnly }: { readOnly?: boolean }) => {
   const {
     groomName,
     groomAccount,
@@ -29,63 +60,24 @@ const WeddingPartyInfo = ({ readOnly }: { readOnly?: boolean }) => {
 
   const { setModalOpen, isOpen } = useModalStore();
 
-  const groomFields: Field[] = [
-    {
-      label: "신랑 성함",
-      name: "groom-name",
-      type: "text",
-      required: true,
-      placeholder: "신랑 성함",
-      value: groomName,
-    },
-    {
-      label: "전화 번호",
-      name: "groom-phone",
-      type: "tel",
-      required: true,
-      placeholder: "000-0000-0000",
-      value: groomPhone,
-    },
-    {
-      label: "계좌 번호",
-      name: "groom-account",
-      type: "text",
-      required: true,
-      placeholder: "계좌 번호",
-      value: groomAccount,
-    },
-  ];
-
-  const brideFields: Field[] = [
-    {
-      label: "신부 성함",
-      name: "bride-name",
-      type: "text",
-      required: true,
-      placeholder: "신부 성함",
-      value: brideName,
-    },
-    {
-      label: "전화 번호",
-      name: "bride-phone",
-      type: "tel",
-      required: true,
-      placeholder: "000-0000-0000",
-      value: bridePhone,
-    },
-    {
-      label: "계좌 번호",
-      name: "bride-account",
-      type: "text",
-      required: true,
-      placeholder: "계좌 번호",
-      value: brideAccount,
-    },
-  ];
-
-  useEffect(() => {
-    console.log("errors", errors);
-  }, [errors]);
+  const groomFields = useMemo(
+    () =>
+      createCoupleFields("groom", {
+        name: groomName,
+        phone: groomPhone,
+        account: groomAccount,
+      }),
+    [groomName, groomAccount, groomPhone],
+  );
+  const brideFields = useMemo(
+    () =>
+      createCoupleFields("bride", {
+        name: brideName,
+        phone: bridePhone,
+        account: brideAccount,
+      }),
+    [brideAccount, brideName, bridePhone],
+  );
 
   return (
     <div>
@@ -165,4 +157,4 @@ const WeddingPartyInfo = ({ readOnly }: { readOnly?: boolean }) => {
   );
 };
 
-export default WeddingPartyInfo;
+export default WeddingCoupleInfoPanel;

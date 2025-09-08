@@ -1,13 +1,14 @@
 "use client";
+
 import React, { useState } from "react";
 import { GalleryData } from "@/types";
-import GalleryItems from "../organisms/GalleryItems";
-import GalleryController from "../organisms/GalleryController";
 import { useUserStore } from "@/store/userStore";
-import Btn from "../atoms/Btn";
 import { useModalStore } from "@/store/modalStore";
+import GalleryController from "@/components/organisms/GalleryController";
+import GalleryItems from "@/components/organisms/GalleryItems";
+import Btn from "@/components/atoms/Btn";
 
-const WeddingGallery = ({ readOnly }: { readOnly: boolean }) => {
+const WeddingGalleryPanel = ({ readOnly }: { readOnly: boolean }) => {
   const { galleries, isUser, clearErrors } = useUserStore();
   const { isOpen, setModalOpen } = useModalStore();
   const [activeType, setActiveType] = useState<GalleryData["type"]>("A");
@@ -82,4 +83,4 @@ const WeddingGallery = ({ readOnly }: { readOnly: boolean }) => {
   );
 };
 
-export default WeddingGallery;
+export default WeddingGalleryPanel;

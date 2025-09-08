@@ -1,12 +1,12 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import Label from "../atoms/Label";
-import Input from "../atoms/Input";
-import { Field } from "./WeddingPartyInfo";
-import Btn from "../atoms/Btn";
 import { useUserStore } from "@/store/userStore";
 import { useModalStore } from "@/store/modalStore";
+import Btn from "@/components/atoms/Btn";
+import Label from "@/components/atoms/Label";
+import Input from "@/components/atoms/Input";
+import { PanelField } from "@/types";
 
 type ParentRoleId =
   | "groom-father"
@@ -16,7 +16,7 @@ type ParentRoleId =
 
 type ParentRoleName = "신랑측 부" | "신랑측 모" | "신부측 부" | "신부측 모";
 
-const WeddingParentInfo = ({ readOnly }: { readOnly?: boolean }) => {
+const WeddingParentInfoPanel = ({ readOnly }: { readOnly?: boolean }) => {
   const { isOpen, setModalOpen } = useModalStore();
   const {
     groomFatherName,
@@ -42,7 +42,7 @@ const WeddingParentInfo = ({ readOnly }: { readOnly?: boolean }) => {
   const parentFields: {
     roleId: ParentRoleId;
     roleName: ParentRoleName;
-    fields: Field[];
+    fields: PanelField[];
   }[] = [
     {
       roleId: "groom-father",
@@ -266,4 +266,4 @@ const WeddingParentInfo = ({ readOnly }: { readOnly?: boolean }) => {
   );
 };
 
-export default WeddingParentInfo;
+export default WeddingParentInfoPanel;

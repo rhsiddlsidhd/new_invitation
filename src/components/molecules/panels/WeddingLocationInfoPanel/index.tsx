@@ -1,14 +1,42 @@
 "use client";
 import React, { useState } from "react";
-import Label from "../atoms/Label";
-import Input from "../atoms/Input";
 import { Address, useDaumPostcodePopup } from "react-daum-postcode";
-import { Field } from "./WeddingPartyInfo";
 import { useUserStore } from "@/store/userStore";
 import { useModalStore } from "@/store/modalStore";
-import Btn from "../atoms/Btn";
+import Label from "@/components/atoms/Label";
+import Input from "@/components/atoms/Input";
+import Btn from "@/components/atoms/Btn";
+import { PanelField } from "@/types";
 
-const WeddingInfo = ({ readOnly }: { readOnly?: boolean }) => {
+// const createLocationFields = ({weddingDate,readOnly,onClick}:{WeddingDate:string,onClick?:()=>void}):PanelField[]=>{
+// return  [
+//     {
+//       label: "예식 날짜",
+//       name: "wedding-date",
+//       required: true,
+//       type: "date",
+//       placeholder: "",
+//       value: weddingDate,
+//     },
+//     {
+//       label: "예식 장소",
+//       name: "wedding-address",
+//       required: true,
+//       type: "text",
+//       onClick: onClick,
+//       value: !readOnly ? address : weddingAddress,
+//     },
+//     {
+//       label: "상세 주소",
+//       name: "wedding-detail-address",
+//       required: true,
+//       type: "text",
+//       value: weddingDetailAddress,
+//     },
+//   ];
+// }
+
+const WeddingLocationInfoPanel = ({ readOnly }: { readOnly?: boolean }) => {
   const [address, setAddress] = useState<string>("");
   const { weddingDate, weddingAddress, weddingDetailAddress, errors, isUser } =
     useUserStore();
@@ -41,7 +69,7 @@ const WeddingInfo = ({ readOnly }: { readOnly?: boolean }) => {
     open({ onComplete: handleComplete });
   };
 
-  const field: Field[] = [
+  const field: PanelField[] = [
     {
       label: "예식 날짜",
       name: "wedding-date",
@@ -116,4 +144,4 @@ const WeddingInfo = ({ readOnly }: { readOnly?: boolean }) => {
   );
 };
 
-export default WeddingInfo;
+export default WeddingLocationInfoPanel;

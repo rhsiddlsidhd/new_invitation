@@ -1,5 +1,6 @@
 import { patchThumbnail } from "@/actions/invitation/patchThumbnail";
-import WeddingThumbnail from "@/components/molecules/WeddingThumbnail";
+import WeddingThumbnailPanel from "@/components/molecules/panels/WeddingThumbnailPanel";
+
 import { useModalStore } from "@/store/modalStore";
 import { useUserStore } from "@/store/userStore";
 import { validateAndFlatten } from "@/utils/validation";
@@ -69,7 +70,7 @@ const WeddingThumbnailForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <WeddingThumbnail readOnly={false} />
+      <WeddingThumbnailPanel readOnly={false} />
     </form>
   );
 };

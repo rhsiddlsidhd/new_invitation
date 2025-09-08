@@ -1,7 +1,7 @@
 "use client";
 
 import { patchGallery } from "@/actions/invitation/patchGallery";
-import WeddingGallery from "@/components/molecules/WeddingGallery";
+import WeddingGalleryPanel from "@/components/molecules/panels/WeddingGalleryPanel";
 import { useModalStore } from "@/store/modalStore";
 import { useUserStore } from "@/store/userStore";
 import { GalleryMapClient, GalleryPayload } from "@/types";
@@ -100,7 +100,7 @@ const WeddingGalleryForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <WeddingGallery readOnly={false} />
+      <WeddingGalleryPanel readOnly={false} />
     </form>
   );
 };

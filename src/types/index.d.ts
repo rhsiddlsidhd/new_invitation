@@ -120,3 +120,14 @@ export interface GuestBook {
   password: string;
   message: string;
 }
+
+export interface PanelField {
+  label: string;
+  name: string;
+  type: string;
+  required: boolean;
+  placeholder?: string;
+  onChange?: () => void;
+  onClick?: () => void;
+  value?: string;
+}

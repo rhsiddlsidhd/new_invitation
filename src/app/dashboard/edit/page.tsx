@@ -1,5 +1,4 @@
 import InvitationInfoForm from "@/components/organisms/forms/InvitationInfoForm";
-
 import { decrypt, getSession } from "@/lib/session";
 import { isUserInvitationInfo } from "@/services/invitationServices";
 import { redirect } from "next/navigation";

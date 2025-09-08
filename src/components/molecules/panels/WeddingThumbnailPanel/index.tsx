@@ -1,15 +1,15 @@
 "use client";
 import React, { useRef, useState } from "react";
-import Img from "../atoms/Img";
-import { DocArrowUpIcon } from "../atoms/Icon";
-import Label from "../atoms/Label";
-import OverlayCloseBtn from "./OverlayCloseBtn";
 import { useUserStore } from "@/store/userStore";
 import { motion } from "framer-motion";
-import Btn from "../atoms/Btn";
 import { useModalStore } from "@/store/modalStore";
+import Label from "@/components/atoms/Label";
+import Img from "@/components/atoms/Img";
+import OverlayCloseBtn from "../../OverlayCloseBtn";
+import { DocArrowUpIcon } from "@/components/atoms/Icon";
+import Btn from "@/components/atoms/Btn";
 
-const WeddingThumbnail = ({ readOnly }: { readOnly?: boolean }) => {
+const WeddingThumbnailPanel = ({ readOnly }: { readOnly?: boolean }) => {
   const { isOpen, setModalOpen } = useModalStore();
   const { thumbnails, errors, isUser, clearErrors } = useUserStore();
   const handleUploadFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -117,18 +117,4 @@ const WeddingThumbnail = ({ readOnly }: { readOnly?: boolean }) => {
   );
 };
 
-export default WeddingThumbnail;
-
-/**
- *  <input
-                type="file"
-                id={`thumbnail-${i}`}
-                name={`thumbnail`}
-                className="absolute h-full w-full cursor-pointer opacity-0"
-                onChange={handleUploadFiles}
-                accept="image/*"
-                ref={(el) => {
-                  inputRefs.current[i] = el;
-                }}
-              />
- */
+export default WeddingThumbnailPanel;

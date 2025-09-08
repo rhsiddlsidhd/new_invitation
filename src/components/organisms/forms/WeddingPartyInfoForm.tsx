@@ -1,5 +1,5 @@
 import { patchText } from "@/actions/invitation/patchText";
-import WeddingPartyInfo from "@/components/molecules/WeddingPartyInfo";
+import WeddingCoupleInfoPanel from "@/components/molecules/panels/WeddingCoupleInfoPanel";
 import { useModalStore } from "@/store/modalStore";
 import { useUserStore } from "@/store/userStore";
 import React, { useActionState, useEffect } from "react";
@@ -24,7 +24,7 @@ const WeddingPartyInfoForm = () => {
 
   return (
     <form action={action}>
-      <WeddingPartyInfo readOnly={false} />
+      <WeddingCoupleInfoPanel readOnly={false} />
     </form>
   );
 };
