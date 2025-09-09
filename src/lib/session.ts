@@ -1,3 +1,4 @@
+"use server";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
@@ -68,5 +69,6 @@ export async function hasPasswordVerified() {
 
 export async function deletePasswordVerified() {
   const cookieStore = await cookies();
+
   return cookieStore.delete("password-verified");
 }

@@ -1,123 +1,23 @@
 "use client";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { useUserStore } from "@/store/userStore";
 import { useModalStore } from "@/store/modalStore";
 import Btn from "@/components/atoms/Btn";
 import Label from "@/components/atoms/Label";
 import Input from "@/components/atoms/Input";
 import { ParentRoleId } from "./type";
-import { fieldTypes, parentRoles } from "./constant";
+import useParentField from "@/hooks/useParentFIeld";
+import { parentFieldsVariants } from "./variants";
 
 const WeddingParentInfoPanel = ({ readOnly }: { readOnly?: boolean }) => {
   const { isOpen, setModalOpen } = useModalStore();
-  const {
-    groomFatherName,
-    groomFatherAccount,
-    groomFatherPhone,
-    groomMotherName,
-    groomMotherPhone,
-    groomMotherAccount,
-    brideMotherName,
-    brideMotherPhone,
-    brideMotherAccount,
-    brideFatherAccount,
-    brideFatherName,
-    brideFatherPhone,
-    errors,
-    isUser,
-  } = useUserStore();
+  const { parentFields, isUser, errors } = useParentField();
   const [showParentFields, setShowParentFields] =
     useState<ParentRoleId>("groom-father");
-  const fieldRef = useRef<HTMLDivElement>(null);
-  const [minHeight, setMinHeight] = useState<number>(0);
-
-  const getFieldValue = useCallback(
-    (roleId: string, suffix: string) => {
-      switch (`${roleId}-${suffix}`) {
-        case "groom-father-name":
-          return groomFatherName;
-        case "groom-father-phone":
-          return groomFatherPhone;
-        case "groom-father-account":
-          return groomFatherAccount;
-        case "groom-mother-name":
-          return groomMotherName;
-        case "groom-mother-phone":
-          return groomMotherPhone;
-        case "groom-mother-account":
-          return groomMotherAccount;
-        case "bride-father-name":
-          return brideFatherName;
-        case "bride-father-phone":
-          return brideFatherPhone;
-        case "bride-father-account":
-          return brideFatherAccount;
-        case "bride-mother-name":
-          return brideMotherName;
-        case "bride-mother-phone":
-          return brideMotherPhone;
-        case "bride-mother-account":
-          return brideMotherAccount;
-        default:
-          return "";
-      }
-    },
-    [
-      groomFatherName,
-      groomFatherPhone,
-      groomFatherAccount,
-      groomMotherName,
-      groomMotherPhone,
-      groomMotherAccount,
-      brideFatherName,
-      brideFatherPhone,
-      brideFatherAccount,
-      brideMotherName,
-      brideMotherPhone,
-      brideMotherAccount,
-    ],
-  );
-
-  const parentFields = useMemo(
-    () =>
-      parentRoles.map(({ roleId, roleLabel }) => ({
-        roleId,
-        roleLabel,
-        fields: fieldTypes.map(({ label, type, suffix }) => ({
-          label,
-          name: `${roleId}-${suffix}`,
-          type,
-          required: false,
-          value: getFieldValue(roleId, suffix),
-        })),
-      })),
-    [getFieldValue],
-  );
-
-  useEffect(() => {
-    if (!fieldRef.current) return;
-
-    const resizeObserver = new ResizeObserver(() => {
-      if (!fieldRef.current) return;
-      const newHeight = fieldRef.current.offsetHeight;
-      setMinHeight((prevHeight) => Math.max(prevHeight, newHeight));
-    });
-
-    resizeObserver.observe(fieldRef.current);
-    return () => {
-      resizeObserver.disconnect();
-    };
-  }, []);
 
   return (
     <div>
+      {/* Btn Wrapper */}
       <div className="mb-2 grid grid-cols-4 gap-2 max-sm:grid-cols-2 sm:max-w-fit">
         {parentFields.map((item, i) => {
           return (
@@ -137,25 +37,17 @@ const WeddingParentInfoPanel = ({ readOnly }: { readOnly?: boolean }) => {
         })}
       </div>
 
-      <div style={{ minHeight }} className="relative">
+      {/* Input Wrapper */}
+      <div className="relative min-h-[150px] max-sm:min-h-[206px]">
         {parentFields.map((item) => {
           return (
             <motion.div
               key={item.roleId}
-              initial={{ opacity: 0, y: "15%", pointerEvents: "none" }}
-              animate={
-                showParentFields === item.roleId
-                  ? { opacity: 1, y: 0, pointerEvents: "auto" }
-                  : { opacity: 0, y: "15%", pointerEvents: "none" }
-              }
-              exit={{ opacity: 0, y: "15%", pointerEvents: "none" }}
-              transition={{ ease: "linear" }}
+              variants={parentFieldsVariants}
+              animate={showParentFields === item.roleId ? "active" : "inActive"}
               className="absolute w-full"
-              ref={(el) => {
-                fieldRef.current = el;
-              }}
             >
-              <div className="flex flex-col sm:flex-row sm:gap-4">
+              <div className="flex flex-col sm:flex-row sm:gap-2">
                 {item.fields.slice(0, 2).map((field) => (
                   <div key={field.name} className="flex-1">
                     <Label htmlFor={field.name}>

@@ -14,12 +14,12 @@ const Nav = ({
   const { setModalOpen } = useModalStore();
 
   return (
-    <div className={`bg-translate flex gap-2 p-4 ${className}`}>
+    <div className={`bg-translate p-2 ${className}`}>
       {user ? (
-        <SignOutIcon size={32} onClick={signOut} />
+        <SignOutIcon size={24} onClick={signOut} />
       ) : (
         <UserIcon
-          size={32}
+          size={24}
           onClick={() => setModalOpen({ isOpen: true, type: "login" })}
         />
       )}

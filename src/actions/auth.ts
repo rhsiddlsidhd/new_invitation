@@ -141,7 +141,7 @@ export const verifyPasswordAction = async (
     cookieStore.set("password-verified", "true", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      maxAge: 30 * 60, // 30분
+      maxAge: 10 * 60, // 10분
       sameSite: "strict",
     });
   } catch (error) {

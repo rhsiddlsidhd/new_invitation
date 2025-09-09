@@ -1,3 +1,4 @@
+"use client";
 import { patchText } from "@/actions/invitation/patchText";
 import WeddingParentInfoPanel from "@/components/organisms/panel/WeddingParnetInfoPanel";
 import { useModalStore } from "@/store/modalStore";

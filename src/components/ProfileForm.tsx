@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
-
 import Label from "./atoms/Label";
 import Input from "./atoms/Input";
 import Btn from "./atoms/Btn/index";

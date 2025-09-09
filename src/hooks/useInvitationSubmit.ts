@@ -85,7 +85,6 @@ export const useInvitationSubmit = (data?: InvitationInput) => {
       });
     } catch (error) {
       console.error("Submission error:", error);
-      setErrors({ general: ["제출 중 오류가 발생했습니다."] });
       setIsUploading(false);
     }
   };
@@ -93,6 +92,5 @@ export const useInvitationSubmit = (data?: InvitationInput) => {
   return {
     handleSubmit,
     isSubmitting: isPending || isUploading,
-    submitState: state,
   };
 };

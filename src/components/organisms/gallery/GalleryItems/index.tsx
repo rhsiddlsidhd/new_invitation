@@ -23,7 +23,7 @@ const GalleryItems = ({
   const errors = useUserStore((state) => state.errors);
 
   return (
-    <ul>
+    <ul className="space-y-4">
       {viewData.map((d, cardIdx) => {
         const { type, id, images } = d;
         return (

@@ -1,44 +1,16 @@
 "use client";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useState } from "react";
 import { useUserStore } from "@/store/userStore";
-import { motion } from "framer-motion";
 import { useModalStore } from "@/store/modalStore";
-import Label from "@/components/atoms/Label";
-import Img from "@/components/atoms/Img";
-
-import { DocArrowUpIcon } from "@/components/atoms/Icon";
 import Btn from "@/components/atoms/Btn";
-import OverlayCloseBtn from "@/components/molecules/btns/OverlayCloseBtn";
+import ThumbnailCard from "@/components/molecules/cards/ThumbnailCard";
 
 const WeddingThumbnailPanel = ({ readOnly }: { readOnly?: boolean }) => {
   const { isOpen, setModalOpen } = useModalStore();
-  const { thumbnails, errors, isUser, clearErrors } = useUserStore();
-
+  const { thumbnails, isUser, clearErrors } = useUserStore();
   const [thumbnailPreviews, setThumbnailPreviews] = useState<(string | null)[]>(
     [null, null],
   );
-  const inputRefs = useRef<Array<HTMLInputElement | null>>([null, null]);
-
-  const handleUploadFiles = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const files = e.target.files;
-      if (!files || files.length === 0) return;
-      const id = e.target.id;
-
-      const idx = Number(id.split("-")[1]);
-
-      const url = URL.createObjectURL(files[0]);
-      setThumbnailPreviews((prev) => {
-        const next = [...prev];
-        next[idx] = url;
-        return next;
-      });
-
-      clearErrors();
-    },
-    [clearErrors],
-  );
-
   const viewData = readOnly ? thumbnails : thumbnailPreviews;
 
   return (
@@ -47,62 +19,33 @@ const WeddingThumbnailPanel = ({ readOnly }: { readOnly?: boolean }) => {
         <div className="flex justify-center gap-4 p-4">
           {viewData.map((url, i) => {
             return (
-              <Label
-                className={`relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-gray-50`}
-                key={i}
-              >
-                {url ? (
-                  <div className="relative h-full w-full">
-                    <Img src={url} />
-                    {!readOnly && (
-                      <OverlayCloseBtn
-                        size="md"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setThumbnailPreviews((prev) => {
-                            const next = [...prev];
-                            next[i] = null;
-                            return next;
-                          });
-                          if (inputRefs.current[i])
-                            inputRefs.current[i].value = "";
-                        }}
-                      />
-                    )}
-                  </div>
-                ) : (
-                  <DocArrowUpIcon />
-                )}
-                {!readOnly && (
-                  <input
-                    type="file"
-                    id={`thumbnail-${i}`}
-                    name={`thumbnail`}
-                    onChange={handleUploadFiles}
-                    ref={(el) => {
-                      inputRefs.current[i] = el;
-                    }}
-                    className="absolute h-full w-full cursor-pointer opacity-0"
-                  />
-                )}
-                {!readOnly && (
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: errors[i] ? 1 : 0 }}
-                    className="absolute inset-0 h-full w-full rounded-lg border-1 border-red-300 p-2 text-xs text-red-300"
-                  >
-                    {errors[i] && errors[i][0]}
-                  </motion.div>
-                )}
-              </Label>
+              <ThumbnailCard
+                key={`thumbnail-${i}`}
+                idx={i}
+                url={url}
+                readOnly={readOnly}
+                upload={(idx: number, url: string) => {
+                  setThumbnailPreviews((prev) => {
+                    const next = [...prev];
+                    next[idx] = url;
+                    return next;
+                  });
+
+                  clearErrors();
+                }}
+                remove={(idx: number) => {
+                  setThumbnailPreviews((prev) => {
+                    const next = [...prev];
+                    next[idx] = null;
+                    return next;
+                  });
+                }}
+              />
             );
           })}
         </div>
       </div>
       <div className="flex flex-col items-center justify-center text-xs break-keep">
-        {!readOnly && (
-          <span className="mx-2 text-red-300">{errors["thumbnail"]?.[0]}</span>
-        )}
         <span className="text-sm text-gray-500">현재 등록된 썸네일</span>
       </div>
       {isUser && (

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useActionState, useEffect } from "react";
-import useAuthStore from "../../../store/authStore";
 import { useRouter } from "next/navigation";
 import { updateUserProfile } from "../../../actions/user";
 import Box from "../../layout/Box";
@@ -12,7 +11,7 @@ import Btn from "../../atoms/Btn";
 
 const EditForm = () => {
   const [state, action, pending] = useActionState(updateUserProfile, null);
-  const { setUserEmail } = useAuthStore();
+  // const { setProfile } = useProfileStore();
   const router = useRouter();
 
   // 성공시 처리
@@ -20,10 +19,10 @@ const EditForm = () => {
     if (state && state.success && state.data) {
       const { email } = state.data;
       alert(`${email}로 프로필이 수정되었습니다.`);
-      setUserEmail(email);
+      // setProfile({ email });
       router.push("/profile");
     }
-  }, [state, setUserEmail, router]);
+  }, [state, router]);
 
   return (
     <div className="flex h-screen items-center justify-center">
