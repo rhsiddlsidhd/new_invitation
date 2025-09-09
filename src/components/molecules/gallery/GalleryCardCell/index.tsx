@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
-import Img from "../atoms/Img";
-import Label from "../atoms/Label";
-import OverlayCloseBtn from "./OverlayCloseBtn";
-import { DocArrowUpIcon } from "../atoms/Icon";
+import Img from "../../../atoms/Img";
+import Label from "../../../atoms/Label";
+import { DocArrowUpIcon } from "../../../atoms/Icon";
+import OverlayCloseBtn from "../../btns/OverlayCloseBtn";
 
 interface GalleryCardCellProps {
   idx: number;

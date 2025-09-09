@@ -1,5 +1,5 @@
+import { CloseIcon } from "@/components/atoms/Icon";
 import React from "react";
-import { CloseIcon } from "../atoms/Icon";
 
 const sizeMap = {
   sm: "h-4 w-4",

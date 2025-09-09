@@ -1,9 +1,10 @@
 import { GuestBookView } from "@/components/template/invitation/InvitationContainer";
 import { useModalStore } from "@/store/modalStore";
 import React, { useEffect, useState } from "react";
-import OverlayCloseBtn from "../OverlayCloseBtn";
+
 import { motion } from "framer-motion";
 import GuestBookDeleteForm from "@/components/organisms/forms/GuestBookDeleteForm";
+import OverlayCloseBtn from "../btns/OverlayCloseBtn";
 
 const isPayloadValidation = (payload: unknown): payload is GuestBookView[] => {
   if (!Array.isArray(payload)) return false;

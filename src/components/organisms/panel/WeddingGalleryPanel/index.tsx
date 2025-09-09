@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { GalleryData } from "@/types";
 import { useUserStore } from "@/store/userStore";
 import { useModalStore } from "@/store/modalStore";
-import GalleryController from "@/components/organisms/GalleryController";
-import GalleryItems from "@/components/organisms/GalleryItems";
+import GalleryController from "@/components/organisms/gallery/GalleryController";
+import GalleryItems from "@/components/organisms/gallery/GalleryItems";
 import Btn from "@/components/atoms/Btn";
 
 const WeddingGalleryPanel = ({ readOnly }: { readOnly: boolean }) => {
@@ -13,12 +13,14 @@ const WeddingGalleryPanel = ({ readOnly }: { readOnly: boolean }) => {
   const { isOpen, setModalOpen } = useModalStore();
   const [activeType, setActiveType] = useState<GalleryData["type"]>("A");
   const [galleryData, setGalleryData] = useState<GalleryData[]>([]);
-  const deleteGalleryCard = (id: GalleryData["id"]) =>
-    setGalleryData((prev) => prev.filter((d) => d.id !== id));
-
+  const deleteGalleryCard = useCallback(
+    (id: GalleryData["id"]) =>
+      setGalleryData((prev) => prev.filter((d) => d.id !== id)),
+    [],
+  );
   return (
     <div className="overflow-hidden rounded-lg border-2 border-gray-200 bg-gray-50 p-3">
-      <div className="border-b-1 border-gray-200 bg-transparent p-3">
+      <div className="mb-4 border-b-1 border-gray-200 bg-transparent p-3">
         <span className="font-semibold text-gray-700">갤러리</span>
       </div>
       {!readOnly && (
@@ -65,6 +67,7 @@ const WeddingGalleryPanel = ({ readOnly }: { readOnly: boolean }) => {
           deleteGalleryCard(id);
         }}
       />
+
       {isUser && (
         <Btn
           type={isOpen ? "submit" : "button"}

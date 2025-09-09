@@ -3,11 +3,11 @@ import React from "react";
 import Btn from "../../atoms/Btn";
 import { InvitationInput } from "@/models/invitationSchema";
 import { useInvitationSubmit } from "@/hooks/useInvitationSubmit";
-import WeddingCoupleInfoPanel from "@/components/molecules/panels/WeddingCoupleInfoPanel/index";
-import WeddingLocationInfoPanel from "@/components/molecules/panels/WeddingLocationInfoPanel";
-import WeddingParentInfoPanel from "@/components/molecules/panels/WeddingParnetInfoPanel";
-import WeddingThumbnailPanel from "@/components/molecules/panels/WeddingThumbnailPanel";
-import WeddingGalleryPanel from "@/components/molecules/panels/WeddingGalleryPanel";
+import WeddingCoupleInfoPanel from "@/components/organisms/panel/WeddingCoupleInfoPanel/index";
+import WeddingLocationInfoPanel from "@/components/organisms/panel/WeddingLocationInfoPanel";
+import WeddingParentInfoPanel from "@/components/organisms/panel/WeddingParnetInfoPanel";
+import WeddingThumbnailPanel from "@/components/organisms/panel/WeddingThumbnailPanel";
+import WeddingGalleryPanel from "@/components/organisms/panel/WeddingGalleryPanel";
 
 const InvitationInfoContent = ({ readOnly }: { readOnly: boolean }) => {
   return (
@@ -23,7 +23,7 @@ const InvitationInfoContent = ({ readOnly }: { readOnly: boolean }) => {
         {/* 부모 정보 */}
         <WeddingParentInfoPanel readOnly={readOnly} />
         <hr className="my-2 border-gray-200" />
-        {/* 썸네일 (최대 2장) */}s
+        {/* 썸네일 (최대 2장) */}
         <WeddingThumbnailPanel readOnly={readOnly} />
         <hr className="my-2 border-gray-200" />
         {/* 갤러리 Preview */}

@@ -1,75 +1,29 @@
 "use client";
-import React, { useState } from "react";
-import { Address, useDaumPostcodePopup } from "react-daum-postcode";
+import React, { useMemo } from "react";
 import { useUserStore } from "@/store/userStore";
 import { useModalStore } from "@/store/modalStore";
 import Label from "@/components/atoms/Label";
 import Input from "@/components/atoms/Input";
 import Btn from "@/components/atoms/Btn";
 import { PanelField } from "@/types";
+import useDaumPopup from "@/hooks/useDaumPopup";
 
-// const createLocationFields = ({weddingDate,readOnly,onClick}:{WeddingDate:string,onClick?:()=>void}):PanelField[]=>{
-// return  [
-//     {
-//       label: "예식 날짜",
-//       name: "wedding-date",
-//       required: true,
-//       type: "date",
-//       placeholder: "",
-//       value: weddingDate,
-//     },
-//     {
-//       label: "예식 장소",
-//       name: "wedding-address",
-//       required: true,
-//       type: "text",
-//       onClick: onClick,
-//       value: !readOnly ? address : weddingAddress,
-//     },
-//     {
-//       label: "상세 주소",
-//       name: "wedding-detail-address",
-//       required: true,
-//       type: "text",
-//       value: weddingDetailAddress,
-//     },
-//   ];
-// }
-
-const WeddingLocationInfoPanel = ({ readOnly }: { readOnly?: boolean }) => {
-  const [address, setAddress] = useState<string>("");
-  const { weddingDate, weddingAddress, weddingDetailAddress, errors, isUser } =
-    useUserStore();
-
-  const { isOpen, setModalOpen } = useModalStore();
-
-  const open = useDaumPostcodePopup(
-    "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js",
-  );
-
-  const handleComplete = (data: Address) => {
-    let fullAddress = data.address;
-    let extraAddress = "";
-
-    if (data.addressType === "R") {
-      if (data.bname !== "") {
-        extraAddress += data.bname;
-      }
-      if (data.buildingName !== "") {
-        extraAddress +=
-          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
-      }
-      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
-    }
-
-    setAddress(fullAddress);
-  };
-
-  const handleDaumAddressPopup = () => {
-    open({ onComplete: handleComplete });
-  };
-
-  const field: PanelField[] = [
+const createLocationFields = ({
+  weddingDate,
+  weddingDetailAddress,
+  readOnly,
+  address,
+  weddingAddress,
+  onClick,
+}: {
+  weddingDate: string;
+  readOnly: boolean | undefined;
+  address: string;
+  weddingAddress: string;
+  weddingDetailAddress: string;
+  onClick?: () => void;
+}): PanelField[] => {
+  return [
     {
       label: "예식 날짜",
       name: "wedding-date",
@@ -83,7 +37,7 @@ const WeddingLocationInfoPanel = ({ readOnly }: { readOnly?: boolean }) => {
       name: "wedding-address",
       required: true,
       type: "text",
-      onClick: handleDaumAddressPopup,
+      onClick: onClick,
       value: !readOnly ? address : weddingAddress,
     },
     {
@@ -94,10 +48,38 @@ const WeddingLocationInfoPanel = ({ readOnly }: { readOnly?: boolean }) => {
       value: weddingDetailAddress,
     },
   ];
+};
+
+const WeddingLocationInfoPanel = ({ readOnly }: { readOnly?: boolean }) => {
+  const { weddingDate, weddingAddress, weddingDetailAddress, errors, isUser } =
+    useUserStore();
+
+  const { isOpen, setModalOpen } = useModalStore();
+
+  const { address, handleDaumAddressPopup } = useDaumPopup();
+  const fields = useMemo(
+    () =>
+      createLocationFields({
+        address,
+        readOnly,
+        weddingAddress,
+        weddingDate,
+        weddingDetailAddress,
+        onClick: handleDaumAddressPopup,
+      }),
+    [
+      address,
+      readOnly,
+      weddingAddress,
+      weddingDate,
+      weddingDetailAddress,
+      handleDaumAddressPopup,
+    ],
+  );
 
   return (
-    <div className="flex flex-col gap-2">
-      {field.map((field, i) => {
+    <div className="space-y-2">
+      {fields.map((field, i) => {
         return (
           <div key={i}>
             <Label htmlFor={field.name}>
@@ -132,7 +114,6 @@ const WeddingLocationInfoPanel = ({ readOnly }: { readOnly?: boolean }) => {
             if (!isOpen) {
               e.preventDefault();
               setModalOpen({ isOpen: true, type: "wedding-date-info" });
-              // true, "wedding-date-info"
             }
           }}
           className="mt-4 ml-auto block"

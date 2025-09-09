@@ -1,20 +1,19 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { motion } from "framer-motion";
 import { useUserStore } from "@/store/userStore";
 import { useModalStore } from "@/store/modalStore";
 import Btn from "@/components/atoms/Btn";
 import Label from "@/components/atoms/Label";
 import Input from "@/components/atoms/Input";
-import { PanelField } from "@/types";
-
-type ParentRoleId =
-  | "groom-father"
-  | "groom-mother"
-  | "bride-father"
-  | "bride-mother";
-
-type ParentRoleName = "신랑측 부" | "신랑측 모" | "신부측 부" | "신부측 모";
+import { ParentRoleId } from "./type";
+import { fieldTypes, parentRoles } from "./constant";
 
 const WeddingParentInfoPanel = ({ readOnly }: { readOnly?: boolean }) => {
   const { isOpen, setModalOpen } = useModalStore();
@@ -39,120 +38,68 @@ const WeddingParentInfoPanel = ({ readOnly }: { readOnly?: boolean }) => {
   const fieldRef = useRef<HTMLDivElement>(null);
   const [minHeight, setMinHeight] = useState<number>(0);
 
-  const parentFields: {
-    roleId: ParentRoleId;
-    roleName: ParentRoleName;
-    fields: PanelField[];
-  }[] = [
-    {
-      roleId: "groom-father",
-      roleName: "신랑측 부",
-      fields: [
-        {
-          label: "성함",
-          name: "groom-father-name",
-          type: "text",
-          required: false,
-          value: groomFatherName,
-        },
-        {
-          label: "전화번호",
-          name: "groom-father-phone",
-          type: "tel",
-          required: false,
-          value: groomFatherPhone,
-        },
-        {
-          label: "계좌번호",
-          name: "groom-father-account",
-          type: "tel",
-          required: false,
-          value: groomFatherAccount,
-        },
-      ],
+  const getFieldValue = useCallback(
+    (roleId: string, suffix: string) => {
+      switch (`${roleId}-${suffix}`) {
+        case "groom-father-name":
+          return groomFatherName;
+        case "groom-father-phone":
+          return groomFatherPhone;
+        case "groom-father-account":
+          return groomFatherAccount;
+        case "groom-mother-name":
+          return groomMotherName;
+        case "groom-mother-phone":
+          return groomMotherPhone;
+        case "groom-mother-account":
+          return groomMotherAccount;
+        case "bride-father-name":
+          return brideFatherName;
+        case "bride-father-phone":
+          return brideFatherPhone;
+        case "bride-father-account":
+          return brideFatherAccount;
+        case "bride-mother-name":
+          return brideMotherName;
+        case "bride-mother-phone":
+          return brideMotherPhone;
+        case "bride-mother-account":
+          return brideMotherAccount;
+        default:
+          return "";
+      }
     },
-    {
-      roleId: "groom-mother",
-      roleName: "신랑측 모",
-      fields: [
-        {
-          label: "성함",
-          name: "groom-mother-name",
-          type: "text",
+    [
+      groomFatherName,
+      groomFatherPhone,
+      groomFatherAccount,
+      groomMotherName,
+      groomMotherPhone,
+      groomMotherAccount,
+      brideFatherName,
+      brideFatherPhone,
+      brideFatherAccount,
+      brideMotherName,
+      brideMotherPhone,
+      brideMotherAccount,
+    ],
+  );
+
+  const parentFields = useMemo(
+    () =>
+      parentRoles.map(({ roleId, roleLabel }) => ({
+        roleId,
+        roleLabel,
+        fields: fieldTypes.map(({ label, type, suffix }) => ({
+          label,
+          name: `${roleId}-${suffix}`,
+          type,
           required: false,
-          value: groomMotherName,
-        },
-        {
-          label: "전화번호",
-          name: "groom-mother-phone",
-          type: "tel",
-          required: false,
-          value: groomMotherPhone,
-        },
-        {
-          label: "계좌번호",
-          name: "groom-mother-account",
-          type: "tel",
-          required: false,
-          value: groomMotherAccount,
-        },
-      ],
-    },
-    {
-      roleId: "bride-father",
-      roleName: "신부측 부",
-      fields: [
-        {
-          label: "성함",
-          name: "bride-father-name",
-          type: "text",
-          required: false,
-          value: brideFatherName,
-        },
-        {
-          label: "전화번호",
-          name: "bride-father-phone",
-          type: "tel",
-          required: false,
-          value: brideFatherPhone,
-        },
-        {
-          label: "계좌번호",
-          name: "bride-father-account",
-          type: "tel",
-          required: false,
-          value: brideFatherAccount,
-        },
-      ],
-    },
-    {
-      roleId: "bride-mother",
-      roleName: "신부측 모",
-      fields: [
-        {
-          label: "성함",
-          name: "bride-mother-name",
-          type: "text",
-          required: false,
-          value: brideMotherName,
-        },
-        {
-          label: "전화번호",
-          name: "bride-mother-phone",
-          type: "tel",
-          required: false,
-          value: brideMotherPhone,
-        },
-        {
-          label: "계좌번호",
-          name: "bride-mother-account",
-          type: "tel",
-          required: false,
-          value: brideMotherAccount,
-        },
-      ],
-    },
-  ];
+          value: getFieldValue(roleId, suffix),
+        })),
+      })),
+    [getFieldValue],
+  );
 
   useEffect(() => {
     if (!fieldRef.current) return;
@@ -184,21 +131,20 @@ const WeddingParentInfoPanel = ({ readOnly }: { readOnly?: boolean }) => {
                 setShowParentFields(item.roleId);
               }}
             >
-              {item.roleName}
+              {item.roleLabel}
             </Btn>
           );
         })}
       </div>
 
       <div style={{ minHeight }} className="relative">
-        {/* Optional Parent Info */}
-        {parentFields.map((v) => {
+        {parentFields.map((item) => {
           return (
             <motion.div
-              key={v.roleId}
+              key={item.roleId}
               initial={{ opacity: 0, y: "15%", pointerEvents: "none" }}
               animate={
-                showParentFields === v.roleId
+                showParentFields === item.roleId
                   ? { opacity: 1, y: 0, pointerEvents: "auto" }
                   : { opacity: 0, y: "15%", pointerEvents: "none" }
               }
@@ -210,7 +156,7 @@ const WeddingParentInfoPanel = ({ readOnly }: { readOnly?: boolean }) => {
               }}
             >
               <div className="flex flex-col sm:flex-row sm:gap-4">
-                {v.fields.slice(0, 2).map((field) => (
+                {item.fields.slice(0, 2).map((field) => (
                   <div key={field.name} className="flex-1">
                     <Label htmlFor={field.name}>
                       {field.label}
@@ -223,7 +169,6 @@ const WeddingParentInfoPanel = ({ readOnly }: { readOnly?: boolean }) => {
                       name={field.name}
                       type={field.type}
                       readOnly={readOnly}
-                      placeholder={field.placeholder}
                       value={readOnly ? field.value : undefined}
                       error={errors[field.name]?.[0]}
                     />
@@ -232,15 +177,16 @@ const WeddingParentInfoPanel = ({ readOnly }: { readOnly?: boolean }) => {
               </div>
 
               <div className="mt-2 flex-1">
-                <Label htmlFor={v.fields[2].name}>{v.fields[2].label}</Label>
+                <Label htmlFor={item.fields[2].name}>
+                  {item.fields[2].label}
+                </Label>
                 <Input
-                  id={v.fields[2].name}
-                  name={v.fields[2].name}
-                  type={v.fields[2].type}
+                  id={item.fields[2].name}
+                  name={item.fields[2].name}
+                  type={item.fields[2].type}
                   readOnly={readOnly}
-                  placeholder={v.fields[2].placeholder}
-                  value={readOnly ? v.fields[2].value : undefined}
-                  error={errors[v.fields[2].name]?.[0]}
+                  value={readOnly ? item.fields[2].value : undefined}
+                  error={errors[item.fields[2].name]?.[0]}
                 />
               </div>
             </motion.div>
@@ -254,7 +200,6 @@ const WeddingParentInfoPanel = ({ readOnly }: { readOnly?: boolean }) => {
             if (!isOpen) {
               e.preventDefault();
               setModalOpen({ isOpen: true, type: "wedding-parent-info" });
-              // true, "wedding-parent-info"
             }
           }}
           className="mt-4 ml-auto block"

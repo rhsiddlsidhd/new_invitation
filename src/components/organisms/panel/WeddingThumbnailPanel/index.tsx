@@ -1,37 +1,43 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useUserStore } from "@/store/userStore";
 import { motion } from "framer-motion";
 import { useModalStore } from "@/store/modalStore";
 import Label from "@/components/atoms/Label";
 import Img from "@/components/atoms/Img";
-import OverlayCloseBtn from "../../OverlayCloseBtn";
+
 import { DocArrowUpIcon } from "@/components/atoms/Icon";
 import Btn from "@/components/atoms/Btn";
+import OverlayCloseBtn from "@/components/molecules/btns/OverlayCloseBtn";
 
 const WeddingThumbnailPanel = ({ readOnly }: { readOnly?: boolean }) => {
   const { isOpen, setModalOpen } = useModalStore();
   const { thumbnails, errors, isUser, clearErrors } = useUserStore();
-  const handleUploadFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-    const id = e.target.id;
 
-    const idx = Number(id.split("-")[1]);
-
-    const url = URL.createObjectURL(files[0]);
-    setThumbnailPreviews((prev) => {
-      const next = [...prev];
-      next[idx] = url;
-      return next;
-    });
-
-    clearErrors();
-  };
   const [thumbnailPreviews, setThumbnailPreviews] = useState<(string | null)[]>(
     [null, null],
   );
   const inputRefs = useRef<Array<HTMLInputElement | null>>([null, null]);
+
+  const handleUploadFiles = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const files = e.target.files;
+      if (!files || files.length === 0) return;
+      const id = e.target.id;
+
+      const idx = Number(id.split("-")[1]);
+
+      const url = URL.createObjectURL(files[0]);
+      setThumbnailPreviews((prev) => {
+        const next = [...prev];
+        next[idx] = url;
+        return next;
+      });
+
+      clearErrors();
+    },
+    [clearErrors],
+  );
 
   const viewData = readOnly ? thumbnails : thumbnailPreviews;
 

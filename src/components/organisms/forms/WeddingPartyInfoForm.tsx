@@ -1,5 +1,5 @@
 import { patchText } from "@/actions/invitation/patchText";
-import WeddingCoupleInfoPanel from "@/components/molecules/panels/WeddingCoupleInfoPanel";
+import WeddingCoupleInfoPanel from "@/components/organisms/panel/WeddingCoupleInfoPanel";
 import { useModalStore } from "@/store/modalStore";
 import { useUserStore } from "@/store/userStore";
 import React, { useActionState, useEffect } from "react";

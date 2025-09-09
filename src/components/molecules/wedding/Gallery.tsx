@@ -1,4 +1,4 @@
-import GalleryCard from "@/components/organisms/GalleryCard";
+import GalleryCard from "@/components/molecules/gallery/GalleryCard";
 import React, { useMemo, useState } from "react";
 import { IGallery } from "@/models/invitationSchema";
 

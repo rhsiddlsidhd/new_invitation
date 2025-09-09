@@ -1,7 +1,7 @@
 "use client";
 
 import { patchGallery } from "@/actions/invitation/patchGallery";
-import WeddingGalleryPanel from "@/components/molecules/panels/WeddingGalleryPanel";
+import WeddingGalleryPanel from "@/components/organisms/panel/WeddingGalleryPanel";
 import { useModalStore } from "@/store/modalStore";
 import { useUserStore } from "@/store/userStore";
 import { GalleryMapClient, GalleryPayload } from "@/types";

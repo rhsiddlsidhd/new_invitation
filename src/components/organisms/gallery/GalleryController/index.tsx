@@ -1,9 +1,9 @@
 import { GalleryData } from "@/types";
-import Btn from "../atoms/Btn";
+import Btn from "../../../atoms/Btn";
 import { AnimatePresence } from "motion/react";
 import { motion } from "framer-motion";
-import GalleryCard from "./GalleryCard";
-import { PlusIcon } from "../atoms/Icon";
+import GalleryCard from "../../../molecules/gallery/GalleryCard";
+import { PlusIcon } from "../../../atoms/Icon";
 
 const GalleryController = ({
   activeType,
@@ -16,7 +16,7 @@ const GalleryController = ({
 }) => {
   const galleryTypes: GalleryData["type"][] = ["A", "B", "C", "D", "E"];
   return (
-    <div className="relative p-2">
+    <div>
       <div className="flex max-sm:flex-col-reverse">
         <div className="grid flex-1/4 gap-2">
           {galleryTypes.map((w, i) => {
@@ -32,7 +32,7 @@ const GalleryController = ({
             );
           })}
         </div>
-        <ul className="relative flex min-h-80 flex-3/4 items-center space-y-4 p-4">
+        <ul className="relative flex min-h-80 flex-3/4 items-center">
           <AnimatePresence mode="wait">
             <motion.li
               key={activeType}
@@ -48,7 +48,8 @@ const GalleryController = ({
         </ul>
       </div>
       <Btn
-        className="mt-2 w-full bg-blue-300"
+        bgColor="bg-blue-300"
+        className="mt-2 w-full"
         onClick={(e) => {
           e.preventDefault();
           onAddGallery();

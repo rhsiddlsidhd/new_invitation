@@ -1,5 +1,5 @@
 import { patchThumbnail } from "@/actions/invitation/patchThumbnail";
-import WeddingThumbnailPanel from "@/components/molecules/panels/WeddingThumbnailPanel";
+import WeddingThumbnailPanel from "@/components/organisms/panel/WeddingThumbnailPanel";
 
 import { useModalStore } from "@/store/modalStore";
 import { useUserStore } from "@/store/userStore";

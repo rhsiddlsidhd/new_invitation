@@ -1,9 +1,9 @@
 import React, { ChangeEvent } from "react";
 import { motion } from "framer-motion";
-import GalleryCard from "./GalleryCard";
+import GalleryCard from "../../../molecules/gallery/GalleryCard";
 import { GalleryData } from "@/types";
-import OverlayCloseBtn from "../molecules/OverlayCloseBtn";
 import { useUserStore } from "@/store/userStore";
+import OverlayCloseBtn from "@/components/molecules/btns/OverlayCloseBtn/index";
 
 interface GalleryItemsProps {
   viewData: GalleryData[];
@@ -23,16 +23,16 @@ const GalleryItems = ({
   const errors = useUserStore((state) => state.errors);
 
   return (
-    <ul className="my-4">
+    <ul>
       {viewData.map((d, cardIdx) => {
         const { type, id, images } = d;
         return (
           <li
             key={cardIdx}
-            className="relative my-4 flex items-center justify-between rounded-lg border-2 border-gray-200 px-10 py-2 shadow-sm"
+            className="relative flex items-center justify-between rounded-lg border border-gray-200 px-10 py-4 shadow-sm"
           >
-            <span className="w-6 text-center font-mono text-gray-400">
-              {cardIdx + 1}
+            <span className="font-mono text-gray-400">
+              {cardIdx + 1} {type}타입
             </span>
 
             <motion.div className="round-lg h-fit w-fit bg-white p-2 shadow-sm">
@@ -61,6 +61,7 @@ const GalleryItems = ({
                 onClick={() => onDeleteCard && onDeleteCard(d.id)}
               />
             )}
+
             {!readOnly && (
               <motion.div
                 initial={{ scale: 0 }}

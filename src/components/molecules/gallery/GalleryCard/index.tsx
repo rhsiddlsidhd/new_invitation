@@ -2,9 +2,9 @@
 import { GalleryData } from "@/types";
 import React, { ChangeEvent } from "react";
 
-import GalleryCardCell from "../molecules/GalleryCardCell";
+import GalleryCardCell from "../GalleryCardCell";
 import { cardConfig } from "@/contants";
-import Label from "../atoms/Label";
+import Label from "../../../atoms/Label";
 
 const GalleryCard = ({
   type,
