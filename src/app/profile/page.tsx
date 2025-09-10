@@ -7,6 +7,8 @@ import Input from "@/components/atoms/Input";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import ProfileBox from "@/components/molecules/boxs/ProfileBox";
+
 const page = async () => {
   try {
     const token = await getSession();
@@ -31,9 +33,9 @@ const page = async () => {
         {/* 메인 콘텐츠 */}
         <div className="m-auto w-full max-w-[800px]">
           {/* 프로필 카드 */}
-          <div className="my-4 rounded-2xl bg-white p-5 shadow-2xl">
-            {/* 프로필 아바타 영역 */}
-            <div className="flex items-center gap-4 border-b-1 border-[#e9ecef] pb-8">
+          {/* <div className="my-4 rounded-2xl bg-white p-5 shadow-2xl *:" >
+            
+            <div className="flex items-center bg-blue-300 gap-4 border-b-1 border-[#e9ecef] pb-8">
               <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#007cba]">
                 <span className="text-3xl font-bold text-white">
                   {user.data.userId.charAt(0).toUpperCase()}
@@ -65,7 +67,8 @@ const page = async () => {
                 />
               </div>
             </div>
-          </div>
+          </div> */}
+          <ProfileBox />
 
           <div className="my-4 rounded-2xl bg-white p-5 shadow-2xl">
             <h3 className="mb-4 text-xl font-bold text-[#333]">계정 관리</h3>
@@ -93,7 +96,6 @@ const page = async () => {
       </div>
     );
   } catch {
-    // console.log("e", e);
     redirect("/");
   }
 };
