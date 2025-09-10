@@ -1,5 +1,5 @@
-import Header from "@/components/layout/Header";
-import Modal from "@/components/organisms/modal/Modal";
+// import Header from "@/components/layout/Header";
+// import Modal from "@/components/organisms/modal/Modal";
 import "./globals.css";
 
 export default function RootLayout({
@@ -10,9 +10,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header />
+        {/* <Header /> */}
         {children}
-        <Modal />
+        {/* <Modal /> */}
       </body>
     </html>
   );
