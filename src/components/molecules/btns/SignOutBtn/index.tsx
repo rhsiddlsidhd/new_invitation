@@ -1,10 +1,25 @@
+"use client";
 import { signOut } from "@/actions/auth";
 import Btn from "@/components/atoms/Btn";
-import React from "react";
+import useAuthStore from "@/store/authStore";
+import React, { useCallback } from "react";
 
-const SignOutBtn = ({ children }: { children: React.ReactNode }) => {
+const SignOutBtn = ({
+  children,
+  bgColor,
+  textColor,
+}: {
+  children: React.ReactNode;
+  bgColor?: string;
+  textColor?: string;
+}) => {
+  const { setIsAuthenticated } = useAuthStore();
+  const handleSignOut = useCallback(async () => {
+    await signOut();
+    setIsAuthenticated(false);
+  }, [setIsAuthenticated]);
   return (
-    <Btn bgColor="bg-[#dc3545]" onClick={signOut}>
+    <Btn bgColor={bgColor} textColor={textColor} onClick={handleSignOut}>
       {children}
     </Btn>
   );

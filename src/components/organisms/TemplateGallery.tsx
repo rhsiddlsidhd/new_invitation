@@ -56,8 +56,8 @@ const TemplateGallery = () => {
       ref={listContainerRef}
     >
       <div className="pt-4 sm:pt-8">
-        <div className="w-full">
-          <Logo className="m-auto block" />
+        <div className="flex w-full justify-center">
+          <Logo />
         </div>
         <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 lg:grid-cols-4">
           {cardList.map((card, i) => {

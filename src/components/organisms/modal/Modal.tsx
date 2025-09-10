@@ -68,13 +68,6 @@ const Modal = () => {
   return (
     <AnimatePresence>
       {isOpen && (
-        // <motion.div
-        //   key={modalType}
-        //   initial={{ opacity: 0 }}
-        //   animate={{ opacity: 1 }}
-        //   exit={{ opacity: 0 }}
-        //   className={`fixed inset-0 flex items-center justify-center bg-black/50 ${isOpen ? "pointer-events-auto" : "pointer-events-none"} z-50`}
-        // >
         <Overlay key={modalType} isOpen={isOpen}>
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
@@ -84,18 +77,10 @@ const Modal = () => {
             }}
             exit={{ scale: 0.8, opacity: 0 }}
             className={`scrollbar-hide relative max-h-[80vh] w-full max-w-md origin-top-left overflow-y-scroll rounded-lg ${config && config.backgroundColor === "white" ? "bg-white" : "bg-transparent"} p-6`}
-            // scrollbar-hide relative max-h-[80vh] w-full max-w-md origin-top-left overflow-y-scroll rounded-lg bg-white p-6
             ref={modalref}
           >
             {createModalContent(modalType)}
-            {/* <button
-              onClick={() => setModalOpen(false)}
-              className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-500 px-2 py-2 hover:bg-red-400"
-            >
-              <CloseIcon />
-            </button> */}
           </motion.div>
-          {/* </motion.div> */}
         </Overlay>
       )}
     </AnimatePresence>

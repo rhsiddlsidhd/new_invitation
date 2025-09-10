@@ -57,8 +57,7 @@ export async function getSession() {
   const cookieStore = await cookies();
   const token = cookieStore.get("session")?.value;
 
-  if (!token)
-    throw new Error("세션이 존재하지 않습니다. 다시 로그인 해주세요.");
+  if (!token) throw new Error("토큰이 존재하지 않습니다.");
   return token;
 }
 
