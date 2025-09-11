@@ -1,7 +1,8 @@
 import InvitationInfoForm from "@/components/organisms/forms/InvitationInfoForm";
 import { decrypt } from "@/lib/jose";
-import { getAuthToken } from "@/services/authService/token";
-import { isUserInvitationInfo } from "@/services/invitationServices";
+import { getAuthToken } from "@/services/auth/token";
+import { isUserInvitationInfo } from "@/services/invitation";
+
 import { redirect } from "next/navigation";
 
 const page = async () => {

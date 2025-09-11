@@ -1,8 +1,9 @@
 "use server";
 
 import { decrypt } from "@/lib/jose";
-import { getAuthToken } from "@/services/authService/token";
-import { patchInvitation } from "@/services/invitationServices";
+import { getAuthToken } from "@/services/auth/token";
+import { patchInvitation } from "@/services/invitation";
+
 import { validateAndFlatten } from "@/utils/validation";
 import {
   WeddingDateInfoSchema,

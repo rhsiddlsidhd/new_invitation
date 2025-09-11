@@ -1,6 +1,6 @@
 "use server";
 import { hashPassword } from "@/lib/bcrypt";
-import { createUser, isUserDuplicate } from "@/services/userService";
+import { createUser, isUserDuplicate } from "@/services/user";
 import { APIRESPONSE } from "@/types";
 
 export async function signUp(

@@ -1,6 +1,7 @@
 import InvitationContainer from "@/components/template/invitation/InvitationContainer";
-import { getUserGuestBook } from "@/services/guestBookServices";
-import { getUserInvitationInfo } from "@/services/invitationServices";
+import { getUserGuestBook } from "@/services/guestBook";
+import { getUserInvitationInfo } from "@/services/invitation";
+
 import { redirect } from "next/navigation";
 
 const Page = async ({

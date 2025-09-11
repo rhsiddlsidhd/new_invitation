@@ -2,8 +2,9 @@
 
 import { cloudinary } from "@/lib/cloudinary/config";
 import { decrypt } from "@/lib/jose";
-import { getAuthToken } from "@/services/authService/token";
-import { patchInvitation } from "@/services/invitationServices";
+import { getAuthToken } from "@/services/auth/token";
+import { patchInvitation } from "@/services/invitation";
+
 import { Thumbnail } from "@/types";
 
 import { validateAndFlatten } from "@/utils/validation";

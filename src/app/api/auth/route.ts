@@ -1,6 +1,6 @@
 import { decrypt } from "@/lib/jose";
-import { getAuthToken } from "@/services/authService/token";
-import { getUserById } from "@/services/userService";
+import { getAuthToken } from "@/services/auth/token";
+import { getUserById } from "@/services/user";
 import { NextResponse } from "next/server";
 
 export const GET = async () => {

@@ -1,9 +1,9 @@
 "use server";
 import { cloudinary } from "@/lib/cloudinary/config";
 import { decrypt } from "@/lib/jose";
-import { getAuthToken } from "@/services/authService/token";
+import { getAuthToken } from "@/services/auth/token";
+import { patchInvitation } from "@/services/invitation";
 
-import { patchInvitation } from "@/services/invitationServices";
 import { GalleryEntry, GalleryPayload } from "@/types";
 import { validateAndFlatten } from "@/utils/validation";
 import { gallerySchema } from "@/utils/validation/schema.server";

@@ -1,7 +1,7 @@
 "use server";
 
-import { setAuthTokenCookie } from "@/services/authService";
-import { comparePasswords, getUserPasswordById } from "@/services/userService";
+import { setAuthTokenCookie } from "@/services/auth";
+import { comparePasswords, getUserPasswordById } from "@/services/user";
 import { APIRESPONSE } from "@/types";
 
 export const signIn = async (

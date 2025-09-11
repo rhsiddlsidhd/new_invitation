@@ -1,10 +1,10 @@
 "use server";
 import { cookies } from "next/headers";
 
-import { comparePasswords, getUserPasswordById } from "@/services/userService";
+import { comparePasswords, getUserPasswordById } from "@/services/user";
 import { APIRESPONSE } from "@/types";
 import { decrypt } from "@/lib/jose";
-import { deleteAuthToken, getAuthToken } from "@/services/authService/token";
+import { deleteAuthToken, getAuthToken } from "@/services/auth/token";
 
 export const verifyPassword = async (
   prev: unknown,

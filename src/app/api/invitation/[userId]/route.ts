@@ -1,5 +1,6 @@
 import { InvitationInput } from "@/models/invitationSchema";
-import { getInvitation } from "@/services/invitationServices";
+import { getInvitation } from "@/services/invitation";
+
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (

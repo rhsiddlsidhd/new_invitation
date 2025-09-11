@@ -1,4 +1,4 @@
-import { deleteAuthToken } from "@/services/authService/token";
+import { deleteAuthToken } from "@/services/auth/token";
 
 export const signOut = async () => {
   await deleteAuthToken();

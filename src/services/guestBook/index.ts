@@ -1,8 +1,8 @@
-import { GuestBookView } from "@/components/template/invitation/InvitationContainer";
 import GuestBook from "@/models/guestBookSchema";
-import { GuestBook as GuestBookType } from "@/types";
 import { dbConnect } from "@/utils/mongodb";
-import { comparePasswords } from "./userService";
+import { GuestBook as GuestBookType } from "@/types";
+import { GuestBookView } from "@/components/template/invitation/InvitationContainer";
+import { comparePasswords } from "../user";
 
 export const createGuestBook = async ({ data }: { data: GuestBookType }) => {
   await dbConnect();

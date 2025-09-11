@@ -1,9 +1,20 @@
+"use client";
 import Input from "@/components/atoms/Input";
 import Label from "@/components/atoms/Label";
 import Box from "@/components/layout/Box";
-import React from "react";
+import React, { useEffect } from "react";
 
 const ProfileBox = ({ userId, email }: { userId: string; email: string }) => {
+  useEffect(() => {
+    const deleteCookie = async () => {
+      console.log("zzzzzz");
+      await fetch("/api/pwd-verified", {
+        method: "DELETE",
+      });
+    };
+    deleteCookie();
+  }, []);
+
   return (
     <Box className="shadow-2xl">
       <div className="flex items-center gap-4 border-b-1 border-[#e9ecef] pb-8">

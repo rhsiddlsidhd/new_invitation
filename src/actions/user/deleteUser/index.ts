@@ -1,8 +1,8 @@
 "use server";
 
 import { decrypt } from "@/lib/jose";
-import { getAuthToken } from "@/services/authService/token";
-import { softDeleteUser } from "@/services/userService";
+import { getAuthToken } from "@/services/auth/token";
+import { softDeleteUser } from "@/services/user";
 import { APIRESPONSE } from "@/types";
 
 export const deleteUser = async (

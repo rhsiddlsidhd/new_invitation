@@ -1,27 +1,27 @@
 import Link from "next/link";
-// import InvitationInfoForm from "@/components/organisms/forms/InvitationInfoForm";
-// import { redirect } from "next/navigation";
+import InvitationInfoForm from "@/components/organisms/forms/InvitationInfoForm";
 import Box from "@/components/layout/Box";
-// import { getAuthToken } from "@/services/authService/token";
-// import { getInvitation } from "@/services/invitationServices";
-// import SignOutBtn from "@/components/molecules/btns/SignOutBtn";
+import SignOutBtn from "@/components/molecules/btns/SignOutBtn";
+import { getAuthToken } from "@/services/auth/token";
+import { decrypt } from "@/lib/jose";
+import { getInvitation } from "@/services/invitation";
 
-export default function page() {
-  // const token = await getAuthToken();
-  // const payload = await decrypt(token);
+export default async function page() {
+  const token = await getAuthToken();
+  const payload = await decrypt(token);
 
-  // const res = await getInvitation(payload.userId);
+  const res = await getInvitation(payload.userId);
 
-  // const data = res;
+  const data = res;
 
   return (
     <div className="m-auto w-full max-w-[1028px] p-2 sm:mb-24 sm:p-6">
       <header className="mb-7 flex justify-between rounded-xl bg-[#f5f5f5] p-5">
         <div>
           <h1>대시보드</h1>
-          {/* <p>{payload.userId}님 환영합니다.</p> */}
+          <p>{payload.userId}님 환영합니다.</p>
         </div>
-        {/* <SignOutBtn>로그아웃</SignOutBtn> */}
+        <SignOutBtn bgColor="bg-red-500">로그아웃</SignOutBtn>
       </header>
 
       <div className="w-full gap-5 space-y-5">
@@ -36,20 +36,20 @@ export default function page() {
             </Link>
           </Box>
 
-          {/* {!data && (
-              <Box>
-                <h3>초대장 관리</h3>
-                <p>초대장을 생성하고 관리하세요.</p>
-                <Link
-                  href="/dashboard/edit"
-                  className="mt-4 inline-block rounded-sm bg-[#28a745] px-4 py-2 text-white"
-                >
-                  등록하기
-                </Link>
-              </Box>
-            )} */}
+          {!data && (
+            <Box>
+              <h3>초대장 관리</h3>
+              <p>초대장을 생성하고 관리하세요.</p>
+              <Link
+                href="/dashboard/edit"
+                className="mt-4 inline-block rounded-sm bg-[#28a745] px-4 py-2 text-white"
+              >
+                등록하기
+              </Link>
+            </Box>
+          )}
         </div>
-        {/* {data && <InvitationInfoForm readOnly={true} data={data} />} */}
+        {data && <InvitationInfoForm readOnly={true} data={data} />}
       </div>
     </div>
   );

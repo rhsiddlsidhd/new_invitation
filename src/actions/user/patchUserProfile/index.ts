@@ -1,7 +1,7 @@
 "use server";
 import { decrypt } from "@/lib/jose";
-import { deleteAuthToken, getAuthToken } from "@/services/authService/token";
-import { updateUserEmail } from "@/services/userService";
+import { deleteAuthToken, getAuthToken } from "@/services/auth/token";
+import { updateUserEmail } from "@/services/user";
 import { APIRESPONSE } from "@/types";
 
 export const patchUserProfile = async (

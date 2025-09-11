@@ -1,24 +1,16 @@
 import EditForm from "@/components/organisms/forms/EditForm";
-import {
-  getAuthToken,
-  hasPasswordVerifiedAuthToken,
-} from "@/services/authService/token";
+import { hasPasswordVerifiedAuthToken } from "@/services/auth/token";
 import { redirect } from "next/navigation";
 import React from "react";
 
 const page = async () => {
-  try {
-    await getAuthToken();
-    const isPasswordVerified = await hasPasswordVerifiedAuthToken();
+  const isPasswordVerified = await hasPasswordVerifiedAuthToken();
 
-    if (!isPasswordVerified) {
-      redirect("/verify?next=/profile/delete");
-    }
-
-    return <EditForm />;
-  } catch {
-    redirect("/");
+  if (!isPasswordVerified) {
+    redirect("/verify?next=/profile/edit");
   }
+
+  return <EditForm />;
 };
 
 export default page;

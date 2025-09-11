@@ -3,8 +3,8 @@
 import { cloudinary } from "@/lib/cloudinary/config";
 import { decrypt } from "@/lib/jose";
 import { InvitationInput } from "@/models/invitationSchema";
-import { getAuthToken } from "@/services/authService/token";
-import { createInvitation } from "@/services/invitationServices";
+import { getAuthToken } from "@/services/auth/token";
+import { createInvitation } from "@/services/invitation";
 import { CloudinaryUploadResponse, GalleryEntry } from "@/types";
 import { validateAndFlatten } from "@/utils/validation";
 import { WeddingInfoSchema } from "@/utils/validation/schema.server";

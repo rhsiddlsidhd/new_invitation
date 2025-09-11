@@ -3,13 +3,14 @@
 import {
   deleteUserGuestBook,
   validateGuestBookPassword,
-} from "@/services/guestBookServices";
+} from "@/services/guestBook";
+
 import { redirect } from "next/navigation";
 
 export const deleteGuestBook = async (prev: unknown, formData: FormData) => {
   // _id 일치하는 GuestBook.password 와 formData에 입력된 value와 비교
   // 일치하지 않으면 error
-  // 일이하면 DeleteUserGuestBook 진행
+  // 일치하면 DeleteUserGuestBook 진행
 
   try {
     const { id, password } = Object.fromEntries(formData) as Record<

@@ -9,11 +9,9 @@ import {
   ThumbnailSchema,
 } from "@/utils/validation/schema.client";
 import { parseInvitationForm } from "@/utils/transform";
-import {
-  uploadThumbnails,
-  uploadGalleries,
-} from "@/services/cloudinaryServices";
+
 import { InvitationInput } from "@/models/invitationSchema";
+import { uploadGalleries, uploadThumbnails } from "@/lib/cloudinary";
 
 export const useInvitationSubmit = (data?: InvitationInput) => {
   const [state, action] = useActionState(postInvitationInfo, null);

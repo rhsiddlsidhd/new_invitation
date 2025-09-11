@@ -1,7 +1,7 @@
 "use server";
 import { decrypt } from "@/lib/jose";
-import { deleteAuthToken, getAuthToken } from "@/services/authService/token";
-import { changePassword } from "@/services/userService";
+import { deleteAuthToken, getAuthToken } from "@/services/auth/token";
+import { changePassword } from "@/services/user";
 import { APIRESPONSE } from "@/types";
 
 export const patchUserPassword = async (
