@@ -1,13 +1,16 @@
 import { decrypt, getSession } from "@/lib/session";
+import { getUserById } from "@/services/userService";
 import { NextResponse } from "next/server";
 
 export const GET = async () => {
   try {
     const token = await getSession();
     const payload = await decrypt(token);
+    console.log("payload", payload.userId);
     if (!payload) {
       throw new Error("Invalid token");
     }
+    await getUserById(payload.userId);
 
     return NextResponse.json({ success: true });
   } catch (e) {

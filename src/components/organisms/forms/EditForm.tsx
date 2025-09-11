@@ -2,26 +2,27 @@
 
 import React, { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { updateUserProfile } from "../../../actions/user";
 import Box from "../../layout/Box";
-import Alert from "../../atoms/Alert";
 import Label from "../../atoms/Label";
 import Input from "../../atoms/Input";
 import Btn from "../../atoms/Btn";
+import { patchUserProfile } from "@/actions/user/patchUserProfile";
 
 const EditForm = () => {
-  const [state, action, pending] = useActionState(updateUserProfile, null);
-  // const { setProfile } = useProfileStore();
+  const [state, action, pending] = useActionState(patchUserProfile, null);
   const router = useRouter();
 
   // 성공시 처리
   useEffect(() => {
-    if (state && state.success && state.data) {
-      const { email } = state.data;
+    if (!state) return;
+    if (state.success && state.data) {
+      const { email } = state.data.payload;
       alert(`${email}로 프로필이 수정되었습니다.`);
-      // setProfile({ email });
       router.push("/profile");
+      return;
     }
+
+    router.push("/");
   }, [state, router]);
 
   return (
@@ -29,11 +30,6 @@ const EditForm = () => {
       <Box className="w-full max-w-[400px]">
         <h2>프로필 수정</h2>
         <form action={action}>
-          {state && !state.success && (
-            <Alert type="error" className="mt-2">
-              {state.message}
-            </Alert>
-          )}
           <div className="my-2">
             <Label htmlFor="email">이메일:</Label>
             <Input

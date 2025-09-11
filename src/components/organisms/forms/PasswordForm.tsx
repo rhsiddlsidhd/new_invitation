@@ -2,31 +2,40 @@
 
 import React, { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { updatedUserPassword } from "../../../actions/user";
 import Box from "../../layout/Box";
 import Alert from "../../atoms/Alert";
 import Label from "../../atoms/Label";
 import Input from "../../atoms/Input";
 import Btn from "../../atoms/Btn";
+import { patchUserPassword } from "@/actions/auth/patchUserPassword";
 
 const PasswordForm = () => {
-  const [state, action, pending] = useActionState(updatedUserPassword, null);
+  const [state, action, pending] = useActionState(patchUserPassword, null);
   const router = useRouter();
 
   useEffect(() => {
-    if (state && state.success) {
-      alert(state.message);
+    if (!state) return;
+    if (state.success) {
+      alert(state.data.message);
       router.push("/profile");
+      return;
+    }
+
+    const { code } = state.error;
+
+    if (code !== 401) {
+      router.push("/");
     }
   }, [state, router]);
+
   return (
     <div className="flex h-screen items-center justify-center">
       <Box className="w-full max-w-[400px]">
         <h2>비밀번호 수정</h2>
         <form action={action}>
-          {state && !state.success && (
+          {state && !state.success && state.error.code === 401 && (
             <Alert type="error" className="mt-2">
-              {state.message}
+              {state.error.message}
             </Alert>
           )}
 

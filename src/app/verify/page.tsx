@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import VerifyForm from "../../components/organisms/forms/VerifyForm";
-import { getSession } from "@/lib/session";
+import { decrypt, getSession } from "@/lib/session";
 
 const Page = async ({
   searchParams,
@@ -8,7 +8,8 @@ const Page = async ({
   searchParams?: Promise<{ next?: string }>;
 }) => {
   try {
-    await getSession();
+    const token = await getSession();
+    await decrypt(token);
     const resolvedParams = await searchParams;
 
     if (!resolvedParams?.next) {

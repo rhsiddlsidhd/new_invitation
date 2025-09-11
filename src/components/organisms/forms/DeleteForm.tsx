@@ -1,24 +1,31 @@
 "use client";
-import React, { useActionState } from "react";
-import { deleteUserAction } from "../../../actions/user";
+import React, { useActionState, useEffect } from "react";
 
 import Box from "../../layout/Box";
 import Label from "../../atoms/Label";
 import Input from "../../atoms/Input";
 import Alert from "../../atoms/Alert";
 import Btn from "../../atoms/Btn";
+import { deleteUser } from "@/actions/user/deleteUser";
 
 const DeleteForm = ({ user }: { user: string }) => {
-  const [state, action, pending] = useActionState(deleteUserAction, null);
+  const [state, action, pending] = useActionState(deleteUser, null);
+  useEffect(() => {
+    if (!state) return;
+    if (state.success) {
+      alert("성공적으로 탈퇴처리 되었습니다.");
+      window.location.href = "/";
+    }
+  }, [state]);
 
   return (
     <div className="flex h-screen items-center justify-center">
       <Box className="w-full max-w-[400px]">
         <h2>계정 삭제</h2>
         <form action={action}>
-          {state && !state.success && (
+          {state && !state.success && state.error.code !== 500 && (
             <Alert type="error" className="mt-2">
-              {state.message}
+              {state.error.message}
             </Alert>
           )}
           <div className="my-2">

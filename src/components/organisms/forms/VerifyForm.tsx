@@ -1,18 +1,33 @@
 "use client";
-import React, { useActionState } from "react";
+import React, { useActionState, useEffect } from "react";
 
-import { verifyPasswordAction } from "../../../actions/auth";
 import Alert from "../../atoms/Alert";
 import Input from "../../atoms/Input";
 import Btn from "../../atoms/Btn";
 import Box from "../../layout/Box";
+
+import { useRouter } from "next/navigation";
+import { verifyPassword } from "@/actions/auth/verifyPassword";
 
 interface VerifyFormProps {
   path: string;
 }
 
 const VerifyForm = ({ path }: VerifyFormProps) => {
-  const [state, action, pending] = useActionState(verifyPasswordAction, null);
+  const [state, action, pending] = useActionState(verifyPassword, null);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!state) return;
+    if (state.success) {
+      const { payload } = state.data;
+      router.push(payload.path);
+      return;
+    }
+
+    const { code } = state.error;
+    if (code === 500) router.push("/");
+  }, [state, router]);
 
   return (
     <div className="flex h-screen items-center justify-center">
@@ -22,9 +37,9 @@ const VerifyForm = ({ path }: VerifyFormProps) => {
 
         <form action={action}>
           <input type="hidden" name="next" value={path} />
-          {state && !state.success && (
+          {state && !state.success && state.error.code !== 500 && (
             <Alert type="error" className="mt-2">
-              {state.message}
+              {state.error.message}
             </Alert>
           )}
           <input

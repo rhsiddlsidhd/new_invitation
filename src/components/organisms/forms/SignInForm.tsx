@@ -1,5 +1,4 @@
 "use client";
-import { signIn } from "@/actions/auth";
 import { useModalStore } from "@/store/modalStore";
 import { useRouter } from "next/navigation";
 import React, { useActionState, useEffect } from "react";
@@ -9,6 +8,7 @@ import Input from "../../atoms/Input";
 import Btn from "../../atoms/Btn/index";
 import { motion } from "framer-motion";
 import useAuthStore from "./../../../store/authStore";
+import { signIn } from "@/actions/auth/signIn";
 
 interface SignInFields {
   type: "text" | "password";

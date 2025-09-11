@@ -2,7 +2,7 @@ import { GuestBookView } from "@/components/template/invitation/InvitationContai
 import GuestBook from "@/models/guestBookSchema";
 import { GuestBook as GuestBookType } from "@/types";
 import { dbConnect } from "@/utils/mongodb";
-import { verifyPassword } from "./userServices";
+import { comparePasswords } from "./userService";
 
 export const createGuestBook = async ({ data }: { data: GuestBookType }) => {
   await dbConnect();
@@ -45,7 +45,7 @@ export const validateGuestBookPassword = async ({
   await dbConnect();
   const guestBook = await GuestBook.findById(id).lean();
   if (!guestBook) throw new Error("방명록을 찾을 수 없습니다.");
-  const isVeirfy = await verifyPassword(password, guestBook.password);
+  const isVeirfy = await comparePasswords(password, guestBook.password);
 
   return isVeirfy;
 };

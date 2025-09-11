@@ -1,5 +1,5 @@
 "use client";
-import { signOut } from "@/actions/auth";
+import { signOut } from "@/actions/auth/signOut";
 import Btn from "@/components/atoms/Btn";
 import useAuthStore from "@/store/authStore";
 import React, { useCallback } from "react";

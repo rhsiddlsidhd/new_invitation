@@ -1,6 +1,5 @@
 "use client";
 
-import { signUp } from "@/actions/auth";
 import Alert from "@/components/atoms/Alert";
 import Btn from "@/components/atoms/Btn";
 import Input from "@/components/atoms/Input";
@@ -8,6 +7,7 @@ import Label from "@/components/atoms/Label";
 import { useModalStore } from "@/store/modalStore";
 import React, { useActionState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { signUp } from "@/actions/auth/signUp";
 
 interface RegisterField {
   type: "text" | "password" | "email";

@@ -1,14 +1,20 @@
 import PasswordForm from "@/components/organisms/forms/PasswordForm";
-import { cookies } from "next/headers";
+import { getSession, hasPasswordVerified } from "@/lib/session";
 import { redirect } from "next/navigation";
 import React from "react";
 
 const page = async () => {
-  const cookieStore = await cookies();
+  try {
+    await getSession();
 
-  if (!cookieStore.has("password-verified")) {
-    redirect("/verify?next=/profile/password");
+    const isPasswordVerified = await hasPasswordVerified();
+
+    if (!isPasswordVerified) {
+      redirect("/verify?next=/profile/delete");
+    }
+    return <PasswordForm />;
+  } catch {
+    redirect("/");
   }
-  return <PasswordForm />;
 };
 export default page;
