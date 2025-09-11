@@ -1,15 +1,16 @@
 import React from "react";
-import { decrypt, getSession } from "@/lib/session";
 
 import Btn from "@/components/atoms/Btn";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import ProfileBox from "@/components/molecules/boxs/ProfileBox";
 import { getUserById } from "@/services/userService";
+import { decrypt } from "@/lib/jose";
+import { getAuthToken } from "@/services/authService/token";
 
 const page = async () => {
   try {
-    const token = await getSession();
+    const token = await getAuthToken();
     const payload = await decrypt(token);
     const user = await getUserById(payload.userId);
     const { email, userId } = user;

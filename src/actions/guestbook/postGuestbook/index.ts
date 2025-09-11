@@ -1,7 +1,7 @@
 "use server";
 
+import { hashPassword } from "@/lib/bcrypt";
 import { createGuestBook } from "@/services/guestBookServices";
-import { hashPassword } from "@/services/userServices";
 import { GuestBook } from "@/types";
 
 const isGuestbookKey = (key: string): key is keyof GuestBook => {

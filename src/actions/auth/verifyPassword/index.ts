@@ -1,9 +1,10 @@
 "use server";
-import { decrypt, deleteSession, getSession } from "@/lib/session";
 import { cookies } from "next/headers";
 
 import { comparePasswords, getUserPasswordById } from "@/services/userService";
 import { APIRESPONSE } from "@/types";
+import { decrypt } from "@/lib/jose";
+import { deleteAuthToken, getAuthToken } from "@/services/authService/token";
 
 export const verifyPassword = async (
   prev: unknown,
@@ -23,7 +24,7 @@ export const verifyPassword = async (
       };
     }
 
-    const token = await getSession();
+    const token = await getAuthToken();
     const { userId } = await decrypt(token);
     if (!userId) throw new Error("Invalid token payload");
 
@@ -64,7 +65,7 @@ export const verifyPassword = async (
         ? error.message
         : "알 수 없는 오류가 발생했습니다.";
     console.error(message);
-    await deleteSession();
+    await deleteAuthToken();
     return {
       success: false,
       error: {

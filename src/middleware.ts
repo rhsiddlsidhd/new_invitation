@@ -8,7 +8,7 @@ import type { NextRequest } from "next/server";
 
 export default async function middleware(request: NextRequest) {
   try {
-    const session = request.cookies.has("session");
+    const session = request.cookies.has("token");
 
     if (!session) {
       return NextResponse.redirect(new URL("/", request.url));

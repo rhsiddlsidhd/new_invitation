@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import VerifyForm from "../../components/organisms/forms/VerifyForm";
-import { decrypt, getSession } from "@/lib/session";
+import { decrypt } from "@/lib/jose";
+import { getAuthToken } from "@/services/authService/token";
 
 const Page = async ({
   searchParams,
@@ -8,7 +9,7 @@ const Page = async ({
   searchParams?: Promise<{ next?: string }>;
 }) => {
   try {
-    const token = await getSession();
+    const token = await getAuthToken();
     await decrypt(token);
     const resolvedParams = await searchParams;
 

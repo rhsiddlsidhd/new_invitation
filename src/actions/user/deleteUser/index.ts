@@ -1,6 +1,7 @@
 "use server";
 
-import { decrypt, getSession } from "@/lib/session";
+import { decrypt } from "@/lib/jose";
+import { getAuthToken } from "@/services/authService/token";
 import { softDeleteUser } from "@/services/userService";
 import { APIRESPONSE } from "@/types";
 
@@ -29,7 +30,7 @@ export const deleteUser = async (
         },
       };
     }
-    const token = await getSession();
+    const token = await getAuthToken();
     const payload = await decrypt(token);
 
     if (userId !== payload.userId) {

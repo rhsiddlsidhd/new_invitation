@@ -1,13 +1,13 @@
-// import { decrypt, getSession } from "@/lib/session";
 import Link from "next/link";
 // import InvitationInfoForm from "@/components/organisms/forms/InvitationInfoForm";
 // import { redirect } from "next/navigation";
 import Box from "@/components/layout/Box";
+// import { getAuthToken } from "@/services/authService/token";
 // import { getInvitation } from "@/services/invitationServices";
 // import SignOutBtn from "@/components/molecules/btns/SignOutBtn";
 
 export default function page() {
-  // const token = await getSession();
+  // const token = await getAuthToken();
   // const payload = await decrypt(token);
 
   // const res = await getInvitation(payload.userId);

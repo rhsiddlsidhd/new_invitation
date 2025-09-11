@@ -1,5 +1,6 @@
 "use server";
-import { decrypt, deleteSession, getSession } from "@/lib/session";
+import { decrypt } from "@/lib/jose";
+import { deleteAuthToken, getAuthToken } from "@/services/authService/token";
 import { changePassword } from "@/services/userService";
 import { APIRESPONSE } from "@/types";
 
@@ -11,7 +12,7 @@ export const patchUserPassword = async (
     const password = formData.get("password") as string;
     const passwordConfirm = formData.get("passwordConfirm") as string;
 
-    const token = await getSession();
+    const token = await getAuthToken();
     const payload = await decrypt(token);
 
     if (password !== passwordConfirm) {
@@ -35,7 +36,7 @@ export const patchUserPassword = async (
       },
     };
   } catch (error) {
-    await deleteSession();
+    await deleteAuthToken();
     const message =
       error instanceof Error
         ? error.message

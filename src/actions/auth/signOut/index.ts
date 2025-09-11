@@ -1,5 +1,5 @@
-import { deleteSession } from "@/lib/session";
+import { deleteAuthToken } from "@/services/authService/token";
 
 export const signOut = async () => {
-  await deleteSession();
+  await deleteAuthToken();
 };

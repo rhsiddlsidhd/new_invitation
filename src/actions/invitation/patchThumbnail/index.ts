@@ -1,7 +1,8 @@
 "use server";
 
 import { cloudinary } from "@/lib/cloudinary/config";
-import { decrypt, getSession } from "@/lib/session";
+import { decrypt } from "@/lib/jose";
+import { getAuthToken } from "@/services/authService/token";
 import { patchInvitation } from "@/services/invitationServices";
 import { Thumbnail } from "@/types";
 
@@ -13,7 +14,7 @@ export const patchThumbnail = async (
   payload: { data: Thumbnail[] },
 ) => {
   console.log("data", payload.data);
-  const token = await getSession();
+  const token = await getAuthToken();
   const { userId } = await decrypt(token);
 
   const validation = validateAndFlatten(ThumbnailSchema, payload.data);

@@ -1,10 +1,11 @@
-import { decrypt, getSession } from "@/lib/session";
+import { decrypt } from "@/lib/jose";
+import { getAuthToken } from "@/services/authService/token";
 import { getUserById } from "@/services/userService";
 import { NextResponse } from "next/server";
 
 export const GET = async () => {
   try {
-    const token = await getSession();
+    const token = await getAuthToken();
     const payload = await decrypt(token);
     console.log("payload", payload.userId);
     if (!payload) {

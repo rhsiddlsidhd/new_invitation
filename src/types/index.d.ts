@@ -9,28 +9,28 @@ declare global {
 
 // API 응답 타입 정의
 
-interface ApiResponseSuccess<T = unknown> {
-  success: true;
-  data: T;
-}
+// interface ApiResponseSuccess<T = unknown> {
+//   success: true;
+//   data: T;
+// }
 
-interface ApiResponseFail {
-  success: false;
-  message: string;
-}
+// interface ApiResponseFail {
+//   success: false;
+//   message: string;
+// }
 
-export type ApiResponse<T = unknown> = ApiResponseSuccess<T> | ApiResponseFail;
+// export type ApiResponse<T = unknown> = ApiResponseSuccess<T> | ApiResponseFail;
 
-interface ActionSuccessState<T = unknown> {
-  success: true;
-  message: string;
-  data?: T;
-}
+// interface ActionSuccessState<T = unknown> {
+//   success: true;
+//   message: string;
+//   data?: T;
+// }
 
-interface ActionFailState {
-  success: false;
-  error: Record<string, string[] | undefined>;
-}
+// interface ActionFailState {
+//   success: false;
+//   error: Record<string, string[] | undefined>;
+// }
 
 // export type ActionState = {
 //   success: boolean;

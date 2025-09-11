@@ -1,12 +1,15 @@
 import EditForm from "@/components/organisms/forms/EditForm";
-import { getSession, hasPasswordVerified } from "@/lib/session";
+import {
+  getAuthToken,
+  hasPasswordVerifiedAuthToken,
+} from "@/services/authService/token";
 import { redirect } from "next/navigation";
 import React from "react";
 
 const page = async () => {
   try {
-    await getSession();
-    const isPasswordVerified = await hasPasswordVerified();
+    await getAuthToken();
+    const isPasswordVerified = await hasPasswordVerifiedAuthToken();
 
     if (!isPasswordVerified) {
       redirect("/verify?next=/profile/delete");

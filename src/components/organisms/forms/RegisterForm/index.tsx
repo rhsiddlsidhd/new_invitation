@@ -8,59 +8,25 @@ import { useModalStore } from "@/store/modalStore";
 import React, { useActionState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { signUp } from "@/actions/auth/signUp";
-
-interface RegisterField {
-  type: "text" | "password" | "email";
-  name: string;
-  required: boolean;
-  label: string;
-  autoComplete: string;
-}
+import { registerFields } from "./constant";
 
 const RegisterForm = () => {
   const [state, action, pending] = useActionState(signUp, null);
   const { setModalOpen } = useModalStore();
 
   useEffect(() => {
+    if (!state) return;
     if (state && state.success) {
+      alert(state.data.message);
       setModalOpen({ isOpen: true, type: "login" });
     }
   }, [state, setModalOpen]);
 
-  const registerFields: RegisterField[] = [
-    {
-      type: "email",
-      name: "email",
-      required: true,
-      label: "이메일:",
-      autoComplete: "email",
-    },
-    {
-      type: "text",
-      name: "userId",
-      required: true,
-      label: "사용자 ID:",
-      autoComplete: "username",
-    },
-    {
-      type: "password",
-      name: "password",
-      required: true,
-      label: "비밀번호:",
-      autoComplete: "new-password",
-    },
-    {
-      type: "password",
-      name: "confirmPassword",
-      required: true,
-      label: "비밀번호 확인:",
-      autoComplete: "new-password",
-    },
-  ];
-
   return (
     <div>
-      {state && <Alert type="error">{state.message}</Alert>}
+      {state && !state.success && state.error.code !== 500 && (
+        <Alert type="error">{state.error.message}</Alert>
+      )}
 
       <form action={action}>
         {registerFields.map((field) => (

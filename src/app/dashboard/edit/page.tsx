@@ -1,11 +1,12 @@
 import InvitationInfoForm from "@/components/organisms/forms/InvitationInfoForm";
-import { decrypt, getSession } from "@/lib/session";
+import { decrypt } from "@/lib/jose";
+import { getAuthToken } from "@/services/authService/token";
 import { isUserInvitationInfo } from "@/services/invitationServices";
 import { redirect } from "next/navigation";
 
 const page = async () => {
   try {
-    const token = await getSession();
+    const token = await getAuthToken();
     const payload = await decrypt(token);
     const useHasInvitation = await isUserInvitationInfo(payload.userId);
 

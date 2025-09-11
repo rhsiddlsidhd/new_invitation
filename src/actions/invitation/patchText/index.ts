@@ -1,6 +1,7 @@
 "use server";
 
-import { decrypt, getSession } from "@/lib/session";
+import { decrypt } from "@/lib/jose";
+import { getAuthToken } from "@/services/authService/token";
 import { patchInvitation } from "@/services/invitationServices";
 import { validateAndFlatten } from "@/utils/validation";
 import {
@@ -10,7 +11,7 @@ import {
 } from "@/utils/validation/schema.server";
 
 export const patchText = async (prev: unknown, formData: FormData) => {
-  const token = await getSession();
+  const token = await getAuthToken();
   const { userId } = await decrypt(token);
   const textField: Record<string, string> = {};
 

@@ -1,8 +1,9 @@
 "use server";
 
 import { cloudinary } from "@/lib/cloudinary/config";
-import { decrypt, getSession } from "@/lib/session";
+import { decrypt } from "@/lib/jose";
 import { InvitationInput } from "@/models/invitationSchema";
+import { getAuthToken } from "@/services/authService/token";
 import { createInvitation } from "@/services/invitationServices";
 import { CloudinaryUploadResponse, GalleryEntry } from "@/types";
 import { validateAndFlatten } from "@/utils/validation";
@@ -24,7 +25,7 @@ export const postInvitationInfo = async (
   payload: { data: Payload },
 ) => {
   try {
-    const token = await getSession();
+    const token = await getAuthToken();
     const { userId } = await decrypt(token);
     const { thumbnails, galleries, textField } = payload.data;
 

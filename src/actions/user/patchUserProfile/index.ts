@@ -1,5 +1,6 @@
 "use server";
-import { decrypt, deleteSession, getSession } from "@/lib/session";
+import { decrypt } from "@/lib/jose";
+import { deleteAuthToken, getAuthToken } from "@/services/authService/token";
 import { updateUserEmail } from "@/services/userService";
 import { APIRESPONSE } from "@/types";
 
@@ -18,7 +19,7 @@ export const patchUserProfile = async (
   try {
     const email = formData.get("email") as string;
 
-    const token = await getSession();
+    const token = await getAuthToken();
     const payload = await decrypt(token);
     const userEmail = await updateUserEmail({ id: payload.userId, email });
     return {
@@ -30,7 +31,7 @@ export const patchUserProfile = async (
       },
     };
   } catch (e) {
-    await deleteSession();
+    await deleteAuthToken();
     const message =
       e instanceof Error ? e.message : "알 수 없는 오류가 발생했습니다.";
     return {
