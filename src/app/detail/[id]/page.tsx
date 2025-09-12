@@ -43,6 +43,7 @@ const Page = async ({
     );
   } catch (e) {
     const message = e instanceof Error ? e.message : e;
+    console.log('message',message)
     if (message === "유저를 찾을 수 없습니다.") {
       redirect("/dashboard");
     }

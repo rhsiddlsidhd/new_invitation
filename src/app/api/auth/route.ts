@@ -11,13 +11,13 @@ export const GET = async () => {
     if (!payload) {
       throw new Error("Invalid token");
     }
-    await getUserById(payload.userId);
+    const { userId } = await getUserById(payload.userId);
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, data: { userId } });
   } catch (e) {
     const message =
       e instanceof Error ? e.message : `알 수 없는 에러가 발생했습니다. ${e}`;
     console.error(message);
-    return NextResponse.json({ success: false });
+    return NextResponse.json({ success: false, error: { message } });
   }
 };

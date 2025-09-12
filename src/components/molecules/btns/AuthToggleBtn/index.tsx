@@ -10,6 +10,7 @@ const AuthToggleBtn = () => {
   const [pending, setPending] = useState<boolean>(true);
 
   const { setIsAuthenticated, isAuthenticated } = useAuthStore();
+
   useEffect(() => {
     const fetchAuthenticate = async () => {
       try {

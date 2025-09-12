@@ -6,13 +6,18 @@ import Img from "../atoms/Img";
 import { motion } from "framer-motion";
 import { useModalStore } from "@/store/modalStore";
 import { useRouter } from "next/navigation";
+import useAuthStore from "@/store/authStore";
+import Spinner from "../atoms/Spinner";
 
 const TemplateGallery = () => {
   const cardRef = useRef<HTMLDivElement>(null);
   const listContainerRef = useRef<HTMLDivElement>(null);
   const { setModalOpen } = useModalStore();
   const router = useRouter();
-  const [user, setUser] = useState<string | null>(null);
+  const [pending, setPending] = useState<boolean>(true);
+  const [id, setId] = useState<string | null>(null);
+
+  const { setIsAuthenticated, isAuthenticated } = useAuthStore();
 
   const cardList = [
     {
@@ -30,24 +35,31 @@ const TemplateGallery = () => {
   ];
 
   useEffect(() => {
-    fetch("/api/session")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("data", data);
-        if (data.success) {
-          setUser(data.userId);
-        }
-      })
-      .catch(() => setUser(null));
-  }, []);
+    const fetchAuthenticate = async () => {
+      try {
+        const res = await fetch("/api/auth", { cache: "no-store" });
+        if (!res.ok) throw new Error("Auth fetch failed");
+        const data = await res.json();
+        console.log(data);
+        setIsAuthenticated(data.success);
+        setId(data.data.userId);
+      } catch {
+        setIsAuthenticated(false);
+      } finally {
+        setPending(false);
+      }
+    };
+    setPending(true);
+    fetchAuthenticate();
+  }, [setIsAuthenticated]);
 
   const handleNavigation = (query: string) => {
-    if (!user) {
+    if (!isAuthenticated) {
       setModalOpen({ isOpen: true, type: "login" });
-
       return;
     }
-    router.push(`/detail/${user}?t=${query}`);
+    console.log(id);
+    router.push(`/detail/${id}?t=${query}`);
   };
 
   return (
@@ -60,24 +72,35 @@ const TemplateGallery = () => {
           <Logo />
         </div>
         <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 lg:grid-cols-4">
-          {cardList.map((card, i) => {
-            return (
-              <Card
-                key={i}
-                className="aspect-[5/8] max-h-[45vh] w-full cursor-pointer"
-                ref={cardRef}
-                onClick={() => handleNavigation(card.id)}
-              >
-                <div className="relative h-3/4 w-full">
-                  <Img src={card.thumnail} />
-                </div>
-                <div className="p-3">
-                  <h3 className="text-lg font-semibold">{card.title}</h3>
-                  <p className="mt-1 text-sm text-gray-600">{card.des}</p>
-                </div>
-              </Card>
-            );
-          })}
+          {pending
+            ? cardList.map((_, i) => {
+                return (
+                  <Card
+                    key={i}
+                    className="flex aspect-[5/8] max-h-[45vh] w-full cursor-pointer items-center justify-center"
+                  >
+                    <Spinner />
+                  </Card>
+                );
+              })
+            : cardList.map((card, i) => {
+                return (
+                  <Card
+                    key={i}
+                    className="aspect-[5/8] max-h-[45vh] w-full cursor-pointer"
+                    ref={cardRef}
+                    onClick={() => handleNavigation(card.id)}
+                  >
+                    <div className="relative h-3/4 w-full">
+                      <Img src={card.thumnail} />
+                    </div>
+                    <div className="p-3">
+                      <h3 className="text-lg font-semibold">{card.title}</h3>
+                      <p className="mt-1 text-sm text-gray-600">{card.des}</p>
+                    </div>
+                  </Card>
+                );
+              })}
         </div>
       </div>
     </motion.div>
