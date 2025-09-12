@@ -1,6 +1,6 @@
 import React from "react";
 import Box from "@/components/layout/Box/index";
-import { introMessage } from "@/contants";
+import { introMessage } from "@/constant";
 import SampleBtn from "@/components/molecules/btns/SampleBtn/index";
 
 const HeroBox = () => {

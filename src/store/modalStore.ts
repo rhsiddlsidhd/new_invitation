@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import { menus } from "@/contants";
+import { menus } from "@/constant";
 
 export interface ModalConfig {
   backgroundColor: "white" | "transparent";

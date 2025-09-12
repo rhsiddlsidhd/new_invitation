@@ -6,7 +6,7 @@ import HeroBox from "@/components/molecules/boxs/HeroBox";
 import Img from "@/components/atoms/Img";
 import { generateParticles } from "@/utils/animation";
 import Card from "@/components/atoms/Card";
-import { squareSizes } from "@/contants";
+import { squareSizes } from "@/constant";
 import { particleContainer, particleItem } from "@/style/variants";
 
 const HeroSection = ({

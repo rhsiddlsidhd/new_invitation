@@ -3,7 +3,7 @@ import { GalleryData } from "@/types";
 import React, { ChangeEvent } from "react";
 
 import GalleryCardCell from "../GalleryCardCell";
-import { cardConfig } from "@/contants";
+import { cardConfig } from "@/constant";
 import Label from "../../../atoms/Label";
 
 const GalleryCard = ({

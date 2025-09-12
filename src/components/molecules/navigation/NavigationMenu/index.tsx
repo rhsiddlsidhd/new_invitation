@@ -2,7 +2,7 @@ import { AnimatePresence } from "motion/react";
 import React, { useCallback } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { menus } from "@/contants";
+import { menus } from "@/constant";
 import { useModalStore } from "@/store/modalStore";
 import useAuthStore from "@/store/authStore";
 import { navigationContainer, navigationItem } from "@/style/variants";
