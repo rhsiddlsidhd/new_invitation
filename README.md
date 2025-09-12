@@ -9,9 +9,10 @@ You can check the deployed app here:
 `가족 결혼식에 청첩장을 배포하여 제공해줘볼까? 하는 생각으로부터 프로젝트 시작`
 
 📁 Project Architecture
+
 -Atomic design 적용 중
 
-````
+```
 new_invitation/
 ├─ README.md
 ├─ package.json
@@ -61,8 +62,20 @@ new_invitation/
 │ ├─ constants/ # 전역 상수
 │ └─ styles/ # 전역 스타일, motion variants (공용)
 │
-└─ ...```
+└─ ...
 
+```
 
+## 🛠 Tech Stack
 
-````
+- TypeScript
+- React
+- Next.js
+- Tailwind, Framer Motion
+- zustand
+- vercel(배포)
+
+## ☠️ Bug
+
+- The Subway Input field is missing in the user wedding information data
+- Music button has no sound assigned
