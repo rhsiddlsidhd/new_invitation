@@ -1,15 +1,15 @@
 # 💌 NEW_INVITATION
 
-DEPLOY URL = <https://new-invitation-pi.vercel.app/>
+You can check the deployed app here:
+➡️[https://new-invitation-pi.vercel.app/](https://new-invitation-pi.vercel.app/)
 
 청첩장 만들기 서비스
-가족 결혼식에 청첩장을 배포하여 제공해줘볼까? 하는 생각으로부터 프로젝트 시작
+`가족 결혼식에 청첩장을 배포하여 제공해줘볼까? 하는 생각으로부터 프로젝트 시작`
 
-AAr
+📁 Project Architecture
+-Atomic design 적용 중
 
-`
-
-new_invitation/
+`new_invitation/
 ├─ README.md
 ├─ package.json
 ├─ public/
@@ -32,14 +32,14 @@ new_invitation/
 │ │ │ │ └─ index.tsx  
 │ │ │ └─ ...
 │ │ ├─ molecules/ # 2개 이상의 Atom 으로 구성된 UI 컴포넌트
-│ │ │ ├─ btns
+│ │ │ ├─ btns/
 │ │ │ │ ├─ MusicBtn  
 │ │ │ │ │ └─ index.tsx # 버튼 + Icon + 이벤트 핸들러
 │ │ │ │ └─ ...
 │ │ │ │  
 │ │ │ └─ ...
 │ │ ├─ organisms/ # 페이지 내 블록 단위 컴포넌트
-│ │ │ ├─ panel
+│ │ │ ├─ panel/
 │ │ │ │ ├─ ParentInfoPanel  
 │ │ │ │ │ ├─ constant.ts # 해당 컴포넌트 전용 상수 모음
 │ │ │ │ │ ├─ type.d.ts # 해당 컴포넌트 전용 타입 모음
@@ -58,8 +58,6 @@ new_invitation/
 │ ├─ constants/ # 전역 상수
 │ └─ styles/ # 전역 스타일, motion variants (공용)
 │  
-└─ ...
-
-`
+└─ ...`
 
 ---
