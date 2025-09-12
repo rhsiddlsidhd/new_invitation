@@ -1,19 +1,13 @@
 "use client";
 import React, { useActionState, useEffect } from "react";
-
 import Alert from "../../atoms/Alert";
 import Input from "../../atoms/Input";
 import Btn from "../../atoms/Btn";
 import Box from "../../layout/Box";
-
 import { useRouter } from "next/navigation";
 import { verifyPassword } from "@/actions/auth/verifyPassword";
 
-interface VerifyFormProps {
-  path: string;
-}
-
-const VerifyForm = ({ path }: VerifyFormProps) => {
+const VerifyForm = ({ path }: { path: string }) => {
   const [state, action, pending] = useActionState(verifyPassword, null);
   const router = useRouter();
 

@@ -77,5 +77,6 @@ new_invitation/
 
 ## ☠️ Bug
 
-- The Subway Input field is missing in the user wedding information data
-- Music button has no sound assigned
+- The Subway Input field is missing in the user wedding information data.
+- Music button has no sound assigned.
+- The Contact component is not yet published.

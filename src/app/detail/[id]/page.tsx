@@ -1,8 +1,11 @@
 import InvitationContainer from "@/components/template/invitation/InvitationContainer";
 import { getUserGuestBook } from "@/services/guestBook";
 import { getUserInvitationInfo } from "@/services/invitation";
-
 import { redirect } from "next/navigation";
+
+export const generateStaticParams = () => {
+  return [{ id: "rhsiddlsidhd1" }];
+};
 
 const Page = async ({
   params,

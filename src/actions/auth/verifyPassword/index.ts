@@ -16,7 +16,6 @@ export const verifyPassword = async (
     if (!password) {
       return {
         success: false,
-        // message: "비밀번호를 입력해주세요.",
         error: {
           code: 400,
           message: "비밀번호를 입력해주세요.",
