@@ -12,13 +12,14 @@ import WeddingThumbnailForm from "../forms/WeddingThumbnailForm";
 import WeddingGalleryForm from "../forms/WeddingGalleryForm";
 import Overlay from "./../../atoms/Overlay/index";
 import Contact from "../panel/Contact";
-import { useUserStore } from "@/store/userStore";
+
 import GuestBook from "@/components/molecules/wedding/GuestBook";
 import GuestBookForm from "../forms/GuestBookForm";
+import { useClearUserErrors } from "@/store/userStore";
 
 const Modal = () => {
   const { isOpen, modalType, config, setModalOpen } = useModalStore();
-  const { clearErrors } = useUserStore();
+  const clearErrors = useClearUserErrors();
   const modalref = React.useRef<HTMLDivElement>(null);
 
   const createModalContent = (modalType: ModalType) => {

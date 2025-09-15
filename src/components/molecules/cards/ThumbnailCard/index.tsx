@@ -7,7 +7,8 @@ import { motion } from "framer-motion";
 import Label from "@/components/atoms/Label";
 import Card from "@/components/atoms/Card";
 import { useCallback, useRef } from "react";
-import { useUserStore } from "@/store/userStore";
+import { getUserState } from "@/store/userStore";
+
 const ThumbnailCard = ({
   url,
   readOnly,
@@ -22,7 +23,7 @@ const ThumbnailCard = ({
   idx: number;
 }) => {
   const inputRefs = useRef<Array<HTMLInputElement | null>>([null, null]);
-  const { errors } = useUserStore();
+  const { errors } = getUserState();
   const handleUploadFiles = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const files = e.target.files;

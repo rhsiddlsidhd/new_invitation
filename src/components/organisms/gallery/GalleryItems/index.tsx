@@ -2,8 +2,9 @@ import React, { ChangeEvent } from "react";
 import { motion } from "framer-motion";
 import GalleryCard from "../../../molecules/gallery/GalleryCard";
 import { GalleryData } from "@/types";
-import { useUserStore } from "@/store/userStore";
+
 import OverlayCloseBtn from "@/components/molecules/btns/OverlayCloseBtn/index";
+import { getUserState } from "@/store/userStore";
 
 interface GalleryItemsProps {
   viewData: GalleryData[];
@@ -20,7 +21,7 @@ const GalleryItems = ({
   onDeleteCard,
   onRemove,
 }: GalleryItemsProps) => {
-  const errors = useUserStore((state) => state.errors);
+  const { errors } = getUserState();
 
   return (
     <ul className="space-y-4">

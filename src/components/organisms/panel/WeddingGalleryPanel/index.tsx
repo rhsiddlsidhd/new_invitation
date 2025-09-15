@@ -2,15 +2,15 @@
 
 import React, { useCallback, useState } from "react";
 import { GalleryData } from "@/types";
-import { useUserStore } from "@/store/userStore";
-import { useModalStore } from "@/store/modalStore";
 import GalleryController from "@/components/organisms/gallery/GalleryController";
 import GalleryItems from "@/components/organisms/gallery/GalleryItems";
-import Btn from "@/components/atoms/Btn";
+import { useClearUserErrors, useUserStore } from "@/store/userStore";
+import { EditBtn } from "../WeddingCoupleInfoPanel";
 
 const WeddingGalleryPanel = ({ readOnly }: { readOnly: boolean }) => {
-  const { galleries, isUser, clearErrors } = useUserStore();
-  const { isOpen, setModalOpen } = useModalStore();
+  const { galleries, isUser } = useUserStore();
+  const clearErrors = useClearUserErrors();
+
   const [activeType, setActiveType] = useState<GalleryData["type"]>("A");
   const [galleryData, setGalleryData] = useState<GalleryData[]>([]);
   const deleteGalleryCard = useCallback(
@@ -68,20 +68,7 @@ const WeddingGalleryPanel = ({ readOnly }: { readOnly: boolean }) => {
         }}
       />
 
-      {isUser && (
-        <Btn
-          type={isOpen ? "submit" : "button"}
-          onClick={(e) => {
-            if (!isOpen) {
-              e.preventDefault();
-              setModalOpen({ isOpen: true, type: "wedding-gallery" });
-            }
-          }}
-          className="mt-4 ml-auto block"
-        >
-          수정하기
-        </Btn>
-      )}
+      <EditBtn isUser={isUser} type="wedding-gallery" />
     </div>
   );
 };

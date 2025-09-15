@@ -54,7 +54,7 @@ export const patchInvitation = async ({
 
 export const getUserInvitationInfo = async ({ userId }: { userId: string }) => {
   await dbConnect();
-  console.log("getUserInvitationInfo", userId);
+
   const res = await Invitation.findOne({ userId })
     .select("-_id -__v -galleries._id")
     .lean();

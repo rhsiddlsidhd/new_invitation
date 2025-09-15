@@ -1,12 +1,18 @@
 import { patchText } from "@/actions/invitation/patchText";
 import WeddingLocationInfoPanel from "@/components/organisms/panel/WeddingLocationInfoPanel";
 import { useModalStore } from "@/store/modalStore";
-import { useUserStore } from "@/store/userStore";
+import {
+  useClearUserErrors,
+  useSetUser,
+  useSetUserErrors,
+} from "@/store/userStore";
 import React, { useActionState, useEffect } from "react";
 
 const WeddingDateForm = () => {
   const [state, action] = useActionState(patchText, null);
-  const { setErrors, clearErrors, setUser } = useUserStore();
+  const setErrors = useSetUserErrors();
+  const setUser = useSetUser();
+  const clearErrors = useClearUserErrors();
   const { setModalOpen } = useModalStore();
   useEffect(() => {
     if (!state) return;

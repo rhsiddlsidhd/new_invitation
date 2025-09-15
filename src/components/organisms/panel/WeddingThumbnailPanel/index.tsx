@@ -1,16 +1,18 @@
 "use client";
 import React, { useState } from "react";
-import { useUserStore } from "@/store/userStore";
 import { useModalStore } from "@/store/modalStore";
 import Btn from "@/components/atoms/Btn";
 import ThumbnailCard from "@/components/molecules/cards/ThumbnailCard";
+import { useClearUserErrors, useUserStore } from "@/store/userStore";
 
 const WeddingThumbnailPanel = ({ readOnly }: { readOnly?: boolean }) => {
   const { isOpen, setModalOpen } = useModalStore();
-  const { thumbnails, isUser, clearErrors } = useUserStore();
+  const { thumbnails, isUser } = useUserStore();
+  const clearErrors = useClearUserErrors();
   const [thumbnailPreviews, setThumbnailPreviews] = useState<(string | null)[]>(
     [null, null],
   );
+
   const viewData = readOnly ? thumbnails : thumbnailPreviews;
 
   return (

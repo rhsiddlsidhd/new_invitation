@@ -3,7 +3,12 @@
 import { patchGallery } from "@/actions/invitation/patchGallery";
 import WeddingGalleryPanel from "@/components/organisms/panel/WeddingGalleryPanel";
 import { useModalStore } from "@/store/modalStore";
-import { useUserStore } from "@/store/userStore";
+import {
+  useClearUserErrors,
+  useSetUser,
+  useSetUserErrors,
+} from "@/store/userStore";
+
 import { GalleryMapClient, GalleryPayload } from "@/types";
 import { validateAndFlatten } from "@/utils/validation";
 import { GalleryMapSchema } from "@/utils/validation/schema.client";
@@ -14,9 +19,11 @@ const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 const UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
 const WeddingGalleryForm = () => {
-  // const [state, action, pending] = useActionState(updateInvitationInfo, null);
   const [state, action] = useActionState(patchGallery, null);
-  const { setErrors, clearErrors, setUser } = useUserStore();
+  const setErrors = useSetUserErrors();
+  const setUser = useSetUser();
+  const clearErrors = useClearUserErrors();
+
   const { setModalOpen } = useModalStore();
   useEffect(() => {
     if (!state) return;

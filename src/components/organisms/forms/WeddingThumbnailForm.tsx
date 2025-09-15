@@ -2,7 +2,11 @@ import { patchThumbnail } from "@/actions/invitation/patchThumbnail";
 import WeddingThumbnailPanel from "@/components/organisms/panel/WeddingThumbnailPanel";
 
 import { useModalStore } from "@/store/modalStore";
-import { useUserStore } from "@/store/userStore";
+import {
+  useClearUserErrors,
+  useSetUser,
+  useSetUserErrors,
+} from "@/store/userStore";
 import { validateAndFlatten } from "@/utils/validation";
 import { ThumbnailSchema } from "@/utils/validation/schema.client";
 import React, { startTransition, useActionState, useEffect } from "react";
@@ -11,9 +15,11 @@ const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 const UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
 const WeddingThumbnailForm = () => {
-  // const [state, action, pending] = useActionState(updateInvitationInfo, null);
   const [state, action] = useActionState(patchThumbnail, null);
-  const { setErrors, clearErrors, setUser } = useUserStore();
+
+  const setErrors = useSetUserErrors();
+  const setUser = useSetUser();
+  const clearErrors = useClearUserErrors();
   const { setModalOpen } = useModalStore();
   useEffect(() => {
     if (!state) return;

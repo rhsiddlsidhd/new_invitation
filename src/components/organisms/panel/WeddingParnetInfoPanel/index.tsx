@@ -1,16 +1,15 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { useModalStore } from "@/store/modalStore";
 import Btn from "@/components/atoms/Btn";
 import Label from "@/components/atoms/Label";
 import Input from "@/components/atoms/Input";
 import { ParentRoleId } from "./type";
 import useParentField from "@/hooks/useParentFIeld";
 import { parentFieldsVariants } from "./variants";
+import { EditBtn } from "../WeddingCoupleInfoPanel";
 
 const WeddingParentInfoPanel = ({ readOnly }: { readOnly?: boolean }) => {
-  const { isOpen, setModalOpen } = useModalStore();
   const { parentFields, isUser, errors } = useParentField();
   const [showParentFields, setShowParentFields] =
     useState<ParentRoleId>("groom-father");
@@ -85,20 +84,8 @@ const WeddingParentInfoPanel = ({ readOnly }: { readOnly?: boolean }) => {
           );
         })}
       </div>
-      {isUser && (
-        <Btn
-          type={isOpen ? "submit" : "button"}
-          onClick={(e) => {
-            if (!isOpen) {
-              e.preventDefault();
-              setModalOpen({ isOpen: true, type: "wedding-parent-info" });
-            }
-          }}
-          className="mt-4 ml-auto block"
-        >
-          수정하기
-        </Btn>
-      )}
+
+      <EditBtn isUser={isUser} type="wedding-parent-info" />
     </div>
   );
 };

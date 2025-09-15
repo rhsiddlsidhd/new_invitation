@@ -1,38 +1,5 @@
-import { IGallery } from "@/models/invitationSchema";
 import { create } from "zustand";
-
-interface UserStore {
-  userId: string;
-  groomName: string;
-  groomPhone: string;
-  groomAccount: string;
-  brideName: string;
-  bridePhone: string;
-  brideAccount: string;
-  weddingDate: string;
-  weddingAddress: string;
-  weddingDetailAddress: string;
-  groomFatherName: string;
-  groomFatherPhone: string;
-  groomFatherAccount: string;
-  groomMotherName: string;
-  groomMotherPhone: string;
-  groomMotherAccount: string;
-  brideFatherName: string;
-  brideFatherPhone: string;
-  brideFatherAccount: string;
-  brideMotherName: string;
-  brideMotherPhone: string;
-  brideMotherAccount: string;
-  thumbnails: string[];
-  galleries: IGallery[];
-  setUser: (user: Partial<UserStore>) => void;
-  clearUser: () => void;
-  errors: Partial<Record<string, string[]>>;
-  setErrors: (errors: Partial<Record<string, string[]>>) => void;
-  clearErrors: () => void;
-  isUser: boolean;
-}
+import { UserStore } from "./type";
 
 const initialState: Omit<
   UserStore,
@@ -76,3 +43,13 @@ export const useUserStore = create<UserStore>((set) => ({
       errors: { ...state.errors, ...errors },
     })),
 }));
+
+export const useClearUser = () =>
+  useUserStore((state: UserStore) => state.clearUser);
+export const useSetUser = () =>
+  useUserStore((state: UserStore) => state.setUser);
+export const useSetUserErrors = () =>
+  useUserStore((state: UserStore) => state.setErrors);
+export const useClearUserErrors = () =>
+  useUserStore((state: UserStore) => state.clearErrors);
+export const getUserState = () => useUserStore.getState();

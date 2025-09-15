@@ -2,7 +2,6 @@
 import { useActionState, useEffect, useTransition, useState } from "react";
 import { useRouter } from "next/navigation";
 import { postInvitationInfo } from "@/actions/invitation/postInvitation";
-import { useUserStore } from "@/store/userStore";
 import { validateAndFlatten } from "@/utils/validation";
 import {
   GalleryMapSchema,
@@ -12,12 +11,22 @@ import { parseInvitationForm } from "@/utils/transform";
 
 import { InvitationInput } from "@/models/invitationSchema";
 import { uploadGalleries, uploadThumbnails } from "@/lib/cloudinary";
+import {
+  useClearUser,
+  useClearUserErrors,
+  useSetUser,
+  useSetUserErrors,
+} from "@/store/userStore";
 
 export const useInvitationSubmit = (data?: InvitationInput) => {
   const [state, action] = useActionState(postInvitationInfo, null);
   const [isPending, startTransition] = useTransition();
   const [isUploading, setIsUploading] = useState(false);
-  const { setUser, clearUser, setErrors, clearErrors } = useUserStore();
+
+  const clearErrors = useClearUserErrors();
+  const clearUser = useClearUser();
+  const setUser = useSetUser();
+  const setErrors = useSetUserErrors();
   const router = useRouter();
 
   useEffect(() => {
