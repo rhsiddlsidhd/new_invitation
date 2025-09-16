@@ -1,80 +1,49 @@
-"use client";
-import ScrollViewBox from "@/components/template/Box/ScrollVIewBox";
-import { MotionValue, useScroll } from "motion/react";
-import { useEffect, useState } from "react";
-import Footer from "../components/layout/Footer/index";
-import HeroSection from "@/components/organisms/section/HeroSection/index";
-import NavigationSection from "@/components/organisms/section/NavigationSection/index";
-import RecommendedSection from "@/components/organisms/section/RecommendedSection";
+import Home from "@/components/template/Home";
+import { Metadata } from "next";
+import React from "react";
 
-interface Sections {
-  component: React.FC<{
-    offsetStart: number;
-    offsetEnd: number;
-    scrollY: MotionValue<number>;
-  }>;
-  height: number;
-  offsetStart: number;
-  offsetEnd: number;
-  zIndex?: number;
-}
+// ...existing code...
+export const metadata: Metadata = {
+  title: "Home - New Invitation",
+  description: "모바일 청첩장을 쉽고 빠르게 만들어드립니다.",
+  keywords: ["청첩장", "웨딩", "invitation", "mobile", "wedding invitation"],
+  authors: [
+    { name: "New Invitation", url: "https://new-invitation-pi.vercel.app" },
+  ],
+  creator: "New Invitation",
+  publisher: "New Invitation",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
+  openGraph: {
+    title: "New Invitation",
+    description: "모바일 청첩장을 쉽고 빠르게 만들어드립니다.",
+    images: ["/wedding-1850.jpg"],
+    siteName: "New Invitation",
+    type: "website",
+    url: "https://new-invitation-pi.vercel.app",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "New Invitation",
+    description: "모바일 청첩장을 쉽고 빠르게 만들어드립니다.",
+    images: ["/wedding-1850.jpg"],
+    creator: "@your_twitter_handle",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+    },
+  },
+};
 
-const sections = [
-  { component: HeroSection, height: 150 },
-  { component: NavigationSection, height: 200 },
-  { component: RecommendedSection, height: 200, zIndex: 20 },
-  { component: Footer, height: 100 },
-];
+const page = () => {
+  return <Home />;
+};
 
-export default function Home() {
-  const [sectionsPx, setSectionsPx] = useState<Sections[]>([]);
-  const { scrollY } = useScroll();
-
-  useEffect(() => {
-    const pxHeight = (vh: number) => window.innerHeight * (vh / 100);
-
-    const calculateSections = () => {
-      let cumulative = 0;
-      const calculated: Sections[] = sections.map(
-        ({ component, height, zIndex }) => {
-          const start = cumulative;
-          const end = cumulative + pxHeight(height);
-          cumulative = end;
-          return {
-            component,
-            height,
-            zIndex,
-            offsetStart: start,
-            offsetEnd: end,
-          };
-        },
-      );
-      setSectionsPx(calculated);
-    };
-
-    calculateSections();
-    window.addEventListener("resize", calculateSections);
-    return () => {
-      window.removeEventListener("resize", calculateSections);
-    };
-  }, []);
-
-  return (
-    <div>
-      {sectionsPx.map(
-        (
-          { component: Component, height, zIndex, offsetStart, offsetEnd },
-          index,
-        ) => (
-          <ScrollViewBox key={index} height={height} zIndex={zIndex}>
-            <Component
-              offsetStart={offsetStart}
-              offsetEnd={offsetEnd}
-              scrollY={scrollY}
-            />
-          </ScrollViewBox>
-        ),
-      )}
-    </div>
-  );
-}
+export default page;
