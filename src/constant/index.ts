@@ -22,8 +22,8 @@ export const squareSizes = [
 export const introMessage = "Wedding Invitations!" as const;
 
 export const menus = [
-  { id: "My Info", path: "/profile" },
-  { id: "Create Invitation", path: "/dashboard" },
+  { id: "Profile", path: "/profile" },
+  { id: "Dashboard", path: "/dashboard" },
   { id: "Shop", path: "/shop" },
 ] as const;
 

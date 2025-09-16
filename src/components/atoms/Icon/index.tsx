@@ -9,6 +9,7 @@ import {
   SpeakerWaveIcon,
   SpeakerXMarkIcon,
   PhoneIcon as HeroPhoneIcon,
+  ClipboardDocumentIcon,
 } from "@heroicons/react/24/solid";
 
 import {
@@ -70,3 +71,5 @@ export const HeartIcon = createIcon(HeroHeartIcon);
 export const PhoneIcon = createIcon(HeroPhoneIcon);
 
 export const ArrowUpIcon = createIcon(HeroArrowUpIcon);
+
+export const ClipboardIcon = createIcon(ClipboardDocumentIcon);
