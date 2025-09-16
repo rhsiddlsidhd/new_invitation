@@ -19,7 +19,7 @@ import { GuestBook } from "@/types";
 import React, { useEffect, useState } from "react";
 import AnimateViewBox from "../Box/AnimateViewBox";
 import DigitalWatch from "@/components/molecules/wedding/DigitalWatch";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 type PersonPayloadId =
   | "groom"

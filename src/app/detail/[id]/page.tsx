@@ -1,7 +1,9 @@
+import Spinner from "@/components/atoms/Spinner";
 import InvitationContainer from "@/components/template/invitation/InvitationContainer";
 import { getUserGuestBook } from "@/services/guestBook";
 import { getUserInvitationInfo } from "@/services/invitation";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 export const generateStaticParams = () => {
   return [{ id: "rhsiddlsidhd1" }];
@@ -34,11 +36,13 @@ const Page = async ({
 
     return (
       <section className="w-full bg-[#f0f0f0]">
-        <InvitationContainer
-          userInfo={userInfo}
-          guestBook={guestBookForClient ?? []}
-          // type={query?.t}
-        />
+        <Suspense fallback={<Spinner />}>
+          <InvitationContainer
+            userInfo={userInfo}
+            guestBook={guestBookForClient ?? []}
+            // type={query?.t}
+          />
+        </Suspense>
       </section>
     );
   } catch (e) {
