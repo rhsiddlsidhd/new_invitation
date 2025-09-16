@@ -62,11 +62,9 @@ export type GuestBookView = Omit<GuestBook, "userId" | "password"> & {
 const InvitationContainer = ({
   userInfo,
   guestBook,
-  // type,
 }: {
   userInfo: InvitationInput;
   guestBook: GuestBookView[];
-  // type?: string;
 }) => {
   const {
     userId,

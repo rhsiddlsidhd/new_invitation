@@ -9,16 +9,9 @@ export const generateStaticParams = () => {
   return [{ id: "rhsiddlsidhd1" }];
 };
 
-const Page = async ({
-  params,
-  // searchParams,
-}: {
-  params: Promise<{ id: string }>;
-  // searchParams?: Promise<{ t: string }>;
-}) => {
+const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   try {
     const { id } = await params;
-    // const query = await searchParams;
 
     const [userInfo, guestBook] = await Promise.all([
       getUserInvitationInfo({ userId: id }),
@@ -36,11 +29,16 @@ const Page = async ({
 
     return (
       <section className="w-full bg-[#f0f0f0]">
-        <Suspense fallback={<Spinner />}>
+        <Suspense
+          fallback={
+            <div className="flex h-screen w-full items-center justify-center">
+              <Spinner />
+            </div>
+          }
+        >
           <InvitationContainer
             userInfo={userInfo}
             guestBook={guestBookForClient ?? []}
-            // type={query?.t}
           />
         </Suspense>
       </section>
