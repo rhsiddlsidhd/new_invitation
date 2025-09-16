@@ -9,14 +9,14 @@ export const generateStaticParams = () => {
 
 const Page = async ({
   params,
-  searchParams,
+  // searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams?: Promise<{ [key: string]: string | undefined }>;
+  // searchParams?: Promise<{ t: string }>;
 }) => {
   try {
     const { id } = await params;
-    const { t } = (await searchParams) ?? {};
+    // const query = await searchParams;
 
     const [userInfo, guestBook] = await Promise.all([
       getUserInvitationInfo({ userId: id }),
@@ -37,13 +37,13 @@ const Page = async ({
         <InvitationContainer
           userInfo={userInfo}
           guestBook={guestBookForClient ?? []}
-          type={t}
+          // type={query?.t}
         />
       </section>
     );
   } catch (e) {
     const message = e instanceof Error ? e.message : e;
-    console.log('message',message)
+    console.log("message", message);
     if (message === "유저를 찾을 수 없습니다.") {
       redirect("/dashboard");
     }

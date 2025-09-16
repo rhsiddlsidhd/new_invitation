@@ -19,6 +19,7 @@ import { GuestBook } from "@/types";
 import React, { useEffect, useState } from "react";
 import AnimateViewBox from "../Box/AnimateViewBox";
 import DigitalWatch from "@/components/molecules/wedding/DigitalWatch";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type PersonPayloadId =
   | "groom"
@@ -61,11 +62,11 @@ export type GuestBookView = Omit<GuestBook, "userId" | "password"> & {
 const InvitationContainer = ({
   userInfo,
   guestBook,
-  type,
+  // type,
 }: {
   userInfo: InvitationInput;
   guestBook: GuestBookView[];
-  type?: string;
+  // type?: string;
 }) => {
   const {
     userId,
@@ -96,6 +97,7 @@ const InvitationContainer = ({
 
   const { setModalOpen } = useModalStore();
   const [config, setConfig] = useState<Record<string, string>>({});
+  const router = useSearchParams();
 
   type PartyRow = {
     parentNames: string[];
@@ -203,7 +205,7 @@ const InvitationContainer = ({
   ];
 
   useEffect(() => {
-    if (!type) return;
+    const type = router.get("t");
     switch (type) {
       case "blue":
         setConfig((prev) => ({ ...prev, backgroundColor: "bg-blue-100" }));
@@ -211,11 +213,11 @@ const InvitationContainer = ({
       case "pink":
         setConfig((prev) => ({ ...prev, backgroundColor: "bg-pink-100" }));
     }
-  }, [type]);
+  }, [router]);
 
   return (
     <div
-      className={`m-auto w-full max-w-[432px] p-4 ${!type ? "bg-white" : config.backgroundColor}`}
+      className={`m-auto w-full max-w-[432px] p-4 ${!config ? "bg-white" : config.backgroundColor}`}
     >
       <AnimateViewBox triggerOnce>
         <div className="flex justify-end">
