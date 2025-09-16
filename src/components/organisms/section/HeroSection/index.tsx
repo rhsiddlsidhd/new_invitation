@@ -109,7 +109,7 @@ const HeroSection = ({
           }}
           className="absolute inset-0 z-0 h-full w-full"
         >
-          <Img src="/marriage.jpg" />
+          <Img src="/wedding-1430.jpg" />
         </motion.div>
       </div>
     </div>

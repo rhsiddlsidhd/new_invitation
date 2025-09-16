@@ -80,3 +80,12 @@ new_invitation/
 - The Subway Input field is missing in the user wedding information data.
 - Music button has no sound assigned.
 - The Contact component is not yet published.
+
+## Update
+
+09.16
+
+- Generate Sample Invitation SSG Page
+- Generate Sitemap.ts
+- Added Metadata to index Page
+- Updated Footer UI
