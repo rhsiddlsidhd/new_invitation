@@ -10,47 +10,38 @@ export const generateStaticParams = () => {
 };
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
-  try {
-    const { id } = await params;
+  const { id } = await params;
 
-    const [userInfo, guestBook] = await Promise.all([
-      getUserInvitationInfo({ userId: id }),
-      getUserGuestBook({ userId: id }),
-    ]);
+  const [userInfo, guestBook] = await Promise.all([
+    getUserInvitationInfo({ userId: id }),
+    getUserGuestBook({ userId: id }),
+  ]);
 
-    const guestBookForClient = guestBook.map((item) => ({
-      ...item,
-      _id: item._id.toString(),
-    }));
-
-    if (!userInfo) {
-      throw new Error("유저를 찾을 수 없습니다.");
-    }
-
-    return (
-      <section className="w-full bg-[#f0f0f0]">
-        <Suspense
-          fallback={
-            <div className="flex h-screen w-full items-center justify-center">
-              <Spinner />
-            </div>
-          }
-        >
-          <InvitationContainer
-            userInfo={userInfo}
-            guestBook={guestBookForClient ?? []}
-          />
-        </Suspense>
-      </section>
-    );
-  } catch (e) {
-    const message = e instanceof Error ? e.message : e;
-    console.log("message", message);
-    if (message === "유저를 찾을 수 없습니다.") {
-      redirect("/dashboard");
-    }
-    console.error("Detail Page Server Error", message);
+  if (!userInfo) {
+    redirect("/dashboard");
   }
+
+  const guestBookForClient = (guestBook ?? []).map((item) => ({
+    ...item,
+    _id: item._id.toString(),
+  }));
+
+  return (
+    <section className="w-full bg-[#f0f0f0]">
+      <Suspense
+        fallback={
+          <div className="flex h-screen w-full items-center justify-center">
+            <Spinner />
+          </div>
+        }
+      >
+        <InvitationContainer
+          userInfo={userInfo}
+          guestBook={guestBookForClient}
+        />
+      </Suspense>
+    </section>
+  );
 };
 
 export default Page;

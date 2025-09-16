@@ -6,21 +6,20 @@ import { getAuthToken } from "@/services/auth/token";
 const Page = async ({
   searchParams,
 }: {
-  searchParams?: Promise<{ next?: string }>;
+  searchParams?: Promise<{ next: string }>;
 }) => {
-  try {
-    const token = await getAuthToken();
-    await decrypt(token);
-    const resolvedParams = await searchParams;
-
-    if (!resolvedParams?.next) {
-      redirect("/");
-    }
-
-    return <VerifyForm path={resolvedParams.next} />;
-  } catch {
+  const token = await getAuthToken();
+  const payload = await decrypt(token);
+  if (!payload) {
     redirect("/");
   }
+  const query = await searchParams;
+
+  if (!query) {
+    redirect("/");
+  }
+
+  return <VerifyForm path={query.next} />;
 };
 
 export default Page;

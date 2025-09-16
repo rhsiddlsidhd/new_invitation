@@ -30,10 +30,7 @@ export const metadata: Metadata = {
   ],
   creator: "New Invitation",
   publisher: "New Invitation",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#000000" },
-  ],
+
   openGraph: {
     title: "New Invitation",
     description: "모바일 청첩장을 쉽고 빠르게 만들어드립니다.",

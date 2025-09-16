@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import { useModalStore } from "@/store/modalStore";
 import { useRouter } from "next/navigation";
 import useAuthStore from "@/store/authStore";
-import Spinner from "../atoms/Spinner";
 
 const TemplateGallery = () => {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -40,7 +39,6 @@ const TemplateGallery = () => {
         const res = await fetch("/api/auth", { cache: "no-store" });
         if (!res.ok) throw new Error("Auth fetch failed");
         const data = await res.json();
-        console.log(data);
         setIsAuthenticated(data.success);
         setId(data.data.userId);
       } catch {
@@ -72,35 +70,24 @@ const TemplateGallery = () => {
           <Logo />
         </div>
         <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 lg:grid-cols-4">
-          {pending
-            ? cardList.map((_, i) => {
-                return (
-                  <Card
-                    key={i}
-                    className="flex aspect-[5/8] max-h-[45vh] w-full cursor-pointer items-center justify-center"
-                  >
-                    <Spinner />
-                  </Card>
-                );
-              })
-            : cardList.map((card, i) => {
-                return (
-                  <Card
-                    key={i}
-                    className="aspect-[5/8] max-h-[45vh] w-full cursor-pointer"
-                    ref={cardRef}
-                    onClick={() => handleNavigation(card.id)}
-                  >
-                    <div className="relative h-3/4 w-full">
-                      <Img src={card.thumnail} />
-                    </div>
-                    <div className="p-3">
-                      <h3 className="text-lg font-semibold">{card.title}</h3>
-                      <p className="mt-1 text-sm text-gray-600">{card.des}</p>
-                    </div>
-                  </Card>
-                );
-              })}
+          {cardList.map((card, i) => {
+            return (
+              <Card
+                key={i}
+                className={`aspect-[5/8] max-h-[45vh] w-full ${pending ? "pointer-events-none" : "cursor-pointer"} `}
+                ref={cardRef}
+                onClick={() => handleNavigation(card.id)}
+              >
+                <div className="relative h-3/4 w-full">
+                  <Img src={card.thumnail} />
+                </div>
+                <div className="p-3">
+                  <h3 className="text-lg font-semibold">{card.title}</h3>
+                  <p className="mt-1 text-sm text-gray-600">{card.des}</p>
+                </div>
+              </Card>
+            );
+          })}
         </div>
       </div>
     </motion.div>
