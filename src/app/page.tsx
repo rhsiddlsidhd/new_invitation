@@ -2,11 +2,29 @@ import Home from "@/components/template/Home";
 import { Metadata } from "next";
 import React from "react";
 
-// ...existing code...
+if (!process.env.BASE_URL || !process.env.DEPLOYMENT_BASE_URL) {
+  throw new Error("환경변수가 설정되지 않았습니다.");
+}
+
+const BASEURL =
+  process.env.NODE_ENV === "development"
+    ? process.env.BASE_URL
+    : process.env.DEPLOYMENT_BASE_URL;
+
 export const metadata: Metadata = {
   title: "Home - New Invitation",
   description: "모바일 청첩장을 쉽고 빠르게 만들어드립니다.",
-  keywords: ["청첩장", "웨딩", "invitation", "mobile", "wedding invitation"],
+  metadataBase: new URL(BASEURL),
+  keywords: [
+    "청첩장",
+    "웨딩",
+    "invitation",
+    "mobile",
+    "wedding invitation",
+    "portfolio",
+    "frontend",
+    "next.js",
+  ],
   authors: [
     { name: "New Invitation", url: "https://new-invitation-pi.vercel.app" },
   ],

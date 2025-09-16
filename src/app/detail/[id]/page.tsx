@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 export const generateStaticParams = () => {
-  return [{ id: "rhsiddlsidhd1" }];
+  return [{ id: process.env.SAMPLE_USERID }];
 };
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
