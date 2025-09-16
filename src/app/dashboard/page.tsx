@@ -10,9 +10,7 @@ import { redirect } from "next/navigation";
 export default async function page() {
   const token = await getAuthToken();
   const payload = await decrypt(token);
-
   const data = await getInvitation(payload.userId);
-
   if (!payload || !data) redirect("/");
 
   return (

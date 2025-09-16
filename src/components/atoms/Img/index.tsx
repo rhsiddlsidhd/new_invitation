@@ -14,7 +14,7 @@ const Img = ({ src }: { src: string | StaticImageData }) => {
       src={optimizedSrc}
       fill
       alt={`예시 이미지`}
-      className="object-cover"
+      className="object-cover object-left"
       sizes="100%"
       priority
     />
