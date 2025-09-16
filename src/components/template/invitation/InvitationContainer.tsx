@@ -210,12 +210,19 @@ const InvitationContainer = ({
         break;
       case "pink":
         setConfig((prev) => ({ ...prev, backgroundColor: "bg-pink-100" }));
+      default: {
+        setConfig((prev) => ({ ...prev, backgroundColor: "bg-white" }));
+      }
     }
   }, [router]);
 
+  useEffect(() => {
+    console.log("config", config);
+  }, [config]);
+
   return (
     <div
-      className={`m-auto w-full max-w-[432px] p-4 ${!config ? "bg-white" : config.backgroundColor}`}
+      className={`m-auto w-full max-w-[432px] p-4 ${config.backgroundColor}`}
     >
       <AnimateViewBox triggerOnce>
         <div className="flex justify-end">

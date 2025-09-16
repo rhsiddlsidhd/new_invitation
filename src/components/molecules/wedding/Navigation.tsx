@@ -34,7 +34,6 @@ const Navigation = ({ address }: { address: string }) => {
           });
         },
         (err) => {
-          // handleGeolocationPositionError(err);
           console.error(err);
           resolve(null);
         },
