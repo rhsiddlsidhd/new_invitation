@@ -12,7 +12,7 @@ const sitemap = (): MetadataRoute.Sitemap => {
       lastModified: new Date(),
     },
     {
-      url: `${BASEURL}/detail/${process.env.SAMPLE_USERID}`,
+      url: `${BASEURL}/detail/${process.env.NEXT_PUBLIC_SAMPLE_USERID}`,
       lastModified: new Date(),
     },
   ];

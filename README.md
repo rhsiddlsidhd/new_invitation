@@ -149,3 +149,9 @@ middlewaer.ts
 - Generate Sitemap.ts
 - Added Metadata to index Page
 - Updated Footer UI
+
+  09.17
+
+- Route change
+- Create a product page and a product detail page
+- Add different styling based on the invitation ID

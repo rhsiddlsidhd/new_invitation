@@ -19,7 +19,7 @@ import React from "react";
 import AnimateViewBox from "../Box/AnimateViewBox";
 import DigitalWatch from "@/components/molecules/wedding/DigitalWatch";
 
-import { useGetProductColor, useGetProductfont } from "@/store/productStore";
+import { useGetProductfont } from "@/store/productStore";
 
 type PersonPayloadId =
   | "groom"

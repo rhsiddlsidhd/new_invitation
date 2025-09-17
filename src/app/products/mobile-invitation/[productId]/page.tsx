@@ -4,12 +4,16 @@ import DropdownBtn from "@/components/molecules/btns/DropdownBtn";
 import PreviewBtn from "@/components/molecules/btns/PreviewBtn";
 import { PRODUCT_LIST } from "@/constant";
 
+export const generateStaticParams = () => {
+  const productList = PRODUCT_LIST.map((item) => ({ productId: item.id }));
+  return productList;
+};
+
 const Page = async ({ params }: { params: Promise<{ productId: string }> }) => {
   const { productId } = await params;
 
   const product = PRODUCT_LIST.find((item) => item.id === productId);
 
-  // notfound로던져줘야하고
   if (!product) return <div>상품이 없습니다.</div>;
 
   return (

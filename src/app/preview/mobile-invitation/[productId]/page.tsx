@@ -1,12 +1,14 @@
 import Spinner from "@/components/atoms/Spinner";
 import InvitationContainer from "@/components/template/invitation/InvitationContainer";
+import { PRODUCT_LIST } from "@/constant";
 import { getUserGuestBook } from "@/services/guestBook";
 import { getUserInvitationInfo } from "@/services/invitation";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 export const generateStaticParams = () => {
-  return [{ id: process.env.SAMPLE_USERID }];
+  const productList = PRODUCT_LIST.map((item) => ({ productId: item.id }));
+  return productList;
 };
 
 const Page = async ({
@@ -18,8 +20,7 @@ const Page = async ({
 }) => {
   const { productId } = await params;
   const { u } = await searchParams;
-  console.log("p", productId);
-  console.log("u", u);
+
   if (!u) {
     // 리다이렉를 notfound로 바꾸기
     redirect("/");
