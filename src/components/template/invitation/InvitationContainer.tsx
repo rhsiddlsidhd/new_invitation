@@ -60,14 +60,15 @@ export type GuestBookView = Omit<GuestBook, "userId" | "password"> & {
 };
 
 const InvitationContainer = ({
+  productId,
   userInfo,
   guestBook,
 }: {
+  productId: string;
   userInfo: InvitationInput;
   guestBook: GuestBookView[];
 }) => {
   const font = useGetProductfont();
-  const color = useGetProductColor();
 
   const {
     userId,
@@ -204,13 +205,18 @@ const InvitationContainer = ({
   ];
 
   return (
-    <section className="w-full bg-[#f0f0f0]">
+    <section
+      style={{
+        backgroundColor: `var(--bg-color-${productId})`,
+        fontFamily: `${font}`,
+      }}
+      className="w-full"
+    >
       <div
         style={{
-          fontFamily: font ?? "sans-serif",
-          backgroundColor: color ?? "#ffffff",
+          backgroundColor: `var(--bg-card-color-${productId})`,
         }}
-        className={`m-auto w-full max-w-[432px] p-4`}
+        className={`bg-akwmrlawz m-auto w-full max-w-[432px] bg-[#f0f0f0] p-4`}
       >
         <AnimateViewBox triggerOnce>
           <div className="flex justify-end">

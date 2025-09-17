@@ -9,12 +9,24 @@ export const generateStaticParams = () => {
   return [{ id: process.env.SAMPLE_USERID }];
 };
 
-const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
-  const { id } = await params;
-
+const Page = async ({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ productId: string }>;
+  searchParams: Promise<{ u: string | null }>;
+}) => {
+  const { productId } = await params;
+  const { u } = await searchParams;
+  console.log("p", productId);
+  console.log("u", u);
+  if (!u) {
+    // 리다이렉를 notfound로 바꾸기
+    redirect("/");
+  }
   const [userInfo, guestBook] = await Promise.all([
-    getUserInvitationInfo({ userId: id }),
-    getUserGuestBook({ userId: id }),
+    getUserInvitationInfo({ userId: u }),
+    getUserGuestBook({ userId: u }),
   ]);
 
   if (!userInfo) {
@@ -34,7 +46,11 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
         </div>
       }
     >
-      <InvitationContainer userInfo={userInfo} guestBook={guestBookForClient} />
+      <InvitationContainer
+        productId={productId}
+        userInfo={userInfo}
+        guestBook={guestBookForClient}
+      />
     </Suspense>
   );
 };

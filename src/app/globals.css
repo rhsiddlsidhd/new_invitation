@@ -1,7 +1,23 @@
 @import "tailwindcss";
 
 @theme {
-  /* --color-tennis: #54606e; */
+}
+
+:root {
+  --bg-color-akwmrlawz: #f0f0f0;
+  --bg-card-color-akwmrlawz: #fafafa;
+
+  --bg-color-bqjznwpoi: #f0f0f0;
+  --bg-card-color-bqjznwpoi: #f2ece6;
+
+  --bg-color-cydhfksle: #f0f0f0;
+  --bg-card-color-cydhfksle: #fafafa;
+
+  --bg-color-dmxpwqkru: #f0f0f0;
+  --bg-card-color-dmxpwqkru: #fafafa;
+
+  --bg-color-eqzlxvtyn: #ffffff;
+  --bg-card-color-eqzlxvtyn: #faf1e8;
 }
 
 .scrollbar-hide {

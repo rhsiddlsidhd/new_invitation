@@ -25,6 +25,7 @@ const Page = async ({ params }: { params: Promise<{ productId: string }> }) => {
           <PreviewBtn
             category={product.category}
             color={product.options.backgroundColor}
+            productId={product.id}
           />
           <Btn className="w-full">주문하기</Btn>
         </li>

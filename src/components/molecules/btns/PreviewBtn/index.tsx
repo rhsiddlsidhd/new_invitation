@@ -9,9 +9,11 @@ import React, { useCallback, useEffect } from "react";
 const PreviewBtn = ({
   category,
   color,
+  productId,
 }: {
   category: string;
   color: string;
+  productId: string;
 }) => {
   const { setModalOpen } = useModalStore();
   const router = useRouter();
@@ -28,9 +30,9 @@ const PreviewBtn = ({
         setModalOpen({ isOpen: true, type: "login" });
         return;
       }
-      router.replace(`/preview/${category}/${id}`);
+      router.replace(`/preview/${category}/${productId}?u=${id}`);
     },
-    [router, setModalOpen, isAuthenticated, category],
+    [router, setModalOpen, isAuthenticated, category, productId],
   );
 
   return (
