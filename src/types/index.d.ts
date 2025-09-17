@@ -7,36 +7,6 @@ declare global {
   };
 }
 
-// API 응답 타입 정의
-
-// interface ApiResponseSuccess<T = unknown> {
-//   success: true;
-//   data: T;
-// }
-
-// interface ApiResponseFail {
-//   success: false;
-//   message: string;
-// }
-
-// export type ApiResponse<T = unknown> = ApiResponseSuccess<T> | ApiResponseFail;
-
-// interface ActionSuccessState<T = unknown> {
-//   success: true;
-//   message: string;
-//   data?: T;
-// }
-
-// interface ActionFailState {
-//   success: false;
-//   error: Record<string, string[] | undefined>;
-// }
-
-// export type ActionState = {
-//   success: boolean;
-//   message?: string;
-// } | null;
-
 export interface UserData {
   userId: string;
   email: string;
@@ -61,10 +31,6 @@ export interface GalleryData {
   type: "A" | "B" | "C" | "D" | "E";
   images: string[] | null[];
 }
-
-// export interface ViewGalleryData extends GalleryData {
-//   mode: "get" | "edit";
-// }
 
 type GalleryType = "A" | "B" | "C" | "D" | "E";
 

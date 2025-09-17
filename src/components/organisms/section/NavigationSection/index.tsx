@@ -15,10 +15,12 @@ const NavigationSection = ({
   offsetStart,
   offsetEnd,
   scrollY,
+  height,
 }: {
   offsetStart: number;
   offsetEnd: number;
   scrollY: MotionValue<number>;
+  height: number;
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isView, setIsView] = useState<boolean>(false);
@@ -29,16 +31,12 @@ const NavigationSection = ({
   const y = useTransform(scrollY, [offsetStart, offsetEnd], [0, 1]);
 
   useMotionValueEvent(y, "change", (latest) => {
-    const viewState = latest > 0.1 && latest < 0.5;
-    const textState =
-      latest >= 0.5 ? "pending" : latest > 0.2 ? "show" : "hidden";
-
-    setIsView((prev) => (prev !== viewState ? viewState : prev));
-    setTextView((prev) => (prev !== textState ? textState : prev));
+    setIsView(latest > 0.1 && latest < 0.5);
+    setTextView(latest >= 0.5 ? "pending" : latest > 0.2 ? "show" : "hidden");
   });
 
   return (
-    <div className="relative z-10 h-full" ref={containerRef}>
+    <div className={`relative z-10 h-[${height}vh]`} ref={containerRef}>
       <AnimatePresence>
         {isView && (
           <motion.div

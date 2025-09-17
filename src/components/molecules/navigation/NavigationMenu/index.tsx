@@ -18,7 +18,7 @@ const NavigationMenu = ({
 
   const handleMenuClick = useCallback(
     (menu: (typeof menus)[number], isAuth: boolean) => {
-      if (menu.id !== "Shop" && !isAuth) {
+      if (menu.id !== "Products" && !isAuth) {
         setModalOpen({ isOpen: true, type: "login", path: menu.path });
         return;
       }

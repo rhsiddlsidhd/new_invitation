@@ -38,18 +38,18 @@ const page = async () => {
           <h3 className="mb-4 text-xl font-bold text-[#333]">계정 관리</h3>
 
           <div className="grid grid-cols-3 gap-4 max-sm:grid-cols-1">
-            <Link href="/verify?next=/profile/edit">
+            <Link href="/profile/verify?next=/edit">
               <Btn bgColor="bg-[#28a745]" className="w-full">
                 프로필 수정
               </Btn>
             </Link>
 
-            <Link href="/verify?next=/profile/password">
+            <Link href="/profile/verify?next=/password">
               <Btn bgColor="bg-[#6c757d]" className="w-full">
                 비밀번호 변경
               </Btn>
             </Link>
-            <Link href="/verify?next=/profile/delete">
+            <Link href="/profile/verify?next=/delete">
               <Btn bgColor="bg-[#b81f1f]" className="w-full">
                 계정 삭제
               </Btn>

@@ -1,5 +1,5 @@
 "use client";
-import ScrollViewBox from "@/components/template/Box/ScrollVIewBox";
+
 import { MotionValue, useScroll } from "motion/react";
 import { useEffect, useState } from "react";
 import HeroSection from "@/components/organisms/section/HeroSection/index";
@@ -12,17 +12,17 @@ interface Sections {
     offsetStart: number;
     offsetEnd: number;
     scrollY: MotionValue<number>;
+    height: number;
   }>;
   height: number;
   offsetStart: number;
   offsetEnd: number;
-  zIndex?: number;
 }
 
 const sections = [
   { component: HeroSection, height: 150 },
   { component: NavigationSection, height: 200 },
-  { component: RecommendedSection, height: 200, zIndex: 20 },
+  { component: RecommendedSection, height: 200 },
   { component: Footer, height: 100 },
 ];
 
@@ -35,20 +35,17 @@ export default function Home() {
 
     const calculateSections = () => {
       let cumulative = 0;
-      const calculated: Sections[] = sections.map(
-        ({ component, height, zIndex }) => {
-          const start = cumulative;
-          const end = cumulative + pxHeight(height);
-          cumulative = end;
-          return {
-            component,
-            height,
-            zIndex,
-            offsetStart: start,
-            offsetEnd: end,
-          };
-        },
-      );
+      const calculated: Sections[] = sections.map(({ component, height }) => {
+        const start = cumulative;
+        const end = cumulative + pxHeight(height);
+        cumulative = end;
+        return {
+          component,
+          height,
+          offsetStart: start,
+          offsetEnd: end,
+        };
+      });
       setSectionsPx(calculated);
     };
 
@@ -62,17 +59,14 @@ export default function Home() {
   return (
     <div>
       {sectionsPx.map(
-        (
-          { component: Component, height, zIndex, offsetStart, offsetEnd },
-          index,
-        ) => (
-          <ScrollViewBox key={index} height={height} zIndex={zIndex}>
-            <Component
-              offsetStart={offsetStart}
-              offsetEnd={offsetEnd}
-              scrollY={scrollY}
-            />
-          </ScrollViewBox>
+        ({ component: Component, height, offsetStart, offsetEnd }, index) => (
+          <Component
+            key={index}
+            height={height}
+            offsetStart={offsetStart}
+            offsetEnd={offsetEnd}
+            scrollY={scrollY}
+          />
         ),
       )}
     </div>

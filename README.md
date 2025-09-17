@@ -66,6 +66,47 @@ new_invitation/
 
 ```
 
+📁 App Directory Routing Guide
+
+```
+app
+├─ api
+│  ├─ auth
+│  │ └─ route.ts
+│  ├─ invitation
+│  │ └─ [userId]
+│  │   └─ route.ts
+│  └─ pwd-verified
+│    └─ route.ts
+├─ dashboard
+│ ├─ edit
+│ │ └─ page.tsx     # /dashboard/edit (대시보드 수정)
+│ └─page.tsx        # /dashboard (대시보드)
+├─ detail
+│ └─ [id]
+│   └─ page.tsx     # /detail/[id] (디테일)
+├─ profile
+│ ├─ verify
+│ │ ├─ delete
+│ │ │ └─ page.tsx   # /profile/verify/delete (프로필 계정 삭제)
+│ │ ├─ edit
+│ │ │ └─ page.tsx   # /profile/verify/edit (프로필 수정)
+│ │ ├─ password
+│ │ │ └─ page.tsx   # /profile/verify/password (패스워스 변경)
+│ │ └─ page.tsx     # /profile/verify (인증/검증)
+│ └─ page.tsx       # /profile (프로필)
+├─ products
+│ └─ page.tsx       # /products (상품)
+├─ layout.tsx
+├─ page.tsx             # / (홈페이지)
+└─ sitemap.ts
+
+middlewaer.ts
+
+```
+
+### 홈페이지 (`/`)
+
 ## 🛠 Tech Stack
 
 - TypeScript

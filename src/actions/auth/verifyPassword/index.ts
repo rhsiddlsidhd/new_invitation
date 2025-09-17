@@ -5,13 +5,13 @@ import { comparePasswords, getUserPasswordById } from "@/services/user";
 import { APIRESPONSE } from "@/types";
 import { decrypt } from "@/lib/jose";
 import { deleteAuthToken, getAuthToken } from "@/services/auth/token";
-
+// Promise<APIRESPONSE<{ path: string }>>
 export const verifyPassword = async (
   prev: unknown,
   formData: FormData,
-): Promise<APIRESPONSE<{ path: string }>> => {
+): Promise<APIRESPONSE> => {
   try {
-    const path = formData.get("next") as string;
+    // const path = formData.get("next") as string;
     const password = formData.get("password") as string;
     if (!password) {
       return {
@@ -55,7 +55,7 @@ export const verifyPassword = async (
       data: {
         code: 200,
         message: "비밀번호 인증에 성공했습니다.",
-        payload: { path },
+        payload: undefined,
       },
     };
   } catch (error) {

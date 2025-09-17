@@ -7,7 +7,6 @@ import React, { useEffect } from "react";
 const ProfileBox = ({ userId, email }: { userId: string; email: string }) => {
   useEffect(() => {
     const deleteCookie = async () => {
-      console.log("zzzzzz");
       await fetch("/api/pwd-verified", {
         method: "DELETE",
       });

@@ -4,6 +4,7 @@ import React, { useRef, useState } from "react";
 import {
   motion,
   MotionValue,
+  useInView,
   useMotionValueEvent,
   useTransform,
 } from "framer-motion";
@@ -36,10 +37,12 @@ const RecommendedSection = ({
   offsetStart,
   offsetEnd,
   scrollY,
+  height,
 }: {
   offsetStart: number;
   offsetEnd: number;
   scrollY: MotionValue<number>;
+  height: number;
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -53,11 +56,17 @@ const RecommendedSection = ({
   });
 
   return (
-    <section className="h-full bg-[#E7E6E2]" ref={containerRef}>
+    <section
+      className={`h-[${height}vh] w-full bg-[#E7E6E2]`}
+      ref={containerRef}
+    >
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isViewScratch === "show" ? 1 : 0 }}
-        className="fixed top-0 h-screen w-full font-extrabold max-sm:top-1/6"
+        initial={{ opacity: 0, zIndex: -1 }}
+        animate={{
+          opacity: isViewScratch === "show" ? 1 : 0,
+          zIndex: isViewScratch === "show" ? 10 : -20,
+        }}
+        className={`fixed top-0 h-screen w-full font-extrabold max-sm:top-1/6`}
       >
         <p
           style={{ fontSize: "clamp(2vw,5vw,6rem)" }}

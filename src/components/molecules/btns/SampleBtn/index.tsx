@@ -6,10 +6,10 @@ const index = () => {
   return (
     <Btn
       pending={false}
-      className="w-fit text-lg uppercase"
+      className="w-fit cursor-pointer text-lg uppercase"
       bgColor="bg-blue-500"
     >
-      <Link href={"/detail/rhsiddlsidhd1"}>Sample</Link>
+      <Link href={`/detail/rhsiddlsidhd1`}>Sample</Link>
     </Btn>
   );
 };

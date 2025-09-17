@@ -14,23 +14,20 @@ const VerifyForm = ({ path }: { path: string }) => {
   useEffect(() => {
     if (!state) return;
     if (state.success) {
-      const { payload } = state.data;
-      router.push(payload.path);
+      router.replace(`/profile/verify/${path}`);
       return;
     }
 
     const { code } = state.error;
     if (code === 500) router.push("/");
-  }, [state, router]);
+  }, [state, router, path]);
 
   return (
     <div className="flex h-screen items-center justify-center">
       <Box className="w-full max-w-[400px]">
         <h2>비밀번호 확인</h2>
         <p>현재 비밀번호를 입력해주세요.</p>
-
         <form action={action}>
-          <input type="hidden" name="next" value={path} />
           {state && !state.success && state.error.code !== 500 && (
             <Alert type="error" className="mt-2">
               {state.error.message}
