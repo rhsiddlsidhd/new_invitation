@@ -1,96 +1,67 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import Logo from "../atoms/Logo";
+import React, { useEffect, useRef } from "react";
 import Card from "../atoms/Card";
 import Img from "../atoms/Img";
-import { motion } from "framer-motion";
-import { useModalStore } from "@/store/modalStore";
 import { useRouter } from "next/navigation";
-import useAuthStore from "@/store/authStore";
+import { PRODUCT_LIST } from "@/constant";
+import { useSetClearProduct } from "@/store/productStore";
 
 const TemplateGallery = () => {
   const cardRef = useRef<HTMLDivElement>(null);
   const listContainerRef = useRef<HTMLDivElement>(null);
-  const { setModalOpen } = useModalStore();
-  const router = useRouter();
-  const [pending, setPending] = useState<boolean>(true);
-  const [id, setId] = useState<string | null>(null);
 
-  const { setIsAuthenticated, isAuthenticated } = useAuthStore();
-
-  const cardList = [
-    {
-      id: "blue",
-      thumnail: "/wedding-1430.jpg",
-      title: "블루 스타일",
-      des: "산뜻한 블루",
-    },
-    {
-      id: "pink",
-      thumnail: "/wedding-1850.jpg",
-      title: "핑크 스타일",
-      des: "러블리 핑크",
-    },
-  ];
+  const clearProduct = useSetClearProduct();
 
   useEffect(() => {
-    const fetchAuthenticate = async () => {
-      try {
-        const res = await fetch("/api/auth", { cache: "no-store" });
-        if (!res.ok) throw new Error("Auth fetch failed");
-        const data = await res.json();
-        setIsAuthenticated(data.success);
-        setId(data.data.userId);
-      } catch {
-        setIsAuthenticated(false);
-      } finally {
-        setPending(false);
-      }
-    };
-    setPending(true);
-    fetchAuthenticate();
-  }, [setIsAuthenticated]);
+    clearProduct();
+  }, [clearProduct]);
 
-  const handleNavigation = (query: string) => {
-    if (!isAuthenticated) {
-      setModalOpen({ isOpen: true, type: "login" });
-      return;
-    }
-    console.log(id);
-    router.push(`/detail/${id}?t=${query}`);
+  const router = useRouter();
+
+  const handleNavigation = ({
+    category,
+    id,
+  }: {
+    category: string;
+    id: string;
+  }) => {
+    router.push(`/products/${category}/${id}`);
   };
 
   return (
-    <motion.div
-      className="relative top-0 left-1/2 z-10 w-11/12 -translate-x-1/2 bg-white"
+    <div
+      className="relative bg-white px-4 pt-4 pb-[60px] max-sm:pt-[60px]"
       ref={listContainerRef}
     >
-      <div className="pt-4 sm:pt-8">
-        <div className="flex w-full justify-center">
-          <Logo />
-        </div>
-        <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 lg:grid-cols-4">
-          {cardList.map((card, i) => {
-            return (
-              <Card
-                key={i}
-                className={`aspect-[5/8] max-h-[45vh] w-full ${pending ? "pointer-events-none" : "cursor-pointer"} `}
-                ref={cardRef}
-                onClick={() => handleNavigation(card.id)}
-              >
-                <div className="relative h-3/4 w-full">
-                  <Img src={card.thumnail} />
-                </div>
-                <div className="p-3">
-                  <h3 className="text-lg font-semibold">{card.title}</h3>
-                  <p className="mt-1 text-sm text-gray-600">{card.des}</p>
-                </div>
-              </Card>
-            );
-          })}
-        </div>
+      <div>
+        <p className="text-center">상품 페이지</p>
       </div>
-    </motion.div>
+      <div className="grid grid-cols-1 gap-4 pt-4 sm:grid-cols-2 lg:grid-cols-4">
+        {PRODUCT_LIST.map((card, i) => {
+          return (
+            <Card
+              key={i}
+              className={`aspect-[5/8] w-full cursor-pointer shadow`}
+              ref={cardRef}
+              onClick={() =>
+                handleNavigation({ category: card.category, id: card.id })
+              }
+            >
+              <div className="relative h-3/4 w-full">
+                <Img src={`/${card.thumbnail}.webp`} />
+              </div>
+              <div className="flex h-1/4 flex-col justify-end gap-2 bg-[#E7E6E2] p-2">
+                <h3 className="text-lg font-semibold">{card.title}</h3>
+                <div className="flex justify-between">
+                  <p className="text-sm text-gray-600">{card.category}</p>
+                  <p className="text-sm text-gray-600">{card.price}원</p>
+                </div>
+              </div>
+            </Card>
+          );
+        })}
+      </div>
+    </div>
   );
 };
 

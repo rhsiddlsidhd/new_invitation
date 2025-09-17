@@ -82,7 +82,7 @@ const HeroSection = ({
   );
 
   return (
-    <motion.div className={`h-[${height}vh]`} ref={containerRef}>
+    <div style={{ height: `${height}vh` }} ref={containerRef}>
       <motion.div
         className="fixed top-0 flex h-screen w-full items-center justify-center"
         initial={{ zIndex: -10 }}
@@ -126,7 +126,7 @@ const HeroSection = ({
           <Img src="/love-1920.webp" />
         </motion.div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 };
 

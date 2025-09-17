@@ -116,3 +116,16 @@ export interface APIFAILRESPONSE extends APIRESPONSE {
 }
 
 export type APIRESPONSE<T = void> = APISUCCESSRESPONSE<T> | APIFAILRESPONSE;
+
+// type ProductOptions =
+export interface Product {
+  id: string;
+  title: string;
+  description: string;
+  thumbnail: string;
+  price: number;
+  category: string;
+  options: {
+    font: string[];
+  };
+}

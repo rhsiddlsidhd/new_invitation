@@ -4,7 +4,6 @@ import React, { useRef, useState } from "react";
 import {
   motion,
   MotionValue,
-  useInView,
   useMotionValueEvent,
   useTransform,
 } from "framer-motion";
@@ -57,7 +56,8 @@ const RecommendedSection = ({
 
   return (
     <section
-      className={`h-[${height}vh] w-full bg-[#E7E6E2]`}
+      className={`w-full bg-[#E7E6E2]`}
+      style={{ height: `${height}vh` }}
       ref={containerRef}
     >
       <motion.div

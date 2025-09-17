@@ -36,7 +36,11 @@ const NavigationSection = ({
   });
 
   return (
-    <div className={`relative z-10 h-[${height}vh]`} ref={containerRef}>
+    <div
+      style={{ height: `${height}vh` }}
+      className={`relative z-10`}
+      ref={containerRef}
+    >
       <AnimatePresence>
         {isView && (
           <motion.div

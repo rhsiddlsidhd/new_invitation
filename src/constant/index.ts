@@ -1,4 +1,4 @@
-import { GalleryData } from "@/types";
+import { GalleryData, Product } from "@/types";
 
 export const defaultUrls = "/marriage.jpg";
 
@@ -66,3 +66,61 @@ export const cardConfig: Record<
 
 export const recommendedText =
   "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita illo reiciendis! Quod similique alias ab ex commodi sed nemo quianesciunt natus. Beatae commodi amet magnam praesentium libero rerumimpedit!" as const;
+
+export const PRODUCT_LIST: Product[] = [
+  {
+    id: "akwmrlawz",
+    title: "따뜻한 블루",
+    description: "잔잔한 바다 같은 색감",
+    thumbnail: "love-1920",
+    price: 0,
+    category: "mobile-invitation",
+    options: {
+      font: ["Arial", "Helvetica"],
+    },
+  },
+  {
+    id: "bqjznwpoi",
+    title: "산뜻한 민트",
+    description: "상쾌한 봄바람이 느껴지는 컬러",
+    thumbnail: "love-1",
+    price: 1000,
+    category: "mobile-invitation",
+    options: {
+      font: ["Roboto", "Noto Sans"],
+    },
+  },
+  {
+    id: "cydhfksle",
+    title: "감성적인 그레이",
+    description: "도시적인 세련미가 묻어나는 컬러",
+    thumbnail: "love-2",
+    price: 2000,
+    category: "mobile-invitation",
+    options: {
+      font: ["Times New Roman", "Georgia"],
+    },
+  },
+  {
+    id: "dmxpwqkru",
+    title: "부드러운 핑크",
+    description: "사랑스러움을 더해주는 색감",
+    thumbnail: "love-3",
+    price: 3000,
+    category: "mobile-invitation",
+    options: {
+      font: ["Nanum Gothic", "Spoqa Han Sans"],
+    },
+  },
+  {
+    id: "eqzlxvtyn",
+    title: "클래식 블랙",
+    description: "어디에나 잘 어울리는 기본 컬러",
+    thumbnail: "love-4",
+    price: 5000,
+    category: "mobile-invitation",
+    options: {
+      font: ["Pretendard", "Inter"],
+    },
+  },
+];

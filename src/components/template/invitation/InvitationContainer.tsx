@@ -15,11 +15,11 @@ import Subway from "@/components/molecules/wedding/Subway";
 import { InvitationInput } from "@/models/invitationSchema";
 import { useModalStore } from "@/store/modalStore";
 import { GuestBook } from "@/types";
-
-import React, { useEffect, useState } from "react";
+import React from "react";
 import AnimateViewBox from "../Box/AnimateViewBox";
 import DigitalWatch from "@/components/molecules/wedding/DigitalWatch";
-import { useSearchParams } from "next/navigation";
+
+import { useGetProductfont } from "@/store/productStore";
 
 type PersonPayloadId =
   | "groom"
@@ -66,6 +66,9 @@ const InvitationContainer = ({
   userInfo: InvitationInput;
   guestBook: GuestBookView[];
 }) => {
+  const font = useGetProductfont();
+  console.log("font", font);
+
   const {
     userId,
     weddingDate,
@@ -94,8 +97,6 @@ const InvitationContainer = ({
   } = userInfo;
 
   const { setModalOpen } = useModalStore();
-  const [config, setConfig] = useState<Record<string, string>>({});
-  const router = useSearchParams();
 
   type PartyRow = {
     parentNames: string[];
@@ -202,27 +203,10 @@ const InvitationContainer = ({
     },
   ];
 
-  useEffect(() => {
-    const type = router.get("t");
-    switch (type) {
-      case "blue":
-        setConfig((prev) => ({ ...prev, backgroundColor: "bg-blue-100" }));
-        break;
-      case "pink":
-        setConfig((prev) => ({ ...prev, backgroundColor: "bg-pink-100" }));
-      default: {
-        setConfig((prev) => ({ ...prev, backgroundColor: "bg-white" }));
-      }
-    }
-  }, [router]);
-
-  useEffect(() => {
-    console.log("config", config);
-  }, [config]);
-
   return (
     <div
-      className={`m-auto w-full max-w-[432px] p-4 ${config.backgroundColor}`}
+      style={{ fontFamily: font ?? "sans-serif" }}
+      className={`m-auto w-full max-w-[432px] p-4`}
     >
       <AnimateViewBox triggerOnce>
         <div className="flex justify-end">
