@@ -2,15 +2,25 @@
 import Btn from "@/components/atoms/Btn";
 import useAuthentication from "@/hooks/useAuthentication";
 import { useModalStore } from "@/store/modalStore";
+import { useSetProductColor } from "@/store/productStore";
 import { useRouter } from "next/navigation";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 
-const PreviewBtn = ({ category }: { category: string }) => {
+const PreviewBtn = ({
+  category,
+  color,
+}: {
+  category: string;
+  color: string;
+}) => {
   const { setModalOpen } = useModalStore();
-
   const router = useRouter();
-
   const { id, isAuthenticated, pending } = useAuthentication();
+  const setColor = useSetProductColor();
+
+  useEffect(() => {
+    if (color) setColor(color);
+  }, [color, setColor]);
 
   const handlePreview = useCallback(
     (id: string | null) => {
@@ -18,7 +28,7 @@ const PreviewBtn = ({ category }: { category: string }) => {
         setModalOpen({ isOpen: true, type: "login" });
         return;
       }
-      router.replace(`/preview/${category}/${id}/`);
+      router.replace(`/preview/${category}/${id}`);
     },
     [router, setModalOpen, isAuthenticated, category],
   );

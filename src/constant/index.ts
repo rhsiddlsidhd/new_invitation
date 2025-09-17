@@ -77,6 +77,7 @@ export const PRODUCT_LIST: Product[] = [
     category: "mobile-invitation",
     options: {
       font: ["Arial", "Helvetica"],
+      backgroundColor: "#008080",
     },
   },
   {
@@ -88,6 +89,7 @@ export const PRODUCT_LIST: Product[] = [
     category: "mobile-invitation",
     options: {
       font: ["Roboto", "Noto Sans"],
+      backgroundColor: "#C8A2C8",
     },
   },
   {
@@ -99,6 +101,7 @@ export const PRODUCT_LIST: Product[] = [
     category: "mobile-invitation",
     options: {
       font: ["Times New Roman", "Georgia"],
+      backgroundColor: "#36454F",
     },
   },
   {
@@ -110,6 +113,7 @@ export const PRODUCT_LIST: Product[] = [
     category: "mobile-invitation",
     options: {
       font: ["Nanum Gothic", "Spoqa Han Sans"],
+      backgroundColor: "#F4C2C2",
     },
   },
   {
@@ -121,6 +125,7 @@ export const PRODUCT_LIST: Product[] = [
     category: "mobile-invitation",
     options: {
       font: ["Pretendard", "Inter"],
+      backgroundColor: "#f2f3f5",
     },
   },
 ];

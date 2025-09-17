@@ -127,5 +127,6 @@ export interface Product {
   category: string;
   options: {
     font: string[];
+    backgroundColor: string;
   };
 }

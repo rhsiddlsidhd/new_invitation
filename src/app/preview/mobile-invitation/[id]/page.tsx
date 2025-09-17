@@ -27,20 +27,15 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   }));
 
   return (
-    <section className="w-full bg-[#f0f0f0]">
-      <Suspense
-        fallback={
-          <div className="flex h-screen w-full items-center justify-center">
-            <Spinner />
-          </div>
-        }
-      >
-        <InvitationContainer
-          userInfo={userInfo}
-          guestBook={guestBookForClient}
-        />
-      </Suspense>
-    </section>
+    <Suspense
+      fallback={
+        <div className="flex h-screen w-full items-center justify-center">
+          <Spinner />
+        </div>
+      }
+    >
+      <InvitationContainer userInfo={userInfo} guestBook={guestBookForClient} />
+    </Suspense>
   );
 };
 

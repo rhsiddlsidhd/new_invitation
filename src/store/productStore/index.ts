@@ -12,7 +12,8 @@ const useProductStore = create<ProductStore>((set) => ({
   ...initialState,
   setFont: (font: string) =>
     set((state) => ({ ...state, font: state.font === font ? "" : font })),
-  setBackgroundColor: (color: string) => set((state) => ({ ...state, color })),
+  setBackgroundColor: (color: string) =>
+    set((state) => ({ ...state, backgroundColor: color })),
   setClearProduct: () => set({ ...initialState }),
 }));
 
@@ -27,3 +28,6 @@ export const useSetClearProduct = () =>
 
 export const useGetProductfont = () =>
   useProductStore((state: ProductStore) => state.font);
+
+export const useGetProductColor = () =>
+  useProductStore((state: ProductStore) => state.backgroundColor);
