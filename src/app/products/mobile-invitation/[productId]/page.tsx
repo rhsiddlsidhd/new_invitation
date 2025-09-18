@@ -5,8 +5,7 @@ import PreviewBtn from "@/components/molecules/btns/PreviewBtn";
 import { PRODUCT_LIST } from "@/constant";
 
 export const generateStaticParams = () => {
-  const productList = PRODUCT_LIST.map((item) => ({ productId: item.id }));
-  return productList;
+  return PRODUCT_LIST.map((item) => ({ productId: item.id }));
 };
 
 const Page = async ({ params }: { params: Promise<{ productId: string }> }) => {
