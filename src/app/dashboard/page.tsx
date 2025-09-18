@@ -9,9 +9,10 @@ import { redirect } from "next/navigation";
 
 export default async function page() {
   const token = await getAuthToken();
+
   const payload = await decrypt(token);
   const data = await getInvitation(payload.userId);
-  if (!payload || !data) redirect("/");
+  if (!payload || !token) redirect("/");
 
   return (
     <div className="m-auto w-full max-w-[1028px] p-2 sm:mb-24 sm:p-6">

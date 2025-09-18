@@ -23,7 +23,7 @@ const WeddingThumbnailForm = () => {
   const { setModalOpen } = useModalStore();
   useEffect(() => {
     if (!state) return;
-    console.log(state);
+
     if (!state.success && state.error) {
       setErrors(state.error);
     } else {
@@ -43,14 +43,14 @@ const WeddingThumbnailForm = () => {
       .filter((f): f is File => f instanceof File);
 
     const validation = validateAndFlatten(ThumbnailSchema, thumbnailFiles);
-    console.log("validation", validation);
+
     if (!validation.success) {
       setErrors(validation.error);
       return;
     }
 
     // validation을 통과한 데이터는 cloudinary로 저장
-    // console.log(validation);
+
     const thumbnails = await Promise.all(
       validation.data.map(async (file) => {
         const formData = new FormData();

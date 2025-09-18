@@ -1,12 +1,13 @@
 const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 const UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
-const BASE_URL = process.env.CLOUDINARY_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL;
 
 const uploadToCloudinary = async (file: File, folder: string) => {
   const formData = new FormData();
   formData.append("file", file);
   formData.append("upload_preset", `${UPLOAD_PRESET}`);
   formData.append("folder", folder);
+  console.log(`${BASE_URL}/${CLOUD_NAME}/image/upload`);
   const res = await fetch(`${BASE_URL}/${CLOUD_NAME}/image/upload`, {
     method: "POST",
     body: formData,

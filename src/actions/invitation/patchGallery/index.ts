@@ -15,9 +15,8 @@ export const patchGallery = async (
   try {
     const token = await getAuthToken();
     const { userId } = await decrypt(token);
-    console.log(payload.data);
+
     const validation = validateAndFlatten(gallerySchema, payload.data);
-    console.log("gallery validation", validation);
 
     if (!validation.success) {
       return {

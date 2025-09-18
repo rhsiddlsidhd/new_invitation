@@ -1,5 +1,5 @@
 import { useInView } from "motion/react";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { motion } from "framer-motion";
 
 const AnimateViewBox = ({
@@ -16,9 +16,6 @@ const AnimateViewBox = ({
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { amount: 0.35, once: triggerOnce });
 
-  useEffect(() => {
-    console.log("isInView", isInView);
-  }, [isInView]);
   return (
     <motion.div
       style={{ height: height ? `${height}vh` : `h-fit` }}

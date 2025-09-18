@@ -27,7 +27,9 @@ const Page = async ({ params }: { params: Promise<{ productId: string }> }) => {
         <li className="space-y-2">
           {product.options && <DropdownBtn options={product.options.font} />}
           <PreviewBtn category={product.category} productId={product.id} />
-          <Btn className="w-full">주문하기</Btn>
+          <Btn pending={true} className="w-full">
+            주문하기
+          </Btn>
         </li>
       </ul>
       <div className="col-span-2 w-full p-4 max-sm:col-span-1">

@@ -33,7 +33,6 @@ export async function signUp(
       };
     }
 
-    console.log("password", password, confirmPassword);
     if (password !== confirmPassword) {
       return {
         success: false,

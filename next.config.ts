@@ -1,20 +1,3 @@
-// import type { NextConfig } from "next";
-
-// const nextConfig: NextConfig = {
-// images: {
-//   remotePatterns: [
-//     {
-//       protocol: "https",
-//       hostname: "res.cloudinary.com",
-//       pathname: "/**",
-//     },
-//   ],
-//   },
-
-// };
-
-// export default nextConfig;
-
 module.exports = () => {
   /**
    * @type {import('next').NextConfig}
@@ -25,11 +8,11 @@ module.exports = () => {
         {
           source: "/subway/:q",
 
-          destination: `${process.env.SUBWAY_SEOUL_BASE_URL}/${process.env.NEXT_PUBLIC_SEOUL_PUBLIC_API_KEY}/json/SearchInfoBySubwayNameService/1/1000/:q`,
+          destination: `${process.env.SUBWAY_SEOUL_BASE_URL}/${process.env.SEOUL_PUBLIC_API_KEY}/json/SearchInfoBySubwayNameService/1/1000/:q`,
         },
         {
           source: "/subway",
-          destination: `${process.env.SUBWAY_SEOUL_BASE_URL}/${process.env.NEXT_PUBLIC_SEOUL_PUBLIC_API_KEY}/json/SearchInfoBySubwayNameService/1/1000/`,
+          destination: `${process.env.SUBWAY_SEOUL_BASE_URL}/${process.env.SEOUL_PUBLIC_API_KEY}/json/SearchInfoBySubwayNameService/1/1000/`,
         },
       ];
     },
