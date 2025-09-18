@@ -334,9 +334,19 @@ const InvitationContainer = ({
         </AnimateViewBox>
         <AnimateViewBox triggerOnce className="mt-10 flex flex-col gap-2">
           <div className="relative mb-3 aspect-[3/4] w-full">
-            <div className="absolute -top-2 z-10 h-15 w-full bg-[linear-gradient(to_top,transparent_0%,white_70%,white_100%)]" />
+            <div
+              style={{
+                background: `linear-gradient(to top, transparent 0%, var(--bg-card-color-${productId}) 70%,  var(--bg-card-color-${productId}) 100%)`,
+              }}
+              className={`absolute -top-2 z-10 h-15 w-full border-0`}
+            />
             <Img src={thumbnails[1]} />
-            <div className="absolute -bottom-2 z-10 h-15 w-full bg-[linear-gradient(to_bottom,transparent_0%,white_70%,white_100%)]" />
+            <div
+              style={{
+                background: `linear-gradient(to bottom, transparent 0%, var(--bg-card-color-${productId}) 70%,  var(--bg-card-color-${productId}) 100%)`,
+              }}
+              className="absolute -bottom-2 z-10 h-15 w-full"
+            />
           </div>
           <div className="text-center text-xs font-bold tracking-widest text-gray-500 uppercase">
             Guestbook

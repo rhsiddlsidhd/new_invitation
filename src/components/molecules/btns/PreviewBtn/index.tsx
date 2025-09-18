@@ -2,27 +2,22 @@
 import Btn from "@/components/atoms/Btn";
 import useAuthentication from "@/hooks/useAuthentication";
 import { useModalStore } from "@/store/modalStore";
-import { useSetProductColor } from "@/store/productStore";
+
 import { useRouter } from "next/navigation";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 
 const PreviewBtn = ({
   category,
-  color,
+
   productId,
 }: {
   category: string;
-  color: string;
+
   productId: string;
 }) => {
   const { setModalOpen } = useModalStore();
   const router = useRouter();
   const { id, isAuthenticated, pending } = useAuthentication();
-  const setColor = useSetProductColor();
-
-  useEffect(() => {
-    if (color) setColor(color);
-  }, [color, setColor]);
 
   const handlePreview = useCallback(
     (id: string | null) => {

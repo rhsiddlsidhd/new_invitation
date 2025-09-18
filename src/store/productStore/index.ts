@@ -20,9 +20,6 @@ const useProductStore = create<ProductStore>((set) => ({
 export const useSetProductFont = () =>
   useProductStore((state: ProductStore) => state.setFont);
 
-export const useSetProductColor = () =>
-  useProductStore((state: ProductStore) => state.setBackgroundColor);
-
 export const useSetClearProduct = () =>
   useProductStore((state: ProductStore) => state.setClearProduct);
 
