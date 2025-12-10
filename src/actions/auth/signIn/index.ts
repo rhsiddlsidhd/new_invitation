@@ -9,10 +9,12 @@ export const signIn = async (
   formData: FormData,
 ): Promise<APIRESPONSE> => {
   try {
-    const userId = formData.get("userId") as string;
+    const email = formData.get("email") as string;
     const password = formData.get("password") as string;
+    const isRemember = formData.get("remember") ? true : false;
+    console.log(email, password, isRemember);
 
-    if (!userId || !password) {
+    if (!email || !password) {
       return {
         success: false,
         error: {
@@ -23,7 +25,7 @@ export const signIn = async (
     }
 
     // 아이디를 바탕으로 사용자의 PASSWORD 가져오기
-    const user = await getUserPasswordById(userId);
+    const user = await getUserPasswordById(email);
 
     const isPasswordValid = await comparePasswords(password, user.password);
 
@@ -37,7 +39,7 @@ export const signIn = async (
       };
     }
 
-    await setAuthTokenCookie(userId);
+    await setAuthTokenCookie(email);
 
     return {
       success: true,

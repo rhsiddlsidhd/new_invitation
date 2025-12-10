@@ -58,11 +58,11 @@ const index = () => {
           </Button>
         </div>
 
-        <div className="text-muted-foreground animate-fade-in-up mt-16 flex items-center justify-center gap-8 text-sm [animation-delay:400ms]">
+        <div className="text-muted-foreground animate-fade-in-up mt-16 grid grid-cols-3 gap-8 text-sm [animation-delay:400ms] max-sm:grid-cols-1">
           {keyBenefits.map((text, i) => (
             <div
               key={`${text}-${i}`}
-              className="bg-accent flex items-center gap-2 rounded-full px-4 py-2"
+              className="bg-accent flex items-center justify-center gap-2 rounded-full px-4 py-2"
             >
               <div className="h-2 w-2 rounded-full bg-green-400" />
               <span>{text}</span>

@@ -1,25 +1,21 @@
 "use client";
 
 import type React from "react";
-
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
-import { Mail, Lock, Chrome } from "lucide-react";
+import { Mail, Lock } from "lucide-react";
+import { GlobeAmericasIcon } from "@/components/atoms/Icon";
+import { signIn } from "@/actions/auth/signIn";
 
 export function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("[v0] Login attempt:", { email, rememberMe });
-    // TODO: Implement login logic
-  };
+  const [state, action, pending] = useActionState(signIn, null);
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [rememberMe, setRememberMe] = useState(false);
 
   const handleGoogleLogin = () => {
     console.log("[v0] Google login clicked");
@@ -35,7 +31,7 @@ export function LoginForm() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form action={action} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="email">이메일</Label>
           <div className="relative">
@@ -43,9 +39,10 @@ export function LoginForm() {
             <Input
               id="email"
               type="email"
+              name="email"
               placeholder="your@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              // value={email}
+              // onChange={(e) => setEmail(e.target.value)}
               className="pl-10"
               required
             />
@@ -59,9 +56,10 @@ export function LoginForm() {
             <Input
               id="password"
               type="password"
+              name="password"
               placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              // value={password}
+              // onChange={(e) => setPassword(e.target.value)}
               className="pl-10"
               required
             />
@@ -72,8 +70,9 @@ export function LoginForm() {
           <div className="flex items-center gap-2">
             <Checkbox
               id="remember"
-              checked={rememberMe}
-              onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+              name="remember"
+              // checked={rememberMe}
+              // onCheckedChange={(checked) => setRememberMe(checked as boolean)}
             />
             <Label
               htmlFor="remember"
@@ -112,7 +111,7 @@ export function LoginForm() {
         size="lg"
         onClick={handleGoogleLogin}
       >
-        <Chrome className="mr-2 h-5 w-5" />
+        <GlobeAmericasIcon className="mr-2 h-5 w-5" />
         Google로 계속하기
       </Button>
 

@@ -13,6 +13,7 @@ import {
 } from "@heroicons/react/24/solid";
 
 import {
+  GlobeAmericasIcon as HeroGlobeAmericasIcon,
   HeartIcon as HeroHeartIcon,
   ArrowUpIcon as HeroArrowUpIcon,
 } from "@heroicons/react/24/outline";
@@ -73,3 +74,5 @@ export const PhoneIcon = createIcon(HeroPhoneIcon);
 export const ArrowUpIcon = createIcon(HeroArrowUpIcon);
 
 export const ClipboardIcon = createIcon(ClipboardDocumentIcon);
+
+export const GlobeAmericasIcon = createIcon(HeroGlobeAmericasIcon);
