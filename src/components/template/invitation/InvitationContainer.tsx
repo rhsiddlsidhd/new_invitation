@@ -208,7 +208,6 @@ const InvitationContainer = ({
     <section
       style={{
         backgroundColor: `var(--bg-color-${productId})`,
-        fontFamily: `${font}`,
       }}
       className="w-full"
     >
