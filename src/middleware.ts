@@ -8,9 +8,9 @@ import type { NextRequest } from "next/server";
 
 export default async function middleware(request: NextRequest) {
   try {
-    const session = request.cookies.has("token");
+    const access = request.cookies.has("token");
 
-    if (session) {
+    if (access) {
       return NextResponse.redirect(new URL("/", request.url));
     }
 
@@ -22,5 +22,5 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/find-id", "/forgot-password", "/signup"],
+  matcher: ["/find-id", "/forgot-password", "/signup", "/login"],
 };

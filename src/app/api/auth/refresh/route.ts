@@ -1,5 +1,6 @@
 import { decrypt, generateAccessEncrypt } from "@/lib/jose";
 import { getAuthToken } from "@/services/auth/token";
+import { handlerApiError } from "@/utils/error";
 
 import { NextResponse } from "next/server";
 
@@ -20,13 +21,6 @@ export const GET = async () => {
       { status: 200 },
     );
   } catch (e) {
-    if (e)
-      return NextResponse.json(
-        {
-          success: false,
-          message: "토큰 재발행에 실패했습니다.",
-        },
-        { status: 500 },
-      );
+    return handlerApiError(e);
   }
 };

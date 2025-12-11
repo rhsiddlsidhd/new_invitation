@@ -5,7 +5,8 @@ import { comparePasswords, getUserPasswordById } from "@/services/user";
 import { APIRESPONSE } from "@/types/api";
 
 import { CustomError } from "@/types/error";
-import HttpError from "@/utils/error";
+import { actionHttpError } from "@/utils/error";
+
 import z from "zod";
 
 const passwordSchema = z
@@ -40,8 +41,6 @@ export const signIn = async (
       remember: formData.get("remember") ? true : false,
     };
 
-    console.log(data);
-
     if (!data.email || !data.password) {
       throw new CustomError("아이디와 비밀번호를 확인해주세요.", 400);
     }
@@ -75,6 +74,6 @@ export const signIn = async (
       },
     };
   } catch (e) {
-    return HttpError(e);
+    return actionHttpError(e);
   }
 };

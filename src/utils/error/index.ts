@@ -1,7 +1,8 @@
 import { APIFAILRESPONSE } from "@/types/api";
 import { CustomError } from "@/types/error";
+import { NextResponse } from "next/server";
 
-const HttpError = (e: unknown): APIFAILRESPONSE => {
+export const actionHttpError = (e: unknown): APIFAILRESPONSE => {
   if (e instanceof CustomError) {
     return {
       success: false,
@@ -21,4 +22,18 @@ const HttpError = (e: unknown): APIFAILRESPONSE => {
   };
 };
 
-export default HttpError;
+export const handlerApiError = (e: unknown) => {
+  if (e instanceof CustomError) {
+    const { code, message } = e;
+    const status = code >= 100 && code <= 599 ? code : 500;
+    return NextResponse.json({ success: false, message }, { status });
+  } else {
+    return NextResponse.json(
+      { success: false, message: "잠시 후 다시 시도해주세요." },
+      { status: 500 },
+    );
+  }
+};
+
+// export const clientApiError = (e:unknown)=>{
+// }

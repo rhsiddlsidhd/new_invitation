@@ -1,6 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useAuthStore from "../store/authStore/index";
+import { CustomError } from "@/types/error";
 
 const useAuth = () => {
   const isAuth = useAuthStore((state) => state.isAuth);
@@ -9,21 +10,24 @@ const useAuth = () => {
 
   useEffect(() => {
     const verify = async () => {
-      console.log("isAuth", isAuth);
       if (isAuth) {
         setLoading(false);
         return;
       }
 
       try {
-        console.log("?");
         const res = await fetch("/api/auth/refresh");
-        if (!res.ok) return;
+
+        if (!res.ok) {
+          const data = await res.json();
+          throw new CustomError(data.message, res.status);
+        }
         const data = await res.json();
 
         setToken(data.payload);
       } catch (e) {
-        console.log("refresh error", e);
+        if (process.env.NODE_ENV === "development") console.error(e);
+        return null;
       } finally {
         setLoading(false);
       }

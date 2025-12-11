@@ -22,6 +22,14 @@ export async function generateAccessEncrypt(payload: { email: string }) {
     .sign(encodedKey);
 }
 
+export async function generateEntryEncrypt() {
+  return await new SignJWT({ entry: "entryToken" })
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setExpirationTime(`10m`)
+    .sign(encodedKey);
+}
+
 export async function decrypt(session: string) {
   const { payload } = await jwtVerify<SessionPayload>(session, encodedKey, {
     algorithms: ["HS256"],
