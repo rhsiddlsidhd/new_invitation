@@ -10,7 +10,7 @@ export default async function middleware(request: NextRequest) {
   try {
     const session = request.cookies.has("token");
 
-    if (!session) {
+    if (session) {
       return NextResponse.redirect(new URL("/", request.url));
     }
 
@@ -22,10 +22,5 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/dashboard/:path*",
-    "/profile/:path*",
-    "/verify/:path*",
-    "/invitation/:path*",
-  ],
+  matcher: ["/find-id", "/forgot-password", "/signup"],
 };

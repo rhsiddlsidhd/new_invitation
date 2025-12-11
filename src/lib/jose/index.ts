@@ -1,18 +1,25 @@
 import { jwtVerify, SignJWT } from "jose";
 
+interface SessionPayload {
+  email: string;
+}
 const secretKey = process.env.JWT_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
 
-export async function encrypt(payload: { userId: string }) {
-  return await new SignJWT({ userId: payload.userId })
+export async function encrypt(payload: { email: string }) {
+  return await new SignJWT({ email: payload.email })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime(`7d`)
     .sign(encodedKey);
 }
 
-interface SessionPayload {
-  userId: string;
+export async function generateAccessEncrypt(payload: { email: string }) {
+  return await new SignJWT({ email: payload.email })
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setExpirationTime(`10m`)
+    .sign(encodedKey);
 }
 
 export async function decrypt(session: string) {

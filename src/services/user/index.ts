@@ -1,4 +1,5 @@
 import User from "@/models/userSchema";
+import { CustomError } from "@/types/error";
 import { dbConnect } from "@/utils/mongodb";
 import bcrypt from "bcryptjs";
 
@@ -23,11 +24,11 @@ export const getUserById = async (
 
 //비밀번호 가져오기
 export const getUserPasswordById = async (
-  userId: string,
+  email: string,
 ): Promise<{ password: string }> => {
   await dbConnect();
-  const user = await User.findOne({ userId, isDelete: false });
-  if (!user) throw new Error("사용자를 찾을 수 없습니다.");
+  const user = await User.findOne({ email, isDelete: false });
+  if (!user) throw new CustomError("사용자를 찾을 수 없습니다.", 401);
   return {
     password: user.password,
   };

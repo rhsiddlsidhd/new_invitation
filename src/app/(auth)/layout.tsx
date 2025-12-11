@@ -1,7 +1,6 @@
 import Image from "next/image";
 import React from "react";
-
-const layout = ({
+const layout = async ({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -11,7 +10,6 @@ const layout = ({
       <div className="container mx-auto px-4 pt-24 pb-12">
         <div className="mx-auto max-w-6xl">
           <div className="grid items-center gap-12 lg:grid-cols-2">
-            {/* Left side - Image */}
             <div className="relative hidden h-[600px] overflow-hidden rounded-2xl lg:block">
               <Image
                 src="/assets/images/output.webp"

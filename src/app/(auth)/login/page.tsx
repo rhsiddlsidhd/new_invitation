@@ -1,7 +1,8 @@
 import { LoginForm } from "@/components/template/LoginForm";
+
 import React from "react";
 
-const LoginPage = () => {
+const LoginPage = async () => {
   return <LoginForm />;
 };
 

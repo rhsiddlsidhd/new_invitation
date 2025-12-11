@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,17 +10,24 @@ import Link from "next/link";
 import { Mail, Lock } from "lucide-react";
 import { GlobeAmericasIcon } from "@/components/atoms/Icon";
 import { signIn } from "@/actions/auth/signIn";
+import useAuthStore from "@/store/authStore/index";
+import { useRouter } from "next/navigation";
 
 export function LoginForm() {
+  const navigate = useRouter();
   const [state, action, pending] = useActionState(signIn, null);
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [rememberMe, setRememberMe] = useState(false);
+  const setToken = useAuthStore((state) => state.setToken);
+  const isAuth = useAuthStore((state) => state.isAuth);
 
-  const handleGoogleLogin = () => {
-    console.log("[v0] Google login clicked");
-    // TODO: Implement Google OAuth
-  };
+  useEffect(() => {
+    if (state && state.success) {
+      setToken(state.data.payload);
+    }
+  }, [state, navigate, setToken]);
+
+  useEffect(() => {
+    if (isAuth) navigate.replace("/");
+  }, [isAuth, navigate]);
 
   return (
     <div className="space-y-6">
@@ -33,7 +40,7 @@ export function LoginForm() {
 
       <form action={action} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="email">이메일</Label>
+          <Label htmlFor="email">이메일 </Label>
           <div className="relative">
             <Mail className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
             <Input
@@ -41,8 +48,6 @@ export function LoginForm() {
               type="email"
               name="email"
               placeholder="your@email.com"
-              // value={email}
-              // onChange={(e) => setEmail(e.target.value)}
               className="pl-10"
               required
             />
@@ -58,22 +63,19 @@ export function LoginForm() {
               type="password"
               name="password"
               placeholder="••••••••"
-              // value={password}
-              // onChange={(e) => setPassword(e.target.value)}
               className="pl-10"
               required
             />
           </div>
         </div>
 
+        {state && !state.success && (
+          <p className="text-xs text-red-500">{state.error.message}</p>
+        )}
+
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Checkbox
-              id="remember"
-              name="remember"
-              // checked={rememberMe}
-              // onCheckedChange={(checked) => setRememberMe(checked as boolean)}
-            />
+            <Checkbox id="remember" name="remember" />
             <Label
               htmlFor="remember"
               className="cursor-pointer text-sm font-normal"
@@ -109,7 +111,7 @@ export function LoginForm() {
         variant="outline"
         className="w-full bg-transparent"
         size="lg"
-        onClick={handleGoogleLogin}
+        // onClick={handleGoogleLogin}
       >
         <GlobeAmericasIcon className="mr-2 h-5 w-5" />
         Google로 계속하기

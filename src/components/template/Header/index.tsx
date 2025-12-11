@@ -1,5 +1,5 @@
+import AuthButton from "@/components/molecules/authButton";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import React from "react";
 
 const Header = () => {
@@ -35,8 +35,8 @@ const Header = () => {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button asChild variant="ghost" size="sm">
-            <Link href="/login">로그인</Link>
+          <Button variant="ghost" size="sm" className="hidden sm:inline-flex">
+            <AuthButton />
           </Button>
           <Button
             size="sm"
