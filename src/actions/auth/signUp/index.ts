@@ -1,77 +1,61 @@
 "use server";
-import { hashPassword } from "@/lib/bcrypt";
+
+import z from "zod";
+
+import { APIRESPONSE } from "@/types/api";
+import { RegisterSchema } from "@/utils/validation/schema.auth";
 import { createUser, isUserDuplicate } from "@/services/user";
-import { APIRESPONSE } from "@/types";
+import { actionHttpError } from "@/utils/error";
+import { hashPassword } from "@/lib/bcrypt";
 
 export async function signUp(
   prev: unknown,
   formData: FormData,
 ): Promise<APIRESPONSE> {
   try {
-    const email = formData.get("email") as string;
-    const userId = formData.get("userId") as string;
-    const password = formData.get("password") as string;
-    const confirmPassword = formData.get("confirmPassword") as string;
+    const data = {
+      email: formData.get("email") as string,
+      name: formData.get("name") as string,
+      phone: formData.get("phone") as string,
+      password: formData.get("password") as string,
+      confirmPassword: formData.get("confirmPassword") as string,
+    };
 
-    if (!email || !userId || !password) {
+    const parsed = RegisterSchema.safeParse(data);
+    if (!parsed.success) {
+      const { fieldErrors, formErrors } = z.flattenError(parsed.error);
       return {
         success: false,
         error: {
           code: 400,
-          message: "모든 필드를 입력해주세요.",
+          message: formErrors?.[0] ?? "입력값을 확인해주세요.",
+          fieldErrors,
         },
       };
     }
 
-    if (password.length < 6) {
-      return {
-        success: false,
-        error: {
-          code: 400,
-          message: "비밀번호는 최소 6자 이상이어야 합니다.",
-        },
-      };
-    }
+    const { email, name, phone, password } = parsed.data;
 
-    console.log("password", password, confirmPassword);
-    if (password !== confirmPassword) {
-      return {
-        success: false,
-        error: {
-          code: 401,
-          message: "비밀번호가 일치하지 않습니다.",
-        },
-      };
-    }
-
-    await isUserDuplicate(email, userId);
+    await isUserDuplicate(email);
 
     const hashedPassword = await hashPassword(password);
 
     await createUser({
       password: hashedPassword,
-      email: email,
-      userId: userId,
+      email,
+      name,
+      phone,
     });
 
     return {
       success: true,
       data: {
         code: 200,
-        message: `${userId}님 회원가입을 축하드립니다.`,
+        message: `${data.email}님 회원가입을 축하드립니다.`,
         payload: undefined,
       },
     };
   } catch (e) {
-    const message =
-      e instanceof Error ? e.message : "잠시 후 다시 시도해주세요.";
-    console.error(message);
-    return {
-      success: false,
-      error: {
-        code: 500,
-        message,
-      },
-    };
+    return actionHttpError(e);
   }
 }

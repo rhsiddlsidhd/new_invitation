@@ -6,29 +6,7 @@ import { APIRESPONSE } from "@/types/api";
 
 import { CustomError } from "@/types/error";
 import { actionHttpError } from "@/utils/error";
-
-import z from "zod";
-
-const passwordSchema = z
-  .string()
-  .refine(
-    (v) =>
-      v.length >= 6 &&
-      v.length <= 12 &&
-      /[A-Za-z]/.test(v) &&
-      /[0-9]/.test(v) &&
-      /[^A-Za-z0-9]/.test(v),
-    {
-      message:
-        "비밀번호는 영문자, 숫자, 특수문자를 포함한 최소 6자 이상 최대 12자 이하입니다.",
-    },
-  );
-
-const LoginSchema = z.object({
-  email: z.email("이메일 형식이 올바르지 않습니다."),
-  password: passwordSchema,
-  remember: z.boolean(),
-});
+import { LoginSchema } from "@/utils/validation/schema.auth";
 
 export const signIn = async (
   prev: unknown,

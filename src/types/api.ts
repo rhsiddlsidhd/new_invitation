@@ -12,6 +12,7 @@ export interface APIFAILRESPONSE {
   error: {
     code: number;
     message: string;
+    fieldErrors?: Record<string, string[] | undefined>;
   };
 }
 

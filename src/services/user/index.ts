@@ -1,4 +1,4 @@
-import User from "@/models/userSchema";
+import User, { RegisterUser } from "@/models/userSchema";
 import { CustomError } from "@/types/error";
 import { dbConnect } from "@/utils/mongodb";
 import bcrypt from "bcryptjs";
@@ -99,29 +99,21 @@ export const softDeleteUser = async (id: string): Promise<void> => {
 };
 
 // 유저 중복 확인
-export const isUserDuplicate = async (
-  email: string,
-  userId: string,
-): Promise<void> => {
+export const isUserDuplicate = async (email: string): Promise<void> => {
   await dbConnect();
   const existingUser = await User.findOne({
-    $or: [{ email }, { userId }],
+    email,
   });
-  if (existingUser)
-    throw new Error("이미 존재하는 이메일 또는 사용자 ID입니다.");
+  if (existingUser) throw new CustomError("이미 존재하는 이메일 입니다.", 409);
 };
 
 // 유저 생성
 
-export const createUser = async (user: {
-  userId: string;
-  email: string;
-  password: string;
-}): Promise<void> => {
+export const createUser = async (user: RegisterUser): Promise<void> => {
   await dbConnect();
-
+  console.log(user);
   // 새 사용자 생성
   const newUser = new User(user);
-
+  console.log("newUser", newUser);
   await newUser.save();
 };

@@ -2,43 +2,34 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
-import { Mail, Lock, User, Phone, Chrome } from "lucide-react";
+import { Mail, Lock, User, Phone } from "lucide-react";
+import { GlobeAmericasIcon } from "@/components/atoms/Icon";
+import { signUp } from "@/actions/auth/signUp";
+import { useRouter } from "next/navigation";
 
 export function SignupForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const router = useRouter();
+  const [state, action, pending] = useActionState(signUp, null);
+
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
+  const fieldErrors =
+    state && state.success === false ? state.error.fieldErrors : undefined;
+  const formError =
+    state && state.success === false ? state.error.message : undefined;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      console.log("[v0] Password mismatch");
-      return;
+  useEffect(() => {
+    if (state && state.success) {
+      alert(state.data.message);
+      router.push("/login");
     }
-    if (!agreedToTerms || !agreedToPrivacy) {
-      console.log("[v0] Terms not agreed");
-      return;
-    }
-    console.log("[v0] Signup attempt:", formData);
-    // TODO: Implement signup logic
-  };
-
-  const handleGoogleSignup = () => {
-    console.log("[v0] Google signup clicked");
-    // TODO: Implement Google OAuth
-  };
+  }, [state, router]);
 
   return (
     <div className="space-y-6">
@@ -47,23 +38,23 @@ export function SignupForm() {
         <p className="text-muted-foreground">새 계정을 만들어 시작하세요</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form action={action} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="name">이름</Label>
           <div className="relative">
             <User className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
             <Input
               id="name"
+              name="name"
               type="text"
               placeholder="홍길동"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
               className="pl-10"
               required
             />
           </div>
+          {fieldErrors?.name?.[0] && (
+            <p className="text-destructive text-sm">{fieldErrors.name[0]}</p>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -72,16 +63,16 @@ export function SignupForm() {
             <Mail className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
             <Input
               id="email"
+              name="email"
               type="email"
               placeholder="your@email.com"
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
               className="pl-10"
               required
             />
           </div>
+          {fieldErrors?.email?.[0] && (
+            <p className="text-destructive text-sm">{fieldErrors.email[0]}</p>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -90,16 +81,16 @@ export function SignupForm() {
             <Phone className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
             <Input
               id="phone"
+              name="phone"
               type="tel"
               placeholder="010-1234-5678"
-              value={formData.phone}
-              onChange={(e) =>
-                setFormData({ ...formData, phone: e.target.value })
-              }
               className="pl-10"
               required
             />
           </div>
+          {fieldErrors?.phone?.[0] && (
+            <p className="text-destructive text-sm">{fieldErrors.phone[0]}</p>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -108,16 +99,18 @@ export function SignupForm() {
             <Lock className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
             <Input
               id="password"
+              name="password"
               type="password"
               placeholder="••••••••"
-              value={formData.password}
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
               className="pl-10"
               required
             />
           </div>
+          {fieldErrors?.password?.[0] && (
+            <p className="text-destructive text-sm">
+              {fieldErrors.password[0]}
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -126,16 +119,18 @@ export function SignupForm() {
             <Lock className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
             <Input
               id="confirmPassword"
+              name="confirmPassword"
               type="password"
               placeholder="••••••••"
-              value={formData.confirmPassword}
-              onChange={(e) =>
-                setFormData({ ...formData, confirmPassword: e.target.value })
-              }
               className="pl-10"
               required
             />
           </div>
+          {fieldErrors?.confirmPassword?.[0] && (
+            <p className="text-destructive text-sm">
+              {fieldErrors.confirmPassword[0]}
+            </p>
+          )}
         </div>
 
         <div className="space-y-3 pt-2">
@@ -151,7 +146,7 @@ export function SignupForm() {
               htmlFor="terms"
               className="cursor-pointer text-sm font-normal"
             >
-              <Link href="/terms" className="text-primary hover:underline">
+              <Link href="#" className="text-primary hover:underline">
                 이용약관
               </Link>
               에 동의합니다 (필수)
@@ -170,7 +165,7 @@ export function SignupForm() {
               htmlFor="privacy"
               className="cursor-pointer text-sm font-normal"
             >
-              <Link href="/privacy" className="text-primary hover:underline">
+              <Link href="#" className="text-primary hover:underline">
                 개인정보 처리방침
               </Link>
               에 동의합니다 (필수)
@@ -178,9 +173,17 @@ export function SignupForm() {
           </div>
         </div>
 
-        <Button type="submit" className="w-full" size="lg">
+        <Button
+          type="submit"
+          className="w-full"
+          size="lg"
+          disabled={!agreedToPrivacy || !agreedToTerms || pending}
+        >
           회원가입
         </Button>
+        {formError && (
+          <p className="text-destructive text-center text-sm">{formError}</p>
+        )}
       </form>
 
       <div className="relative">
@@ -197,9 +200,8 @@ export function SignupForm() {
         variant="outline"
         className="w-full bg-transparent"
         size="lg"
-        onClick={handleGoogleSignup}
       >
-        <Chrome className="mr-2 h-5 w-5" />
+        <GlobeAmericasIcon className="mr-2 h-5 w-5" />
         Google로 가입하기
       </Button>
 
