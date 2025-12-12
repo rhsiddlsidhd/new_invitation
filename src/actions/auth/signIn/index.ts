@@ -29,24 +29,22 @@ export const signIn = async (
       throw new CustomError(isUser.error.issues[0].message, 400);
     }
 
-    // 이메일를 바탕으로 사용자의 PASSWORD 가져오기
-    const user = await getUserPasswordById(data.email);
+    const { email, password, remember } = isUser.data;
 
-    const isPasswordValid = await comparePasswords(
-      data.password,
-      user.password,
-    );
+    // 이메일를 바탕으로 사용자의 PASSWORD 가져오기
+    const user = await getUserPasswordById(email);
+
+    const isPasswordValid = await comparePasswords(password, user.password);
 
     if (!isPasswordValid) {
       throw new CustomError("비밀번호가 일치하지 않습니다.", 401);
     }
 
-    const { token } = await setAuthTokenCookie(data.email, data.remember);
+    const { token } = await setAuthTokenCookie(data.email, remember);
 
     return {
       success: true,
       data: {
-        code: 200,
         message: "로그인에 성공하였습니다.",
         payload: token,
       },

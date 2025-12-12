@@ -2,30 +2,21 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useActionState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { User, Phone, Mail } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { findUserEmail } from "@/actions/auth/findUserEmail";
 
 export function FindIdForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-  });
-  const [foundEmail, setFoundEmail] = useState<string | null>(null);
+  const [state, action, pending] = useActionState(findUserEmail, null);
+  const fieldErrors = state && !state.success && state.error.fieldErrors;
+  const formError = state && !state.success && state.error.message;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("[v0] Find ID attempt:", formData);
-    // TODO: Implement find ID logic
-    // Mock response for demo
-    setFoundEmail("your***@email.com");
-  };
-
-  if (foundEmail) {
+  if (state && state.success) {
     return (
       <div className="space-y-6">
         <div className="space-y-2 text-center">
@@ -46,7 +37,7 @@ export function FindIdForm() {
               <p className="text-muted-foreground mb-1 text-sm">
                 회원님의 이메일
               </p>
-              <p className="text-lg font-semibold">{foundEmail}</p>
+              <p className="text-lg font-semibold">{state.data.payload}</p>
             </div>
           </div>
         </Card>
@@ -77,19 +68,21 @@ export function FindIdForm() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form action={action} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="name">이름</Label>
+          <Label htmlFor="name">
+            이름{" "}
+            <span className="text-xs text-red-500">
+              {fieldErrors && fieldErrors?.name && fieldErrors.name[0]}
+            </span>
+          </Label>
           <div className="relative">
             <User className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
             <Input
               id="name"
               type="text"
+              name="name"
               placeholder="홍길동"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
               className="pl-10"
               required
             />
@@ -97,23 +90,25 @@ export function FindIdForm() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="phone">전화번호</Label>
+          <Label htmlFor="phone">
+            전화번호{" "}
+            <span className="text-xs text-red-500">
+              {fieldErrors && fieldErrors?.phone && fieldErrors.phone[0]}
+            </span>
+          </Label>
           <div className="relative">
             <Phone className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
             <Input
               id="phone"
               type="tel"
+              name="phone"
               placeholder="010-1234-5678"
-              value={formData.phone}
-              onChange={(e) =>
-                setFormData({ ...formData, phone: e.target.value })
-              }
               className="pl-10"
               required
             />
           </div>
         </div>
-
+        {formError && <p className="text-xs text-red-500">{formError}</p>}
         <Button type="submit" className="w-full" size="lg">
           아이디 찾기
         </Button>
@@ -121,7 +116,7 @@ export function FindIdForm() {
 
       <div className="space-y-2 text-center">
         <p className="text-muted-foreground text-sm">
-          비밀번호가 기억나지 않으신가요?{" "}
+          비밀번호가 기억나지 않으신가요?
           <Link
             href="/forgot-password"
             className="text-primary font-medium hover:underline"

@@ -9,6 +9,7 @@ export const actionHttpError = (e: unknown): APIFAILRESPONSE => {
       error: {
         code: e.code,
         message: e.message,
+        fieldErrors: e.fieldErrors,
       },
     };
   }

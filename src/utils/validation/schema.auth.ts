@@ -27,7 +27,7 @@ export const RegisterSchema = z
     email: z.email("이메일 형식이 올바르지 않습니다."),
     phone: z
       .string()
-      .regex(/^(01[016789])-?\d{3,4}-?\d{4}$/, "유효한 전화번호가 아닙니다."),
+      .regex(/^(01[016789])-\d{3,4}-\d{4}$/, "유효한 전화번호가 아닙니다."),
     password: PasswordSchema,
     confirmPassword: z.string(),
   })
@@ -35,3 +35,10 @@ export const RegisterSchema = z
     message: "비밀번호가 일치하지 않습니다.",
     path: ["confirmPassword"],
   });
+
+export const FindUserEmailSchema = z.object({
+  name: z.string(),
+  phone: z
+    .string()
+    .regex(/^(01[016789])-\d{3,4}-\d{4}$/, "유효한 전화번호가 아닙니다."),
+});

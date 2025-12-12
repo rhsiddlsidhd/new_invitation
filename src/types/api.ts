@@ -1,7 +1,6 @@
 export interface APISUCCESSRESPONSE<T = void> {
   success: true;
   data: {
-    code: number;
     message: string;
     payload: T;
   };

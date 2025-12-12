@@ -1,24 +1,25 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, Model } from "mongoose";
 
-interface IUser {
+export interface SignUpUser {
   email: string;
   name: string;
   phone: string;
   password: string;
+}
+
+interface UserModel extends SignUpUser {
   role: "user" | "admin";
   isDelete: boolean;
 }
 
-export type RegisterUser = Omit<IUser, "role" | "isDelete">;
-
-export interface UserDocument extends IUser, Document {
+export interface UserDocument extends UserModel, Document {
   createdAt: Date;
   updatedAt: Date;
 }
 
 const userSchema = new Schema<UserDocument>(
   {
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     phone: { type: String, required: true },
     password: { type: String, required: true },
@@ -28,6 +29,7 @@ const userSchema = new Schema<UserDocument>(
   { timestamps: true },
 );
 
-const User = mongoose.models.User || mongoose.model("User", userSchema);
+const User: Model<UserDocument> =
+  mongoose.models.User || mongoose.model<UserDocument>("User", userSchema);
 
 export default User;

@@ -7,6 +7,7 @@ import { RegisterSchema } from "@/utils/validation/schema.auth";
 import { createUser, isUserDuplicate } from "@/services/user";
 import { actionHttpError } from "@/utils/error";
 import { hashPassword } from "@/lib/bcrypt";
+import { CustomError } from "@/types/error";
 
 export async function signUp(
   prev: unknown,
@@ -23,15 +24,8 @@ export async function signUp(
 
     const parsed = RegisterSchema.safeParse(data);
     if (!parsed.success) {
-      const { fieldErrors, formErrors } = z.flattenError(parsed.error);
-      return {
-        success: false,
-        error: {
-          code: 400,
-          message: formErrors?.[0] ?? "입력값을 확인해주세요.",
-          fieldErrors,
-        },
-      };
+      const { fieldErrors } = z.flattenError(parsed.error);
+      throw new CustomError("입력값을 확인해주세요", 400, fieldErrors);
     }
 
     const { email, name, phone, password } = parsed.data;
@@ -50,7 +44,6 @@ export async function signUp(
     return {
       success: true,
       data: {
-        code: 200,
         message: `${data.email}님 회원가입을 축하드립니다.`,
         payload: undefined,
       },

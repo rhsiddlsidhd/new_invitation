@@ -1,4 +1,4 @@
-import User, { RegisterUser } from "@/models/userSchema";
+import User, { SignUpUser } from "@/models/userSchema";
 import { CustomError } from "@/types/error";
 import { dbConnect } from "@/utils/mongodb";
 import bcrypt from "bcryptjs";
@@ -109,11 +109,26 @@ export const isUserDuplicate = async (email: string): Promise<void> => {
 
 // 유저 생성
 
-export const createUser = async (user: RegisterUser): Promise<void> => {
+export const createUser = async (user: SignUpUser): Promise<void> => {
   await dbConnect();
-  console.log(user);
+
   // 새 사용자 생성
   const newUser = new User(user);
-  console.log("newUser", newUser);
+
   await newUser.save();
+};
+
+// 유저 email 찾기
+
+export const getUserEmail = async ({
+  name,
+  phone,
+}: {
+  name: string;
+  phone: string;
+}): Promise<string> => {
+  await dbConnect();
+  const user = await User.findOne({ name, phone }).lean<SignUpUser>();
+  if (!user) throw new CustomError("유저를 찾을 수가 없습니다.", 404);
+  return user.email;
 };
