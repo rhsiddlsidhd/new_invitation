@@ -52,7 +52,7 @@ export function FindIdForm() {
             className="w-full bg-transparent"
             size="lg"
           >
-            <Link href="/forgot-password">비밀번호 찾기</Link>
+            <Link href="/find-pw">비밀번호 찾기</Link>
           </Button>
         </div>
       </div>
@@ -118,7 +118,7 @@ export function FindIdForm() {
         <p className="text-muted-foreground text-sm">
           비밀번호가 기억나지 않으신가요?
           <Link
-            href="/forgot-password"
+            href="/find-pw"
             className="text-primary font-medium hover:underline"
           >
             비밀번호 찾기

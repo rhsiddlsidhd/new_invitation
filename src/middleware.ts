@@ -22,5 +22,5 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/find-id", "/forgot-password", "/signup", "/login"],
+  matcher: ["/find-id", "/find-pw", "/signup", "/login"],
 };
