@@ -1,4 +1,4 @@
-import User from "@/models/userSchema";
+import User, { BaseUser } from "@/models/userSchema";
 import { CustomError } from "@/types/error";
 import { dbConnect } from "@/utils/mongodb";
 import bcrypt from "bcryptjs";
@@ -69,20 +69,21 @@ export const updateUserEmail = async ({
 
 // 비밀번호 변경 함수
 export const changePassword = async (
-  id: string,
+  email: string,
   newPassword: string,
-): Promise<void> => {
+): Promise<boolean> => {
   await dbConnect();
 
   // 새 비밀번호 해싱
   const hashedNewPassword = await bcrypt.hash(newPassword, 12);
 
   // 비밀번호 업데이트
-  const updated = await User.findOneAndUpdate(
-    { userId: id },
+  const userBeforeUpdate = await User.findOneAndUpdate(
+    { email, isDelete: false },
     { password: hashedNewPassword },
   );
-  if (!updated) throw new Error("사용자를 찾을 수 없습니다.");
+
+  return !!userBeforeUpdate;
 };
 
 // 유저 계정 삭제
@@ -99,29 +100,33 @@ export const softDeleteUser = async (id: string): Promise<void> => {
 };
 
 // 유저 중복 확인
-export const isUserDuplicate = async (
-  email: string,
-  userId: string,
-): Promise<void> => {
+export const isEmailExists = async (email: string): Promise<boolean> => {
   await dbConnect();
-  const existingUser = await User.findOne({
-    $or: [{ email }, { userId }],
-  });
-  if (existingUser)
-    throw new Error("이미 존재하는 이메일 또는 사용자 ID입니다.");
+
+  return (await User.exists({ email })) != null;
 };
 
 // 유저 생성
 
-export const createUser = async (user: {
-  userId: string;
-  email: string;
-  password: string;
-}): Promise<void> => {
+export const createUser = async (user: BaseUser): Promise<void> => {
   await dbConnect();
 
   // 새 사용자 생성
   const newUser = new User(user);
 
   await newUser.save();
+};
+
+// 유저 email 찾기
+export const getUserEmail = async ({
+  name,
+  phone,
+}: {
+  name: string;
+  phone: string;
+}): Promise<string> => {
+  await dbConnect();
+  const user = await User.findOne({ name, phone }).lean<BaseUser>();
+  if (!user) throw new CustomError("유저를 찾을 수가 없습니다.", 404);
+  return user.email;
 };

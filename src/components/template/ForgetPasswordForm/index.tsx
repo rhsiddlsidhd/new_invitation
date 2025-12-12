@@ -2,26 +2,29 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { Mail, CheckCircle2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { findUserPassword } from "@/actions/auth/findUserPassword";
 
 export function ForgotPasswordForm() {
+  const [state, action] = useActionState(findUserPassword, null);
+
   const [email, setEmail] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("[v0] Password reset request for:", email);
-    // TODO: Implement password reset logic
-    setIsSubmitted(true);
-  };
+  const fieldError = state && !state.success && state.error;
 
-  if (isSubmitted) {
+  useEffect(() => {
+    if (state && state.success) {
+      alert(`${state.data.message}`);
+    }
+  }, [state]);
+
+  if (state && state.success) {
     return (
       <div className="space-y-6">
         <div className="space-y-2 text-center">
@@ -46,7 +49,7 @@ export function ForgotPasswordForm() {
             <p className="text-primary font-semibold">{email}</p>
             <div className="text-muted-foreground space-y-2 pt-3">
               <p>• 이메일이 도착하지 않았다면 스팸함을 확인해주세요</p>
-              <p>• 링크는 24시간 동안 유효합니다</p>
+              <p>• 링크는 10분 동안 유효합니다</p>
             </div>
           </div>
         </Card>
@@ -55,17 +58,24 @@ export function ForgotPasswordForm() {
           <Button asChild className="w-full" size="lg">
             <Link href="/login">로그인으로 돌아가기</Link>
           </Button>
-          <Button
-            variant="outline"
-            className="w-full bg-transparent"
-            size="lg"
-            onClick={() => {
-              setIsSubmitted(false);
-              setEmail("");
-            }}
-          >
-            다시 보내기
-          </Button>
+          <form action={action}>
+            <Input
+              id="email"
+              type="email"
+              name="email"
+              value={email}
+              className="hidden"
+              required
+            />
+            <Button
+              type="submit"
+              variant="outline"
+              className="w-full bg-transparent"
+              size="lg"
+            >
+              다시 보내기
+            </Button>
+          </form>
         </div>
       </div>
     );
@@ -80,17 +90,22 @@ export function ForgotPasswordForm() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form action={action} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="email">이메일</Label>
+          <Label htmlFor="email">
+            이메일{" "}
+            {fieldError && (
+              <span className="text-xs text-red-500">{fieldError.message}</span>
+            )}
+          </Label>
           <div className="relative">
             <Mail className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
             <Input
               id="email"
               type="email"
-              placeholder="your@email.com"
-              value={email}
+              name="email"
               onChange={(e) => setEmail(e.target.value)}
+              placeholder="your@email.com"
               className="pl-10"
               required
             />

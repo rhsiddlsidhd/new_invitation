@@ -14,7 +14,7 @@ import useAuthStore from "@/store/authStore/index";
 import { useRouter } from "next/navigation";
 
 export function LoginForm() {
-  const navigate = useRouter();
+  const router = useRouter();
   const [state, action, pending] = useActionState(signIn, null);
   const setToken = useAuthStore((state) => state.setToken);
   const isAuth = useAuthStore((state) => state.isAuth);
@@ -23,11 +23,11 @@ export function LoginForm() {
     if (state && state.success) {
       setToken(state.data.payload);
     }
-  }, [state, navigate, setToken]);
+  }, [state, setToken]);
 
   useEffect(() => {
-    if (isAuth) navigate.replace("/");
-  }, [isAuth, navigate]);
+    if (isAuth) router.push("/");
+  }, [isAuth, router]);
 
   return (
     <div className="space-y-6">
@@ -85,7 +85,7 @@ export function LoginForm() {
           </div>
 
           <Link
-            href="/forgot-password"
+            href="/find-pw"
             className="text-primary text-sm hover:underline"
           >
             비밀번호 찾기
@@ -111,7 +111,6 @@ export function LoginForm() {
         variant="outline"
         className="w-full bg-transparent"
         size="lg"
-        // onClick={handleGoogleLogin}
       >
         <GlobeAmericasIcon className="mr-2 h-5 w-5" />
         Google로 계속하기

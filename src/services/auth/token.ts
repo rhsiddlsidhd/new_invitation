@@ -1,6 +1,8 @@
 "use server";
 import { cookies } from "next/headers";
 
+// 이건 실질적으로 Cookie 에 토큰 저장 값을 확인하는 fn
+
 export async function getAuthToken() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;

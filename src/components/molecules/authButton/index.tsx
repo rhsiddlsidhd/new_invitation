@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 const AuthButton = () => {
-  const navigate = useRouter();
+  const router = useRouter();
   const { isAuth, loading } = useAuth();
   const setToken = useAuthStore((state) => state.setToken);
   const handlesignOut = async () => {
@@ -29,7 +29,7 @@ const AuthButton = () => {
 
       const data = await res.json();
 
-      navigate.replace(data.payload);
+      router.push(data.payload);
     } catch (e) {
       console.error(e);
     }
