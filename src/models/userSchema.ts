@@ -1,13 +1,13 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
-export interface SignUpUser {
+export interface BaseUser {
   email: string;
   name: string;
   phone: string;
   password: string;
 }
 
-interface UserModel extends SignUpUser {
+interface UserModel extends BaseUser {
   role: "user" | "admin";
   isDelete: boolean;
 }

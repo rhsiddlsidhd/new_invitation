@@ -4,7 +4,7 @@ import z from "zod";
 
 import { APIRESPONSE } from "@/types/api";
 import { RegisterSchema } from "@/utils/validation/schema.auth";
-import { createUser, isUserDuplicate } from "@/services/user";
+import { createUser, isEmailExists } from "@/services/user";
 import { actionHttpError } from "@/utils/error";
 import { hashPassword } from "@/lib/bcrypt";
 import { CustomError } from "@/types/error";
@@ -30,7 +30,9 @@ export async function signUp(
 
     const { email, name, phone, password } = parsed.data;
 
-    await isUserDuplicate(email);
+    const isEmail = await isEmailExists(email);
+
+    if (isEmail) throw new CustomError("이미 존재하는 이메일 입니다.", 409);
 
     const hashedPassword = await hashPassword(password);
 

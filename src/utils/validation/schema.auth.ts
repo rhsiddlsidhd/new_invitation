@@ -42,3 +42,13 @@ export const FindUserEmailSchema = z.object({
     .string()
     .regex(/^(01[016789])-\d{3,4}-\d{4}$/, "유효한 전화번호가 아닙니다."),
 });
+
+export const PWConfirmSchema = z
+  .object({
+    password: PasswordSchema,
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "비밀번호가 일치하지 않습니다.",
+    path: ["confirmPassword"],
+  });

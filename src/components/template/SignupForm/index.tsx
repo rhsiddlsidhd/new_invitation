@@ -19,10 +19,8 @@ export function SignupForm() {
 
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
-  const fieldErrors =
-    state && state.success === false ? state.error.fieldErrors : undefined;
-  const formError =
-    state && state.success === false ? state.error.message : undefined;
+  const fieldErrors = state && !state.success && state.error.fieldErrors;
+  const formError = state && !state.success && state.error.message;
 
   useEffect(() => {
     if (state && state.success) {
@@ -52,7 +50,7 @@ export function SignupForm() {
               required
             />
           </div>
-          {fieldErrors?.name?.[0] && (
+          {fieldErrors && fieldErrors.name?.[0] && (
             <p className="text-destructive text-sm">{fieldErrors.name[0]}</p>
           )}
         </div>

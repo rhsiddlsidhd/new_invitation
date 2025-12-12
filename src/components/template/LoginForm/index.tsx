@@ -85,7 +85,7 @@ export function LoginForm() {
           </div>
 
           <Link
-            href="/forgot-password"
+            href="/find-pw"
             className="text-primary text-sm hover:underline"
           >
             비밀번호 찾기
