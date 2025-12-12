@@ -1,3 +1,4 @@
+import { PRODUCT_LIST } from "@/constant";
 import { MetadataRoute } from "next";
 
 const BASEURL =
@@ -6,15 +7,21 @@ const BASEURL =
     : process.env.DEPLOYMENT_BASE_URL;
 
 const sitemap = (): MetadataRoute.Sitemap => {
+  const products = PRODUCT_LIST.map((item) => item.id);
+
   return [
     {
       url: `${BASEURL}`,
       lastModified: new Date(),
     },
-    {
-      url: `${BASEURL}/detail/${process.env.NEXT_PUBLIC_SAMPLE_USERID}`,
+    ...products.map((id) => ({
+      url: `${BASEURL}/products/mobile-invitation/${id}`,
       lastModified: new Date(),
-    },
+    })),
+    ...products.map((id) => ({
+      url: `${BASEURL}/preview/mobile-invitation/${id}`,
+      lastModified: new Date(),
+    })),
   ];
 };
 

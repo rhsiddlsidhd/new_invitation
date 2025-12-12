@@ -14,7 +14,6 @@ export const patchThumbnail = async (
   prev: unknown,
   payload: { data: Thumbnail[] },
 ) => {
-  console.log("data", payload.data);
   const token = await getAuthToken();
   const { userId } = await decrypt(token);
 

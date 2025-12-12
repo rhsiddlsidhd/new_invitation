@@ -25,7 +25,7 @@ export const getUserGuestBook = async ({ userId }: { userId: string }) => {
 
 export const deleteUserGuestBook = async (id: string) => {
   await dbConnect();
-  console.log("id", id);
+
   const res = await GuestBook.deleteOne({ _id: id });
 
   if (!res.acknowledged)

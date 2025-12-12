@@ -17,7 +17,6 @@ if (!cached) {
 
 export const dbConnect = async () => {
   if (cached.conn) {
-    console.log("MongoDB 캐시된 연결 사용");
     return cached.conn;
   }
 

@@ -58,19 +58,11 @@ const Navigation = ({ address }: { address: string }) => {
   useEffect(() => {
     const getCoordinates = async (address: string) => {
       try {
-        //
-        const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
-        if (!REST_API_KEY) throw new Error("REST API KEY가 없습니다.");
-        const query = address;
-        const res = await fetch(
-          `https://dapi.kakao.com/v2/local/search/address?query=${query}`,
-          {
-            method: "GET",
-            headers: { Authorization: `KakaoAK ${REST_API_KEY}` },
-          },
-        );
-
+        const res = await fetch(`/api/kakaomap?address=${address}`);
+        console.log("navi", res);
         const data = await res.json();
+
+        console.log("navi", data);
 
         if (!res.ok || data.errorType) {
           throw new Error(data.message);

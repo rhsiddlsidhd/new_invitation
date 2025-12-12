@@ -8,7 +8,6 @@ import MusicBtn from "@/components/molecules/btns/MusicBtn";
 import Account from "@/components/molecules/wedding/Account";
 import Calender from "@/components/molecules/wedding/Calender";
 import Gallery from "@/components/molecules/wedding/Gallery";
-import KakaoMap from "@/components/molecules/wedding/KakaoMap";
 import Navigation from "@/components/molecules/wedding/Navigation";
 import Schedule from "@/components/molecules/wedding/Schedule";
 import Subway from "@/components/molecules/wedding/Subway";
@@ -20,6 +19,7 @@ import AnimateViewBox from "../Box/AnimateViewBox";
 import DigitalWatch from "@/components/molecules/wedding/DigitalWatch";
 
 import { useGetProductfont } from "@/store/productStore";
+import KakaoMap from "../../molecules/wedding/KakaoMap/index";
 
 type PersonPayloadId =
   | "groom"

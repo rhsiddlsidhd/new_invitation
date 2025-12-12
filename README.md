@@ -76,16 +76,16 @@ app
 │  ├─ invitation
 │  │ └─ [userId]
 │  │   └─ route.ts
-│  └─ pwd-verified
-│    └─ route.ts
+│  └─...
 ├─ dashboard
 │ ├─ edit
 │ │ └─ page.tsx     # /dashboard/edit (대시보드 수정)
 │ └─page.tsx        # /dashboard (대시보드)
 ├─ products/
-│  ├─ page.tsx          # /products (상품 목록)
-│  └─ [id]/
-│     └─ page.tsx       # /products/[id] (상품 상세)
+│ ├─ mobile-invitation
+│ │ └─ [productId]
+│ │   └─ page.tsx       # /products/mobile-invitation/[productId] (모바일 청첩장 상세 페이지)
+│ └─ page.tsx       # /products (상품 페이지)
 ├─ profile
 │ ├─ verify
 │ │ ├─ delete
@@ -96,8 +96,10 @@ app
 │ │ │ └─ page.tsx   # /profile/verify/password (패스워스 변경)
 │ │ └─ page.tsx     # /profile/verify (인증/검증)
 │ └─ page.tsx       # /profile (프로필)
-├─ products
-│ └─ page.tsx       # /products (상품)
+├─ preview
+│ └─ mobile-invitation
+│   └─ [productId]
+│     └─ page.tsx   # /preview/mobile-invitation/[productId] (모바일 청첩장 미리보기)
 ├─ layout.tsx
 ├─ page.tsx             # / (홈페이지)
 └─ sitemap.ts
@@ -108,23 +110,34 @@ middlewaer.ts
 
 ### 홈페이지 (`/`)
 
-- 랜딩 페이지로 현재 프로젝트에
-
-### 상품 페이지 (`/products`)
-
-- 청첩장 템플릿 목록을 보여주는 페이지
-
-### 상품 상세 페이지 (`/products/[id]`)
-
-- 특정 사용자의 청첩장을 보여주는 상세 페이지
+- 랜딩 페이지로 프로젝트 소개
+- 서버에서 받아오는 데이터가 없고 페이지 소개와 함께 Navigate 와 Animation만을 담당하는 페이지는 Static Page
 
 ### 프로필 (`/profile`)
 
 - 사용자 정보 조회 및 관리
+- 사용자의 데이터에 따른 페이지로 SSR
 
 ### 대시보드 (`/dashboard`)
 
-- 청첩장 작성 및 편집 관리
+- 청첩장 데이터 작성 및 관리
+- 사용자의 데이터에 따른 페이지로 SSR
+
+### 상품 페이지 (`/products`)
+
+- 상품 목록을 보여주는 페이지
+- 정적 데이터 PRODUCT_LIST 를 바탕으로 보여주는 페이지로 Static Page
+
+### 상품 상세 페이지 (`/products/[id]`)
+
+- 특정 상품의 상세 페이지
+- 모든 유저가 접속해도 상품 데이터가 변하지 않으므로, 모든 상품 상세 페이지는 SSG로 생성
+
+### 미리보기 (`/preview/카테고리/[productId]`)
+
+- 특정 상품(productId)을 기반으로 한 미리보기 페이지
+- 상품 정보는 SSG로 미리 렌더링
+- 사용자별 정보(userId)는 쿼리 파라미터를 통해 받아 서버 사이드 렌더링(SSR) 방식으로 처리
 
 ## 🛠 Tech Stack
 
@@ -155,3 +168,8 @@ middlewaer.ts
 - Route change
 - Create a product page and a product detail page
 - Add different styling based on the invitation ID
+
+  09.18
+
+- resolve Kakao Map API Bug
+- Envirments variants update

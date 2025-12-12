@@ -73,7 +73,7 @@ const Subway = () => {
     const parmas = "진접";
     try {
       const res = await fetch(`/subway/${parmas}`);
-      console.log("station res", res);
+
       if (!res.ok)
         throw new Error(`selected subway proxy failed: ${res.statusText}`);
 
