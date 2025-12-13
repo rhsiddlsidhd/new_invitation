@@ -2,6 +2,7 @@ import User, { BaseUser } from "@/models/userSchema";
 import { CustomError } from "@/types/error";
 import { dbConnect } from "@/utils/mongodb";
 import bcrypt from "bcryptjs";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 // 유저 조회 및 유저 정보 가져오기
 export const getUserById = async (

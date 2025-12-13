@@ -8,18 +8,41 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useActionState, useEffect } from "react";
 
-const ChangePWForm = ({ email }: { email: string }) => {
+type DeleteCookieResponse = {
+  success: boolean;
+  message: string;
+  payload?: unknown;
+};
+
+const deleteCookieToUserEmail =
+  async (): Promise<DeleteCookieResponse | null> => {
+    try {
+      const res = await fetch("/api/auth/cookie", { method: "DELETE" });
+      if (!res.ok) throw new Error("에러발생");
+      const data: DeleteCookieResponse = await res.json();
+      return data;
+    } catch {
+      return null;
+    }
+  };
+
+const ChangePWForm = () => {
   const router = useRouter();
-  const [state, action] = useActionState(
-    (prev: unknown, formData: FormData) => changeUserPW(prev, formData, email),
-    null,
-  );
+  const [state, action] = useActionState(changeUserPW, null);
 
   useEffect(() => {
     if (state && state.success) {
       alert(state.data.message);
       router.push("/login");
     }
+
+    return () => {
+      const cleanUp = async () => {
+        const res = await deleteCookieToUserEmail();
+        console.log("res", res);
+      };
+      cleanUp();
+    };
   }, [state, router]);
 
   const fieldErrors = state && !state.success && state.error.fieldErrors;
