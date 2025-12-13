@@ -1,11 +1,15 @@
 "use server";
 
-import { generateAccessEncrypt } from "@/lib/jose";
+import { generateAccessEncrypt, generateEntryEncrypt } from "@/lib/jose";
 import { sendEmail } from "@/services/auth";
 import { isEmailExists } from "@/services/user";
 import { APIRESPONSE } from "@/types/api";
 import { CustomError } from "@/types/error";
 import { actionHttpError } from "@/utils/error";
+import { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import { NextApiRequestCookies } from "next/dist/server/api-utils";
+import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
+import { cookies } from "next/headers";
 import z from "zod";
 
 const FindUserPasswordSchema = z.object({
@@ -42,10 +46,23 @@ export const findUserPassword = async (
 
     // entry token 발행 && createDomatin
 
-    const accessToken = await generateAccessEncrypt({ email });
+    // 수정 사항 Email을 Encrypt 하지 않고 Cookie 의 값에 저장 * (만료시간이 짧은) 영구 쿠키
+
+    const cookieStore = await cookies();
+
+    const options: Partial<ResponseCookie> = {
+      httpOnly: true,
+      maxAge: 600,
+      secure: true,
+      sameSite: process.env.NODE_ENV === "development" ? "lax" : "strict",
+    };
+
+    cookieStore.set("userEmail", email, options);
+
+    const entryToken = await generateEntryEncrypt();
 
     // 도메인을 생성
-    const path = createChangePWDomain(accessToken);
+    const path = createChangePWDomain(entryToken);
 
     await sendEmail({ email, path });
 
