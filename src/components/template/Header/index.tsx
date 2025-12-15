@@ -1,14 +1,10 @@
 import AuthButton from "@/components/molecules/authButton";
 import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
-import { cookies } from "next/headers";
 import Link from "next/link";
 import React from "react";
 
 const Header = async () => {
-  const cookieStore = await cookies();
-  const g = cookieStore.get("token");
-  console.log(g);
   return (
     <header className="bg-background/80 border-border fixed top-0 right-0 left-0 z-50 border-b backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
