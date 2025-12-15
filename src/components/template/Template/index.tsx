@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
+import Link from "next/link";
 
 const templates = [
   {
@@ -73,11 +74,12 @@ export function Templates() {
 
         <div className="mt-12 text-center">
           <Button
+            asChild
             variant="outline"
             size="lg"
             className="border-border bg-transparent"
           >
-            {"더 많은 템플릿 보기"}
+            <Link href="/templates">{"더 많은 템플릿 보기"}</Link>
           </Button>
         </div>
       </div>
