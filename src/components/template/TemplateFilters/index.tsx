@@ -1,17 +1,17 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { TemplateFilterState } from "@/context/template/template.type";
-import useTemplateFilter from "@/hooks/useTemplateFilter";
+import { TemplateFilterState } from "@/context/templateFilter/type";
 import { Search } from "lucide-react";
 import { Command, CommandInput } from "@/components/ui/command";
 import AutoCompleteList from "@/components/molecules/(search)/AutoCompleteList";
 import useSugessteTemplate from "@/hooks/useSugessteTemplate";
+import { useTemplateFilter } from "@/context/templateFilter/context";
 
 // const isChosungOnly = (keyword: string) => /^[ㄱ-ㅎ]+$/.test(keyword.trim());
 
 export function TemplateFilters() {
-  const { state, dispatch } = useTemplateFilter();
+  const [state, dispatch] = useTemplateFilter();
   const { suggestions } = useSugessteTemplate(state.keyword.trim());
   const categorys: TemplateFilterState["category"][] = [
     "전체",
