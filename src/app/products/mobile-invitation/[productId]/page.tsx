@@ -2,7 +2,7 @@ import Btn from "@/components/atoms/Btn";
 import Img from "@/components/atoms/Img";
 import DropdownBtn from "@/components/molecules/btns/DropdownBtn";
 import PreviewBtn from "@/components/molecules/btns/PreviewBtn";
-import { PRODUCT_LIST } from "@/constant";
+import { PRODUCT_LIST } from "@/shared/constants";
 
 export const generateStaticParams = () => {
   return PRODUCT_LIST.map((item) => ({ productId: item.id }));

@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import VerifyForm from "../../../components/organisms/forms/VerifyForm";
-import { decrypt } from "@/lib/jose";
-import { getAuthToken } from "@/services/auth/token";
+import { decrypt } from "@/shared/lib/jose";
+import { getAuthToken } from "@/domains/auth";
 
 const Page = async ({
   searchParams,

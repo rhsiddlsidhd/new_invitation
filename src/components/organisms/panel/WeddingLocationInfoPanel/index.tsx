@@ -1,12 +1,12 @@
 "use client";
 import React, { useMemo } from "react";
-import { useModalStore } from "@/store/modalStore";
+import { useModalStore } from "@/shared/store/modalStore";
 import Label from "@/components/atoms/Label";
 import Input from "@/components/atoms/Input";
 import Btn from "@/components/atoms/Btn";
-import { PanelField } from "@/types";
-import useDaumPopup from "@/hooks/useDaumPopup";
-import { useUserStore } from "@/store/userStore";
+import { PanelField } from "@/shared/types";
+import useDaumPopup from "@/shared/hooks/useDaumPopup";
+import { useUserStore } from "@/domains/user";
 
 const createLocationFields = ({
   weddingDate,

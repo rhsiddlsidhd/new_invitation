@@ -1,8 +1,8 @@
 import Spinner from "@/components/atoms/Spinner";
 import InvitationContainer from "@/components/template/invitation/InvitationContainer";
-import { PRODUCT_LIST } from "@/constant";
-import { getUserGuestBook } from "@/services/guestBook";
-import { getUserInvitationInfo } from "@/services/invitation";
+import { PRODUCT_LIST } from "@/shared/constants";
+import { getUserGuestBook } from "@/domains/guestbook";
+import { getUserInvitationInfo } from "@/domains/invitation";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 

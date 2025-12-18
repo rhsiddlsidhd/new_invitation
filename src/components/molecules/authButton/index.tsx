@@ -1,8 +1,9 @@
 "use client";
-import { signOut } from "@/actions/auth/signOut";
+
+import { signOut } from "@/domains/auth/actions";
 import Spinner from "@/components/atoms/Spinner";
-import useAuth from "@/hooks/useAuth";
-import useAuthStore from "@/store/authStore/index";
+import { useAuth } from "@/domains/auth/hooks";
+import { useAuthStore } from "@/domains/auth/store";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -10,10 +11,10 @@ import React from "react";
 const AuthButton = () => {
   const router = useRouter();
   const { isAuth, loading } = useAuth();
-  const setToken = useAuthStore((state) => state.setToken);
+  const { setIsAuthenticated } = useAuthStore();
   const handlesignOut = async () => {
     await signOut();
-    setToken(null);
+    setIsAuthenticated(false);
   };
 
   const handleSignin = async () => {

@@ -7,7 +7,7 @@ import {
   useMotionValueEvent,
   useTransform,
 } from "framer-motion";
-import { recommendedText } from "@/constant";
+import { recommendedText } from "@/shared/constants";
 
 type ViewState = "hidden" | "show";
 

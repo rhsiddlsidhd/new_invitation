@@ -1,4 +1,4 @@
-import { calculateCountdown, updateCoundownMessage } from "@/utils/date";
+import { calculateCountdown, updateCoundownMessage } from "@/shared/utils/date";
 import React, { useEffect, useState } from "react";
 
 const DigitalWatch = ({ date }: { date: string }) => {

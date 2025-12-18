@@ -10,10 +10,10 @@ import {
 } from "framer-motion";
 import HeroBox from "@/components/molecules/boxs/HeroBox";
 import Img from "@/components/atoms/Img";
-import { generateParticles } from "@/utils/animation";
+import { generateParticles } from "@/shared/utils/animation";
 import Card from "@/components/atoms/Card";
-import { squareSizes } from "@/constant";
-import { particleContainer, particleItem } from "@/style/variants";
+import { squareSizes } from "@/shared/constants";
+import { particleContainer, particleItem } from "@/styles/variants";
 
 const HeroSection = ({
   offsetStart,

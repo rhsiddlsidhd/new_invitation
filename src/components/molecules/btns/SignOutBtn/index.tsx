@@ -1,7 +1,7 @@
 "use client";
-import { signOut } from "@/actions/auth/signOut";
+import { signOut } from "@/domains/auth/actions";
 import Btn from "@/components/atoms/Btn";
-import useAuthStore from "@/store/authStore";
+import { useAuthStore } from "@/domains/auth/store";
 import { useRouter } from "next/navigation";
 
 import React, { useCallback } from "react";

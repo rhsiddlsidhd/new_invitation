@@ -2,9 +2,10 @@ import React from "react";
 import Btn from "@/components/atoms/Btn";
 import Link from "next/link";
 import ProfileBox from "@/components/molecules/boxs/ProfileBox";
-import { getUserById } from "@/services/user";
-import { decrypt } from "@/lib/jose";
-import { deleteAuthToken, getAuthToken } from "@/services/auth/token";
+import { getUserById } from "@/domains/user";
+import { decrypt } from "@/shared/lib/jose";
+import { deleteAuthToken, getAuthToken } from "@/domains/auth";
+import { getUserIdByEmail } from "@/domains/user/services";
 import { redirect } from "next/navigation";
 
 const page = async () => {
@@ -15,8 +16,14 @@ const page = async () => {
     await deleteAuthToken();
     redirect("/");
   }
-  const user = await getUserById(payload.userId);
-  const { email, userId } = user;
+
+  const userId = await getUserIdByEmail(payload.email);
+  if (!userId) {
+    redirect("/");
+  }
+
+  const user = await getUserById(userId);
+  const { email } = user;
 
   return (
     <div className="h-screen bg-[#f5f5f5] p-5">

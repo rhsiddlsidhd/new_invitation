@@ -1,5 +1,5 @@
-import { generateEntryEncrypt } from "@/lib/jose";
-import { CustomError } from "@/types/error";
+import { generateEntryEncrypt } from "@/shared/lib/jose";
+import { CustomError } from "@/shared/types/error";
 import { cookies } from "next/headers";
 
 import { NextResponse, type NextRequest } from "next/server";

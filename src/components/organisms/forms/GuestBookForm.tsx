@@ -2,8 +2,8 @@ import Btn from "@/components/atoms/Btn";
 import React, { useActionState, useEffect } from "react";
 
 import Input from "@/components/atoms/Input";
-import { postGuestbook } from "@/actions/guestbook/postGuestbook";
-import { useModalStore } from "@/store/modalStore";
+import { postGuestbook } from "@/domains/guestbook";
+import { useModalStore } from "@/shared/store";
 import { useRouter } from "next/navigation";
 
 interface Payload {

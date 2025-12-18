@@ -1,9 +1,9 @@
 "use client";
-import { GalleryData } from "@/types";
+import { GalleryData } from "@/shared/types";
 import React, { ChangeEvent } from "react";
 
 import GalleryCardCell from "../GalleryCardCell";
-import { cardConfig } from "@/constant";
+import { cardConfig } from "@/shared/constants";
 import Label from "../../../atoms/Label";
 
 const GalleryCard = ({

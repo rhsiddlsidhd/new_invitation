@@ -4,7 +4,7 @@ import GalleryCard from "../../../molecules/gallery/GalleryCard";
 import { GalleryData } from "@/types";
 
 import OverlayCloseBtn from "@/components/molecules/btns/OverlayCloseBtn/index";
-import { getUserState } from "@/store/userStore";
+import { getUserState } from "@/domains/user";
 
 interface GalleryItemsProps {
   viewData: GalleryData[];

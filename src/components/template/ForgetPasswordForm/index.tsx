@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { Mail, CheckCircle2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { findUserPassword } from "@/actions/auth/findUserPassword";
+import { findUserPassword } from "@/domains/auth/actions";
 
 export function ForgotPasswordForm() {
   const [state, action] = useActionState(findUserPassword, null);

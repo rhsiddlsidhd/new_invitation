@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import SignInForm from "../forms/SignInForm";
 import RegisterForm from "../forms/RegisterForm";
 import WeddingPartyInfoForm from "../forms/WeddingPartyInfoForm";
-import { ModalType, useModalStore } from "@/store/modalStore";
+import { ModalType, useModalStore } from "@/shared/store";
 import WeddingDateForm from "../forms/WeddingDateForm";
 import WeddingParentForm from "../forms/WeddingParentForm";
 import WeddingThumbnailForm from "../forms/WeddingThumbnailForm";
@@ -15,7 +15,7 @@ import Contact from "../panel/Contact";
 
 import GuestBook from "@/components/molecules/wedding/GuestBook";
 import GuestBookForm from "../forms/GuestBookForm";
-import { useClearUserErrors } from "@/store/userStore";
+import { useClearUserErrors } from "@/domains/user";
 
 const Modal = () => {
   const { isOpen, modalType, config, setModalOpen } = useModalStore();

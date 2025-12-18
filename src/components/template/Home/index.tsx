@@ -7,7 +7,7 @@ import {
   DevicePhoneMobileIcon,
   SparklesIcon,
 } from "@heroicons/react/24/outline";
-import { PRODUCT_LIST } from "@/constant";
+import { PRODUCT_LIST } from "@/shared/constants";
 
 const highlights = [
   {

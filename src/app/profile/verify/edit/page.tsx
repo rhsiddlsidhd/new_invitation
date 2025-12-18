@@ -1,5 +1,5 @@
 import EditForm from "@/components/organisms/forms/EditForm";
-import { hasPasswordVerifiedAuthToken } from "@/services/auth/token";
+import { hasPasswordVerifiedAuthToken } from "@/domains/auth";
 import { redirect } from "next/navigation";
 import React from "react";
 

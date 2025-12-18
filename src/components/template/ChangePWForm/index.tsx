@@ -1,5 +1,5 @@
 "use client";
-import { changeUserPW } from "@/actions/auth/changeUserPW";
+import { changeUserPW } from "@/domains/auth/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

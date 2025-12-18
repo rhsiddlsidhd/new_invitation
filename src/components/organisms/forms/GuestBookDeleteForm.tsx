@@ -2,9 +2,9 @@ import React, { useActionState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Input from "@/components/atoms/Input";
 import Btn from "@/components/atoms/Btn";
-import { deleteGuestBook } from "@/actions/guestbook/deleteGuestBook";
+import { deleteGuestBook } from "@/domains/guestbook";
 import { useRouter } from "next/navigation";
-import { useModalStore } from "@/store/modalStore";
+import { useModalStore } from "@/shared/store";
 
 const GuestBookDeleteForm = ({
   isDelete,

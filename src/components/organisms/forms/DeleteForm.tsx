@@ -6,7 +6,7 @@ import Label from "../../atoms/Label";
 import Input from "../../atoms/Input";
 import Alert from "../../atoms/Alert";
 import Btn from "../../atoms/Btn";
-import { deleteUser } from "@/actions/user/deleteUser";
+import { deleteUser } from "@/domains/user/actions";
 
 const DeleteForm = ({ user }: { user: string }) => {
   const [state, action, pending] = useActionState(deleteUser, null);

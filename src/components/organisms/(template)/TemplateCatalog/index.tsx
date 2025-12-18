@@ -5,7 +5,7 @@ import { TemplateGrid } from "@/components/template/TemplateGrid";
 import {
   initialFilterState,
   TemplateFilterProvider,
-} from "@/context/templateFilter/context";
+} from "@/domains/template/context";
 
 import React from "react";
 

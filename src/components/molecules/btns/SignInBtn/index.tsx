@@ -1,6 +1,6 @@
 "use client";
 import Btn from "@/components/atoms/Btn";
-import { useModalStore } from "@/store/modalStore";
+import { useModalStore } from "@/shared/store";
 import React from "react";
 
 const SignInBtn = ({

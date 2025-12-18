@@ -1,7 +1,8 @@
 import InvitationInfoForm from "@/components/organisms/forms/InvitationInfoForm";
-import { decrypt } from "@/lib/jose";
-import { getAuthToken } from "@/services/auth/token";
-import { isUserInvitationInfo } from "@/services/invitation";
+import { decrypt } from "@/shared/lib/jose";
+import { getAuthToken } from "@/domains/auth";
+import { isUserInvitationInfo } from "@/domains/invitation";
+import { getUserIdByEmail } from "@/domains/user/services";
 
 import { redirect } from "next/navigation";
 
@@ -11,7 +12,13 @@ const page = async () => {
   if (!payload) {
     redirect("/");
   }
-  const useHasInvitation = await isUserInvitationInfo(payload.userId);
+
+  const userId = await getUserIdByEmail(payload.email);
+  if (!userId) {
+    redirect("/");
+  }
+
+  const useHasInvitation = await isUserInvitationInfo(userId);
 
   if (useHasInvitation) {
     redirect("/dashboard");

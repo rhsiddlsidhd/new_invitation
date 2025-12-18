@@ -1,5 +1,5 @@
 import PasswordForm from "@/components/organisms/forms/PasswordForm";
-import { hasPasswordVerifiedAuthToken } from "@/services/auth/token";
+import { hasPasswordVerifiedAuthToken } from "@/domains/auth";
 import { redirect } from "next/navigation";
 import React from "react";
 
