@@ -1,8 +1,8 @@
 import Grid from "@/components/ui/grid";
 import { TemplateCard } from "../TemplateCard";
 
-import useVisibleTemplate from "@/hooks/useVisibleTemplate";
-import { useTemplateFilter } from "@/context/templateFilter/context";
+import { useVisibleTemplate } from "@/domains/template";
+import { useTemplateFilter } from "@/domains/template/context";
 
 export function TemplateGrid() {
   const [state] = useTemplateFilter();

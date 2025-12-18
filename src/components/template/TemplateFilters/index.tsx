@@ -1,12 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { TemplateFilterState } from "@/context/templateFilter/type";
+import { TemplateFilterState, useTemplateFilter } from "@/domains/template/context";
 import { Search } from "lucide-react";
 import { Command, CommandInput } from "@/components/ui/command";
 import AutoCompleteList from "@/components/molecules/(search)/AutoCompleteList";
-import useSugessteTemplate from "@/hooks/useSugessteTemplate";
-import { useTemplateFilter } from "@/context/templateFilter/context";
+import { useSuggestTemplate } from "@/domains/template";
 
 // const isChosungOnly = (keyword: string) => /^[ㄱ-ㅎ]+$/.test(keyword.trim());
 

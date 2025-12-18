@@ -9,8 +9,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import { Mail, Lock } from "lucide-react";
 import { GlobeAmericasIcon } from "@/components/atoms/Icon";
-import { signIn } from "@/actions/auth/signIn";
-import useAuthStore from "@/store/authStore/index";
+import { signIn } from "@/domains/auth/actions";
+import { useAuthStore } from "@/domains/auth/store";
 import { useRouter } from "next/navigation";
 
 export function LoginForm() {

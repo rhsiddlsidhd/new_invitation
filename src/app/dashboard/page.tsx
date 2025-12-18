@@ -2,24 +2,31 @@ import Link from "next/link";
 import InvitationInfoForm from "@/components/organisms/forms/InvitationInfoForm";
 import Box from "@/components/layout/Box";
 import SignOutBtn from "@/components/molecules/btns/SignOutBtn";
-import { getAuthToken } from "@/services/auth/token";
-import { decrypt } from "@/lib/jose";
-import { getInvitation } from "@/services/invitation";
+import { getAuthToken } from "@/domains/auth";
+import { decrypt } from "@/shared/lib/jose";
+import { getInvitation } from "@/domains/invitation";
+import { getUserIdByEmail } from "@/domains/user/services";
 import { redirect } from "next/navigation";
 
 export default async function page() {
   const token = await getAuthToken();
 
   const payload = await decrypt(token);
-  const data = await getInvitation(payload.userId);
   if (!payload || !token) redirect("/");
+
+  const userId = await getUserIdByEmail(payload.email);
+  if (!userId) {
+    redirect("/");
+  }
+
+  const data = await getInvitation(userId);
 
   return (
     <div className="m-auto w-full max-w-[1028px] p-2 sm:mb-24 sm:p-6">
       <header className="mb-7 flex justify-between rounded-xl bg-[#f5f5f5] p-5">
         <div>
           <h1>대시보드</h1>
-          <p>{payload.userId}님 환영합니다.</p>
+          <p>{payload.email}님 환영합니다.</p>
         </div>
         <SignOutBtn bgColor="bg-red-500">로그아웃</SignOutBtn>
       </header>

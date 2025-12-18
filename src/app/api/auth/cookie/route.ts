@@ -1,4 +1,4 @@
-import { handlerApiError } from "@/utils/error";
+import { handlerApiError } from "@/shared/utils/error";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Btn from "@/components/atoms/Btn";
-import { useGetProductfont, useSetProductFont } from "@/store/productStore";
+import { useGetProductfont, useSetProductFont } from "@/domains/product/store";
 
 const DropdownBtn = ({ options }: { options: string[] }) => {
   const [isToggle, setIsToggle] = useState(false);

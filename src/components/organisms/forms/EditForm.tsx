@@ -6,7 +6,7 @@ import Box from "../../layout/Box";
 import Label from "../../atoms/Label";
 import Input from "../../atoms/Input";
 import Btn from "../../atoms/Btn";
-import { patchUserProfile } from "@/actions/user/patchUserProfile";
+import { patchUserProfile } from "@/domains/user/actions";
 
 const EditForm = () => {
   const [state, action, pending] = useActionState(patchUserProfile, null);

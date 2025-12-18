@@ -1,4 +1,4 @@
-import { PRODUCT_LIST } from "@/constant";
+import { PRODUCT_LIST } from "@/shared/constants";
 import { MetadataRoute } from "next";
 
 const BASEURL =

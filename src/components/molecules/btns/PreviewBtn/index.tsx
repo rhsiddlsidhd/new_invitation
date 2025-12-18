@@ -1,7 +1,7 @@
 "use client";
 import Btn from "@/components/atoms/Btn";
-import useAuthentication from "@/hooks/useAuthentication";
-import { useModalStore } from "@/store/modalStore";
+import { useAuthentication } from "@/domains/auth";
+import { useModalStore } from "@/shared/store";
 
 import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";

@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { User, Phone, Mail } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { findUserEmail } from "@/actions/auth/findUserEmail";
+import { findUserEmail } from "@/domains/auth/actions";
 
 export function FindIdForm() {
   const [state, action, pending] = useActionState(findUserEmail, null);

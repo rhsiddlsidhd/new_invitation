@@ -5,7 +5,7 @@ import Btn from "@/components/atoms/Btn";
 import Label from "@/components/atoms/Label";
 import Input from "@/components/atoms/Input";
 import { ParentRoleId } from "./type";
-import useParentField from "@/hooks/useParentFIeld";
+import { useParentField } from "@/domains/user/hooks";
 import { parentFieldsVariants } from "./variants";
 import { EditBtn } from "../WeddingCoupleInfoPanel";
 

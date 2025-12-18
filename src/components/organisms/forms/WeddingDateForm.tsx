@@ -1,11 +1,11 @@
-import { patchText } from "@/actions/invitation/patchText";
+import { patchText } from "@/domains/invitation";
 import WeddingLocationInfoPanel from "@/components/organisms/panel/WeddingLocationInfoPanel";
-import { useModalStore } from "@/store/modalStore";
+import { useModalStore } from "@/shared/store";
 import {
   useClearUserErrors,
   useSetUser,
   useSetUserErrors,
-} from "@/store/userStore";
+} from "@/domains/user";
 import React, { useActionState, useEffect } from "react";
 
 const WeddingDateForm = () => {

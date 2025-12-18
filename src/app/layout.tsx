@@ -68,7 +68,7 @@ export default function RootLayout({
       <body>
         <Header />
         {children}
-        <Modal />
+        {/* <Modal /> */}
       </body>
     </html>
   );

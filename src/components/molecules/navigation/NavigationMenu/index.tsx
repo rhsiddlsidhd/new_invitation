@@ -2,10 +2,10 @@ import { AnimatePresence } from "motion/react";
 import React, { useCallback } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { menus } from "@/constant";
-import { useModalStore } from "@/store/modalStore";
-import useAuthStore from "@/store/authStore";
-import { navigationContainer, navigationItem } from "@/style/variants";
+import { menus } from "@/shared/constants";
+import { useModalStore } from "@/shared/store/modalStore";
+import { useAuthStore } from "@/domains/auth";
+import { navigationContainer, navigationItem } from "@/styles/variants";
 
 const NavigationMenu = ({
   textView,

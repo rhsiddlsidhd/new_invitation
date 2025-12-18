@@ -1,4 +1,4 @@
-import TemplateGallery from "@/components/organisms/TemplateGallery";
+import TemplateGallery from "@/domains/template/components/TemplateGallery";
 
 import React from "react";
 

@@ -1,7 +1,7 @@
-import { decrypt, generateAccessEncrypt } from "@/lib/jose";
-import { getAuthToken } from "@/services/auth/token";
-import { CustomError } from "@/types/error";
-import { handlerApiError } from "@/utils/error";
+import { decrypt, generateAccessEncrypt } from "@/shared/lib/jose";
+import { getAuthToken } from "@/domains/auth";
+import { CustomError } from "@/shared/types/error";
+import { handlerApiError } from "@/shared/utils/error";
 
 import { NextResponse } from "next/server";
 

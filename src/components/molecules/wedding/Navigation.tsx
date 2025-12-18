@@ -1,7 +1,7 @@
 import Btn from "@/components/atoms/Btn";
 import Img from "@/components/atoms/Img";
-import { getNavigationBtn } from "@/utils/map";
-import { GeoState } from "@/utils/map/openApp";
+import { getNavigationBtn } from "@/shared/utils/map";
+import { GeoState } from "@/shared/utils/map/openApp";
 import React, { useEffect, useMemo, useState } from "react";
 
 export interface NavigationButton {

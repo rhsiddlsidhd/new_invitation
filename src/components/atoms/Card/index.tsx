@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion, Variants } from "framer-motion";
-import { Particle } from "@/types";
+import { Particle } from "@/shared/types";
 
 interface CardProps {
   custom?: Particle;

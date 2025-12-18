@@ -1,5 +1,5 @@
 import { LoginForm } from "@/components/template/LoginForm";
-import { entryDecrypt } from "@/lib/jose";
+import { entryDecrypt } from "@/shared/lib/jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 

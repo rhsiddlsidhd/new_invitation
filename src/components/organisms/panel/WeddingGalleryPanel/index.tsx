@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useCallback, useState } from "react";
-import { GalleryData } from "@/types";
+import { GalleryData } from "@/shared/types";
 import GalleryController from "@/components/organisms/gallery/GalleryController";
 import GalleryItems from "@/components/organisms/gallery/GalleryItems";
-import { useClearUserErrors, useUserStore } from "@/store/userStore";
+import { useClearUserErrors, useUserStore } from "@/domains/user";
 import { EditBtn } from "../WeddingCoupleInfoPanel";
 
 const WeddingGalleryPanel = ({ readOnly }: { readOnly: boolean }) => {

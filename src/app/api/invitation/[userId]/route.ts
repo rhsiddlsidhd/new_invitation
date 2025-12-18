@@ -1,5 +1,4 @@
-import { InvitationInput } from "@/models/invitationSchema";
-import { getInvitation } from "@/services/invitation";
+import { InvitationInput, getInvitation } from "@/domains/invitation";
 
 import { NextRequest, NextResponse } from "next/server";
 

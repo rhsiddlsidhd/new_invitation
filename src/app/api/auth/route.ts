@@ -1,5 +1,5 @@
-import { decrypt } from "@/lib/jose";
-import { getAuthToken } from "@/services/auth/token";
+import { decrypt } from "@/shared/lib/jose";
+import { getAuthToken } from "@/domains/auth";
 import { NextResponse } from "next/server";
 
 export const GET = async () => {

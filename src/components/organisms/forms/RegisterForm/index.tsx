@@ -4,10 +4,10 @@ import Alert from "@/components/atoms/Alert";
 import Btn from "@/components/atoms/Btn";
 import Input from "@/components/atoms/Input";
 import Label from "@/components/atoms/Label";
-import { useModalStore } from "@/store/modalStore";
+import { useModalStore } from "@/shared/store";
 import React, { useActionState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { signUp } from "@/actions/auth/signUp";
+import { signUp } from "@/domains/auth";
 import { registerFields } from "./constant";
 
 const RegisterForm = () => {

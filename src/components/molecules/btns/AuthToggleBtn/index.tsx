@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { SignOutIcon, UserIcon } from "@/components/atoms/Icon";
 import SignOutBtn from "../SignOutBtn";
 import SignInBtn from "../SignInBtn";
-import useAuthStore from "@/store/authStore";
+import { useAuthStore } from "@/domains/auth/store";
 import Spinner from "@/components/atoms/Spinner";
 
 const AuthToggleBtn = () => {

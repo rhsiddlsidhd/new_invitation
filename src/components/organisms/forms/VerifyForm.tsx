@@ -5,7 +5,7 @@ import Input from "../../atoms/Input";
 import Btn from "../../atoms/Btn";
 import Box from "../../layout/Box";
 import { useRouter } from "next/navigation";
-import { verifyPassword } from "@/actions/auth/verifyPassword";
+import { verifyPassword } from "@/domains/auth/actions";
 
 const VerifyForm = ({ path }: { path: string }) => {
   const [state, action, pending] = useActionState(verifyPassword, null);

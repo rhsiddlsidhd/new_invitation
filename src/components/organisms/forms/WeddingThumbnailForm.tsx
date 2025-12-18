@@ -1,14 +1,14 @@
-import { patchThumbnail } from "@/actions/invitation/patchThumbnail";
+import { patchThumbnail } from "@/domains/invitation";
 import WeddingThumbnailPanel from "@/components/organisms/panel/WeddingThumbnailPanel";
 
-import { useModalStore } from "@/store/modalStore";
+import { useModalStore } from "@/shared/store/modalStore";
 import {
   useClearUserErrors,
   useSetUser,
   useSetUserErrors,
-} from "@/store/userStore";
-import { validateAndFlatten } from "@/utils/validation";
-import { ThumbnailSchema } from "@/utils/validation/schema.client";
+} from "@/domains/user";
+import { validateAndFlatten } from "@/shared/utils/validation";
+import { ThumbnailSchema } from "@/shared/utils/validation/schema.client";
 import React, { startTransition, useActionState, useEffect } from "react";
 
 const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;

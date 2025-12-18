@@ -1,4 +1,4 @@
-import { hasPasswordVerifiedAuthToken } from "@/services/auth/token";
+import { hasPasswordVerifiedAuthToken } from "@/domains/auth";
 import { redirect } from "next/navigation";
 
 const page = async () => {

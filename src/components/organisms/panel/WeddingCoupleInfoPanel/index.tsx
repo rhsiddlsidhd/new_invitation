@@ -1,9 +1,9 @@
 import React from "react";
-import { ModalType, useModalStore } from "@/store/modalStore";
+import { ModalType, useModalStore } from "@/shared/store";
 import Label from "@/components/atoms/Label";
 import Input from "@/components/atoms/Input";
 import Btn from "@/components/atoms/Btn";
-import useWeddingCouple from "@/hooks/useWeddingCouple";
+import { useWeddingCouple } from "@/domains/user";
 import { CoupleField } from "./type";
 
 const FieldGroup = ({

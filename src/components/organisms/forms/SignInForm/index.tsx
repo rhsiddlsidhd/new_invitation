@@ -1,9 +1,9 @@
 "use client";
-import { useModalStore } from "@/store/modalStore";
+import { useModalStore } from "@/shared/store";
 import { useRouter } from "next/navigation";
 import React, { useActionState, useEffect } from "react";
-import { signIn } from "@/actions/auth/signIn";
-import useAuthStore from "@/store/authStore";
+import { signIn } from "@/domains/auth";
+import { useAuthStore } from "@/domains/auth";
 import Alert from "@/components/atoms/Alert";
 import Label from "@/components/atoms/Label";
 import Input from "@/components/atoms/Input";

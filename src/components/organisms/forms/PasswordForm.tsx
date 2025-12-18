@@ -7,7 +7,7 @@ import Alert from "../../atoms/Alert";
 import Label from "../../atoms/Label";
 import Input from "../../atoms/Input";
 import Btn from "../../atoms/Btn";
-import { patchUserPassword } from "@/actions/auth/patchUserPassword";
+import { changeUserPW } from "@/domains/auth/actions";
 
 const PasswordForm = () => {
   const [state, action, pending] = useActionState(patchUserPassword, null);

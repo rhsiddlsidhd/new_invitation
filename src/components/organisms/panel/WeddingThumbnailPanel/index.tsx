@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import { useModalStore } from "@/store/modalStore";
+import { useModalStore } from "@/shared/store/modalStore";
 import Btn from "@/components/atoms/Btn";
 import ThumbnailCard from "@/components/molecules/cards/ThumbnailCard";
-import { useClearUserErrors, useUserStore } from "@/store/userStore";
+import { useClearUserErrors, useUserStore } from "@/domains/user";
 
 const WeddingThumbnailPanel = ({ readOnly }: { readOnly?: boolean }) => {
   const { isOpen, setModalOpen } = useModalStore();

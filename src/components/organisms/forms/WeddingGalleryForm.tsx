@@ -1,17 +1,17 @@
 "use client";
 
-import { patchGallery } from "@/actions/invitation/patchGallery";
+import { patchGallery } from "@/domains/invitation";
 import WeddingGalleryPanel from "@/components/organisms/panel/WeddingGalleryPanel";
-import { useModalStore } from "@/store/modalStore";
+import { useModalStore } from "@/shared/store/modalStore";
 import {
   useClearUserErrors,
   useSetUser,
   useSetUserErrors,
-} from "@/store/userStore";
+} from "@/domains/user";
 
-import { GalleryMapClient, GalleryPayload } from "@/types";
-import { validateAndFlatten } from "@/utils/validation";
-import { GalleryMapSchema } from "@/utils/validation/schema.client";
+import { GalleryMapClient, GalleryPayload } from "@/shared/types";
+import { validateAndFlatten } from "@/shared/utils/validation";
+import { GalleryMapSchema } from "@/shared/utils/validation/schema.client";
 
 import React, { startTransition, useActionState, useEffect } from "react";
 

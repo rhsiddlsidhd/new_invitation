@@ -3,6 +3,10 @@ import { TemplateDetail } from "@/components/template/TemplateDetail";
 import { TemplateFeatures } from "@/components/template/TemplateFeatures";
 import React from "react";
 
+// interface TemplateDetailPageProps {
+//   params: { id: string };
+// }
+
 const templateData = {
   id: 1,
   name: "로즈 가든",
@@ -45,11 +49,7 @@ const templateData = {
   ],
 };
 
-export default function TemplateDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function TemplateDetailPage() {
   return (
     <main className="bg-background min-h-screen">
       <div className="container mx-auto px-4 pt-24 pb-16">

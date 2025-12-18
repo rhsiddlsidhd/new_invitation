@@ -10,7 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import { Mail, Lock, User, Phone } from "lucide-react";
 import { GlobeAmericasIcon } from "@/components/atoms/Icon";
-import { signUp } from "@/actions/auth/signUp";
+import { signUp } from "@/domains/auth/actions";
 import { useRouter } from "next/navigation";
 
 export function SignupForm() {
