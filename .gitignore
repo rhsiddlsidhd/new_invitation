@@ -44,7 +44,8 @@ next-env.d.ts
 .mcp.json
 
 # docs
-docs/*
+docs/
+
 
 # md
 CLAUDE.md
