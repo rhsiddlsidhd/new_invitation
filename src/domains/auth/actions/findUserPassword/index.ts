@@ -1,20 +1,17 @@
 "use server";
 
-import { generateAccessEncrypt, generateEntryEncrypt } from "@/shared/lib/jose";
+import { generateEntryEncrypt } from "@/shared/lib/jose";
 import { sendEmail } from "@/domains/auth/actions";
 import { isEmailExists } from "@/domains/user";
-import { APIRESPONSE } from "@/shared/types/api";
-import { CustomError } from "@/shared/types/error";
-import { actionHttpError } from "@/shared/utils/error";
-import { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies";
-import { NextApiRequestCookies } from "next/dist/server/api-utils";
-import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
-import { cookies } from "next/headers";
-import z from "zod";
+import { APIRESPONSE } from "@/shared/types/api"; // Added
+import { ClientError } from "@/shared/types/error";
+import { handleActionError } from "@/shared/utils/error";
 
-const FindUserPasswordSchema = z.object({
-  email: z.email("이메일 형식이 올바르지 않습니다."),
-});
+import { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies"; // Added
+
+import { cookies } from "next/headers"; // Added
+import { validateAndFlatten } from "@/shared/lib/validation";
+import { emailSchema } from "../../validation";
 
 const createChangePWDomain = (token: string): string => {
   return process.env.NODE_ENV === "development"
@@ -34,15 +31,16 @@ export const findUserPassword = async (
       email: formData.get("email") as string,
     };
 
-    const isParse = FindUserPasswordSchema.safeParse(data);
+    const parsed = validateAndFlatten(emailSchema, data);
 
-    if (!isParse.success) {
-      throw new CustomError(isParse.error.issues[0].message, 400);
+    if (!parsed.success) {
+      throw new ClientError("입력 값을 확인해주세요.", 400, parsed.error);
     }
-    const { email } = isParse.data;
+    const { email } = parsed.data;
+
     const isEmail = await isEmailExists(email);
 
-    if (!isEmail) throw new CustomError("등록되지 않은 이메일입니다.", 400);
+    if (!isEmail) throw new ClientError("등록되지 않은 이메일입니다.", 400);
 
     // entry token 발행 && createDomatin
 
@@ -74,6 +72,6 @@ export const findUserPassword = async (
       },
     };
   } catch (e) {
-    return actionHttpError(e);
+    return handleActionError(e);
   }
 };

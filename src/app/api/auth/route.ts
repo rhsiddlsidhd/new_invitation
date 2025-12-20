@@ -1,6 +1,8 @@
-import { decrypt } from "@/shared/lib/jose";
-import { getAuthToken } from "@/domains/auth";
-import { NextResponse } from "next/server";
+import { decrypt } from '@/shared/lib/jose';
+import { getAuthToken } from '@/domains/auth';
+import { NextResponse } from 'next/server';
+import { handleMethodError } from '@/shared/utils/error';
+import { ClientError } from '@/shared/types/error';
 
 export const GET = async () => {
   try {
@@ -8,7 +10,7 @@ export const GET = async () => {
     const payload = await decrypt(token);
 
     if (!payload) {
-      throw new Error("Invalid token");
+      throw new ClientError('Invalid token', 401);
     }
 
     return NextResponse.json({
@@ -16,9 +18,6 @@ export const GET = async () => {
       data: { userId: payload.userId },
     });
   } catch (e) {
-    const message =
-      e instanceof Error ? e.message : `알 수 없는 에러가 발생했습니다. ${e}`;
-    console.error(message);
-    return NextResponse.json({ success: false, error: { message } });
+    return handleMethodError(e);
   }
 };

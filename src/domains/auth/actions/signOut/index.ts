@@ -1,6 +1,13 @@
-"use server";
-import { deleteAuthToken } from "@/domains/auth";
+'use server';
+import { deleteAuthToken } from '@/domains/auth';
+import { handleActionError } from '@/shared/utils/error';
+import { success } from '@/shared/utils/response';
 
 export const signOut = async () => {
-  await deleteAuthToken();
+  try {
+    await deleteAuthToken();
+    return success(null);
+  } catch (e) {
+    return handleActionError(e);
+  }
 };

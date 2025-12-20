@@ -5,40 +5,32 @@
  */
 
 import { getUserEmail } from "@/domains/user";
-import { APIRESPONSE } from "@/shared/types/api";
-import { CustomError } from "@/shared/types/error";
-import { actionHttpError } from "@/shared/utils/error";
-import { FindUserEmailSchema } from "@/shared/utils/validation/schema.auth";
-import z from "zod";
+import { APIResponse, success } from "@/shared/utils/response";
+import { ClientError } from "@/shared/types/error";
+import { handleActionError } from "@/shared/utils/error";
+import { validateAndFlatten } from "@/shared/lib/validation";
+import { UserEmailSchema } from "../../validation";
 
 export const findUserEmail = async (
-  prev: unknown,
+  _prev: unknown,
   formData: FormData,
-): Promise<APIRESPONSE<string>> => {
+): Promise<APIResponse<{ email: string }>> => {
   try {
     const data = {
       name: formData.get("name"),
       phone: formData.get("phone"),
     };
-    console.log("data", data);
-    const isParse = FindUserEmailSchema.safeParse(data);
-    if (!isParse.success) {
-      const { fieldErrors } = z.flattenError(isParse.error);
-      // console.log("error", fieldErrors);
-      throw new CustomError("입력 값을 확인해주세요.", 400, fieldErrors);
+
+    const parsed = validateAndFlatten(UserEmailSchema, data);
+    if (!parsed.success) {
+      throw new ClientError("입력 값을 확인해주세요.", 400, parsed.error);
     }
-    const { name, phone } = isParse.data;
+    const { name, phone } = parsed.data;
 
     const email = await getUserEmail({ name, phone });
 
-    return {
-      success: true,
-      data: {
-        message: "유저 이메일 찾기에 성공하였습니다.",
-        payload: email,
-      },
-    };
+    return success({ email });
   } catch (e) {
-    return actionHttpError(e);
+    return handleActionError(e);
   }
 };

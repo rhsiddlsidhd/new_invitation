@@ -1,16 +1,18 @@
 "use server";
 
-import { setAuthTokenCookie } from "@/domains/auth/actions";
 import { comparePasswords, getUserPasswordById } from "@/domains/user";
-import { APIRESPONSE } from "@/shared/types/api";
-import { CustomError } from "@/shared/types/error";
-import { actionHttpError } from "@/shared/utils/error";
-import { LoginSchema } from "@/shared/utils/validation/schema.auth";
+import { APIResponse, success } from "@/shared/utils/response";
+import { ClientError } from "@/shared/types/error";
+import { handleActionError } from "@/shared/utils/error";
+import { validateAndFlatten } from "@/shared/lib/validation";
+import { LoginSchema } from "../../validation";
+import { encrypt } from "@/shared/lib/token";
+import { setCookie } from "@/shared/lib/cookies";
 
 export const signIn = async (
   prev: unknown,
   formData: FormData,
-): Promise<APIRESPONSE<string>> => {
+): Promise<APIResponse<{ token: string }>> => {
   try {
     const data = {
       email: formData.get("email") as string,
@@ -19,16 +21,16 @@ export const signIn = async (
     };
 
     if (!data.email || !data.password) {
-      throw new CustomError("아이디와 비밀번호를 확인해주세요.", 400);
+      throw new ClientError("아이디와 비밀번호를 확인해주세요.", 400);
     }
 
-    const isUser = LoginSchema.safeParse(data);
+    const result = validateAndFlatten(LoginSchema, data);
 
-    if (!isUser.success) {
-      throw new CustomError(isUser.error.issues[0].message, 400);
+    if (!result.success) {
+      throw new ClientError("입력 값을 확인해주세요.", 400, result.error);
     }
 
-    const { email, password, remember } = isUser.data;
+    const { email, password, remember } = result.data;
 
     // 이메일를 바탕으로 사용자의 PASSWORD 가져오기
     const user = await getUserPasswordById(email);
@@ -36,19 +38,17 @@ export const signIn = async (
     const isPasswordValid = await comparePasswords(password, user.password);
 
     if (!isPasswordValid) {
-      throw new CustomError("비밀번호가 일치하지 않습니다.", 401);
+      throw new ClientError("비밀번호가 일치하지 않습니다.", 401);
     }
 
-    const { token } = await setAuthTokenCookie(data.email, remember);
+    const refreshJWT = await encrypt({ email, type: "REFRESH" });
 
-    return {
-      success: true,
-      data: {
-        message: "로그인에 성공하였습니다.",
-        payload: token,
-      },
-    };
+    await setCookie({ value: refreshJWT, remember });
+
+    const accessJWT = await encrypt({ email, type: "ACCESS" });
+
+    return success({ token: accessJWT });
   } catch (e) {
-    return actionHttpError(e);
+    return handleActionError(e);
   }
 };
