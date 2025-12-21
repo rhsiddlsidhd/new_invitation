@@ -2,7 +2,7 @@
 import { cookies } from "next/headers";
 
 import { comparePasswords, getUserPasswordById } from "@/domains/user";
-import { decrypt } from "@/shared/lib/jose";
+import { decrypt } from "@/shared/lib/token";
 import { deleteAuthToken, getAuthToken } from "@/domains/auth";
 import { APIResponse, success } from "@/shared/utils/response";
 import { ServerError } from "@/shared/types/error";
@@ -25,11 +25,11 @@ export const verifyPassword = async (
     }
 
     const token = await getAuthToken();
-    const { payload } = await decrypt(token);
-    if (!payload) throw new ServerError("인증에 실패하였습니다", 401);
+    const result = await decrypt({ token, type: 'REFRESH' });
+    if (!result.payload) throw new ServerError("인증에 실패하였습니다", 401);
 
     const { password: hashedPassword } = await getUserPasswordById(
-      payload.email,
+      result.payload.email,
     );
 
     const isPasswordValid = await comparePasswords(password, hashedPassword);

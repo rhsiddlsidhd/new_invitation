@@ -1,13 +1,12 @@
 "use server";
 
 import { cloudinary } from "@/shared/lib/cloudinary/config";
-import { decrypt } from "@/shared/lib/jose";
+import { decrypt } from "@/shared/lib/token";
 import { InvitationInput } from "@/domains/invitation";
 import { getAuthToken } from "@/domains/auth";
 import { createInvitation } from "@/domains/invitation";
 import { CloudinaryUploadResponse, GalleryEntry } from "@/shared/types";
-import { validateAndFlatten } from "@/shared/utils/validation";
-import { WeddingInfoSchema } from "@/shared/utils/validation/schema.server";
+import { validateAndFlatten, WeddingInfoSchema } from "@/shared/lib/validation";
 import { redirect } from "next/navigation";
 
 interface Payload {
@@ -26,7 +25,8 @@ export const postInvitationInfo = async (
 ) => {
   try {
     const token = await getAuthToken();
-    const { userId } = await decrypt(token);
+    const result = await decrypt({ token, type: 'REFRESH' });
+    const userId = result.payload?.userId;
     const { thumbnails, galleries, textField } = payload.data;
 
     const textValidation = validateAndFlatten(WeddingInfoSchema, textField);

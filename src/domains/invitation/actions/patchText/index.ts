@@ -1,19 +1,20 @@
 "use server";
 
-import { decrypt } from "@/shared/lib/jose";
+import { decrypt } from "@/shared/lib/token";
 import { getAuthToken } from "@/domains/auth";
 import { patchInvitation } from "@/domains/invitation";
 
-import { validateAndFlatten } from "@/shared/utils/validation";
 import {
+  validateAndFlatten,
   WeddingDateInfoSchema,
   WeddingParentInfoSchema,
   WeddingPartyInfoSchema,
-} from "@/shared/utils/validation/schema.server";
+} from "@/shared/lib/validation";
 
 export const patchText = async (prev: unknown, formData: FormData) => {
   const token = await getAuthToken();
-  const { userId } = await decrypt(token);
+  const result = await decrypt({ token, type: 'REFRESH' });
+  const userId = result.payload?.userId;
   const textField: Record<string, string> = {};
 
   for (const [key, value] of formData.entries()) {

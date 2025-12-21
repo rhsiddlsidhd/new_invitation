@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import useAuthTokenStore from "../store/authTokenStore";
-import { CustomError } from "@/shared/types/error";
+import { ClientError } from "@/shared/types/error";
 
 const useAuth = () => {
   const isAuth = useAuthTokenStore((state) => state.isAuth);
@@ -20,7 +20,7 @@ const useAuth = () => {
 
         if (!res.ok) {
           const data = await res.json();
-          throw new CustomError(data.message, res.status);
+          throw new ClientError(data.message, res.status);
         }
         const data = await res.json();
 

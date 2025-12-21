@@ -1,4 +1,4 @@
-import { generateEntryEncrypt } from '@/shared/lib/jose';
+import { encrypt } from '@/shared/lib/token';
 import { ClientError } from '@/shared/types/error';
 import { cookies } from 'next/headers';
 
@@ -8,7 +8,7 @@ import { handleMethodError } from '@/shared/utils/error';
 // entry 토큰을 발행하고 지정된 경로로 302 리다이렉트
 export const POST = async (req: NextRequest) => {
   try {
-    const entryToken = await generateEntryEncrypt();
+    const entryToken = await encrypt({ type: 'ENTRY' });
     const cookieStore = cookies();
     const path = req.nextUrl.searchParams.get('next');
 

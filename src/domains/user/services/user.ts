@@ -1,27 +1,26 @@
 import { User, BaseUser } from "@/domains/user";
-import { CustomError, ServerError } from "@/shared/types/error";
+import { ServerError } from "@/shared/types/error";
 import { dbConnect } from "@/shared/utils/mongodb";
 import bcrypt from "bcryptjs";
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 // 유저 조회 및 유저 정보 가져오기
-export const getUserById = async (
-  userId: string,
-): Promise<{
-  email: string;
-  userId: string;
-}> => {
-  await dbConnect();
+// export const getUserById = async (
+//   userId: string,
+// ): Promise<{
+//   email: string;
+//   userId: string;
+// }> => {
+//   await dbConnect();
 
-  const user = await User.findOne({ userId, isDelete: false });
+//   const user = await User.findOne({ userId, isDelete: false });
 
-  if (!user) throw new Error("사용자를 찾을 수 없습니다.");
+//   if (!user) throw new Error("사용자를 찾을 수 없습니다.");
 
-  return {
-    email: user.email,
-    userId: user.userId,
-  };
-};
+//   return {
+//     email: user.email,
+//     userId: user.userId,
+//   };
+// };
 
 //비밀번호 가져오기
 export const getUserPasswordById = async (
@@ -29,7 +28,7 @@ export const getUserPasswordById = async (
 ): Promise<{ password: string }> => {
   await dbConnect();
   const user = await User.findOne({ email, isDelete: false });
-  if (!user) throw new CustomError("사용자를 찾을 수 없습니다.", 401);
+  if (!user) throw new ServerError("사용자를 찾을 수 없습니다.", 401);
   return {
     password: user.password,
   };
@@ -132,12 +131,12 @@ export const getUserEmail = async ({
   return user.email;
 };
 
-export const getUserIdByEmail = async (
-  email: string,
-): Promise<string | null> => {
-  await dbConnect();
-  const user = await User.findOne({ email, isDelete: false })
-    .select("userId")
-    .lean();
-  return user ? user.userId : null;
-};
+// export const getUserIdByEmail = async (
+//   email: string,
+// ): Promise<string | null> => {
+//   await dbConnect();
+//   const user = await User.findOne({ email, isDelete: false })
+//     .select("userId")
+//     .lean();
+//   return user ? user.userId : null;
+// };

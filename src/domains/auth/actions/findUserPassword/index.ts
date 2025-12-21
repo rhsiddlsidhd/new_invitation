@@ -1,6 +1,6 @@
 "use server";
 
-import { generateEntryEncrypt } from "@/shared/lib/jose";
+import { encrypt } from "@/shared/lib/token";
 import { sendEmail } from "@/domains/auth/actions";
 import { isEmailExists } from "@/domains/user";
 import { APIRESPONSE } from "@/shared/types/api"; // Added
@@ -57,7 +57,7 @@ export const findUserPassword = async (
 
     cookieStore.set("userEmail", email, options);
 
-    const entryToken = await generateEntryEncrypt();
+    const entryToken = await encrypt({ type: "ENTRY" });
 
     // 도메인을 생성
     const path = createChangePWDomain(entryToken);

@@ -2,11 +2,7 @@
 import { useActionState, useEffect, useTransition, useState } from "react";
 import { useRouter } from "next/navigation";
 import { postInvitationInfo } from "@/domains/invitation";
-import { validateAndFlatten } from "@/shared/utils/validation";
-import {
-  GalleryMapSchema,
-  ThumbnailSchema,
-} from "@/shared/utils/validation/schema.client";
+import { validateAndFlatten, GalleryMapSchema, ThumbnailSchema } from "@/shared/lib/validation";
 import { parseInvitationForm } from "@/shared/utils/transform";
 
 import { InvitationInput } from "@/domains/invitation";
