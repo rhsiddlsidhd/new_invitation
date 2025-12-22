@@ -1,6 +1,6 @@
 import React, { useActionState, useEffect } from "react";
 import { motion } from "framer-motion";
-import Input from "@/components/atoms/Input";
+import Input from "@/components/atoms/Input/Input";
 import Btn from "@/components/atoms/Btn";
 import { deleteGuestBook } from "@/domains/guestbook";
 import { useRouter } from "next/navigation";

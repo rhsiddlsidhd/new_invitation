@@ -3,8 +3,8 @@
 import React, { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Box from "../../layout/Box";
-import Label from "../../atoms/Label";
-import Input from "../../atoms/Input";
+import Label from "../../atoms/Label/Label";
+import Input from "../../atoms/Input/Input";
 import Btn from "../../atoms/Btn";
 import { patchUserProfile } from "@/domains/user/actions";
 

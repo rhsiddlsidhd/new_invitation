@@ -1,7 +1,7 @@
 "use client";
 import React, { useActionState, useEffect } from "react";
 import Alert from "../../atoms/Alert";
-import Input from "../../atoms/Input";
+import Input from "../../atoms/Input/Input";
 import Btn from "../../atoms/Btn";
 import Box from "../../layout/Box";
 import { useRouter } from "next/navigation";

@@ -1,6 +1,6 @@
 "use client";
-import Input from "@/components/atoms/Input";
-import Label from "@/components/atoms/Label";
+import Input from "@/components/atoms/Input/Input";
+import Label from "@/components/atoms/Label/Label";
 import Box from "@/components/layout/Box";
 import React, { useEffect } from "react";
 

@@ -1,7 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import useAuthTokenStore from "../store/authTokenStore";
-import { ClientError } from "@/shared/types/error";
+import { fetcher } from "@/api/fetcher";
+import { handleClientError } from "@/api/error";
+import { UserRole } from "@/models/user.model";
 
 const useAuth = () => {
   const isAuth = useAuthTokenStore((state) => state.isAuth);
@@ -16,18 +18,13 @@ const useAuth = () => {
       }
 
       try {
-        const res = await fetch("/api/auth/refresh");
-
-        if (!res.ok) {
-          const data = await res.json();
-          throw new ClientError(data.message, res.status);
-        }
-        const data = await res.json();
-
-        setToken(data.payload);
+        const data = await fetcher<{ accessToken: string; role: UserRole }>(
+          "/api/auth/refresh",
+        );
+        const { accessToken, role } = data;
+        setToken({ token: accessToken, role });
       } catch (e) {
-        if (process.env.NODE_ENV === "development") console.error(e);
-        return null;
+        handleClientError(e);
       } finally {
         setLoading(false);
       }

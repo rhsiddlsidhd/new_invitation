@@ -1,5 +1,6 @@
+import { handleMethodError } from "@/api/error";
 import { deleteCookie } from "@/lib/cookies/delete";
-import { handleMethodError } from "@/shared/utils/error";
+
 import { NextResponse } from "next/server";
 
 export const DELETE = async (): Promise<NextResponse> => {

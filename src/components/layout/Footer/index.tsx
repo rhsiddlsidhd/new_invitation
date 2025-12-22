@@ -1,93 +1,92 @@
-import Img from "@/components/atoms/Img";
-import Input from "@/components/atoms/Input";
-import Label from "@/components/atoms/Label";
-import ClipboardBtn from "@/components/molecules/btns/ClipboardBtn";
-import BlurWord from "@/components/molecules/typography/BlurWord";
-import Link from "next/link";
-import React from "react";
-import { motion } from "framer-motion";
+import { Heart } from "lucide-react";
 
-const Footer = () => {
-  const icons = [
-    {
-      id: "gitgub",
-      location: "https://github.com/rhsiddlsidhd",
-      img: "/assets/github.svg",
-    },
-    {
-      id: "tistory",
-      location: "https://endless-growth.tistory.com/",
-      img: "/assets/tistory.svg",
-    },
-  ];
-
-  const navs = [
-    {
-      id: "Home",
-      path: "/",
-    },
-    {
-      id: "Dashboard",
-      path: "/dashboard",
-    },
-    {
-      id: "Profile",
-      path: "/profile",
-    },
-  ];
+export function Footer() {
   return (
-    <footer className="relative z-50 flex h-screen flex-col items-center justify-around gap-4 bg-black text-white">
-      <section className="m-auto">
-        <BlurWord word="contact" />
-      </section>
+    <footer className="bg-muted/30 border-border border-t py-12">
+      <div className="container mx-auto px-4">
+        <div className="mb-8 grid gap-8 md:grid-cols-4">
+          <div>
+            <div className="mb-4 flex items-center gap-2">
+              <div className="bg-primary flex h-8 w-8 items-center justify-center rounded-full">
+                <Heart className="text-primary-foreground h-4 w-4 fill-current" />
+              </div>
+              <span className="text-foreground text-lg font-bold">
+                WeddingCard
+              </span>
+            </div>
+            <p className="text-muted-foreground text-sm leading-relaxed">
+              {"당신의 특별한 날을 더 아름답게 만드는 모바일 청첩장 서비스"}
+            </p>
+          </div>
 
-      <section className="grid w-3/5 grid-cols-2 gap-2 p-2 max-sm:w-4/5 max-sm:grid-cols-1">
-        <div className="space-y-2 max-sm:w-full max-sm:text-xs">
-          <Label className="flex w-fit cursor-pointer gap-2 text-white">
-            이메일
-            <ClipboardBtn value="rhsiddlsidhd1@gmail.com" />
-          </Label>
-          <Input readOnly={true} value="rhsiddlsidhd1@gmail.com" />
-          <Link
-            href="mailto:rhsiddlsidhd1@gmail.com"
-            className="text-blue-300 underline"
-          >
-            이메일로 문의
-          </Link>
+          <div>
+            <h3 className="text-foreground mb-3 font-bold">{"서비스"}</h3>
+            <ul className="text-muted-foreground space-y-2 text-sm">
+              <li>
+                <a href="#" className="hover:text-foreground transition-colors">
+                  {"템플릿"}
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-foreground transition-colors">
+                  {"가격"}
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-foreground transition-colors">
+                  {"사용 가이드"}
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-foreground mb-3 font-bold">{"회사"}</h3>
+            <ul className="text-muted-foreground space-y-2 text-sm">
+              <li>
+                <a href="#" className="hover:text-foreground transition-colors">
+                  {"소개"}
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-foreground transition-colors">
+                  {"블로그"}
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-foreground transition-colors">
+                  {"채용"}
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-foreground mb-3 font-bold">{"지원"}</h3>
+            <ul className="text-muted-foreground space-y-2 text-sm">
+              <li>
+                <a href="#" className="hover:text-foreground transition-colors">
+                  {"고객센터"}
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-foreground transition-colors">
+                  {"FAQ"}
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-foreground transition-colors">
+                  {"문의하기"}
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <div className="flex items-center justify-center gap-2 max-sm:justify-end">
-          {icons.map((icon) => (
-            <Link
-              key={icon.id}
-              className="relative h-8 w-8 rounded-2xl bg-white"
-              href={icon.location}
-              target="_blank"
-            >
-              <Img src={icon.img} />
-            </Link>
-          ))}
+        <div className="border-border text-muted-foreground border-t pt-8 text-center text-sm">
+          <p>{"© 2025 WeddingCard. All rights reserved."}</p>
         </div>
-      </section>
-
-      <motion.ul className="grid w-3/5 max-w-xl grid-cols-1 justify-items-end gap-2 text-[3vw] text-gray-400 max-sm:w-4/5">
-        {navs.map((nav) => (
-          <motion.li
-            key={nav.id}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="cursor-pointer"
-          >
-            <Link href={nav.path}>{nav.id}</Link>
-          </motion.li>
-        ))}
-      </motion.ul>
-
-      <p className="m-auto p-4 text-xs text-gray-400">
-        Copyright @ 2025, YoungJae. All rights reserved.
-      </p>
+      </div>
     </footer>
   );
-};
-
-export default Footer;
+}

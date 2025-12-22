@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
-import Img from "../../../atoms/Img";
-import Label from "../../../atoms/Label";
+import Img from "../../../atoms/Img/Img";
+import Label from "../../../atoms/Label/Label";
 import { DocArrowUpIcon } from "../../../atoms/Icon";
 import OverlayCloseBtn from "../../btns/OverlayCloseBtn";
 

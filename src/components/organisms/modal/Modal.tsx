@@ -10,7 +10,7 @@ import WeddingDateForm from "../forms/WeddingDateForm";
 import WeddingParentForm from "../forms/WeddingParentForm";
 import WeddingThumbnailForm from "../forms/WeddingThumbnailForm";
 import WeddingGalleryForm from "../forms/WeddingGalleryForm";
-import Overlay from "./../../atoms/Overlay/index";
+import Overlay from "../../atoms/Overlay/Overlay";
 import Contact from "../panel/Contact";
 
 import GuestBook from "@/components/molecules/wedding/GuestBook";

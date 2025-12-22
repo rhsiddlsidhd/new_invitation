@@ -1,4 +1,4 @@
-import ChangePWForm from "@/components/template/ChangePWForm";
+import ChangePWForm from "@/components/organisms/(forms)/ChangePWForm";
 import { getCookie } from "@/lib/cookies/get";
 import { redirect } from "next/navigation";
 import React from "react";

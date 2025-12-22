@@ -4,7 +4,7 @@ import React, { ChangeEvent } from "react";
 
 import GalleryCardCell from "../GalleryCardCell";
 import { cardConfig } from "@/shared/constants";
-import Label from "../../../atoms/Label";
+import Label from "../../../atoms/Label/Label";
 
 const GalleryCard = ({
   type,

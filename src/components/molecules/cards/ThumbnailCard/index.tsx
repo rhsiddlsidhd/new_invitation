@@ -1,11 +1,11 @@
 "use client";
 import { DocArrowUpIcon } from "@/components/atoms/Icon";
-import Img from "@/components/atoms/Img";
+import Img from "@/components/atoms/Img/Img";
 import OverlayCloseBtn from "../../btns/OverlayCloseBtn";
 
 import { motion } from "framer-motion";
-import Label from "@/components/atoms/Label";
-import Card from "@/components/atoms/Card";
+import Label from "@/components/atoms/Label/Label";
+import Card from "@/components/atoms/Card/Card";
 import { useCallback, useRef } from "react";
 import { getUserState } from "@/domains/user";
 

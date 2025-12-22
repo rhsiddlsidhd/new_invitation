@@ -1,5 +1,5 @@
-import { CheckoutForm } from "@/components/template/CheckoutForm";
-import { OrderSummary } from "@/components/template/OrderSummary";
+import { CheckoutForm } from "@/components/organisms/(forms)/CheckoutForm";
+import { OrderSummary } from "@/components/organisms/(order)/OrderSummary";
 
 export default function CheckoutPage() {
   // In a real app, this would come from URL params or cart state

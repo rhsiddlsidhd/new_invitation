@@ -1,11 +1,11 @@
 "use client";
 import React, { useMemo } from "react";
 import { useModalStore } from "@/shared/store/modalStore";
-import Label from "@/components/atoms/Label";
-import Input from "@/components/atoms/Input";
+import Label from "@/components/atoms/Label/Label";
+import Input from "@/components/atoms/Input/Input";
 import Btn from "@/components/atoms/Btn";
 import { PanelField } from "@/shared/types";
-import useDaumPopup from "@/shared/hooks/useDaumPopup";
+import useDaumPopup from "@/hooks/useDaumPopup";
 import { useUserStore } from "@/domains/user";
 
 const createLocationFields = ({

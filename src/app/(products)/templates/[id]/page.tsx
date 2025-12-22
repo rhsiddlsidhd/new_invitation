@@ -1,6 +1,6 @@
-import { RelatedTemplates } from "@/components/template/RelatedTemplates";
-import { TemplateDetail } from "@/components/template/TemplateDetail";
-import { TemplateFeatures } from "@/components/template/TemplateFeatures";
+import { RelatedTemplates } from "@/components/organisms/(template)/RelatedTemplates";
+import { TemplateDetail } from "@/components/organisms/(template)/TemplateDetail";
+import { TemplateFeatures } from "@/components/organisms/(template)/TemplateFeatures";
 import React from "react";
 
 // interface TemplateDetailPageProps {

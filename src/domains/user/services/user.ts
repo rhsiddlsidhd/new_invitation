@@ -1,4 +1,6 @@
-import { ServerError } from "@/shared/types/error";
+import { ServerError } from "@/api/type";
+import User, { BaseUser } from "@/models/user.model";
+
 import { dbConnect } from "@/shared/utils/mongodb";
 import bcrypt from "bcryptjs";
 
@@ -34,12 +36,6 @@ export const getUserPasswordById = async (
 };
 
 // 비밀번호 비교
-export const comparePasswords = async (
-  plainPassword: string,
-  hashedPassword: string,
-): Promise<boolean> => {
-  return await bcrypt.compare(plainPassword, hashedPassword);
-};
 
 // 이메일 변경
 export const updateUserEmail = async ({
@@ -67,23 +63,23 @@ export const updateUserEmail = async ({
 };
 
 // 비밀번호 변경 함수
-export const changePassword = async (
-  email: string,
-  newPassword: string,
-): Promise<boolean> => {
-  await dbConnect();
+// export const changePassword = async (
+//   email: string,
+//   newPassword: string,
+// ): Promise<boolean> => {
+//   await dbConnect();
 
-  // 새 비밀번호 해싱
-  const hashedNewPassword = await bcrypt.hash(newPassword, 12);
+//   // 새 비밀번호 해싱
+//   const hashedNewPassword = await bcrypt.hash(newPassword, 12);
 
-  // 비밀번호 업데이트
-  const userBeforeUpdate = await User.findOneAndUpdate(
-    { email, isDelete: false },
-    { password: hashedNewPassword },
-  );
+//   // 비밀번호 업데이트
+//   const userBeforeUpdate = await User.findOneAndUpdate(
+//     { email, isDelete: false },
+//     { password: hashedNewPassword },
+//   );
 
-  return !!userBeforeUpdate;
-};
+//   return !!userBeforeUpdate;
+// };
 
 // 유저 계정 삭제
 export const softDeleteUser = async (id: string): Promise<void> => {
@@ -107,28 +103,14 @@ export const isEmailExists = async (email: string): Promise<boolean> => {
 
 // 유저 생성
 
-export const createUser = async (user: BaseUser): Promise<void> => {
-  await dbConnect();
+// export const createUser = async (user: BaseUser): Promise<void> => {
+//   await dbConnect();
 
-  // 새 사용자 생성
-  const newUser = new User(user);
+//   // 새 사용자 생성
+//   const newUser = new User(user);
 
-  await newUser.save();
-};
-
-// 유저 email 찾기
-export const getUserEmail = async ({
-  name,
-  phone,
-}: {
-  name: string;
-  phone: string;
-}): Promise<string> => {
-  await dbConnect();
-  const user = await User.findOne({ name, phone }).lean<BaseUser>();
-  if (!user) throw new ServerError("유저를 찾을 수가 없습니다.", 404);
-  return user.email;
-};
+//   await newUser.save();
+// };
 
 // export const getUserIdByEmail = async (
 //   email: string,

@@ -1,7 +1,7 @@
 import React from "react";
 import { ModalType, useModalStore } from "@/shared/store";
-import Label from "@/components/atoms/Label";
-import Input from "@/components/atoms/Input";
+import Label from "@/components/atoms/Label/Label";
+import Input from "@/components/atoms/Input/Input";
 import Btn from "@/components/atoms/Btn";
 import { useWeddingCouple } from "@/domains/user";
 import { CoupleField } from "./type";

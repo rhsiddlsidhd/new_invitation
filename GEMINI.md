@@ -2,8 +2,12 @@
 
 ## 📌 핵심 바로가기
 
-- [🏠 폴더 구조 및 컨벤션 가이드 바로가기](./docs/public/structure-convention.md)
-- [🔐 인증/보안 가이드 (Zod & JWT)](./docs/public/)
+| 명령어 | 관련 문서 | 경로 | 비고 |
+| :--- | :--- | :--- | :--- |
+| `커밋해줘` | 커밋 템플릿 | [`./docs/COMMIT_TEMPLATE.md`](./docs/COMMIT_TEMPLATE.md) | `COMMIT_TEMPLATE.md` 기반으로 커밋 메시지 작성을 요청합니다. |
+| `PR해줘` | PULL REQUEST 템플릿 | [`./docs/PULL_REQUEST_TEMPLATE.md`](./docs/PULL_REQUEST_TEMPLATE.md) | `PULL_REQUEST_TEMPLATE.md` 기반으로 PR 본문 작성을 요청합니다. |
+| `아키텍처적용해줘` | 폴더 구조 및 컨벤션 | [`./docs/public/structure-convention.md`](./docs/public/structure-convention.md) | `structure-convention.md` 가이드에 따라 폴더 구조 및 파일을 재배치합니다. |
+| `에러핸들러적용해줘` | 에러 핸들링 가이드 | [`./docs/ERROR_HANDLER.md`](./docs/ERROR_HANDLER.md) | `ERROR_HANDLER.md` 가이드에 따라 에러 처리 로직을 적용합니다. |
 
 # 프로젝트: 디지털 상품 EC 서비스
 
