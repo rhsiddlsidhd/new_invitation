@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
-
+export type UserRole = "USER" | "ADMIN";
 export interface BaseUser {
   email: string;
   name: string;
@@ -8,7 +8,7 @@ export interface BaseUser {
 }
 
 interface UserModel extends BaseUser {
-  role: "user" | "admin";
+  role: UserRole;
   isDelete: boolean;
 }
 
@@ -23,7 +23,7 @@ const userSchema = new Schema<UserDocument>(
     name: { type: String, required: true },
     phone: { type: String, required: true },
     password: { type: String, required: true },
-    role: { type: String, enum: ["user", "admin"], default: "user" },
+    role: { type: String, enum: ["USER", "ADMIN"], default: "USER" },
     isDelete: { type: Boolean, default: false },
   },
   { timestamps: true },

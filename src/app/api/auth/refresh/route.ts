@@ -2,6 +2,7 @@ import { handleMethodError } from "@/api/error";
 import { HTTPError } from "@/api/type";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt, encrypt } from "@/lib/token";
+import { getUser } from "@/services/auth.service";
 
 import { NextResponse } from "next/server";
 
@@ -17,15 +18,21 @@ export const GET = async () => {
 
     const { payload } = await decrypt({ token: refreshToken, type: "REFRESH" });
 
-    if (!payload.email) throw new HTTPError("유효하지 않은 토큰입니다.", 401);
+    if (!payload.id) throw new HTTPError("유효하지 않은 토큰입니다.", 401);
+
+    const user = await getUser({ id: payload.id });
+
+    if (!user) throw new HTTPError("사용자를 찾을 수가 없습니다.", 400);
+
     const accessToken = await encrypt({
-      email: payload.email,
+      id: user._id,
       type: "ACCESS",
     });
 
     return NextResponse.json(
       {
         accessToken,
+        role: user.role,
       },
       { status: 200 },
     );

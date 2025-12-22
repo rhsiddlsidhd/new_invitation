@@ -8,6 +8,7 @@ import React from "react";
 const LoginPage = async () => {
   const cookie = await getCookie("entry");
   if (!cookie) redirect("/");
+
   const isVerify = await decrypt({ token: cookie.value, type: "ENTRY" });
   if (!isVerify) redirect("/");
 

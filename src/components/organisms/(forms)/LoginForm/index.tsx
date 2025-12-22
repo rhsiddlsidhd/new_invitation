@@ -23,7 +23,7 @@ export function LoginForm() {
 
   useEffect(() => {
     if (state && state.success) {
-      setToken(state.data.token);
+      setToken({ token: state.data.token, role: state.data.role });
       router.push("/");
     } else if (state && !state.success) {
       console.log(state.error);

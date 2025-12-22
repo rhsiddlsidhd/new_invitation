@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import useAuthTokenStore from "../store/authTokenStore";
-import { HTTPError } from "@/api/type";
 import { fetcher } from "@/api/fetcher";
 import { handleClientError } from "@/api/error";
+import { UserRole } from "@/models/user.model";
 
 const useAuth = () => {
   const isAuth = useAuthTokenStore((state) => state.isAuth);
@@ -18,11 +18,11 @@ const useAuth = () => {
       }
 
       try {
-        const data = await fetcher<{ accessToken: string }>(
+        const data = await fetcher<{ accessToken: string; role: UserRole }>(
           "/api/auth/refresh",
         );
-
-        setToken(data.accessToken);
+        const { accessToken, role } = data;
+        setToken({ token: accessToken, role });
       } catch (e) {
         handleClientError(e);
       } finally {

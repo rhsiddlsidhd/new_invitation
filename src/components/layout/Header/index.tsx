@@ -7,7 +7,7 @@ import React from "react";
 
 const Header = async () => {
   return (
-    <header className="bg-background/80 border-border fixed top-0 right-0 left-0 z-50 border-b backdrop-blur-md">
+    <header className="bg-background/80 border-border fixed top-0 right-0 left-0 z-50 w-screen border-b backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2">
           <div className="bg-primary flex h-8 w-8 items-center justify-center rounded-full">
@@ -38,9 +38,8 @@ const Header = async () => {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Btn variant="ghost" size="sm">
-            <AuthButton />
-          </Btn>
+          <AuthButton />
+
           <Btn
             size="sm"
             className="bg-primary text-primary-foreground hover:bg-primary/90 hidden sm:inline-flex"

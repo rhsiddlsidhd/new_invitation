@@ -4,7 +4,7 @@ import { ENTRY_ENCODED_KEY, JWT_ENCODED_KEY } from "./config";
 
 export async function encrypt(payload: EncryptProps) {
   return await new SignJWT({
-    email: payload.type !== "ENTRY" ? payload.email : "entryToken",
+    id: payload.type !== "ENTRY" ? payload.id : "entryToken",
   })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()

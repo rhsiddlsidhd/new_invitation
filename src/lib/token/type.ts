@@ -6,17 +6,17 @@ interface JWTBaseProps {
 
 interface AccessEncrypt {
   type: "ACCESS";
-  email: string;
+  id: string;
 }
 
 interface RefreshEncrypt {
   type: "REFRESH";
-  email: string;
+  id: string;
 }
 
 interface EntryEncrypt {
   type: "ENTRY";
-  email?: string;
+  id?: string;
 }
 
 export type EncryptProps = AccessEncrypt | RefreshEncrypt | EntryEncrypt;
