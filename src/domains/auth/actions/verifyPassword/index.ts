@@ -2,16 +2,17 @@
 import { cookies } from "next/headers";
 
 import { comparePasswords, getUserPasswordById } from "@/domains/user";
-import { APIRESPONSE } from "@/shared/types";
 import { decrypt } from "@/shared/lib/jose";
 import { deleteAuthToken, getAuthToken } from "@/domains/auth";
-// Promise<APIRESPONSE<{ path: string }>>
+import { APIResponse, success } from "@/shared/utils/response";
+import { ServerError } from "@/shared/types/error";
+import { handleActionError } from "@/shared/utils/error";
+
 export const verifyPassword = async (
   prev: unknown,
   formData: FormData,
-): Promise<APIRESPONSE> => {
+): Promise<APIResponse<{ message: string; payload: undefined }>> => {
   try {
-    // const path = formData.get("next") as string;
     const password = formData.get("password") as string;
     if (!password) {
       return {
@@ -24,25 +25,21 @@ export const verifyPassword = async (
     }
 
     const token = await getAuthToken();
-    const { userId } = await decrypt(token);
-    if (!userId) throw new Error("Invalid token payload");
+    const { payload } = await decrypt(token);
+    if (!payload) throw new ServerError("인증에 실패하였습니다", 401);
 
-    const { password: hashedPassword } = await getUserPasswordById(userId);
+    const { password: hashedPassword } = await getUserPasswordById(
+      payload.email,
+    );
 
     const isPasswordValid = await comparePasswords(password, hashedPassword);
 
-    if (!isPasswordValid) {
-      return {
-        success: false,
-        error: {
-          code: 401,
-          message: "비밀번호가 올바르지 않습니다.",
-        },
-      };
-    }
+    if (!isPasswordValid)
+      throw new ServerError("비밀번호가 올바르지 않습니다", 401);
 
     // 성공시 쿠키 설정
     const cookieStore = await cookies();
+
     cookieStore.set("password-verified", "true", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -50,27 +47,12 @@ export const verifyPassword = async (
       sameSite: "strict",
     });
 
-    return {
-      success: true,
-      data: {
-        code: 200,
-        message: "비밀번호 인증에 성공했습니다.",
-        payload: undefined,
-      },
-    };
+    return success({
+      message: "비밀번호 인증에 성공했습니다",
+      payload: undefined,
+    });
   } catch (error) {
-    const message =
-      error instanceof Error
-        ? error.message
-        : "알 수 없는 오류가 발생했습니다.";
-    console.error(message);
     await deleteAuthToken();
-    return {
-      success: false,
-      error: {
-        code: 500,
-        message,
-      },
-    };
+    return handleActionError(error);
   }
 };

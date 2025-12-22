@@ -1,40 +1,53 @@
-import { APIFAILRESPONSE } from "@/shared/types/api";
-import { CustomError } from "@/shared/types/error";
 import { NextResponse } from "next/server";
+import { ClientError, ServerError } from "@/shared/types/error";
+import { error as createErrorResponse, ErrorResponse } from "../response";
 
-export const actionHttpError = (e: unknown): APIFAILRESPONSE => {
-  if (e instanceof CustomError) {
-    return {
-      success: false,
-      error: {
-        code: e.code,
-        message: e.message,
-        fieldErrors: e.fieldErrors,
-      },
-    };
-  }
-
-  return {
-    success: false,
-    error: {
-      code: 500,
-      message: "잠시 후 다시 시도해주세요.",
-    },
-  };
+/**
+ * Handles errors for Server Actions, returning a structured ErrorResponse object.
+ * This function does not include HTTP status codes in the response body,
+ * as it's designed for server-to-server communication or client-side logic
+ * that processes a structured response.
+ *
+ * @param e - The error object, which can be of any type.
+ * @returns An ErrorResponse object with `success: false` and error details.
+ */
+export const handleActionError = (e: unknown): ErrorResponse => {
+  return createErrorResponse(e);
 };
 
-export const handlerApiError = (e: unknown) => {
-  if (e instanceof CustomError) {
-    const { code, message } = e;
-    const status = code >= 100 && code <= 599 ? code : 500;
-    return NextResponse.json({ success: false, message }, { status });
-  } else {
+/**
+ * Handles errors for API route handlers (e.g., in `route.ts`),
+ * returning a `NextResponse` object with an appropriate HTTP status code.
+ * This is suitable for traditional client-side `fetch` calls that rely on
+ * HTTP status codes for error handling.
+ *
+ * @param e - The error object, which can be of any type.
+ * @returns A `NextResponse` object containing the error details and status.
+ */
+export const handleMethodError = (e: unknown): NextResponse => {
+  if (e instanceof ClientError) {
     return NextResponse.json(
-      { success: false, message: "잠시 후 다시 시도해주세요." },
+      {
+        message: e.message,
+        errors: e.errors,
+      },
+      { status: e.code },
+    );
+  }
+
+  if (e instanceof ServerError) {
+    return NextResponse.json({ message: e.message }, { status: e.code });
+  }
+
+  if (e instanceof Error) {
+    return NextResponse.json(
+      { message: e.message || "An unexpected error occurred." },
       { status: 500 },
     );
   }
-};
 
-// export const clientApiError = (e:unknown)=>{
-// }
+  return NextResponse.json(
+    { message: "An unknown error occurred." },
+    { status: 500 },
+  );
+};

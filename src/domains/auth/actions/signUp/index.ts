@@ -1,18 +1,18 @@
 "use server";
 
-import z from "zod";
+import { APIResponse, success } from "@/shared/utils/response";
 
-import { APIRESPONSE } from "@/shared/types/api";
-import { RegisterSchema } from "@/shared/utils/validation/schema.auth";
 import { createUser, isEmailExists } from "@/domains/user";
-import { actionHttpError } from "@/shared/utils/error";
+import { handleActionError } from "@/shared/utils/error";
 import { hashPassword } from "@/shared/lib/bcrypt";
-import { CustomError } from "@/shared/types/error";
+import { ClientError } from "@/shared/types/error";
+import { validateAndFlatten } from "@/shared/lib/validation";
+import { RegisterSchema } from "../../validation";
 
 export async function signUp(
   prev: unknown,
   formData: FormData,
-): Promise<APIRESPONSE> {
+): Promise<APIResponse> {
   try {
     const data = {
       email: formData.get("email") as string,
@@ -22,17 +22,17 @@ export async function signUp(
       confirmPassword: formData.get("confirmPassword") as string,
     };
 
-    const parsed = RegisterSchema.safeParse(data);
+    const parsed = validateAndFlatten(RegisterSchema, data);
+
     if (!parsed.success) {
-      const { fieldErrors } = z.flattenError(parsed.error);
-      throw new CustomError("입력값을 확인해주세요", 400, fieldErrors);
+      throw new ClientError("입력값을 확인해주세요", 400, parsed.error);
     }
 
     const { email, name, phone, password } = parsed.data;
 
     const isEmail = await isEmailExists(email);
 
-    if (isEmail) throw new CustomError("이미 존재하는 이메일 입니다.", 409);
+    if (isEmail) throw new ClientError("이미 존재하는 이메일 입니다.", 409);
 
     const hashedPassword = await hashPassword(password);
 
@@ -43,14 +43,10 @@ export async function signUp(
       phone,
     });
 
-    return {
-      success: true,
-      data: {
-        message: `${data.email}님 회원가입을 축하드립니다.`,
-        payload: undefined,
-      },
-    };
+    return success({
+      message: `${data.email}님 회원가입을 축하드립니다.`,
+    });
   } catch (e) {
-    return actionHttpError(e);
+    return handleActionError(e);
   }
 }

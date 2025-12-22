@@ -1,5 +1,5 @@
 import { User, BaseUser } from "@/domains/user";
-import { CustomError } from "@/shared/types/error";
+import { CustomError, ServerError } from "@/shared/types/error";
 import { dbConnect } from "@/shared/utils/mongodb";
 import bcrypt from "bcryptjs";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
@@ -128,12 +128,16 @@ export const getUserEmail = async ({
 }): Promise<string> => {
   await dbConnect();
   const user = await User.findOne({ name, phone }).lean<BaseUser>();
-  if (!user) throw new CustomError("유저를 찾을 수가 없습니다.", 404);
+  if (!user) throw new ServerError("유저를 찾을 수가 없습니다.", 404);
   return user.email;
 };
 
-export const getUserIdByEmail = async (email: string): Promise<string | null> => {
+export const getUserIdByEmail = async (
+  email: string,
+): Promise<string | null> => {
   await dbConnect();
-  const user = await User.findOne({ email, isDelete: false }).select('userId').lean();
+  const user = await User.findOne({ email, isDelete: false })
+    .select("userId")
+    .lean();
   return user ? user.userId : null;
 };

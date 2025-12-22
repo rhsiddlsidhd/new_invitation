@@ -5,5 +5,3 @@ export * from "./signIn";
 export * from "./signOut";
 export * from "./signUp";
 export * from "./verifyPassword";
-export * from "./setAuthTokenCookie";
-export * from "./sendEmail";
