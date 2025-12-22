@@ -1,9 +1,8 @@
+import { getCookie } from "@/lib/cookies/get";
 import { decrypt, encrypt } from "@/lib/token";
 import { ClientError } from "@/shared/types/error";
 import { handleMethodError } from "@/shared/utils/error";
-
 import { NextResponse } from "next/server";
-import { getCookie } from "@/lib/cookies";
 
 export const GET = async () => {
   // 리프레쉬 토큰 유효성 검사 이후 Access token 발행

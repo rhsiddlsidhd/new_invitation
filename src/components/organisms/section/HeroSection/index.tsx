@@ -9,9 +9,9 @@ import {
   useInView,
 } from "framer-motion";
 import HeroBox from "@/components/molecules/boxs/HeroBox";
-import Img from "@/components/atoms/Img";
+import Img from "@/components/atoms/Img/Img";
 import { generateParticles } from "@/shared/utils/animation";
-import Card from "@/components/atoms/Card";
+import Card from "@/components/atoms/Card/Card";
 import { squareSizes } from "@/shared/constants";
 import { particleContainer, particleItem } from "@/styles/variants";
 

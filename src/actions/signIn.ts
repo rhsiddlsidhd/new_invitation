@@ -24,13 +24,13 @@ export const signIn = async (
       throw new ClientError("아이디와 비밀번호를 확인해주세요.", 400);
     }
 
-    const result = validateAndFlatten(LoginSchema, data);
+    const parsed = validateAndFlatten(LoginSchema, data);
 
-    if (!result.success) {
-      throw new ClientError("입력 값을 확인해주세요.", 400, result.error);
+    if (!parsed.success) {
+      throw new ClientError("입력 값을 확인해주세요.", 400, parsed.error);
     }
 
-    const { email, password, remember } = result.data;
+    const { email, password, remember } = parsed.data;
 
     // 이메일를 바탕으로 사용자의 PASSWORD 가져오기
     const user = await getUserPasswordById(email);

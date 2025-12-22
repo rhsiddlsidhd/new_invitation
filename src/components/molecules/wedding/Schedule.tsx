@@ -1,5 +1,5 @@
 "use client";
-import DateDisplay from "@/components/atoms/Date";
+import DateDisplay from "@/components/atoms/Date/Date";
 import React from "react";
 
 const Schedule = ({ date }: { date: string }) => {

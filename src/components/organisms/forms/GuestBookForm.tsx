@@ -1,7 +1,7 @@
 import Btn from "@/components/atoms/Btn";
 import React, { useActionState, useEffect } from "react";
 
-import Input from "@/components/atoms/Input";
+import Input from "@/components/atoms/Input/Input";
 import { postGuestbook } from "@/domains/guestbook";
 import { useModalStore } from "@/shared/store";
 import { useRouter } from "next/navigation";

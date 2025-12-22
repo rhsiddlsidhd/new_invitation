@@ -4,7 +4,7 @@ import { SignOutIcon, UserIcon } from "@/components/atoms/Icon";
 import SignOutBtn from "../SignOutBtn";
 import SignInBtn from "../SignInBtn";
 import { useAuthStore } from "@/domains/auth/store";
-import Spinner from "@/components/atoms/Spinner";
+import Spinner from "@/components/atoms/Spinner/Spinner";
 
 const AuthToggleBtn = () => {
   const [pending, setPending] = useState<boolean>(true);

@@ -1,7 +1,7 @@
 "use client";
 
-import { TemplateFilters } from "@/components/template/TemplateFilters";
-import { TemplateGrid } from "@/components/template/TemplateGrid";
+import { TemplateFilters } from "@/components/organisms/(template)/TemplateFilters";
+import { TemplateGrid } from "@/components/organisms/(template)/TemplateGrid";
 import {
   initialFilterState,
   TemplateFilterProvider,

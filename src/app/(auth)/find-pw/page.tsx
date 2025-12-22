@@ -1,4 +1,4 @@
-import { ForgotPasswordForm } from "@/components/template/ForgetPasswordForm";
+import { ForgotPasswordForm } from "@/components/organisms/(forms)/ForgetPasswordForm";
 
 import React from "react";
 

@@ -1,4 +1,4 @@
-import { LoginForm } from "@/components/template/LoginForm";
+import { LoginForm } from "@/components/organisms/(forms)/LoginForm";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
 import { redirect } from "next/navigation";

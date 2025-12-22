@@ -2,8 +2,8 @@
 
 import Alert from "@/components/atoms/Alert";
 import Btn from "@/components/atoms/Btn";
-import Input from "@/components/atoms/Input";
-import Label from "@/components/atoms/Label";
+import Input from "@/components/atoms/Input/Input";
+import Label from "@/components/atoms/Label/Label";
 import { useModalStore } from "@/shared/store";
 import React, { useActionState, useEffect } from "react";
 import { motion } from "framer-motion";
