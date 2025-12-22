@@ -16,7 +16,7 @@
 - Nextjs (App 디렉토리)
 - mongoose + Mongo DB
 
-##2 상태 관리 규약
+## 상태 관리 규약
 
 > 원칙
 >
@@ -52,10 +52,11 @@
 
 ## API & Data Convention
 
-- **Server Actions**: `src/actions` 혹은 `domains/*/actions`에 위치하며, 반드시 `"use server"` 지시어를 상단에 선언한다.
-- **Data Validation**: `zod` 라이브러리를 사용하여 Schema를 정의하고, 클라이언트(Form)와 서버(API/Action)에서 동일한 스키마를 공유한다.
+- **Server Actions**: `actions/`에 위치하며, 반드시 `"use server"` 지시어를 상단에 선언한다.
+- **Data Validation**: `zod` 라이브러리를 사용하여 `schemas/`에 스키마를 정의하고, 클라이언트(Form)와 서버(API/Action)에서 동일한 스키마를 공유한다.
+- **Business Logic**: `services/`에 실제 DB 접근 및 비즈니스 로직을 처리한다.
 - **Mongoose**:
-  - DB 모델은 `src/models`에 정의한다.
+  - DB 모델은 `models/`에 정의한다.
   - Lean 쿼리(`.lean()`)를 적극 사용하여 성능을 최적화하고 POJO(Plain Old JavaScript Object) 형태로 클라이언트에 전달한다.
 
 ## Error & Loading Handling
