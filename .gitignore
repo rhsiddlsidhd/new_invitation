@@ -50,4 +50,4 @@ next-env.d.ts
 # md
 CLAUDE.md
 
-.github/*
+.github/ 
