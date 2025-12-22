@@ -1,20 +1,20 @@
 "use server";
 
-import { cloudinary } from "@/shared/lib/cloudinary/config";
-import { decrypt } from "@/shared/lib/token";
+import { cloudinary } from "@/lib/cloudinary/config";
+import { decrypt } from "@/lib/token";
 import { getAuthToken } from "@/domains/auth";
 import { patchInvitation } from "@/domains/invitation";
 
 import { Thumbnail } from "@/shared/types";
 
-import { validateAndFlatten, thumbnailSchema } from "@/shared/lib/validation";
+import { validateAndFlatten, thumbnailSchema } from "@/lib/validation";
 
 export const patchThumbnail = async (
   prev: unknown,
   payload: { data: Thumbnail[] },
 ) => {
   const token = await getAuthToken();
-  const result = await decrypt({ token, type: 'REFRESH' });
+  const result = await decrypt({ token, type: "REFRESH" });
   const userId = result.payload?.userId;
 
   const validation = validateAndFlatten(thumbnailSchema, payload.data);

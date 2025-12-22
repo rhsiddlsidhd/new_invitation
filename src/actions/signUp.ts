@@ -2,12 +2,13 @@
 
 import { APIResponse, success } from "@/shared/utils/response";
 
-import { createUser, isEmailExists } from "@/domains/user";
+import { createUser } from "@/domains/user";
 import { handleActionError } from "@/shared/utils/error";
-import { hashPassword } from "@/shared/lib/bcrypt";
+import { hashPassword } from "@/lib/bcrypt";
 import { ClientError } from "@/shared/types/error";
-import { validateAndFlatten } from "@/shared/lib/validation";
+import { validateAndFlatten } from "@/lib/validation";
 import { RegisterSchema } from "@/schemas/register.schema";
+import { checkEmailDuplicate } from "@/services/user.service";
 
 export async function signUp(
   prev: unknown,
@@ -30,7 +31,7 @@ export async function signUp(
 
     const { email, name, phone, password } = parsed.data;
 
-    const isEmail = await isEmailExists(email);
+    const isEmail = await checkEmailDuplicate(email);
 
     if (isEmail) throw new ClientError("이미 존재하는 이메일 입니다.", 409);
 

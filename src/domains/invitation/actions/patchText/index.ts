@@ -1,6 +1,6 @@
 "use server";
 
-import { decrypt } from "@/shared/lib/token";
+import { decrypt } from "@/lib/token";
 import { getAuthToken } from "@/domains/auth";
 import { patchInvitation } from "@/domains/invitation";
 
@@ -9,11 +9,11 @@ import {
   WeddingDateInfoSchema,
   WeddingParentInfoSchema,
   WeddingPartyInfoSchema,
-} from "@/shared/lib/validation";
+} from "@/lib/validation";
 
 export const patchText = async (prev: unknown, formData: FormData) => {
   const token = await getAuthToken();
-  const result = await decrypt({ token, type: 'REFRESH' });
+  const result = await decrypt({ token, type: "REFRESH" });
   const userId = result.payload?.userId;
   const textField: Record<string, string> = {};
 

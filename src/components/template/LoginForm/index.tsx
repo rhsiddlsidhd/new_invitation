@@ -9,25 +9,22 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import { Mail, Lock } from "lucide-react";
 import { GlobeAmericasIcon } from "@/components/atoms/Icon";
-import { signIn } from "@/domains/auth/actions";
-import { useAuthStore } from "@/domains/auth/store";
+
 import { useRouter } from "next/navigation";
+import useAuthStore from "@/store/authTokenStore";
+import { signIn } from "@/actions/signIn";
 
 export function LoginForm() {
   const router = useRouter();
   const [state, action, pending] = useActionState(signIn, null);
   const setToken = useAuthStore((state) => state.setToken);
-  const isAuth = useAuthStore((state) => state.isAuth);
 
   useEffect(() => {
     if (state && state.success) {
-      setToken(state.data.payload);
+      setToken(state.data.token);
+      router.push("/");
     }
-  }, [state, setToken]);
-
-  useEffect(() => {
-    if (isAuth) router.push("/");
-  }, [isAuth, router]);
+  }, [state, setToken, router]);
 
   return (
     <div className="space-y-6">
@@ -93,7 +90,7 @@ export function LoginForm() {
         </div>
 
         <Button type="submit" className="w-full" size="lg">
-          로그인
+          {pending ? "로그인 중" : "로그인"}
         </Button>
       </form>
 

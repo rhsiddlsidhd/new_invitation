@@ -3,7 +3,7 @@
 import { cloudinary } from "@/lib/cloudinary/config";
 import { decrypt } from "@/lib/jose";
 import { InvitationInput } from "@/models/invitationSchema";
-import { getAuthToken } from "@/shared/lib/token";
+import { getAuthToken } from "@/lib/token";
 import { createInvitation } from "@/services/invitation";
 import { CloudinaryUploadResponse, GalleryEntry } from "@/shared/types";
 import { validateAndFlatten } from "@/utils/validation";

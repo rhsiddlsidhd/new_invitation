@@ -4,10 +4,10 @@ import { comparePasswords, getUserPasswordById } from "@/domains/user";
 import { APIResponse, success } from "@/shared/utils/response";
 import { ClientError } from "@/shared/types/error";
 import { handleActionError } from "@/shared/utils/error";
-import { validateAndFlatten } from "@/shared/lib/validation";
+import { validateAndFlatten } from "@/lib/validation";
 import { LoginSchema } from "@/schemas/login.schema";
-import { encrypt } from "@/shared/lib/token";
-import { setCookie } from "@/shared/lib/cookies";
+import { encrypt } from "@/lib/token";
+import { setCookie } from "@/lib/cookies/set";
 
 export const signIn = async (
   prev: unknown,

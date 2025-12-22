@@ -1,8 +1,8 @@
-import { decrypt } from "@/shared/lib/token";
+import { decrypt } from "@/lib/token";
 import { NextResponse } from "next/server";
 import { handleMethodError } from "@/shared/utils/error";
 import { ClientError, ServerError } from "@/shared/types/error";
-import { getCookie } from "@/shared/lib/cookies";
+import { getCookie } from "@/lib/cookies/get";
 
 export const GET = async () => {
   try {

@@ -1,6 +1,6 @@
 "use server";
 
-import { hashPassword } from "@/shared/lib/bcrypt";
+import { hashPassword } from "@/lib/bcrypt";
 import { createGuestBook } from "@/domains/guestbook";
 
 import { GuestBook } from "@/shared/types";

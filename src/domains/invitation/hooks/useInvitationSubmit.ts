@@ -2,11 +2,15 @@
 import { useActionState, useEffect, useTransition, useState } from "react";
 import { useRouter } from "next/navigation";
 import { postInvitationInfo } from "@/domains/invitation";
-import { validateAndFlatten, GalleryMapSchema, ThumbnailSchema } from "@/shared/lib/validation";
+import {
+  validateAndFlatten,
+  GalleryMapSchema,
+  ThumbnailSchema,
+} from "@/lib/validation";
 import { parseInvitationForm } from "@/shared/utils/transform";
 
 import { InvitationInput } from "@/domains/invitation";
-import { uploadGalleries, uploadThumbnails } from "@/shared/lib/cloudinary";
+import { uploadGalleries, uploadThumbnails } from "@/lib/cloudinary";
 import {
   useClearUser,
   useClearUserErrors,

@@ -1,4 +1,4 @@
-import { encrypt } from "@/shared/lib/token";
+import { encrypt } from "@/lib/token";
 import { ClientError } from "@/shared/types/error";
 import { cookies } from "next/headers";
 import { NextResponse, type NextRequest } from "next/server";

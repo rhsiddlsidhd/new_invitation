@@ -1,6 +1,6 @@
 "use server";
 
-import { decrypt } from "@/shared/lib/token";
+import { decrypt } from "@/lib/token";
 import { getAuthToken } from "@/domains/auth";
 import { softDeleteUser } from "@/domains/user";
 import { APIRESPONSE } from "@/shared/types";
@@ -31,7 +31,7 @@ export const deleteUser = async (
       };
     }
     const token = await getAuthToken();
-    const result = await decrypt({ token, type: 'REFRESH' });
+    const result = await decrypt({ token, type: "REFRESH" });
 
     if (userId !== result.payload?.userId) {
       return {

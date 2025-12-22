@@ -1,15 +1,14 @@
 "use client";
 
 import type React from "react";
-
-import { useActionState, useEffect } from "react";
+import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { User, Phone, Mail } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { findUserEmail } from "@/domains/auth/actions";
+import { findUserEmail } from "@/actions/findUserEmail";
 
 export function FindIdForm() {
   const [state, action, pending] = useActionState(findUserEmail, null);
@@ -73,7 +72,7 @@ export function FindIdForm() {
           <Label htmlFor="name">
             이름{" "}
             <span className="text-xs text-red-500">
-              {fieldErrors && fieldErrors?.name && fieldErrors.name[0]}
+              {fieldErrors && fieldErrors.name && fieldErrors.name[0]}
             </span>
           </Label>
           <div className="relative">
@@ -93,7 +92,7 @@ export function FindIdForm() {
           <Label htmlFor="phone">
             전화번호{" "}
             <span className="text-xs text-red-500">
-              {fieldErrors && fieldErrors?.phone && fieldErrors.phone[0]}
+              {fieldErrors && fieldErrors.phone && fieldErrors.phone[0]}
             </span>
           </Label>
           <div className="relative">
@@ -110,7 +109,7 @@ export function FindIdForm() {
         </div>
         {formError && <p className="text-xs text-red-500">{formError}</p>}
         <Button type="submit" className="w-full" size="lg">
-          아이디 찾기
+          아이디 찾기 {pending ? "중" : ""}
         </Button>
       </form>
 

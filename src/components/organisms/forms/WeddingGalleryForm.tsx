@@ -10,7 +10,7 @@ import {
 } from "@/domains/user";
 
 import { GalleryMapClient, GalleryPayload } from "@/shared/types";
-import { validateAndFlatten, GalleryMapSchema } from "@/shared/lib/validation";
+import { validateAndFlatten, GalleryMapSchema } from "@/lib/validation";
 
 import React, { startTransition, useActionState, useEffect } from "react";
 

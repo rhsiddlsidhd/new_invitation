@@ -1,7 +1,7 @@
 "use server";
 
 import { decrypt } from "@/lib/jose";
-import { getAuthToken } from "@/shared/lib/token";
+import { getAuthToken } from "@/lib/token";
 import { softDeleteUser } from "@/services/user";
 import { APIRESPONSE } from "@/shared/types";
 

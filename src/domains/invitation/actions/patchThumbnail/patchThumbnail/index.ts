@@ -2,7 +2,7 @@
 
 import { cloudinary } from "@/lib/cloudinary/config";
 import { decrypt } from "@/lib/jose";
-import { getAuthToken } from "@/shared/lib/token";
+import { getAuthToken } from "@/lib/token";
 import { patchInvitation } from "@/services/invitation";
 
 import { Thumbnail } from "@/shared/types";

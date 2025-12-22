@@ -1,11 +1,12 @@
-'use server';
-import { deleteAuthToken } from '@/services/authCookies.service';
-import { handleActionError } from '@/shared/utils/error';
-import { success } from '@/shared/utils/response';
+"use server";
+
+import { deleteCookie } from "@/lib/cookies/delete";
+import { handleActionError } from "@/shared/utils/error";
+import { success } from "@/shared/utils/response";
 
 export const signOut = async () => {
   try {
-    await deleteAuthToken();
+    await deleteCookie("token");
     return success(null);
   } catch (e) {
     return handleActionError(e);

@@ -1,4 +1,3 @@
-import { User, BaseUser } from "@/domains/user";
 import { ServerError } from "@/shared/types/error";
 import { dbConnect } from "@/shared/utils/mongodb";
 import bcrypt from "bcryptjs";

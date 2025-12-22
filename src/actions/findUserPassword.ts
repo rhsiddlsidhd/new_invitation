@@ -1,15 +1,14 @@
 "use server";
 
-import { encrypt } from "@/shared/lib/token";
-
-import { isEmailExists } from "@/domains/user";
-import { APIRESPONSE } from "@/shared/types/api"; // Added
+import { encrypt } from "@/lib/token";
 import { ClientError } from "@/shared/types/error";
 import { handleActionError } from "@/shared/utils/error";
-import { validateAndFlatten } from "@/shared/lib/validation";
-import { sendEmail } from "@/shared/lib/email";
+import { validateAndFlatten } from "@/lib/validation";
+import { sendEmail } from "@/lib/email";
 import { emailSchema } from "@/schemas/email.schema";
-import { setCookie } from "@/shared/lib/cookies";
+import { setCookie } from "@/lib/cookies/set";
+import { APIResponse, success } from "@/shared/utils/response";
+import { checkEmailDuplicate } from "@/services/user.service";
 
 const createChangePWDomain = (token: string): string => {
   return process.env.NODE_ENV === "development"
@@ -20,7 +19,7 @@ const createChangePWDomain = (token: string): string => {
 export const findUserPassword = async (
   prev: unknown,
   formData: FormData,
-): Promise<APIRESPONSE> => {
+): Promise<APIResponse<{ message: string }>> => {
   // 이메일 비밀번호 재설정 링크 전송
   // nodeMailer 라이브러리 사용
 
@@ -36,7 +35,7 @@ export const findUserPassword = async (
     }
     const { email } = parsed.data;
 
-    const isEmail = await isEmailExists(email);
+    const isEmail = await checkEmailDuplicate(email);
 
     if (!isEmail) throw new ClientError("등록되지 않은 이메일입니다.", 400);
 
@@ -52,13 +51,7 @@ export const findUserPassword = async (
 
     await sendEmail({ email, path });
 
-    return {
-      success: true,
-      data: {
-        message: "이메일 발송에 성공하였습니다.",
-        payload: undefined,
-      },
-    };
+    return success({ message: "이메일 발송에 성공하였습니다." });
   } catch (e) {
     return handleActionError(e);
   }

@@ -1,4 +1,4 @@
-import { deleteCookie } from "@/shared/lib/cookies";
+import { deleteCookie } from "@/lib/cookies/delete";
 import { handleMethodError } from "@/shared/utils/error";
 import { NextResponse } from "next/server";
 

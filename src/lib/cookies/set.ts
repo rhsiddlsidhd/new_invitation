@@ -1,7 +1,6 @@
 import { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { cookies } from "next/headers";
-
-type CookieName = "token" | "userEmail";
+import { CookieName } from "./type";
 
 interface SetCookieArgs {
   value: string;
@@ -17,7 +16,7 @@ export const setCookie = async ({
   remember,
 }: SetCookieArgs): Promise<void> => {
   const store = await cookies();
-  // const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+
   const baseOption: Partial<ResponseCookie> = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
