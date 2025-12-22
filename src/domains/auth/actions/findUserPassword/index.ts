@@ -1,17 +1,15 @@
 "use server";
 
 import { encrypt } from "@/shared/lib/token";
-import { sendEmail } from "@/domains/auth/actions";
+
 import { isEmailExists } from "@/domains/user";
 import { APIRESPONSE } from "@/shared/types/api"; // Added
 import { ClientError } from "@/shared/types/error";
 import { handleActionError } from "@/shared/utils/error";
-
-import { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies"; // Added
-
-import { cookies } from "next/headers"; // Added
 import { validateAndFlatten } from "@/shared/lib/validation";
+import { sendEmail } from "@/shared/lib/email";
 import { emailSchema } from "../../validation";
+import { setCookie } from "@/shared/lib/cookies";
 
 const createChangePWDomain = (token: string): string => {
   return process.env.NODE_ENV === "development"
@@ -45,19 +43,9 @@ export const findUserPassword = async (
     // entry token 발행 && createDomatin
 
     // 수정 사항 Email을 Encrypt 하지 않고 Cookie 의 값에 저장 * (만료시간이 짧은) 영구 쿠키
+    await setCookie({ name: "userEmail", value: email, maxAge: 600 });
 
-    const cookieStore = await cookies();
-
-    const options: Partial<ResponseCookie> = {
-      httpOnly: true,
-      maxAge: 600,
-      secure: true,
-      sameSite: process.env.NODE_ENV === "development" ? "lax" : "strict",
-    };
-
-    cookieStore.set("userEmail", email, options);
-
-    const entryToken = await encrypt({ type: "ENTRY" });
+    const entryToken = await encrypt({ email, type: "ENTRY" });
 
     // 도메인을 생성
     const path = createChangePWDomain(entryToken);

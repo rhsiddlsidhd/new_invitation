@@ -1,24 +1,36 @@
 import { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { cookies } from "next/headers";
 
-interface CookieProps {
+type CookieName = "token" | "userEmail";
+
+interface SetCookieArgs {
   value: string;
-  remember: boolean;
+  name: CookieName;
+  maxAge?: number;
+  remember?: boolean;
 }
 
-export const setCookie = async (payload: CookieProps): Promise<void> => {
+export const setCookie = async ({
+  name,
+  value,
+  maxAge,
+  remember,
+}: SetCookieArgs): Promise<void> => {
   const store = await cookies();
-  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-
+  // const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
   const baseOption: Partial<ResponseCookie> = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
   };
 
-  const options = payload.remember
-    ? { ...baseOption, expires: expiresAt }
-    : baseOption;
+  let expirationOptions: Partial<ResponseCookie> = {};
 
-  store.set("token", payload.value, options);
+  if (maxAge) {
+    expirationOptions = { maxAge };
+  } else if (remember) {
+    expirationOptions = { maxAge: 7 * 24 * 60 * 60 };
+  }
+
+  store.set(name, value, { ...baseOption, ...expirationOptions });
 };

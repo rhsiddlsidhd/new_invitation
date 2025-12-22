@@ -1,15 +1,17 @@
-import { jwtVerify, JWTVerifyResult } from "jose";
-import { DecryptProps } from "./type";
+import { JWTPayload, jwtVerify, JWTVerifyResult } from "jose";
+import { DecryptProps, EncryptProps } from "./type";
 import { ENTRY_ENCODED_KEY, JWT_ENCODED_KEY } from "./config";
 
+interface ExtractedPayload extends JWTPayload, Omit<EncryptProps, "type"> {}
+
 export async function decrypt(
-  payload: DecryptProps,
-): Promise<JWTVerifyResult<Omit<DecryptProps, "type">>> {
-  return await jwtVerify<Omit<DecryptProps, "type">>(
-    payload.token,
-    payload.type !== "ENTRY" ? JWT_ENCODED_KEY : ENTRY_ENCODED_KEY,
-    {
-      algorithms: ["HS256"],
-    },
-  );
+  args: DecryptProps,
+): Promise<JWTVerifyResult<ExtractedPayload>> {
+  const { token, type } = args;
+
+  const key = type !== "ENTRY" ? JWT_ENCODED_KEY : ENTRY_ENCODED_KEY;
+
+  return await jwtVerify<ExtractedPayload>(token, key, {
+    algorithms: ["HS256"],
+  });
 }

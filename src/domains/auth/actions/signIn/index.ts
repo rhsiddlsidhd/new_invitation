@@ -43,7 +43,7 @@ export const signIn = async (
 
     const refreshJWT = await encrypt({ email, type: "REFRESH" });
 
-    await setCookie({ value: refreshJWT, remember });
+    await setCookie({ name: "token", value: refreshJWT, remember });
 
     const accessJWT = await encrypt({ email, type: "ACCESS" });
 
