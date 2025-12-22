@@ -1,4 +1,9 @@
-@./docs/structure-convention.md
+이 프로젝트의 모든 폴더 구조와 네이밍 규칙은 `docs` 폴더 내에 표준화되어 있습니다.
+
+## 📌 핵심 바로가기
+
+- [🏠 폴더 구조 및 컨벤션 가이드 바로가기](./docs/public/structure-convention.md)
+- [🔐 인증/보안 가이드 (Zod & JWT)](./docs/public/)
 
 # 프로젝트: 디지털 상품 EC 서비스
 
