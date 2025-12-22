@@ -1,31 +1,24 @@
 "use client";
 
 import { changeUserPW } from "@/actions/changeUserPW";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { fetcher } from "@/api/fetcher";
+import { Btn } from "@/components/atoms/Btn/Btn";
+import { Input } from "@/components/atoms/Input/Input";
+import Label from "@/components/atoms/Label/Label";
+
 import { Lock } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useActionState, useEffect } from "react";
 
-type DeleteCookieResponse = {
-  success: boolean;
-  message: string;
-  payload?: unknown;
+const deleteCookieToUserEmail = async () => {
+  try {
+    await fetcher<void>("/api/auth/cookie", { method: "DELETE" });
+  } catch (error) {
+    console.debug("Cookie deletion failed during cleanup:", error);
+    return null;
+  }
 };
-
-const deleteCookieToUserEmail =
-  async (): Promise<DeleteCookieResponse | null> => {
-    try {
-      const res = await fetch("/api/auth/cookie", { method: "DELETE" });
-      if (!res.ok) throw new Error("에러발생");
-      const data: DeleteCookieResponse = await res.json();
-      return data;
-    } catch {
-      return null;
-    }
-  };
 
 const ChangePWForm = () => {
   const router = useRouter();
@@ -36,15 +29,13 @@ const ChangePWForm = () => {
       alert(state.data.message);
       router.push("/login");
     }
-
-    return () => {
-      const cleanUp = async () => {
-        const res = await deleteCookieToUserEmail();
-        console.log("res", res);
-      };
-      cleanUp();
-    };
   }, [state, router]);
+
+  useEffect(() => {
+    return () => {
+      deleteCookieToUserEmail();
+    };
+  }, []);
 
   const fieldErrors = state && !state.success && state.error.errors;
 
@@ -100,9 +91,9 @@ const ChangePWForm = () => {
           </div>
         </div>
 
-        <Button type="submit" className="w-full" size="lg">
+        <Btn type="submit" className="w-full" size="lg">
           비밀번호 변경 {pending ? "중" : "완료"}
-        </Button>
+        </Btn>
       </form>
 
       <div className="space-y-2 text-center">

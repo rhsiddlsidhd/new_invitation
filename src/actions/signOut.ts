@@ -1,8 +1,9 @@
 "use server";
 
 import { deleteCookie } from "@/lib/cookies/delete";
-import { handleActionError } from "@/shared/utils/error";
-import { success } from "@/shared/utils/response";
+
+import { success } from "@/api/response";
+import { handleActionError } from "@/api/error";
 
 export const signOut = async () => {
   try {

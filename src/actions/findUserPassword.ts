@@ -1,14 +1,14 @@
 "use server";
 
 import { encrypt } from "@/lib/token";
-import { ClientError } from "@/shared/types/error";
-import { handleActionError } from "@/shared/utils/error";
 import { validateAndFlatten } from "@/lib/validation";
 import { sendEmail } from "@/lib/email";
 import { emailSchema } from "@/schemas/email.schema";
 import { setCookie } from "@/lib/cookies/set";
-import { APIResponse, success } from "@/shared/utils/response";
+import { APIResponse, success } from "@/api/response";
 import { checkEmailDuplicate } from "@/services/user.service";
+import { handleActionError } from "@/api/error";
+import { HTTPError } from "@/api/type";
 
 const createChangePWDomain = (token: string): string => {
   return process.env.NODE_ENV === "development"
@@ -31,13 +31,13 @@ export const findUserPassword = async (
     const parsed = validateAndFlatten(emailSchema, data);
 
     if (!parsed.success) {
-      throw new ClientError("입력 값을 확인해주세요.", 400, parsed.error);
+      throw new HTTPError("입력 값을 확인해주세요.", 400, parsed.error);
     }
     const { email } = parsed.data;
 
     const isEmail = await checkEmailDuplicate(email);
 
-    if (!isEmail) throw new ClientError("등록되지 않은 이메일입니다.", 400);
+    if (!isEmail) throw new HTTPError("등록되지 않은 이메일입니다.", 400);
 
     // entry token 발행 && createDomatin
 

@@ -10,9 +10,9 @@ const Alert = ({ type = "info", children, className }: AlertProps) => {
   };
 
   return (
-    <span className={`rounded-sm p-2 text-xs ${config[type]} ${className}`}>
+    <p className={`rounded-sm p-2 text-xs ${config[type]} ${className}`}>
       {children}
-    </span>
+    </p>
   );
 };
 

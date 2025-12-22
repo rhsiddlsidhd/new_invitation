@@ -4,12 +4,14 @@
  * DB에서 아이디 가져오기
  */
 
-import { getUserEmail } from "@/domains/user";
-import { APIResponse, success } from "@/shared/utils/response";
-import { ClientError } from "@/shared/types/error";
-import { handleActionError } from "@/shared/utils/error";
+import { APIResponse, success } from "@/api/response";
+
 import { validateAndFlatten } from "@/lib/validation";
 import { UserEmailSchema } from "@/schemas/userEmail.schema";
+
+import { getUserEmail } from "@/services/user.service";
+import { handleActionError } from "@/api/error";
+import { HTTPError } from "@/api/type";
 
 export const findUserEmail = async (
   _prev: unknown,
@@ -23,7 +25,7 @@ export const findUserEmail = async (
 
     const parsed = validateAndFlatten(UserEmailSchema, data);
     if (!parsed.success) {
-      throw new ClientError("입력 값을 확인해주세요.", 400, parsed.error);
+      throw new HTTPError("입력 값을 확인해주세요.", 400, parsed.error);
     }
     const { name, phone } = parsed.data;
 

@@ -1,5 +1,7 @@
+import { HTTPError } from "@/api/type";
 import User, { BaseUser, UserDocument } from "@/models/user.model";
 import { dbConnect } from "@/shared/utils/mongodb";
+import bcrypt from "bcryptjs";
 // 유저 생성
 export const createUser = async (user: BaseUser): Promise<UserDocument> => {
   await dbConnect();
@@ -12,4 +14,37 @@ export const checkEmailDuplicate = async (email: string): Promise<boolean> => {
   await dbConnect();
   const exists = await User.exists({ email });
   return !!exists;
+};
+
+// 유저 email 찾기
+export const getUserEmail = async ({
+  name,
+  phone,
+}: {
+  name: string;
+  phone: string;
+}): Promise<string> => {
+  await dbConnect();
+  const user = await User.findOne({ name, phone }).lean<BaseUser>();
+  if (!user) throw new HTTPError("유저를 찾을 수가 없습니다.", 404);
+  return user.email;
+};
+
+// 비밀번호 변경 함수
+export const changePassword = async (
+  email: string,
+  newPassword: string,
+): Promise<boolean> => {
+  await dbConnect();
+
+  // 새 비밀번호 해싱
+  const hashedNewPassword = await bcrypt.hash(newPassword, 12);
+
+  // 비밀번호 업데이트
+  const userBeforeUpdate = await User.findOneAndUpdate(
+    { email, isDelete: false },
+    { password: hashedNewPassword },
+  );
+
+  return !!userBeforeUpdate;
 };

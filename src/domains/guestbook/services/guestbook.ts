@@ -2,7 +2,7 @@ import { GuestBook } from "@/domains/guestbook";
 import { dbConnect } from "@/shared/utils/mongodb";
 import { GuestBook as GuestBookType } from "@/shared/types";
 import { GuestBookView } from "@/components/template/invitation/InvitationContainer";
-import { comparePasswords } from "@/domains/user";
+import { comparePasswords } from "@/services/auth.service";
 
 export const createGuestBook = async ({ data }: { data: GuestBookType }) => {
   await dbConnect();

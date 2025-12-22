@@ -14,7 +14,7 @@ import Alert from "@/components/atoms/Alert/Alert";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import Label from "@/components/atoms/Label/Label";
 import { Input } from "@/components/atoms/Input/Input";
-import { Checkbox } from "@radix-ui/react-checkbox";
+import { Checkbox } from "@/components/atoms/CheckBox/CheckBox";
 
 export function LoginForm() {
   const router = useRouter();
@@ -25,6 +25,8 @@ export function LoginForm() {
     if (state && state.success) {
       setToken(state.data.token);
       router.push("/");
+    } else if (state && !state.success) {
+      console.log(state.error);
     }
   }, [state, setToken, router]);
 
@@ -75,6 +77,7 @@ export function LoginForm() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Checkbox id="remember" name="remember" />
+
             <Label
               htmlFor="remember"
               className="cursor-pointer text-sm font-normal"

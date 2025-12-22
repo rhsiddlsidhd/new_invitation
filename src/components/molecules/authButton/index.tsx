@@ -7,31 +7,33 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { signOut } from "@/actions/signOut";
+import useAuthTokenStore from "@/store/authTokenStore";
+import { fetcher } from "@/api/fetcher";
+import { handleClientError } from "@/api/error";
 
 const AuthButton = () => {
   const router = useRouter();
   const { isAuth, loading } = useAuth();
+  const setToken = useAuthTokenStore((state) => state.setToken);
 
   const handlesignOut = async () => {
     await signOut();
+    setToken(null);
   };
 
   const handleSignin = async () => {
     try {
       const path = "/login";
 
-      const res = await fetch(
+      const data = await fetcher<{ path: string }>(
         `/api/auth/entry?next=${encodeURIComponent(path)}`,
         {
           method: "POST",
         },
       );
-
-      const data = await res.json();
-
-      router.push(data.payload);
+      router.push(data.path);
     } catch (e) {
-      console.error(e);
+      handleClientError(e);
     }
   };
 

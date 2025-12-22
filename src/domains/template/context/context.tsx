@@ -1,6 +1,6 @@
 import { useReducer } from "react";
 import { TemplateFilterAction, TemplateFilterState } from "./type";
-import { createStateContext } from "@/shared/context/createStateContext";
+import { createStateContext } from "@/context/createStateContext";
 
 const initialFilterState: TemplateFilterState = {
   keyword: "",

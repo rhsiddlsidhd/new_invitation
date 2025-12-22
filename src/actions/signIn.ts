@@ -1,13 +1,15 @@
 "use server";
 
-import { comparePasswords, getUserPasswordById } from "@/domains/user";
-import { APIResponse, success } from "@/shared/utils/response";
-import { ClientError } from "@/shared/types/error";
-import { handleActionError } from "@/shared/utils/error";
+import { APIResponse, success } from "@/api/response";
+
 import { validateAndFlatten } from "@/lib/validation";
 import { LoginSchema } from "@/schemas/login.schema";
 import { encrypt } from "@/lib/token";
 import { setCookie } from "@/lib/cookies/set";
+import { comparePasswords, getUserPasswordById } from "@/services/auth.service";
+
+import { handleActionError } from "@/api/error";
+import { HTTPError } from "@/api/type";
 
 export const signIn = async (
   prev: unknown,
@@ -21,13 +23,13 @@ export const signIn = async (
     };
 
     if (!data.email || !data.password) {
-      throw new ClientError("아이디와 비밀번호를 확인해주세요.", 400);
+      throw new HTTPError("아이디와 비밀번호를 확인해주세요.", 400);
     }
 
     const parsed = validateAndFlatten(LoginSchema, data);
 
     if (!parsed.success) {
-      throw new ClientError("입력 값을 확인해주세요.", 400, parsed.error);
+      throw new HTTPError("입력 값을 확인해주세요.", 400, parsed.error);
     }
 
     const { email, password, remember } = parsed.data;
@@ -38,7 +40,7 @@ export const signIn = async (
     const isPasswordValid = await comparePasswords(password, user.password);
 
     if (!isPasswordValid) {
-      throw new ClientError("비밀번호가 일치하지 않습니다.", 401);
+      throw new HTTPError("비밀번호가 일치하지 않습니다.", 401);
     }
 
     const refreshJWT = await encrypt({ email, type: "REFRESH" });
