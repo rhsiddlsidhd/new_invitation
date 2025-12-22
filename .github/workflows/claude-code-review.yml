@@ -40,12 +40,30 @@ jobs:
             REPO: ${{ github.repository }}
             PR NUMBER: ${{ github.event.pull_request.number }}
 
+            (
             Please review this pull request and provide feedback on:
             - Code quality and best practices
             - Potential bugs or issues
             - Performance considerations
             - Security concerns
             - Test coverage
+
+             📊 CHANGE SUMMARY (REQUIRED):
+            - Total number of files changed
+            - Total lines added and removed
+            - Number of components created
+            - Number of components deleted
+            - Number of components modified
+
+             🧩 COMPONENT RULES:
+            - Treat React components, pages, layouts, and hooks as "components"
+            - A component is considered "created" if a new file exporting a component is added
+            - A component is considered "deleted" if such a file is removed
+            - A component is considered "modified" if its implementation changes meaningfully
+
+            ⚠️ IMPORTANT:
+            - Write **all feedback in Korean (한국어)**.
+            - Use clear, concise, and professional Korean suitable for a code review.
 
             Use the repository's CLAUDE.md for guidance on style and conventions. Be constructive and helpful in your feedback.
 
