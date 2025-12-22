@@ -1,4 +1,4 @@
-import { Particle } from "@/types";
+import { Particle } from "@/shared/types";
 import { stagger } from "motion/react";
 
 export const particleContainer = {

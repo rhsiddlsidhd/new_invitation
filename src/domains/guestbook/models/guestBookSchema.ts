@@ -1,4 +1,4 @@
-import { GuestBook as GuestBookType } from "@/types";
+import { GuestBook as GuestBookType } from "@/shared/types";
 import mongoose, { Document, Model, Schema } from "mongoose";
 
 interface GuestBookDocument extends GuestBookType, Document {

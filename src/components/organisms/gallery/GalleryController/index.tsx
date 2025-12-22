@@ -1,4 +1,4 @@
-import { GalleryData } from "@/types";
+import { GalleryData } from "@/shared/types";
 import Btn from "../../../atoms/Btn";
 import { AnimatePresence } from "motion/react";
 import { motion } from "framer-motion";

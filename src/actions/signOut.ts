@@ -1,5 +1,5 @@
 'use server';
-import { deleteAuthToken } from '@/domains/auth';
+import { deleteAuthToken } from '@/services/authCookies.service';
 import { handleActionError } from '@/shared/utils/error';
 import { success } from '@/shared/utils/response';
 

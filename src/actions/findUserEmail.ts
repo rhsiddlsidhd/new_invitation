@@ -9,7 +9,7 @@ import { APIResponse, success } from "@/shared/utils/response";
 import { ClientError } from "@/shared/types/error";
 import { handleActionError } from "@/shared/utils/error";
 import { validateAndFlatten } from "@/shared/lib/validation";
-import { UserEmailSchema } from "../../validation";
+import { UserEmailSchema } from "@/schemas/userEmail.schema";
 
 export const findUserEmail = async (
   _prev: unknown,

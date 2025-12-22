@@ -8,7 +8,7 @@ import {
   lineOverlay,
   lineOverlayContainer,
   lineOverlayItem,
-} from "@/style/variants";
+} from "@/styles/variants";
 import { motion } from "framer-motion";
 
 const NavigationSection = ({

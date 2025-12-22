@@ -13,7 +13,7 @@ import { findUserEmail } from "@/domains/auth/actions";
 
 export function FindIdForm() {
   const [state, action, pending] = useActionState(findUserEmail, null);
-  const fieldErrors = state && !state.success && state.error.fieldErrors;
+  const fieldErrors = state && !state.success && state.error.errors;
   const formError = state && !state.success && state.error.message;
 
   if (state && state.success) {
@@ -37,7 +37,7 @@ export function FindIdForm() {
               <p className="text-muted-foreground mb-1 text-sm">
                 회원님의 이메일
               </p>
-              <p className="text-lg font-semibold">{state.data.payload}</p>
+              <p className="text-lg font-semibold">{state.data.email}</p>
             </div>
           </div>
         </Card>

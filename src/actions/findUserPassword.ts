@@ -8,7 +8,7 @@ import { ClientError } from "@/shared/types/error";
 import { handleActionError } from "@/shared/utils/error";
 import { validateAndFlatten } from "@/shared/lib/validation";
 import { sendEmail } from "@/shared/lib/email";
-import { emailSchema } from "../../validation";
+import { emailSchema } from "@/schemas/email.schema";
 import { setCookie } from "@/shared/lib/cookies";
 
 const createChangePWDomain = (token: string): string => {

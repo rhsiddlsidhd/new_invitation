@@ -5,7 +5,7 @@ import { APIResponse, success } from "@/shared/utils/response";
 import { ClientError } from "@/shared/types/error";
 import { handleActionError } from "@/shared/utils/error";
 import { validateAndFlatten } from "@/shared/lib/validation";
-import { LoginSchema } from "../../validation";
+import { LoginSchema } from "@/schemas/login.schema";
 import { encrypt } from "@/shared/lib/token";
 import { setCookie } from "@/shared/lib/cookies";
 

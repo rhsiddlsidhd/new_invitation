@@ -7,12 +7,12 @@ import { handleActionError } from "@/shared/utils/error";
 import { hashPassword } from "@/shared/lib/bcrypt";
 import { ClientError } from "@/shared/types/error";
 import { validateAndFlatten } from "@/shared/lib/validation";
-import { RegisterSchema } from "../../validation";
+import { RegisterSchema } from "@/schemas/register.schema";
 
 export async function signUp(
   prev: unknown,
   formData: FormData,
-): Promise<APIResponse> {
+): Promise<APIResponse<{ message: string }>> {
   try {
     const data = {
       email: formData.get("email") as string,

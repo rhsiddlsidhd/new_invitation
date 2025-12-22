@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from "react";
 import { motion } from "framer-motion";
 import GalleryCard from "../../../molecules/gallery/GalleryCard";
-import { GalleryData } from "@/types";
+import { GalleryData } from "@/shared/types";
 
 import OverlayCloseBtn from "@/components/molecules/btns/OverlayCloseBtn/index";
 import { getUserState } from "@/domains/user";
