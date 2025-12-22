@@ -10,12 +10,12 @@ import Btn from "../../atoms/Btn";
 import { changeUserPW } from "@/domains/auth/actions";
 
 const PasswordForm = () => {
-  const [state, action, pending] = useActionState(patchUserPassword, null);
+  const [state, action, pending] = useActionState(changeUserPW, null);
   const router = useRouter();
 
   useEffect(() => {
     if (!state) return;
-    if (state.success) {
+    if (state.success && state.data) {
       alert(state.data.message);
       router.push("/profile");
       return;

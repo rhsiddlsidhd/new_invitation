@@ -1,12 +1,11 @@
 "use server";
-import { cloudinary } from "@/shared/lib/cloudinary/config";
-import { decrypt } from "@/shared/lib/jose";
+import { cloudinary } from "@/lib/cloudinary/config";
+import { decrypt } from "@/lib/token";
 import { getAuthToken } from "@/domains/auth";
 import { patchInvitation } from "@/domains/invitation";
 
 import { GalleryEntry, GalleryPayload } from "@/shared/types";
-import { validateAndFlatten } from "@/shared/utils/validation";
-import { gallerySchema } from "@/shared/utils/validation/schema.server";
+import { validateAndFlatten, gallerySchema } from "@/lib/validation";
 
 export const patchGallery = async (
   prev: unknown,
@@ -14,7 +13,8 @@ export const patchGallery = async (
 ) => {
   try {
     const token = await getAuthToken();
-    const { userId } = await decrypt(token);
+    const result = await decrypt({ token, type: "REFRESH" });
+    const userId = result.payload?.userId;
 
     const validation = validateAndFlatten(gallerySchema, payload.data);
 

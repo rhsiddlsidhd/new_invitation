@@ -1,5 +1,5 @@
 "use server";
-import { decrypt } from "@/shared/lib/jose";
+import { decrypt } from "@/lib/token";
 import { deleteAuthToken, getAuthToken } from "@/domains/auth";
 import { updateUserEmail } from "@/domains/user";
 import { APIRESPONSE } from "@/shared/types";
@@ -20,8 +20,11 @@ export const patchUserProfile = async (
     const email = formData.get("email") as string;
 
     const token = await getAuthToken();
-    const payload = await decrypt(token);
-    const userEmail = await updateUserEmail({ id: payload.userId, email });
+    const result = await decrypt({ token, type: "REFRESH" });
+    const userEmail = await updateUserEmail({
+      id: result.payload?.userId,
+      email,
+    });
     return {
       success: true,
       data: {

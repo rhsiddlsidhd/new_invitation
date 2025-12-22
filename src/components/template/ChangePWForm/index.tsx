@@ -1,5 +1,6 @@
 "use client";
-import { changeUserPW } from "@/domains/auth/actions";
+
+import { changeUserPW } from "@/actions/changeUserPW";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,7 +29,7 @@ const deleteCookieToUserEmail =
 
 const ChangePWForm = () => {
   const router = useRouter();
-  const [state, action] = useActionState(changeUserPW, null);
+  const [state, action, pending] = useActionState(changeUserPW, null);
 
   useEffect(() => {
     if (state && state.success) {
@@ -45,7 +46,7 @@ const ChangePWForm = () => {
     };
   }, [state, router]);
 
-  const fieldErrors = state && !state.success && state.error.fieldErrors;
+  const fieldErrors = state && !state.success && state.error.errors;
 
   return (
     <div className="space-y-6">
@@ -100,7 +101,7 @@ const ChangePWForm = () => {
         </div>
 
         <Button type="submit" className="w-full" size="lg">
-          비밀번호 변경 완료
+          비밀번호 변경 {pending ? "중" : "완료"}
         </Button>
       </form>
 

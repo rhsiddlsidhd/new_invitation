@@ -1,7 +1,7 @@
 "use server";
 
 import { decrypt } from "@/lib/jose";
-import { getAuthToken } from "@/services/auth/token";
+import { getAuthToken } from "@/lib/token";
 import { patchInvitation } from "@/services/invitation";
 
 import { validateAndFlatten } from "@/utils/validation";

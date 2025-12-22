@@ -1,4 +1,4 @@
-import useKakaoLoader from "@/shared/lib/kakao/useKakaoLoader";
+import useKakaoLoader from "@/lib/kakao/useKakaoLoader";
 import React, { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 

@@ -10,14 +10,14 @@ const layout = async ({
       <div className="container mx-auto px-4 pt-24 pb-12">
         <div className="mx-auto max-w-6xl">
           <div className="grid items-center gap-12 lg:grid-cols-2">
-            <div className="relative hidden h-[600px] overflow-hidden rounded-2xl lg:block">
+            <div className="relative hidden h-150 overflow-hidden rounded-2xl lg:block">
               <Image
                 src="/assets/images/output.webp"
                 alt="Wedding celebration"
                 fill
                 className="object-cover"
               />
-              <div className="from-background/80 absolute inset-0 bg-gradient-to-t to-transparent" />
+              <div className="from-background/80 absolute inset-0 bg-linear-to-t to-transparent" />
               <div className="absolute right-8 bottom-8 left-8">
                 <h2 className="mb-2 text-3xl font-bold text-balance text-white">
                   당신의 특별한 날을 위한 완벽한 청첩장

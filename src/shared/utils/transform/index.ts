@@ -1,4 +1,4 @@
-import { GalleryMapClient } from "@/types";
+import { GalleryMapClient } from "@/shared/types";
 
 export const parseInvitationForm = (data: FormData) => {
   const textField: Record<string, string> = {};

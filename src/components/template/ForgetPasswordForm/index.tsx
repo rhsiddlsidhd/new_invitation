@@ -1,7 +1,6 @@
 "use client";
 
 import type React from "react";
-
 import { useActionState, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { Mail, CheckCircle2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { findUserPassword } from "@/domains/auth/actions";
+import { findUserPassword } from "@/actions/findUserPassword";
 
 export function ForgotPasswordForm() {
   const [state, action] = useActionState(findUserPassword, null);

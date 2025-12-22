@@ -1,4 +1,4 @@
-import { GalleryData, Product } from "@/types";
+import { GalleryData, Product } from "@/shared/types";
 
 export const defaultUrls = "/marriage.jpg";
 

@@ -1,15 +1,14 @@
 import { LoginForm } from "@/components/template/LoginForm";
-import { entryDecrypt } from "@/shared/lib/jose";
-import { cookies } from "next/headers";
+import { getCookie } from "@/lib/cookies/get";
+import { decrypt } from "@/lib/token";
 import { redirect } from "next/navigation";
 
 import React from "react";
 
 const LoginPage = async () => {
-  const cookie = await cookies();
-  const entry = cookie.get("entry");
-  if (!entry) redirect("/");
-  const isVerify = await entryDecrypt(entry.value);
+  const cookie = await getCookie("entry");
+  if (!cookie) redirect("/");
+  const isVerify = await decrypt({ token: cookie.value, type: "ENTRY" });
   if (!isVerify) redirect("/");
 
   return <LoginForm />;

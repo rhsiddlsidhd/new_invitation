@@ -10,8 +10,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import { Mail, Lock, User, Phone } from "lucide-react";
 import { GlobeAmericasIcon } from "@/components/atoms/Icon";
-import { signUp } from "@/domains/auth/actions";
+
 import { useRouter } from "next/navigation";
+import { signUp } from "@/actions/signUp";
 
 export function SignupForm() {
   const router = useRouter();
@@ -19,7 +20,7 @@ export function SignupForm() {
 
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
-  const fieldErrors = state && !state.success && state.error.fieldErrors;
+  const fieldErrors = state && !state.success && state.error.errors;
   const formError = state && !state.success && state.error.message;
 
   useEffect(() => {
@@ -68,8 +69,10 @@ export function SignupForm() {
               required
             />
           </div>
-          {fieldErrors?.email?.[0] && (
-            <p className="text-destructive text-sm">{fieldErrors.email[0]}</p>
+          {fieldErrors && fieldErrors.email?.[0] && (
+            <p className="text-destructive text-sm">
+              {fieldErrors["email"][0]}
+            </p>
           )}
         </div>
 
@@ -86,7 +89,7 @@ export function SignupForm() {
               required
             />
           </div>
-          {fieldErrors?.phone?.[0] && (
+          {fieldErrors && fieldErrors.phone?.[0] && (
             <p className="text-destructive text-sm">{fieldErrors.phone[0]}</p>
           )}
         </div>
@@ -104,7 +107,7 @@ export function SignupForm() {
               required
             />
           </div>
-          {fieldErrors?.password?.[0] && (
+          {fieldErrors && fieldErrors.password?.[0] && (
             <p className="text-destructive text-sm">
               {fieldErrors.password[0]}
             </p>
@@ -124,7 +127,7 @@ export function SignupForm() {
               required
             />
           </div>
-          {fieldErrors?.confirmPassword?.[0] && (
+          {fieldErrors && fieldErrors.confirmPassword?.[0] && (
             <p className="text-destructive text-sm">
               {fieldErrors.confirmPassword[0]}
             </p>

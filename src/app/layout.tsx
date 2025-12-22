@@ -1,5 +1,4 @@
 import Header from "@/components/template/Header";
-import Modal from "@/components/organisms/modal/Modal";
 import "./globals.css";
 import { Metadata } from "next";
 

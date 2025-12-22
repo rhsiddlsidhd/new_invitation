@@ -1,11 +1,9 @@
-import { hasPasswordVerifiedAuthToken } from "@/domains/auth";
-import { redirect } from "next/navigation";
-
 const page = async () => {
-  const isPasswordVerified = await hasPasswordVerifiedAuthToken();
+  // const isPasswordVerified = await hasPasswordVerifiedAuthToken();
 
-  if (!isPasswordVerified) {
-    redirect("/verify?next=/profile/delete");
-  }
+  // if (!isPasswordVerified) {
+  //   redirect("/verify?next=/profile/delete");
+  // }
+  <div>DELETE</div>;
 };
 export default page;

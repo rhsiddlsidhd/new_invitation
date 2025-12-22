@@ -1,10 +1,10 @@
 "use server";
 import { cloudinary } from "@/lib/cloudinary/config";
 import { decrypt } from "@/lib/jose";
-import { getAuthToken } from "@/services/auth/token";
+import { getAuthToken } from "@/lib/token";
 import { patchInvitation } from "@/services/invitation";
 
-import { GalleryEntry, GalleryPayload } from "@/types";
+import { GalleryEntry, GalleryPayload } from "@/shared/types";
 import { validateAndFlatten } from "@/utils/validation";
 import { gallerySchema } from "@/utils/validation/schema.server";
 

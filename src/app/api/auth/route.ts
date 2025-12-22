@@ -1,24 +1,28 @@
-import { decrypt } from "@/shared/lib/jose";
-import { getAuthToken } from "@/domains/auth";
+import { decrypt } from "@/lib/token";
 import { NextResponse } from "next/server";
+import { handleMethodError } from "@/shared/utils/error";
+import { ClientError, ServerError } from "@/shared/types/error";
+import { getCookie } from "@/lib/cookies/get";
 
 export const GET = async () => {
   try {
-    const token = await getAuthToken();
-    const payload = await decrypt(token);
+    const cookie = await getCookie("token");
+    if (!cookie) throw new ServerError("Authentication token is missing.", 401);
 
-    if (!payload) {
-      throw new Error("Invalid token");
+    const refreshPayload = await decrypt({
+      token: cookie.value,
+      type: "REFRESH",
+    });
+
+    if (!refreshPayload) {
+      throw new ClientError("Invalid token", 401);
     }
-
+    const { payload } = refreshPayload;
     return NextResponse.json({
       success: true,
       data: { userId: payload.userId },
     });
   } catch (e) {
-    const message =
-      e instanceof Error ? e.message : `알 수 없는 에러가 발생했습니다. ${e}`;
-    console.error(message);
-    return NextResponse.json({ success: false, error: { message } });
+    return handleMethodError(e);
   }
 };

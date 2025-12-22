@@ -2,10 +2,10 @@
 
 import { cloudinary } from "@/lib/cloudinary/config";
 import { decrypt } from "@/lib/jose";
-import { getAuthToken } from "@/services/auth/token";
+import { getAuthToken } from "@/lib/token";
 import { patchInvitation } from "@/services/invitation";
 
-import { Thumbnail } from "@/types";
+import { Thumbnail } from "@/shared/types";
 
 import { validateAndFlatten } from "@/utils/validation";
 import { ThumbnailSchema } from "@/utils/validation/schema.server";

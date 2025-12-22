@@ -3,7 +3,7 @@
 import { hashPassword } from "@/lib/bcrypt";
 import { createGuestBook } from "@/services/guestBook";
 
-import { GuestBook } from "@/types";
+import { GuestBook } from "@/shared/types";
 
 const isGuestbookKey = (key: string): key is keyof GuestBook => {
   return ["name", "password", "message", "userId"].includes(key);

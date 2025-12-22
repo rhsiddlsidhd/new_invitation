@@ -7,8 +7,7 @@ import {
   useSetUser,
   useSetUserErrors,
 } from "@/domains/user";
-import { validateAndFlatten } from "@/shared/utils/validation";
-import { ThumbnailSchema } from "@/shared/utils/validation/schema.client";
+import { validateAndFlatten, ThumbnailSchema } from "@/lib/validation";
 import React, { startTransition, useActionState, useEffect } from "react";
 
 const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
