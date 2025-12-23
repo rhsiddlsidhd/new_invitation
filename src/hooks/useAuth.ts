@@ -21,6 +21,7 @@ const useAuth = () => {
         const data = await fetcher<{ accessToken: string; role: UserRole }>(
           "/api/auth/refresh",
         );
+
         const { accessToken, role } = data;
         setToken({ token: accessToken, role });
       } catch (e) {

@@ -1,8 +1,8 @@
 import Grid from "@/components/atoms/Grid/Grid";
 import { TemplateCard } from "../TemplateCard";
 
-import { useTemplateFilter } from "@/domains/template/context";
 import useVisibleTemplate from "@/hooks/useVisibleTemplate";
+import { useTemplateFilter } from "@/context/templateFilter/reducer";
 
 export function TemplateGrid() {
   const [state] = useTemplateFilter();

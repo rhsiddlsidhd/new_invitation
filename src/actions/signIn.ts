@@ -37,7 +37,6 @@ export const signIn = async (
 
     // 이메일를 바탕으로 사용자 조회
     const user = await getUser({ email });
-    console.log("user", user);
 
     if (!user) throw new HTTPError("사용자를 찾을 수가 없습니다.", 400);
 
@@ -47,7 +46,10 @@ export const signIn = async (
       throw new HTTPError("비밀번호가 일치하지 않습니다.", 401);
     }
 
-    const refreshJWT = await encrypt({ id: user._id, type: "REFRESH" });
+    const refreshJWT = await encrypt({
+      id: user._id.toString(),
+      type: "REFRESH",
+    });
 
     await setCookie({ name: "token", value: refreshJWT, remember });
 

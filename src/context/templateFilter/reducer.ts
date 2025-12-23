@@ -1,11 +1,14 @@
 import { useReducer } from "react";
+import { createStateContext } from "../createStateContext";
 import { TemplateFilterAction, TemplateFilterState } from "./type";
-import { createStateContext } from "@/context/createStateContext";
 
 const initialFilterState: TemplateFilterState = {
   keyword: "",
   category: "전체",
   isOpen: false,
+  sortBy: "ALL",
+  price: "ALL",
+  premiumFeat: [],
 };
 
 function filterReducer(
@@ -33,6 +36,31 @@ function filterReducer(
       return {
         ...state,
         isOpen: false,
+      };
+    case "SELECT_SORT_BY":
+      return {
+        ...state,
+        sortBy: action.payload,
+      };
+    case "SELECT_PRICE":
+      return {
+        ...state,
+        price: action.payload,
+      };
+
+    case "SELECT_PREMIUM_FEAT":
+      return {
+        ...state,
+        premiumFeat: state.premiumFeat.includes(action.payload)
+          ? state.premiumFeat.filter((item) => item !== action.payload)
+          : [...state.premiumFeat, action.payload],
+      };
+
+    case "CLEAR_DETAIL_FILTER":
+      return {
+        ...state,
+        price: "ALL",
+        premiumFeat: [],
       };
     default:
       return state;

@@ -1,13 +1,12 @@
 "use client";
 
-import { TemplateFilters } from "@/components/organisms/(template)/TemplateFilters";
-import { TemplateGrid } from "@/components/organisms/(template)/TemplateGrid";
 import {
   initialFilterState,
   TemplateFilterProvider,
-} from "@/domains/template/context";
-
+} from "@/context/templateFilter/reducer";
 import React from "react";
+import { TemplateFilters } from "../TemplateFilters";
+import { TemplateGrid } from "../TemplateGrid";
 
 const TemplateCatalog = () => {
   // Context API
