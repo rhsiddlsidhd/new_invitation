@@ -24,7 +24,7 @@ export default async function AdminLayout({
       <div className="bg-background flex min-h-screen w-screen pt-16">
         <AdminSidebar email={email} />
         <main className="flex-1">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto p-4">
             <SidebarHeader />
             <div className="pt-4">{children}</div>
           </div>

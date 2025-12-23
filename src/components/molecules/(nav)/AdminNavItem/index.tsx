@@ -28,9 +28,12 @@ const navItems = [
     ],
   },
   {
-    title: "프리미엄 기능",
-    href: "/admin/premium-features",
+    title: "프리미엄 기능 관리",
     icon: Star,
+    submenu: [
+      { title: "프리미엄 기능 목록", href: "/admin/premium-features" },
+      { title: "프리미엄 기능 등록", href: "/admin/premium-features/new" },
+    ],
   },
   {
     title: "주문 관리",
