@@ -54,7 +54,10 @@ const navItems = [
 
 export default function AdminNavItem() {
   const pathname = usePathname();
-  const [expandedMenus, setExpandedMenus] = useState<string[]>(["상품 관리"]);
+  const [expandedMenus, setExpandedMenus] = useState<string[]>([
+    "상품 관리",
+    "프리미엄 기능 관리",
+  ]);
 
   const toggleMenu = (title: string) => {
     setExpandedMenus((prev) =>
