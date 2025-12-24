@@ -29,33 +29,7 @@
 - **Folders**: `kebab-case` (예: `user-profile`, `api-handler`)
 - **Next.js Routes**: `(grouping)`, `[id]` 등 프레임워크 예약 규칙 준수
 
-### 2.2 Next.js Actions && Services
-
-1. **HTTP 메서드는 포함하지 않는다**
-   - 1-1. 의미 계층(도메인)에만 집중
-   - 예: `createTemplate` ✅, `postCreateTemplate` ❌
-2. **비즈니스 이벤트를 설명한다**
-   - 2-1. "무슨 일이 일어나는가?"를 나타내야 함
-   - 예: `createPremium` ✅, `setPremium` ❌
-3. **동사 + 명사 + 도메인 구조를 따른다**
-   - Auth / 세션 관련 Action은 3-2를 따른다
-   - 예: `createPremiumAction` ✅, `createPremium` ❌
-
-#### 3-1. 권장 동사 그룹 (Core)
-
-- **create** : 생성
-- **delete** : 삭제
-- **update** : 변경
-- **request** : 요청
-- **find** : 조회
-
-#### 3-2. 인증 / 세션 그룹 (Auth & Session)
-
-- **loginUser** : 로그인
-- **logoutUser** : 로그아웃
-- **signupUser** : 회원가입
-
-### 2.3 코드 내부
+### 2.2 코드 내부
 
 - **Variables/Functions**: `camelCase` (예: `const userData = ...`, `function getPost()`)
 - **Constants**: `SCREAMING_SNAKE_CASE` (예: `const MAX_RETRY_COUNT = 5`)

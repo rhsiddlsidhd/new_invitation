@@ -1,7 +1,5 @@
 import AdminNavItem from "@/components/molecules/(nav)/AdminNavItem";
 
-import SignOutBtn from "@/components/molecules/authButton/SignOutBtn";
-
 import {
   Sidebar,
   SidebarContent,
@@ -26,7 +24,6 @@ export const AdminSidebar = async ({ email }: { email: string }) => {
             <p className="text-muted-foreground text-xs">관리자 계정</p>
           </div>
         </div>
-        <SignOutBtn />
       </SidebarFooter>
     </Sidebar>
   );

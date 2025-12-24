@@ -14,79 +14,60 @@ import Label from "@/components/atoms/Label/Label";
 import { Textarea } from "@/components/atoms/Textarea";
 import type React from "react";
 
-import { useEffect, useState } from "react";
-
-interface PremiumFeature {
-  code: string;
-  label: string;
-  description: string;
-  additionalPrice: number;
-}
+import { useActionState, useEffect } from "react";
+import { PremiumFeature } from "@/services/premiumFeature.service";
+import { updatePremiumFeatureAction } from "@/actions/updatePremiumFeatureAction";
+import Alert from "@/components/atoms/Alert/Alert";
 
 interface PremiumFeatureDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  feature: PremiumFeature | null;
-  onSave: (feature: PremiumFeature) => void;
+  feature: PremiumFeature;
 }
 
 export function PremiumFeatureDialog({
   open,
   onOpenChange,
   feature,
-  onSave,
 }: PremiumFeatureDialogProps) {
-  const [formData, setFormData] = useState<PremiumFeature>({
-    code: "",
-    label: "",
-    description: "",
-    additionalPrice: 0,
-  });
+  const [state, action, pending] = useActionState(
+    updatePremiumFeatureAction,
+    null,
+  );
 
   useEffect(() => {
-    if (feature) {
-      setFormData(feature);
-    } else {
-      setFormData({
-        code: "",
-        label: "",
-        description: "",
-        additionalPrice: 0,
-      });
+    if (state && state.success) {
+      alert(state.data.message);
+      onOpenChange(false);
     }
-  }, [feature, open]);
+  }, [state, onOpenChange]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSave(formData);
-  };
+  const error = state && !state.success && state.error.errors;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
-        <form onSubmit={handleSubmit}>
+      <DialogContent className="sm:max-w-125">
+        <form action={action}>
           <DialogHeader>
-            <DialogTitle>
-              {feature ? "프리미엄 기능 수정" : "프리미엄 기능 추가"}
-            </DialogTitle>
+            <DialogTitle>프리미엄 기능 수정</DialogTitle>
             <DialogDescription>
-              상품에 추가할 수 있는 유료 기능을 등록합니다.
+              프리미엄 기능 정보를 수정합니다.
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="code">기능 코드 *</Label>
+              <Label htmlFor="code">
+                기능 코드 *
+                {error && error["code"] && (
+                  <Alert type="error">{error["code"][0]}</Alert>
+                )}
+              </Label>
               <Input
                 id="code"
+                name="code"
                 placeholder="예: ANIMATION"
-                value={formData.code}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    code: e.target.value.toUpperCase(),
-                  })
-                }
+                defaultValue={feature.code}
                 required
               />
               <p className="text-muted-foreground text-xs">
@@ -95,48 +76,54 @@ export function PremiumFeatureDialog({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="label">기능 이름 *</Label>
+              <Label htmlFor="label">
+                기능 이름 *
+                {error && error["label"] && (
+                  <Alert type="error">{error["label"][0]}</Alert>
+                )}
+              </Label>
               <Input
                 id="label"
+                name="label"
                 placeholder="예: 애니메이션 효과"
-                value={formData.label}
-                onChange={(e) =>
-                  setFormData({ ...formData, label: e.target.value })
-                }
+                defaultValue={feature.label}
                 required
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description">기능 설명 *</Label>
+              <Label htmlFor="description">
+                기능 설명 *
+                {error && error["description"] && (
+                  <Alert type="error">{error["description"][0]}</Alert>
+                )}
+              </Label>
               <Textarea
                 id="description"
+                name="description"
                 placeholder="기능에 대한 자세한 설명을 입력하세요."
                 rows={3}
-                value={formData.description}
-                onChange={(e) =>
-                  setFormData({ ...formData, description: e.target.value })
-                }
+                defaultValue={feature.description}
                 required
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="additionalPrice">추가 비용 *</Label>
+              <Label htmlFor="additionalPrice">
+                추가 비용 *
+                {error && error["additionalPrice"] && (
+                  <Alert type="error">{error["additionalPrice"][0]}</Alert>
+                )}
+              </Label>
               <div className="relative">
                 <Input
                   id="additionalPrice"
+                  name="additionalPrice"
                   type="number"
                   placeholder="0"
-                  min="0"
-                  step="1000"
-                  value={formData.additionalPrice}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      additionalPrice: Number(e.target.value),
-                    })
-                  }
+                  min={0}
+                  step={1000}
+                  defaultValue={feature.additionalPrice}
                   required
                   className="pr-12"
                 />
@@ -145,17 +132,29 @@ export function PremiumFeatureDialog({
                 </span>
               </div>
             </div>
+
+            <input
+              type="hidden"
+              id="featureId"
+              name="featureId"
+              value={feature._id}
+            />
           </div>
 
           <DialogFooter>
             <Btn
               type="button"
               variant="outline"
-              onClick={() => onOpenChange(false)}
+              onClick={(e) => {
+                e.preventDefault();
+                onOpenChange(false);
+              }}
             >
               취소
             </Btn>
-            <Btn type="submit">{feature ? "수정" : "추가"}</Btn>
+            <Btn type="submit" disabled={pending}>
+              {pending ? "수정 중..." : "수정"}
+            </Btn>
           </DialogFooter>
         </form>
       </DialogContent>
