@@ -3,20 +3,21 @@
 import type React from "react";
 
 import { useActionState, useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
+
 import Link from "next/link";
 import { Mail, Lock, User, Phone } from "lucide-react";
 import { GlobeAmericasIcon } from "@/components/atoms/Icon";
 
 import { useRouter } from "next/navigation";
-import { signUp } from "@/actions/signUp";
+import { signupUser } from "@/actions/signupUser";
+import Label from "@/components/atoms/Label/Label";
+import { Input } from "@/components/atoms/Input/Input";
+import { Checkbox } from "@/components/atoms/CheckBox/CheckBox";
+import { Btn } from "@/components/atoms/Btn/Btn";
 
 export function SignupForm() {
   const router = useRouter();
-  const [state, action, pending] = useActionState(signUp, null);
+  const [state, action, pending] = useActionState(signupUser, null);
 
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
@@ -174,14 +175,14 @@ export function SignupForm() {
           </div>
         </div>
 
-        <Button
+        <Btn
           type="submit"
           className="w-full"
           size="lg"
           disabled={!agreedToPrivacy || !agreedToTerms || pending}
         >
           회원가입
-        </Button>
+        </Btn>
         {formError && (
           <p className="text-destructive text-center text-sm">{formError}</p>
         )}
@@ -196,7 +197,7 @@ export function SignupForm() {
         </div>
       </div>
 
-      <Button
+      <Btn
         type="button"
         variant="outline"
         className="w-full bg-transparent"
@@ -204,7 +205,7 @@ export function SignupForm() {
       >
         <GlobeAmericasIcon className="mr-2 h-5 w-5" />
         Google로 가입하기
-      </Button>
+      </Btn>
 
       <div className="text-center">
         <p className="text-muted-foreground text-sm">

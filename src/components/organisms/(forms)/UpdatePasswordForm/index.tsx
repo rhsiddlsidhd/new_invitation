@@ -1,6 +1,6 @@
 "use client";
 
-import { changeUserPW } from "@/actions/changeUserPW";
+import { updateUserPassword } from "@/actions/updateUserPassword";
 import { fetcher } from "@/api/fetcher";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import { Input } from "@/components/atoms/Input/Input";
@@ -20,9 +20,9 @@ const deleteCookieToUserEmail = async () => {
   }
 };
 
-const ChangePWForm = () => {
+const UpdatePasswordForm = () => {
   const router = useRouter();
-  const [state, action, pending] = useActionState(changeUserPW, null);
+  const [state, action, pending] = useActionState(updateUserPassword, null);
 
   useEffect(() => {
     if (state && state.success) {
@@ -108,4 +108,4 @@ const ChangePWForm = () => {
   );
 };
 
-export default ChangePWForm;
+export default UpdatePasswordForm;

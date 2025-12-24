@@ -9,7 +9,7 @@ import { handleActionError } from "@/api/error";
 import { HTTPError } from "@/api/type";
 
 // 유저가 비밀번호를 기억이 나지 않을때 로그인 하지 않은 상태에서 유저의 이메일의 비밀번호를 변경하는 컨트롤러
-export const changeUserPW = async (
+export const updateUserPassword = async (
   prev: unknown,
   formData: FormData,
 ): Promise<APIResponse<{ message: string }>> => {

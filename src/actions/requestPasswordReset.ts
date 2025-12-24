@@ -16,7 +16,7 @@ const createChangePWDomain = (token: string): string => {
     : "";
 };
 
-export const findUserPassword = async (
+export const requestPasswordReset = async (
   prev: unknown,
   formData: FormData,
 ): Promise<APIResponse<{ message: string }>> => {
@@ -44,7 +44,7 @@ export const findUserPassword = async (
     // 수정 사항 Email을 Encrypt 하지 않고 Cookie 의 값에 저장 * (만료시간이 짧은) 영구 쿠키
     await setCookie({ name: "userEmail", value: email, maxAge: 600 });
 
-    const entryToken = await encrypt({ email, type: "ENTRY" });
+    const entryToken = await encrypt({ id: email, type: "ENTRY" });
 
     // 도메인을 생성
     const path = createChangePWDomain(entryToken);

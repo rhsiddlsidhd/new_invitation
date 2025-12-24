@@ -12,7 +12,7 @@ import { handleActionError } from "@/api/error";
 import { HTTPError } from "@/api/type";
 import { UserRole } from "@/models/user.model";
 
-export const signIn = async (
+export const loginUser = async (
   prev: unknown,
   formData: FormData,
 ): Promise<APIResponse<{ token: string; role: UserRole }>> => {

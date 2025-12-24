@@ -1,4 +1,4 @@
-import ChangePWForm from "@/components/organisms/(forms)/ChangePWForm";
+import UpdatePasswordForm from "@/components/organisms/(forms)/UpdatePasswordForm";
 import { getCookie } from "@/lib/cookies/get";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -9,7 +9,7 @@ const ResetPassword = async (props: { searchParams: SearchParams }) => {
   const query = searchParams.t;
   const cookie = await getCookie("userEmail");
   if (!query || !cookie) redirect("/");
-  return <ChangePWForm />;
+  return <UpdatePasswordForm />;
 };
 
 export default ResetPassword;

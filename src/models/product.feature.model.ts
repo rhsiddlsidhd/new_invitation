@@ -1,8 +1,9 @@
 import { TemplateFilterState } from "@/context/templateFilter/type";
-import { Schema, model, Document } from "mongoose";
+import mongoose, { Schema, Document, Model } from "mongoose";
 
 export interface Feature extends Document {
-  code: TemplateFilterState["premiumFeat"][number]; // 고유 코드 ("VIDEO", "CUSTOM_FONT")
+  // code: TemplateFilterState["premiumFeat"][number]; // 고유 코드 ("VIDEO", "CUSTOM_FONT")
+  code: string;
   label: string; // 관리자/프론트용 이름
   description?: string; // 기능 설명
   additionalPrice: number; // 추가 요금
@@ -22,4 +23,5 @@ const featureSchema = new Schema<Feature>(
   { timestamps: true },
 );
 
-export const FeatureModel = model<Feature>("Feature", featureSchema);
+export const FeatureModel: Model<Feature> =
+  mongoose.models.Feature || mongoose.model<Feature>("Feature", featureSchema);

@@ -10,7 +10,7 @@ import { validateAndFlatten } from "@/lib/validation";
 import { RegisterSchema } from "@/schemas/register.schema";
 import { checkEmailDuplicate, createUser } from "@/services/user.service";
 
-export async function signUp(
+export async function signupUser(
   prev: unknown,
   formData: FormData,
 ): Promise<APIResponse<{ message: string }>> {
