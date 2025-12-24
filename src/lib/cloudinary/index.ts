@@ -1,6 +1,6 @@
 const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 const UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
-const BASE_URL = process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL;
+const BASE_URL = process.env.CLOUDINARY_BASE_URL;
 
 const uploadToCloudinary = async (file: File, folder: string) => {
   const formData = new FormData();
@@ -15,6 +15,12 @@ const uploadToCloudinary = async (file: File, folder: string) => {
   const data = await res.json();
   return data;
 };
+
+export async function uploadProductImage(file: File, type: "thumbnail" | "preview" = "thumbnail") {
+  const folder = type === "thumbnail" ? "products/thumbnails" : "products/previews";
+  const result = await uploadToCloudinary(file, folder);
+  return result.secure_url;
+}
 
 export async function uploadThumbnails(files: File[]) {
   return Promise.all(

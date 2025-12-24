@@ -1,4 +1,3 @@
-import { TemplateFilterState } from "@/context/templateFilter/type";
 import mongoose, { Schema, Document, Model } from "mongoose";
 
 export interface Feature extends Document {

@@ -1,9 +1,12 @@
+import { getAllPremiumFeatureService } from "@/services/premiumFeature.service";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import { ProductRegistrationForm } from "@/components/organisms/(forms)/ProductRegistrationForm";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-export default function NewProductPage() {
+export default async function NewProductPage() {
+  const premiumFeatures = await getAllPremiumFeatureService();
+
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
@@ -20,7 +23,7 @@ export default function NewProductPage() {
         </div>
       </div>
 
-      <ProductRegistrationForm />
+      <ProductRegistrationForm premiumFeatures={premiumFeatures} />
     </div>
   );
 }
