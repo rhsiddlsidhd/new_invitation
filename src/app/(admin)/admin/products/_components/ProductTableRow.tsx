@@ -8,9 +8,7 @@ import { Badge } from "@/components/atoms/Badge/Badge";
 import { deleteProductAction } from "@/actions/deleteProductAction";
 import { updateProductStatusAction } from "@/actions/updateProductStatusAction";
 import { useRouter } from "next/navigation";
-import { ProductEditDialog } from "./ProductEditDialog";
-import type { PremiumFeature } from "@/services/premiumFeature.service";
-import type { Product } from "@/services/product.service";
+import dynamic from "next/dynamic";
 import {
   Select,
   SelectContent,
@@ -18,6 +16,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/atoms/Select";
+
+import { PremiumFeature } from "@/services/premiumFeature.service";
+import { toast } from "sonner";
+import { Product } from "@/services/product.service";
+
+const ProductEditDialog = dynamic(
+  () => import("./ProductEditDialog").then((mod) => mod.ProductEditDialog),
+  {
+    loading: () => <p>Loading...</p>,
+  },
+);
 
 interface ProductTableRowProps {
   product: Product;
@@ -33,9 +42,7 @@ export function ProductTableRow({
   const [status, setStatus] = useState(product.status);
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
   const router = useRouter();
-  useEffect(() => {
-    console.log(product);
-  }, [product]);
+
   const handleDelete = async () => {
     if (!confirm(`"${product.title}" 상품을 삭제하시겠습니까?`)) {
       return;
@@ -47,15 +54,14 @@ export function ProductTableRow({
       const result = await deleteProductAction(product._id);
 
       if (!result.success) {
-        alert(result.error?.message || "삭제에 실패했습니다.");
+        toast.error(result.error?.message || "삭제에 실패했습니다.");
         return;
       }
 
-      alert(result.data.message);
+      toast.success(result.data.message);
       router.refresh();
     } catch (error) {
-      console.error("Delete error:", error);
-      alert("삭제 중 오류가 발생했습니다.");
+      toast.error("삭제 중 오류가 발생했습니다.");
     } finally {
       setIsDeleting(false);
     }
@@ -71,15 +77,14 @@ export function ProductTableRow({
       const result = await updateProductStatusAction(product._id, newStatus);
 
       if (!result.success) {
-        alert(result.error?.message || "상태 변경에 실패했습니다.");
+        toast.error(result.error?.message || "상태 변경에 실패했습니다.");
         setStatus(product.status);
         return;
       }
 
       router.refresh();
     } catch (error) {
-      console.error("Status update error:", error);
-      alert("상태 변경 중 오류가 발생했습니다.");
+      toast.error("상태 변경 중 오류가 발생했습니다.");
       setStatus(product.status);
     } finally {
       setIsUpdatingStatus(false);

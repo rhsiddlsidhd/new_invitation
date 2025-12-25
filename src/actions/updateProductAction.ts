@@ -9,6 +9,7 @@ import { decrypt } from "@/lib/token";
 import { validateAndFlatten } from "@/lib/validation";
 import { productSchema } from "@/schemas/product.schema";
 import { updateProductService } from "@/services/product.service";
+import { getUserById } from "@/services/user.service";
 import { revalidatePath } from "next/cache";
 import z from "zod";
 
@@ -27,6 +28,11 @@ export const updateProductAction = async (
     const { payload } = await decrypt({ token: cookie.value, type: "REFRESH" });
 
     if (!payload.id) throw new HTTPError("유효하지 않은 토큰입니다.", 401);
+
+    const user = await getUserById(payload.id);
+    if (user.role !== "ADMIN") {
+      throw new HTTPError("관리자 권한이 필요합니다.", 403);
+    }
 
     const thumbnailFile = formData.get("thumbnail") as File;
     const previewFile = formData.get("previewUrl") as File;

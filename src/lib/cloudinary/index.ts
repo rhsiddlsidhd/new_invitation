@@ -7,12 +7,21 @@ const uploadToCloudinary = async (file: File, folder: string) => {
   formData.append("file", file);
   formData.append("upload_preset", `${UPLOAD_PRESET}`);
   formData.append("folder", folder);
-  console.log(`${BASE_URL}/${CLOUD_NAME}/image/upload`);
   const res = await fetch(`${BASE_URL}/${CLOUD_NAME}/image/upload`, {
     method: "POST",
     body: formData,
   });
+
+  if (!res.ok) {
+    throw new HTTPError("이미지 업로드에 실패했습니다.", 500);
+  }
+
   const data = await res.json();
+
+  if (data.error) {
+    throw new HTTPError(`Cloudinary 오류: ${data.error.message}`, 500);
+  }
+  
   return data;
 };
 
