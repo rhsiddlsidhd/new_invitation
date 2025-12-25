@@ -98,14 +98,14 @@ export interface PanelField {
   value?: string;
 }
 
-export interface Product {
-  id: string;
-  title: string;
-  description: string;
-  thumbnail: string;
-  price: number;
-  category: string;
-  options: {
-    font: string[];
-  };
-}
+// export interface Product {
+//   id: string;
+//   title: string;
+//   description: string;
+//   thumbnail: string;
+//   price: number;
+//   category: string;
+//   options: {
+//     font: string[];
+//   };
+// }

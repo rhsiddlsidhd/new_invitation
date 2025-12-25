@@ -7,7 +7,8 @@ export async function fetcher<T>(
   const res = await fetch(url, options);
   if (!res.ok) {
     const body = await res.json();
-    const { message, code, errors, path } = body.error;
+
+    const { message, code, errors, path } = body;
 
     throw new HTTPError(message, code, errors, path);
   }

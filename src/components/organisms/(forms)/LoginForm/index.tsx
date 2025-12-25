@@ -9,16 +9,17 @@ import { GlobeAmericasIcon } from "@/components/atoms/Icon";
 
 import { useRouter } from "next/navigation";
 import useAuthStore from "@/store/authTokenStore";
-import { signIn } from "@/actions/signIn";
+
 import Alert from "@/components/atoms/Alert/Alert";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import Label from "@/components/atoms/Label/Label";
 import { Input } from "@/components/atoms/Input/Input";
 import { Checkbox } from "@/components/atoms/CheckBox/CheckBox";
+import { loginUser } from "@/actions/loginUser";
 
 export function LoginForm() {
   const router = useRouter();
-  const [state, action, pending] = useActionState(signIn, null);
+  const [state, action, pending] = useActionState(loginUser, null);
   const setToken = useAuthStore((state) => state.setToken);
 
   useEffect(() => {

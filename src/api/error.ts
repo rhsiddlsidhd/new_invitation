@@ -26,28 +26,26 @@ export const handleActionError = (e: unknown): ErrorResponse => {
  */
 export const handleMethodError = (e: unknown): NextResponse => {
   if (e instanceof HTTPError) {
-    switch (e.code) {
-      case 400:
-        return NextResponse.json(
-          { message: e.message, errors: e.errors ?? {} },
-          { status: 400 },
-        );
-      case 401:
-        return NextResponse.json(
-          { message: e.message, path: e.path ?? undefined },
-          { status: 401 },
-        );
-      case 403:
-      case 404:
-        return NextResponse.json({ message: e.message }, { status: e.code });
-      default:
-        return NextResponse.json({ message: e.message }, { status: e.code });
-    }
+    return NextResponse.json(
+      {
+        message: e.message,
+        code: e.code,
+        errors: e.errors ?? null,
+        path: e.path ?? null,
+      },
+      { status: e.code },
+    );
   }
 
   console.error(e);
+
   return NextResponse.json(
-    { message: "알 수 없는 오류가 발생했습니다." },
+    {
+      message: "알 수 없는 오류가 발생했습니다.",
+      code: 500,
+      errors: null,
+      path: null,
+    },
     { status: 500 },
   );
 };

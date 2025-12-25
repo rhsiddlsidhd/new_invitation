@@ -6,14 +6,14 @@ import { useActionState, useEffect, useState } from "react";
 import Link from "next/link";
 import { Mail, CheckCircle2 } from "lucide-react";
 
-import { findUserPassword } from "@/actions/findUserPassword";
 import { Card } from "@/components/atoms/Card/Card";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import { Input } from "@/components/atoms/Input/Input";
 import Label from "@/components/atoms/Label/Label";
+import { requestPasswordReset } from "@/actions/requestPasswordReset";
 
 export function ForgotPasswordForm() {
-  const [state, action] = useActionState(findUserPassword, null);
+  const [state, action] = useActionState(requestPasswordReset, null);
 
   const [email, setEmail] = useState("");
 

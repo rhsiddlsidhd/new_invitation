@@ -30,6 +30,14 @@ export const getUserEmail = async ({
   return user.email;
 };
 
+// 유저 ID로 유저 찾기
+export const getUserById = async (id: string): Promise<UserDocument> => {
+  await dbConnect();
+  const user = await User.findById(id).lean<UserDocument>();
+  if (!user) throw new HTTPError("유저를 찾을 수가 없습니다.", 404);
+  return user;
+};
+
 // 비밀번호 변경 함수
 export const changePassword = async (
   email: string,
