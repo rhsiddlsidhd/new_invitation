@@ -26,6 +26,7 @@ import { Checkbox } from "@/components/atoms/CheckBox/CheckBox";
 import { Label } from "@/components/atoms/Label/Label";
 import usePremiumFeature from "@/hooks/usePromiumFeatures";
 import Spinner from "@/components/atoms/Spinner/Spinner";
+import Thumbnail from "@/components/atoms/Thumbnail";
 
 interface ProductEditDialogProps {
   product: Product;
@@ -97,11 +98,10 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
             )}
           </Label>
           <div className="border-border group relative aspect-video w-full overflow-hidden rounded-lg border">
-            <Image
+            <Thumbnail
               src={thumbnail || "/placeholder.svg"}
-              alt="Thumbnail"
-              fill
-              className="object-cover"
+              widthPx={490}
+              alt={`${product.title} 이미지`}
             />
             <label
               htmlFor="edit-thumbnail-input"
@@ -117,7 +117,7 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
             {thumbnailFile && (
               <Btn
                 type="button"
-                variant="destructive"
+                variant="ghost"
                 size="icon"
                 onClick={handleRemoveThumbnail}
                 className="absolute top-2 right-2 z-10 h-8 w-8"

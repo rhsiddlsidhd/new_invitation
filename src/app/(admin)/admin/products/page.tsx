@@ -17,10 +17,6 @@ const tableColums = [
 ];
 
 export default async function ProductsPage() {
-  // const [products, premiumFeatures] = await Promise.all([
-  //   getAllProductsService(),
-  //   getAllPremiumFeatureService(),
-  // ]);
   const products = await getAllProductsService();
 
   return (
