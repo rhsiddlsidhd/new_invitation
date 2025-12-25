@@ -1,6 +1,6 @@
 "use client";
 import { DocArrowUpIcon } from "@/components/atoms/Icon";
-import Img from "@/components/atoms/Img/Img";
+import Img from "@/components/atoms/Thumbnail";
 import OverlayCloseBtn from "../../btns/OverlayCloseBtn";
 
 import { motion } from "framer-motion";

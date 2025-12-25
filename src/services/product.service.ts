@@ -1,6 +1,7 @@
-import { BaseProduct, ProductModel } from "@/models/product.model";
+import { BaseProduct, ProductModel, Status } from "@/models/product.model";
 
 import { dbConnect } from "@/shared/utils/mongodb";
+
 import mongoose from "mongoose";
 
 type ProductInput = Omit<BaseProduct, "options"> & { options: string[] | [] };
@@ -21,7 +22,7 @@ export type Product = {
   likes: number;
   views: number;
   salesCount: number;
-  status: "active" | "inactive" | "soldOut";
+  status: Status;
 };
 
 export const createProductService = async (data: ProductInput) => {

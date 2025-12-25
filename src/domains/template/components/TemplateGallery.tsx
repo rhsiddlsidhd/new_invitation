@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 import Card from "@/components/atoms/Card/Card";
-import Img from "@/components/atoms/Img/Img";
+import Img from "@/components/atoms/Thumbnail";
 import { useRouter } from "next/navigation";
 import { PRODUCT_LIST } from "@/shared/constants";
 import { useSetClearProduct } from "@/domains/product";

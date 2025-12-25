@@ -1,12 +1,11 @@
 "use client";
 
 import type React from "react";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useState } from "react";
 import Image from "next/image";
 import { UploadCloud, X } from "lucide-react";
 
 import { updateProductAction } from "@/actions/updateProductAction";
-import type { PremiumFeature } from "@/services/premiumFeature.service";
 import type { Product } from "@/services/product.service";
 
 import Alert from "@/components/atoms/Alert/Alert";
@@ -23,39 +22,21 @@ import {
 } from "@/components/atoms/Select";
 import { Switch } from "@/components/atoms/Switch";
 import { Checkbox } from "@/components/atoms/CheckBox/CheckBox";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/atoms/Dialog/Dialog";
+
 import { Label } from "@/components/atoms/Label/Label";
-import { useAdminModalStore } from "@/store/admin.modal.store";
+import usePremiumFeature from "@/hooks/usePromiumFeatures";
+import Spinner from "@/components/atoms/Spinner/Spinner";
 
 interface ProductEditDialogProps {
   product: Product;
-  premiumFeatures: PremiumFeature[];
 }
 
-/**
- * 
- *{
-  open,
-  onOpenChange,
-  product,
-  premiumFeatures,
-}: ProductEditDialogProps
- */
-
-export function ProductEditDialog({
-  product,
-  premiumFeatures,
-}: ProductEditDialogProps) {
+export function ProductEditDialog({ product }: ProductEditDialogProps) {
   const [state, action, pending] = useActionState(
     updateProductAction.bind(null, product._id),
     null,
   );
+  const { premiumFeatures, loading } = usePremiumFeature();
   const [isPremium, setIsPremium] = useState(product.isPremium);
   const [isFeature, setIsFeature] = useState(product.feature);
   const [thumbnail, setThumbnail] = useState<string | null>(product.thumbnail);
@@ -96,18 +77,18 @@ export function ProductEditDialog({
 
   const error = state && !state.success && state.error.errors;
 
-  return (
-    // <Dialog >
-    //   <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
-    //     <DialogHeader>
-    //       <DialogTitle>상품 수정</DialogTitle>
-    //       <DialogDescription>상품 정보를 수정합니다.</DialogDescription>
-    //     </DialogHeader>
+  // 로딩 중일 때 스피너 표시
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Spinner />
+      </div>
+    );
+  }
 
+  return (
     <form action={action} className="space-y-6">
-      {/* <div className="grid grid-cols-1 gap-6 lg:grid-cols-2"> */}
       <div className="grid grid-cols-2 gap-4">
-        {/* 썸네일 (col-span-2) */}
         <div className="col-span-2">
           <Label htmlFor="edit-thumbnail-input">
             썸네일 이미지 *
@@ -368,11 +349,7 @@ export function ProductEditDialog({
       </div>
 
       <div className="flex justify-end gap-4 border-t pt-4">
-        <Btn
-          type="button"
-          variant="outline"
-          // onClick={() => open("EDIT-PRODUCT", { product, premiumFeatures })}
-        >
+        <Btn type="button" variant="outline">
           취소
         </Btn>
         <Btn type="submit" className="min-w-30" disabled={pending}>
@@ -380,7 +357,5 @@ export function ProductEditDialog({
         </Btn>
       </div>
     </form>
-    //   </DialogContent>
-    // </Dialog>
   );
 }

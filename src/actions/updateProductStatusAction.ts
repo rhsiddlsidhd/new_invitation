@@ -5,13 +5,15 @@ import { APIResponse, success } from "@/api/response";
 import { HTTPError } from "@/api/type";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
+import { Status } from "@/models/product.model";
+
 import { updateProductService } from "@/services/product.service";
 import { getUserById } from "@/services/user.service";
 import { revalidatePath } from "next/cache";
 
 export const updateProductStatusAction = async (
   productId: string,
-  status: "active" | "inactive" | "soldOut",
+  status: Status,
 ): Promise<APIResponse<{ message: string }>> => {
   try {
     const cookie = await getCookie("token");

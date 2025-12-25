@@ -2,7 +2,7 @@
 
 import { ProductEditDialog } from "@/app/(admin)/admin/products/_components/ProductEditDialog";
 import { AdminModalState, useAdminModalStore } from "@/store/admin.modal.store";
-import React, { useEffect } from "react";
+import React from "react";
 import { PremiumFeatureDialog } from "../PremiumFeatureDialog";
 import {
   Dialog,
@@ -37,10 +37,8 @@ const AdminModal = () => {
   const open = useAdminModalStore((state) => state.isOpen);
   const close = useAdminModalStore((state) => state.closeModal);
   const props = useAdminModalStore((state) => state.props);
-  useEffect(() => {
-    console.log("open", open);
-  }, [open]);
-  if (!type || !props) return;
+
+  if (!type) return;
 
   const payload = modalPayload[type];
   const Component = payload.component;
@@ -53,6 +51,7 @@ const AdminModal = () => {
           <DialogDescription>{payload.des}</DialogDescription>
         </DialogHeader>
         {/* form */}
+
         <Component {...props} />
       </DialogContent>
     </Dialog>

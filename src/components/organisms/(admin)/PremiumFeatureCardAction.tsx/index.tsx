@@ -1,6 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import { PremiumFeatureDialog } from "../PremiumFeatureDialog";
+import React from "react";
+
 import { Btn } from "@/components/atoms/Btn/Btn";
 import { Edit, Trash2 } from "lucide-react";
 import { PremiumFeature } from "@/services/premiumFeature.service";

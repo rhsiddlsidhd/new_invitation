@@ -1,6 +1,5 @@
 import { error as createErrorResponse, ErrorResponse } from "@/api/response";
 import { HTTPError } from "./type";
-import { NextResponse } from "next/server";
 
 /**
  * Handles errors for Server Actions, returning a structured ErrorResponse object.
@@ -24,31 +23,6 @@ export const handleActionError = (e: unknown): ErrorResponse => {
  * @param e - The error object, which can be of any type.
  * @returns A `NextResponse` object containing the error details and status.
  */
-export const handleMethodError = (e: unknown): NextResponse => {
-  if (e instanceof HTTPError) {
-    return NextResponse.json(
-      {
-        message: e.message,
-        code: e.code,
-        errors: e.errors ?? null,
-        path: e.path ?? null,
-      },
-      { status: e.code },
-    );
-  }
-
-  console.error(e);
-
-  return NextResponse.json(
-    {
-      message: "알 수 없는 오류가 발생했습니다.",
-      code: 500,
-      errors: null,
-      path: null,
-    },
-    { status: 500 },
-  );
-};
 
 export const handleClientError = (e: unknown) => {
   if (e instanceof HTTPError) {

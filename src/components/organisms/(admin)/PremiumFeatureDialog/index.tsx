@@ -13,16 +13,6 @@ import { updatePremiumFeatureAction } from "@/actions/updatePremiumFeatureAction
 import Alert from "@/components/atoms/Alert/Alert";
 import { Label } from "@/components/atoms/Label/Label";
 
-/**
- * 
- * 
- * {
-  open,
-  onOpenChange,
-  feature,
-}: PremiumFeatureDialogProps
- */
-
 export function PremiumFeatureDialog({
   premiumFeature: feature,
 }: {
@@ -36,22 +26,14 @@ export function PremiumFeatureDialog({
   const error = state && !state.success && state.error.errors;
 
   return (
-    // <Dialog>
-    //   <DialogContent className="sm:max-w-125">
-    //     <DialogHeader>
-    //       <DialogTitle>프리미엄 기능 수정</DialogTitle>
-    //       <DialogDescription>
-    //         프리미엄 기능 정보를 수정합니다.
-    //       </DialogDescription>
-    //     </DialogHeader>
     <form action={action}>
       <div className="space-y-4 py-4">
         <div className="space-y-2">
           <Label htmlFor="code">
             기능 코드 *
-            {/* {error && error["code"] && (
+            {error && error["code"] && (
               <Alert type="error">{error["code"][0]}</Alert>
-            )} */}
+            )}
           </Label>
           <Input
             id="code"
@@ -140,7 +122,5 @@ export function PremiumFeatureDialog({
         </Btn>
       </DialogFooter>
     </form>
-    //   </DialogContent>
-    // </Dialog>
   );
 }
