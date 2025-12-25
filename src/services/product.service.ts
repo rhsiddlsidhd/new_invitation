@@ -40,19 +40,22 @@ export const createProductService = async (data: ProductInput) => {
     throw new Error("상품 생성에 실패했습니다.");
   }
 };
-
 export const getProductService = async (
   productId: string,
-): Promise<Product> => {
+): Promise<Product | null> => {
   await dbConnect();
-  const product = await ProductModel.findById(productId);
+  // findById 대신 findOne을 사용하여 _id와 deletedAt을 동시에 체크합니다.
+  const product = await ProductModel.findOne({
+    _id: productId,
+    deletedAt: null, // 삭제되지 않은 상품만 조회
+  });
 
-  return product.toJSON();
+  return product ? product.toJSON() : null;
 };
 
 export const getAllProductsService = async (): Promise<Product[]> => {
   await dbConnect();
-  const products = await ProductModel.find({});
+  const products = await ProductModel.find({ deletedAt: null });
 
   return products.map((product) => product.toJSON());
 };
@@ -62,24 +65,32 @@ export const updateProductService = async (
   data: Partial<Product>,
 ) => {
   await dbConnect();
-  const updatedProduct = await ProductModel.findByIdAndUpdate(
-    productId,
-    {
-      ...data,
-    },
+  // 업데이트 시에도 삭제되지 않은 문서인지 확인하기 위해 findOneAndUpdate에 조건을 추가합니다.
+  const updatedProduct = await ProductModel.findOneAndUpdate(
+    { _id: productId, deletedAt: null },
+    { ...data },
     { new: true },
   );
+
+  if (!updatedProduct) {
+    throw new Error("상품을 찾을 수 없거나 이미 삭제된 상태입니다.");
+  }
 
   return updatedProduct.toJSON();
 };
 
 export const deleteProductService = async (productId: string) => {
   await dbConnect();
-  const deletedProduct = await ProductModel.findByIdAndUpdate(
-    productId,
+  // 이미 삭제된 상품을 중복 삭제(날짜 갱신)하지 않도록 필터링을 추가하는 것이 안전합니다.
+  const deletedProduct = await ProductModel.findOneAndUpdate(
+    { _id: productId, deletedAt: null },
     { deletedAt: new Date() },
     { new: true },
   );
+
+  if (!deletedProduct) {
+    throw new Error("상품이 존재하지 않거나 이미 삭제되었습니다.");
+  }
 
   return deletedProduct.toJSON();
 };
