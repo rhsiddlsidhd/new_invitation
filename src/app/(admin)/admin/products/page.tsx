@@ -12,6 +12,8 @@ export default async function ProductsPage() {
     getAllPremiumFeatureService(),
   ]);
 
+  console.log({ products });
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -83,14 +85,12 @@ export default async function ProductsPage() {
       </div>
 
       {/* 페이지네이션 영역 - 나중에 추가 */}
-      {/* <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">
+      <div className="flex items-center justify-between">
+        <p className="text-muted-foreground text-sm">
           총 {products.length}개 상품
         </p>
-        <div className="flex gap-2">
-          페이지네이션 버튼
-        </div>
-      </div> */}
+        <div className="flex gap-2">페이지네이션 버튼</div>
+      </div>
     </div>
   );
 }

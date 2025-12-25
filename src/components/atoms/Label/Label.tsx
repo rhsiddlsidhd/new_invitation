@@ -1,22 +1,24 @@
-import React from "react";
+"use client";
 
-const Label = ({
-  children,
-  htmlFor,
+import * as React from "react";
+import * as LabelPrimitive from "@radix-ui/react-label";
+
+import { cn } from "@/lib/utils";
+
+function Label({
   className,
-}: {
-  htmlFor?: string;
-  className?: string;
-  children?: React.ReactNode;
-}) => {
+  ...props
+}: React.ComponentProps<typeof LabelPrimitive.Root>) {
   return (
-    <label
-      htmlFor={htmlFor}
-      className={`mb-1 block text-sm text-gray-700 ${className}`}
-    >
-      {children}
-    </label>
+    <LabelPrimitive.Root
+      data-slot="label"
+      className={cn(
+        "mb-1 flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
+        className,
+      )}
+      {...props}
+    />
   );
-};
+}
 
-export default Label;
+export { Label };

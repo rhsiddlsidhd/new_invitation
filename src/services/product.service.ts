@@ -5,7 +5,6 @@ import mongoose from "mongoose";
 
 type ProductInput = Omit<BaseProduct, "options"> & { options: string[] | [] };
 
-// toJSON() 후의 실제 타입 (ObjectId가 string으로 변환됨)
 export type Product = {
   _id: string;
   authorId: string;
@@ -16,7 +15,7 @@ export type Product = {
   price: number;
   category: string;
   isPremium: boolean;
-  options?: string[]; // toJSON()에서 ObjectId[] -> string[]로 변환됨
+  options?: string[];
   feature: boolean;
   priority: number;
   likes: number;

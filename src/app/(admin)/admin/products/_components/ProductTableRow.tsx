@@ -20,6 +20,7 @@ import {
 import { PremiumFeature } from "@/services/premiumFeature.service";
 import { toast } from "sonner";
 import { Product } from "@/services/product.service";
+import { useAdminModalStore } from "@/store/admin.modal.store";
 
 const ProductEditDialog = dynamic(
   () => import("./ProductEditDialog").then((mod) => mod.ProductEditDialog),
@@ -37,6 +38,7 @@ export function ProductTableRow({
   product,
   premiumFeatures,
 }: ProductTableRowProps) {
+  const open = useAdminModalStore((state) => state.openModal);
   const [isDeleting, setIsDeleting] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [status, setStatus] = useState(product.status);
@@ -140,7 +142,7 @@ export function ProductTableRow({
             onValueChange={handleStatusChange}
             disabled={isUpdatingStatus}
           >
-            <SelectTrigger className="w-[110px]">
+            <SelectTrigger className="w-27.5">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -174,7 +176,7 @@ export function ProductTableRow({
             <Btn
               size="sm"
               variant="outline"
-              onClick={() => setEditDialogOpen(true)}
+              onClick={() => open("EDIT-PRODUCT", { product, premiumFeatures })}
             >
               <Edit className="h-4 w-4" />
             </Btn>
@@ -190,7 +192,7 @@ export function ProductTableRow({
         </td>
       </tr>
 
-      <ProductEditDialog
+      {/* <ProductEditDialog
         open={editDialogOpen}
         onOpenChange={(open) => {
           setEditDialogOpen(open);
@@ -200,7 +202,7 @@ export function ProductTableRow({
         }}
         product={product}
         premiumFeatures={premiumFeatures}
-      />
+      /> */}
     </>
   );
 }

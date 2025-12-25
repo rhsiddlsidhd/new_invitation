@@ -62,8 +62,6 @@ const productSchema = new Schema<ProductDocument>(
       transform: (_doc: ProductDocument, ret: Record<string, any>) => {
         const { __v, createdAt, updatedAt, id, ...rest } = ret;
 
-        console.log("rest keys after destructuring:", Object.keys(rest));
-
         const result = {
           ...rest,
           _id: ret._id.toString(),
