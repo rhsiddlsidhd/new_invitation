@@ -8,15 +8,14 @@ export const useSignIn = () => {
   const router = useRouter();
   const handleSignIn = async () => {
     try {
-      const path = "/login";
+      const nextPath = "/login";
 
       const data = await fetcher<{ path: string }>(
-        `/api/auth/entry?next=${encodeURIComponent(path)}`,
+        `/api/auth/entry?next=${encodeURIComponent(nextPath)}`,
         {
           method: "POST",
         },
       );
-
       router.push(data.path);
     } catch (e) {
       handleClientError(e);
