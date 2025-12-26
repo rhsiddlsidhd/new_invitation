@@ -21,7 +21,7 @@ const usePremiumFeature = () => {
       try {
         // API 응답 구조: { data: PremiumFeature[] }
         const response = await fetcher<{ data: PremiumFeature[] }>(
-          "/api/product/premium-feature",
+          "/api/premium-features",
         );
         if (flag) return;
         setPremiumFeatures(response.data ?? []);

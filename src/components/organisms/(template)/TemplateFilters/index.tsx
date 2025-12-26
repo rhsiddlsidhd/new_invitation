@@ -15,23 +15,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/atoms/DropdownMenu/DropdownMenu";
 import { Badge } from "@/components/atoms/Badge/Badge";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useTemplateFilter } from "@/context/templateFilter/reducer";
 import { TemplateFilterState } from "@/context/templateFilter/type";
+import { Product } from "@/services/product.service";
+import { getCategoryOptions } from "@/utils/category";
 
-export function TemplateFilters() {
+export function TemplateFilters({ data }: { data: Product[] }) {
   const [state, dispatch] = useTemplateFilter();
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
-  const { suggestions } = useSugessteTemplate(state.keyword.trim());
-  const categorys: TemplateFilterState["category"][] = [
-    "전체",
-    "모던",
-    "클래식",
-    "미니멀",
-    "로맨틱",
-    "빈티지",
-  ];
+  const { suggestions } = useSugessteTemplate({
+    data,
+    keyword: state.keyword.trim(),
+  });
 
   const prices: TemplateFilterState["price"][] = [
     "ALL",
@@ -72,7 +69,7 @@ export function TemplateFilters() {
     "POPULAR",
     "RECOMENDED",
     "LATEST",
-    "PRICE-LOW",
+    "PRICE_LOW",
     "PRICE_HIGH",
   ];
 
@@ -81,7 +78,7 @@ export function TemplateFilters() {
     POPULAR: "인기순",
     LATEST: "최신순",
     RECOMENDED: "추천순",
-    "PRICE-LOW": "낮은 가격순",
+    PRICE_LOW: "낮은 가격순",
     PRICE_HIGH: "높은 가격순",
   };
 
@@ -117,16 +114,16 @@ export function TemplateFilters() {
       </p>
 
       <div className="flex flex-wrap gap-2">
-        {categorys.map((category) => (
+        {getCategoryOptions(true).map((category) => (
           <Btn
-            key={`${category}`}
-            variant={state.category === category ? "default" : "outline"}
+            key={category.value}
+            variant={state.category === category.value ? "default" : "outline"}
             onClick={() =>
-              dispatch({ type: "SELECT_CATEGORY", payload: category })
+              dispatch({ type: "SELECT_CATEGORY", payload: category.value })
             }
             size="sm"
           >
-            {category}
+            {category.label}
           </Btn>
         ))}
       </div>

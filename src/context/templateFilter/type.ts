@@ -1,3 +1,5 @@
+import { CategoryEnum } from "@/models/product.model";
+
 type TemplatePrice = "ALL" | "FREE" | "UNDER-10k" | "10k-30k" | "OVER-30k";
 
 type TemplateFeature =
@@ -9,14 +11,14 @@ type TemplateFeature =
 
 export type TemplateFilterState = {
   keyword: string;
-  category: "전체" | "모던" | "클래식" | "미니멀" | "로맨틱" | "빈티지";
+  category: CategoryEnum | "all";
   isOpen: boolean;
   sortBy:
     | "ALL"
     | "POPULAR"
     | "RECOMENDED"
     | "LATEST"
-    | "PRICE-LOW"
+    | "PRICE_LOW"
     | "PRICE_HIGH";
   price: TemplatePrice;
   premiumFeat: TemplateFeature[];

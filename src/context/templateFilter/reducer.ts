@@ -4,7 +4,7 @@ import { TemplateFilterAction, TemplateFilterState } from "./type";
 
 const initialFilterState: TemplateFilterState = {
   keyword: "",
-  category: "전체",
+  category: "all",
   isOpen: false,
   sortBy: "ALL",
   price: "ALL",

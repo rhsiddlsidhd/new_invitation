@@ -3,17 +3,19 @@ import { TemplateCard } from "../TemplateCard";
 
 import useVisibleTemplate from "@/hooks/useVisibleTemplate";
 import { useTemplateFilter } from "@/context/templateFilter/reducer";
+import { Product } from "@/services/product.service";
 
-export function TemplateGrid() {
+export function TemplateGrid({ data }: { data: Product[] }) {
   const [state] = useTemplateFilter();
   const { visibleTemplates } = useVisibleTemplate({
     keyword: state.keyword.trim(),
     category: state.category,
+    data,
   });
   return (
     <Grid slot="template">
       {visibleTemplates.map((item) => (
-        <TemplateCard key={item.id} template={item} />
+        <TemplateCard key={item._id} template={item} />
       ))}
     </Grid>
   );

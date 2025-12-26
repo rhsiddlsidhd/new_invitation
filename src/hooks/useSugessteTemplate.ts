@@ -1,28 +1,34 @@
 import { useMemo } from "react";
 import { getChosung, isChosungOnly } from "@/shared/utils/string/hangul";
-import { templates } from "@/domains/template/data";
+import { Product } from "@/services/product.service";
 
-const useSugessteTemplate = (keyword: string) => {
+const useSugessteTemplate = ({
+  data,
+  keyword,
+}: {
+  data: Product[];
+  keyword: string;
+}) => {
   const keywordChosung = useMemo(() => getChosung(keyword), [keyword]);
   const isChosung = isChosungOnly(keyword);
 
   const suggestions = useMemo(() => {
     if (!keyword) return [];
 
-    return templates
+    return data
       .filter((item) => {
-        if (item.name.includes(keyword)) return true;
+        if (item.title.includes(keyword)) return true;
 
         if (isChosung) {
-          const nameChosung = getChosung(item.name);
+          const nameChosung = getChosung(item.title);
           return nameChosung.includes(keywordChosung);
         }
 
         return false;
       })
       .slice(0, 5)
-      .map((t) => t.name);
-  }, [keyword, keywordChosung, isChosung]);
+      .map((t) => t.title);
+  }, [keyword, keywordChosung, isChosung, data]);
   return { suggestions };
 };
 
