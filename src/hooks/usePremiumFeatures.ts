@@ -1,8 +1,12 @@
 "use client";
-
+/**
+ * 추후 서버 캐싱으로 변환
+ *  - 현재는 Clint Hook 에서 API를 직접 호출
+ *  - 이 데이터는 자주 변하지 않음
+ *  - 따라서 서버 캐시 라이브러리를 통해서 불필요한 네트워크 요청을 줄이고 보다 빠른 데이터를 제공한다.
+ */
 import { handleClientError } from "@/api/error";
 import { fetcher } from "@/api/fetcher";
-
 import { PremiumFeature } from "@/services/premiumFeature.service";
 import { useEffect, useState } from "react";
 
@@ -11,6 +15,7 @@ const usePremiumFeature = () => {
   const [premiumFeatures, setPremiumFeatures] = useState<PremiumFeature[]>([]);
 
   useEffect(() => {
+    let flag = false;
     const getPremiumFeatures = async () => {
       setLoading(true);
       try {
@@ -18,16 +23,21 @@ const usePremiumFeature = () => {
         const response = await fetcher<{ data: PremiumFeature[] }>(
           "/api/product/premium-feature",
         );
-
+        if (flag) return;
         setPremiumFeatures(response.data ?? []);
       } catch (error) {
+        if (flag) return;
         handleClientError(error);
         setPremiumFeatures([]);
       } finally {
+        if (flag) return;
         setLoading(false);
       }
     };
     getPremiumFeatures();
+    return () => {
+      flag = true;
+    };
   }, []);
 
   return { premiumFeatures, loading };
