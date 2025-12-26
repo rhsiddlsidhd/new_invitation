@@ -1,16 +1,23 @@
 import Link from "next/link";
-
 import { Plus } from "lucide-react";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import { getAllProductsService } from "@/services/product.service";
-import { getAllPremiumFeatureService } from "@/services/premiumFeature.service";
 import { ProductTableRow } from "./_components/ProductTableRow";
 
+const tableColums = [
+  "썸네일",
+  "상품명",
+  "카테고리",
+  "가격",
+  "타입",
+  "상태",
+  "통계",
+  "우선순위",
+  "관리",
+];
+
 export default async function ProductsPage() {
-  const [products, premiumFeatures] = await Promise.all([
-    getAllProductsService(),
-    getAllPremiumFeatureService(),
-  ]);
+  const products = await getAllProductsService();
 
   return (
     <div className="space-y-6">
@@ -34,42 +41,19 @@ export default async function ProductsPage() {
           <table className="w-full">
             <thead className="bg-muted border-b">
               <tr>
-                <th className="px-4 py-3 text-left text-sm font-semibold">
-                  썸네일
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold">
-                  상품명
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold">
-                  카테고리
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold">
-                  가격
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold">
-                  타입
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold">
-                  상태
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold">
-                  통계
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold">
-                  우선순위
-                </th>
-                <th className="px-4 py-3 text-center text-sm font-semibold">
-                  관리
-                </th>
+                {tableColums.map((col) => (
+                  <th
+                    key={col}
+                    className="px-4 py-3 text-left text-sm font-semibold"
+                  >
+                    {col}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody className="divide-y">
               {products.map((product) => (
-                <ProductTableRow
-                  key={product._id}
-                  product={product}
-                  premiumFeatures={premiumFeatures}
-                />
+                <ProductTableRow key={product._id} product={product} />
               ))}
             </tbody>
           </table>
@@ -82,15 +66,12 @@ export default async function ProductsPage() {
         )}
       </div>
 
-      {/* 페이지네이션 영역 - 나중에 추가 */}
-      {/* <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">
+      <div className="flex items-center justify-between">
+        <p className="text-muted-foreground text-sm">
           총 {products.length}개 상품
         </p>
-        <div className="flex gap-2">
-          페이지네이션 버튼
-        </div>
-      </div> */}
+        <div className="flex gap-2">페이지네이션 버튼</div>
+      </div>
     </div>
   );
 }

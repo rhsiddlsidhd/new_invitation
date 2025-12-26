@@ -17,7 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/Card/Card";
-import Label from "@/components/atoms/Label/Label";
+
 import { Input } from "@/components/atoms/Input/Input";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import { Textarea } from "@/components/atoms/Textarea";
@@ -30,6 +30,7 @@ import {
 } from "@/components/atoms/Select";
 import { Switch } from "@/components/atoms/Switch";
 import { Checkbox } from "@/components/atoms/CheckBox/CheckBox";
+import { Label } from "@/components/atoms/Label/Label";
 
 interface ProductRegistrationFormProps {
   premiumFeatures: PremiumFeature[];

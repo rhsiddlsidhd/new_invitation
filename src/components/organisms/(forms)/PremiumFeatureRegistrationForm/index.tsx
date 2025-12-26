@@ -4,7 +4,7 @@ import { createPremiumFeatureAction } from "@/actions/createPremiumFeatureAction
 import Alert from "@/components/atoms/Alert/Alert";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import { Input } from "@/components/atoms/Input/Input";
-import Label from "@/components/atoms/Label/Label";
+import { Label } from "@/components/atoms/Label/Label";
 import { Textarea } from "@/components/atoms/Textarea";
 import { TemplateFilterState } from "@/context/templateFilter/type";
 import { useActionState, useEffect } from "react";

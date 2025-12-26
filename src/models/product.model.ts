@@ -1,5 +1,7 @@
 import mongoose, { model, Schema, Document } from "mongoose";
 
+export type Status = "active" | "inactive" | "soldOut";
+
 export interface BaseProduct {
   authorId: string; // 판매자 ID (상품 등록자)
   title: string; // 상품명
@@ -18,7 +20,7 @@ export interface ProductModel extends BaseProduct {
   likes: number; // 좋아요 수 (관심도 지표)
   views: number; // 조회수 (노출/인기 지표)
   salesCount: number; // 판매 횟수 (실제 인기 지표)
-  status: "active" | "inactive" | "soldOut"; // 판매 상태 (노출/비노출/품절)
+  status: Status; // 판매 상태 (노출/비노출/품절)
 }
 
 export interface ProductDocument extends ProductModel, Document {
@@ -61,8 +63,6 @@ const productSchema = new Schema<ProductDocument>(
       virtuals: true,
       transform: (_doc: ProductDocument, ret: Record<string, any>) => {
         const { __v, createdAt, updatedAt, id, ...rest } = ret;
-
-        console.log("rest keys after destructuring:", Object.keys(rest));
 
         const result = {
           ...rest,

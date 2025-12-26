@@ -3,7 +3,7 @@
 import Btn from "@/components/atoms/Btn";
 import DateDisplay from "@/components/atoms/Date/Date";
 import { PhoneIcon } from "@/components/atoms/Icon";
-import Img from "@/components/atoms/Img/Img";
+import Img from "@/components/atoms/Thumbnail";
 import MusicBtn from "@/components/molecules/btns/MusicBtn";
 import Account from "@/components/molecules/wedding/Account";
 import Calender from "@/components/molecules/wedding/Calender";

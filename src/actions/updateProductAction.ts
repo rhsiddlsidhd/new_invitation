@@ -7,6 +7,7 @@ import { uploadProductImage } from "@/lib/cloudinary";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
 import { validateAndFlatten } from "@/lib/validation";
+import { Status } from "@/models/product.model";
 import { productSchema } from "@/schemas/product.schema";
 import { updateProductService } from "@/services/product.service";
 import { getUserById } from "@/services/user.service";
@@ -46,7 +47,7 @@ export const updateProductAction = async (
       options: formData.getAll("options") as string[],
       feature: formData.get("feature") === "true",
       priority: Number(formData.get("priority")),
-      status: formData.get("status") as "active" | "inactive" | "soldOut",
+      status: formData.get("status") as Status,
     };
 
     const parsed = validateAndFlatten(productSchema, data);

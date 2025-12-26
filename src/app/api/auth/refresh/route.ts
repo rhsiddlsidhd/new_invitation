@@ -1,12 +1,13 @@
-import { handleMethodError } from "@/api/error";
+import { apiError, APIRouteResponse, apiSuccess } from "@/api/response";
 import { HTTPError } from "@/api/type";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt, encrypt } from "@/lib/token";
+import { UserRole } from "@/models/user.model";
 import { getUser } from "@/services/auth.service";
 
-import { NextResponse } from "next/server";
-
-export const GET = async () => {
+export const GET = async (): Promise<
+  APIRouteResponse<{ accessToken: string; role: UserRole }>
+> => {
   // 리프레쉬 토큰 유효성 검사 이후 Access token 발행
   try {
     const cookie = await getCookie("token");
@@ -29,14 +30,8 @@ export const GET = async () => {
       type: "ACCESS",
     });
 
-    return NextResponse.json(
-      {
-        accessToken,
-        role: user.role,
-      },
-      { status: 200 },
-    );
+    return apiSuccess({ accessToken, role: user.role });
   } catch (e) {
-    return handleMethodError(e);
+    return apiError(e);
   }
 };

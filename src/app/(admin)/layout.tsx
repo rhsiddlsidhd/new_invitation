@@ -1,5 +1,6 @@
 import { SidebarProvider } from "@/components/atoms/Sidebar";
 import SidebarHeader from "@/components/molecules/(nav)/SidebarHeader";
+import AdminModal from "@/components/organisms/(admin)/AdminModal";
 import { AdminSidebar } from "@/components/organisms/(admin)/Sidebar";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
@@ -29,6 +30,7 @@ export default async function AdminLayout({
             <SidebarHeader />
             <div className="pt-4">{children}</div>
           </div>
+          <AdminModal />
         </main>
       </div>
     </SidebarProvider>

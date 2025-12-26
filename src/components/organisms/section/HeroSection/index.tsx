@@ -9,7 +9,7 @@ import {
   useInView,
 } from "framer-motion";
 import HeroBox from "@/components/molecules/boxs/HeroBox";
-import Img from "@/components/atoms/Img/Img";
+import Img from "@/components/atoms/Thumbnail";
 import { generateParticles } from "@/shared/utils/animation";
 import Card from "@/components/atoms/Card/Card";
 import { squareSizes } from "@/shared/constants";

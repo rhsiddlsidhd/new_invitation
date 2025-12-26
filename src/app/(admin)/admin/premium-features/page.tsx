@@ -48,7 +48,7 @@ export default async function PremiumFeaturesPage() {
                   </p>
                 </div>
                 <div className="flex gap-2">
-                  <PremiumFeatureCardAction feature={feature} />
+                  <PremiumFeatureCardAction premiumFeature={feature} />
                 </div>
               </div>
             </CardContent>
