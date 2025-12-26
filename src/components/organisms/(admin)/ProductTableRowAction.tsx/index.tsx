@@ -10,7 +10,6 @@ import { toast } from "sonner";
 
 const ProductTableRowAction = ({ product }: ProductTableRowProps) => {
   const open = useAdminModalStore((state) => state.openModal);
-  //   const { premiumFeatures, loading } = usePremiumFeature();
   const router = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
 

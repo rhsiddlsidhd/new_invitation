@@ -38,7 +38,7 @@ const AdminModal = () => {
   const close = useAdminModalStore((state) => state.closeModal);
   const props = useAdminModalStore((state) => state.props);
 
-  if (!type) return;
+  if (!type) return null;
 
   const payload = modalPayload[type];
   const Component = payload.component;
@@ -51,7 +51,6 @@ const AdminModal = () => {
           <DialogDescription>{payload.des}</DialogDescription>
         </DialogHeader>
         {/* form */}
-
         <Component {...props} />
       </DialogContent>
     </Dialog>

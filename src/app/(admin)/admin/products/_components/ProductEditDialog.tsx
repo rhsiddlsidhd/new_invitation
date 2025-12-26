@@ -24,7 +24,7 @@ import { Switch } from "@/components/atoms/Switch";
 import { Checkbox } from "@/components/atoms/CheckBox/CheckBox";
 
 import { Label } from "@/components/atoms/Label/Label";
-import usePremiumFeature from "@/hooks/usePromiumFeatures";
+import usePremiumFeature from "@/hooks/usePremiumFeatures";
 import Spinner from "@/components/atoms/Spinner/Spinner";
 import Thumbnail from "@/components/atoms/Thumbnail";
 

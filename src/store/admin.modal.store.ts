@@ -30,10 +30,8 @@ const initialState: AdminModalState = {
 export const useAdminModalStore = create<AdminModalState & AdminModalAction>(
   (set) => ({
     ...initialState,
-    openModal: (type, props) => {
-      console.log("open", type, props);
-      set(() => ({ isOpen: true, type: type ?? null, props: props ?? {} }));
-    },
+    openModal: (type, props) =>
+      set(() => ({ isOpen: true, type: type ?? null, props: props ?? {} })),
     closeModal: () => set(() => ({ ...initialState, isOpen: false })),
   }),
 );
