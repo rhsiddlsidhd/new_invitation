@@ -15,15 +15,28 @@ import {
   DropdownMenuTrigger,
 } from "@/components/atoms/DropdownMenu/DropdownMenu";
 import { Badge } from "@/components/atoms/Badge/Badge";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { useTemplateFilter } from "@/context/templateFilter/reducer";
 import { TemplateFilterState } from "@/context/templateFilter/type";
 import { Product } from "@/services/product.service";
 import { getCategoryOptions } from "@/utils/category";
+import usePremiumFeature from "@/hooks/usePremiumFeatures";
+
+const premiumFeatLabel: Record<
+  TemplateFilterState["premiumFeat"][number],
+  string
+> = {
+  VIDEO: "🎬 비디오 추가",
+  HORIZONTAL_SLIDE: "➡️ 가로 슬라이드 갤러리",
+  CUSTOM_FONT: "✍️ 나만의 폰트",
+  SAVE_MOBILE_INVITATION: "💌 영원히 간직하는 청첩장",
+  SAVE_GUESTBOOK: "📝 방명록 추억 저장",
+};
 
 export function TemplateFilters({ data }: { data: Product[] }) {
   const [state, dispatch] = useTemplateFilter();
+  const { premiumFeatures, loading } = usePremiumFeature();
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
   const { suggestions } = useSugessteTemplate({
     data,
@@ -44,24 +57,6 @@ export function TemplateFilters({ data }: { data: Product[] }) {
     "UNDER-10k": "1만원 이하",
     "10k-30k": "1만원 이상 3만원 이하",
     "OVER-30k": "3만원 이상",
-  };
-
-  const premiumFeat: TemplateFilterState["premiumFeat"] = [
-    "VIDEO",
-    "CUSTOM_FONT",
-    "HORIZONTAL_SLIDE",
-    "SAVE_MOBILE_INVITATION",
-    "SAVE_GUESTBOOK",
-  ];
-  const premiumFeatLabel: Record<
-    TemplateFilterState["premiumFeat"][number],
-    string
-  > = {
-    VIDEO: "🎬 비디오 추가",
-    HORIZONTAL_SLIDE: "➡️ 가로 슬라이드 갤러리",
-    CUSTOM_FONT: "✍️ 나만의 폰트",
-    SAVE_MOBILE_INVITATION: "💌 영원히 간직하는 청첩장",
-    SAVE_GUESTBOOK: "📝 방명록 추억 저장",
   };
 
   const soryBy: TemplateFilterState["sortBy"][] = [
@@ -192,18 +187,27 @@ export function TemplateFilters({ data }: { data: Product[] }) {
           <div className="space-y-2">
             <h3 className="text-sm font-medium">특별 옵션</h3>
             <div className="flex flex-wrap gap-2">
-              {premiumFeat.map((value) => (
+              {premiumFeatures.map((value) => (
                 <Badge
                   variant={
-                    state.premiumFeat.includes(value) ? "default" : "outline"
+                    state.premiumFeat.includes(value._id)
+                      ? "default"
+                      : "outline"
                   }
                   className="cursor-pointer"
-                  key={value}
+                  key={value._id}
                   onClick={() =>
-                    dispatch({ type: "SELECT_PREMIUM_FEAT", payload: value })
+                    dispatch({
+                      type: "SELECT_PREMIUM_FEAT",
+                      payload: value._id,
+                    })
                   }
                 >
-                  {premiumFeatLabel[value]}
+                  {
+                    premiumFeatLabel[
+                      value.code as keyof typeof premiumFeatLabel
+                    ]
+                  }
                 </Badge>
               ))}
             </div>

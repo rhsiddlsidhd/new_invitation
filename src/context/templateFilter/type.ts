@@ -1,4 +1,4 @@
-import { CategoryEnum } from "@/models/product.model";
+import { Category } from "@/models/product.model";
 
 type TemplatePrice = "ALL" | "FREE" | "UNDER-10k" | "10k-30k" | "OVER-30k";
 
@@ -11,7 +11,7 @@ type TemplateFeature =
 
 export type TemplateFilterState = {
   keyword: string;
-  category: CategoryEnum | "all";
+  category: Category | "all";
   isOpen: boolean;
   sortBy:
     | "ALL"
@@ -21,7 +21,7 @@ export type TemplateFilterState = {
     | "PRICE_LOW"
     | "PRICE_HIGH";
   price: TemplatePrice;
-  premiumFeat: TemplateFeature[];
+  premiumFeat: string[];
 };
 
 export type TemplateFilterAction =

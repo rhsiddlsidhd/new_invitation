@@ -6,25 +6,21 @@ import mongoose from "mongoose";
 
 type ProductInput = Omit<BaseProduct, "options"> & { options: string[] | [] };
 
-export type Product = Omit<ProductModel, "options"> & {
+export type Product = Omit<ProductModel, "options" | "createdAt"> & {
   options: string[];
   _id: string;
+  createdAt: string;
 };
 
 export const createProductService = async (data: ProductInput) => {
-  try {
-    await dbConnect();
+  await dbConnect();
 
-    const newProduct = await new ProductModel({
-      ...data,
-      options: data.options.map((value) => new mongoose.Types.ObjectId(value)),
-    }).save();
+  const newProduct = await new ProductModel({
+    ...data,
+    options: data.options.map((value) => new mongoose.Types.ObjectId(value)),
+  }).save();
 
-    return newProduct.toJSON();
-  } catch (error) {
-    console.error("Failed to create product:", error);
-    throw new Error("상품 생성에 실패했습니다.");
-  }
+  return newProduct.toJSON();
 };
 export const getProductService = async (
   productId: string,
@@ -48,13 +44,21 @@ export const getAllProductsService = async (): Promise<Product[]> => {
 
 export const updateProductService = async (
   productId: string,
-  data: Partial<Product>,
+  data: Partial<ProductInput>,
 ) => {
   await dbConnect();
+
+  const updateData = {
+    ...data,
+    options: data.options
+      ? data.options.map((value) => new mongoose.Types.ObjectId(value))
+      : undefined,
+  };
+
   // 업데이트 시에도 삭제되지 않은 문서인지 확인하기 위해 findOneAndUpdate에 조건을 추가합니다.
   const updatedProduct = await ProductModel.findOneAndUpdate(
     { _id: productId, deletedAt: null },
-    { ...data },
+    updateData,
     { new: true },
   );
 

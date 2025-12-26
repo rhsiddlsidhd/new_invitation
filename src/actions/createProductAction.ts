@@ -40,15 +40,15 @@ export const createProductAction = async (
       throw new HTTPError("썸네일 이미지는 필수입니다.", 400);
     }
 
-    const data: z.infer<typeof productSchema> = {
-      title: formData.get("title") as string,
-      description: formData.get("description") as string,
-      category: formData.get("category") as string,
-      price: Number(formData.get("price")),
-      isPremium: formData.get("isPremium") === "true",
-      options: formData.getAll("options") as string[],
-      feature: formData.get("feature") === "true",
-      priority: Number(formData.get("priority")),
+    const data = {
+      title: formData.get("title"),
+      description: formData.get("description"),
+      category: formData.get("category"),
+      price: formData.get("price"),
+      isPremium: formData.get("isPremium"),
+      options: formData.getAll("options"),
+      feature: formData.get("feature"),
+      priority: formData.get("priority"),
     };
 
     const parsed = validateAndFlatten(productSchema, data);

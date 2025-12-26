@@ -9,6 +9,7 @@ export const validateAndFlatten = <T>(
   data: unknown,
 ): ValidationResult<T> => {
   const result = schema.safeParse(data);
+  console.log("validate", result);
   return result.success
     ? { success: true as const, data: result.data }
     : {

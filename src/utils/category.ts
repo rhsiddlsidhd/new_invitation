@@ -1,6 +1,6 @@
-import { CategoryEnum } from "@/models/product.model";
+import { Category } from "@/models/product.model";
 
-export const categoryLabels: Record<CategoryEnum, string> = {
+export const categoryLabels: Record<Category, string> = {
   classic: "클래식",
   modern: "모던",
   minimal: "미니멀",
@@ -9,7 +9,7 @@ export const categoryLabels: Record<CategoryEnum, string> = {
 };
 
 const categoryBaseOptions = Object.entries(categoryLabels).map(
-  ([value, label]) => ({ value: value as CategoryEnum, label }),
+  ([value, label]) => ({ value: value as Category, label }),
 );
 
 export const getCategoryOptions = (includeAll = false) => {

@@ -8,7 +8,7 @@ import { Product } from "@/services/product.service";
 export function TemplateGrid({ data }: { data: Product[] }) {
   const [state] = useTemplateFilter();
   const { visibleTemplates } = useVisibleTemplate({
-    keyword: state.keyword.trim(),
+    state,
     category: state.category,
     data,
   });

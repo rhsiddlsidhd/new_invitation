@@ -20,11 +20,13 @@ const usePremiumFeature = () => {
       setLoading(true);
       try {
         // API 응답 구조: { data: PremiumFeature[] }
-        const response = await fetcher<{ data: PremiumFeature[] }>(
+
+        const data = await fetcher<{ features: PremiumFeature[] }>(
           "/api/premium-features",
         );
+
         if (flag) return;
-        setPremiumFeatures(response.data ?? []);
+        setPremiumFeatures(data.features ?? []);
       } catch (error) {
         if (flag) return;
         handleClientError(error);

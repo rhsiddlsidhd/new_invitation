@@ -1,15 +1,11 @@
 "use client";
 
 import type React from "react";
-import { useActionState, useState } from "react";
-import Image from "next/image";
+import { useActionState, useEffect, useState } from "react";
 import { UploadCloud, X } from "lucide-react";
-
 import { updateProductAction } from "@/actions/updateProductAction";
 import type { Product } from "@/services/product.service";
-
 import Alert from "@/components/atoms/Alert/Alert";
-
 import { Input } from "@/components/atoms/Input/Input";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import { Textarea } from "@/components/atoms/Textarea";
@@ -27,16 +23,22 @@ import { Label } from "@/components/atoms/Label/Label";
 import usePremiumFeature from "@/hooks/usePremiumFeatures";
 import Spinner from "@/components/atoms/Spinner/Spinner";
 import Thumbnail from "@/components/atoms/Thumbnail";
+import { getCategoryOptions } from "@/utils/category";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useAdminModalStore } from "@/store/admin.modal.store";
 
 interface ProductEditDialogProps {
   product: Product;
 }
 
 export function ProductEditDialog({ product }: ProductEditDialogProps) {
+  const router = useRouter();
   const [state, action, pending] = useActionState(
     updateProductAction.bind(null, product._id),
     null,
   );
+  const closeModal = useAdminModalStore((state) => state.closeModal);
   const { premiumFeatures, loading } = usePremiumFeature();
   const [isPremium, setIsPremium] = useState(product.isPremium);
   const [isFeature, setIsFeature] = useState(product.feature);
@@ -46,6 +48,19 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
     product.options || [],
   );
   const [status, setStatus] = useState(product.status);
+
+  useEffect(() => {
+    if (state && state.success) {
+      toast.message(state.data.message);
+      closeModal();
+    }
+  }, [state, router, closeModal]);
+
+  useEffect(() => {
+    if (!isPremium) {
+      setSelectedFeatures([]);
+    }
+  }, [isPremium]);
 
   const handleThumbnailUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -70,9 +85,9 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
     }
   };
 
-  const handleFeatureChange = (checked: boolean, code: string) => {
+  const handleFeatureChange = (checked: boolean, id: string) => {
     setSelectedFeatures((prev) =>
-      checked ? [...prev, code] : prev.filter((item) => item !== code),
+      checked ? [...prev, id] : prev.filter((item) => item !== id),
     );
   };
 
@@ -89,6 +104,11 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
 
   return (
     <form action={action} className="space-y-6">
+      {/* Hidden inputs for selected features */}
+      {selectedFeatures.map((featureId) => (
+        <input key={featureId} type="hidden" name="options" value={featureId} />
+      ))}
+
       <div className="grid grid-cols-2 gap-4">
         <div className="col-span-2">
           <Label htmlFor="edit-thumbnail-input">
@@ -191,11 +211,11 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
                 <SelectValue placeholder="카테고리를 선택하세요" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="classic">클래식</SelectItem>
-                <SelectItem value="modern">모던</SelectItem>
-                <SelectItem value="romantic">로맨틱</SelectItem>
-                <SelectItem value="minimal">미니멀</SelectItem>
-                <SelectItem value="vintage">빈티지</SelectItem>
+                {getCategoryOptions().map((category) => (
+                  <SelectItem key={category.value} value={category.value}>
+                    {category.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -254,7 +274,16 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
             onCheckedChange={setIsFeature}
           />
         </div>
-        <input type="hidden" name="feature" value={isFeature.toString()} />
+        <input
+          type="hidden"
+          name="feature"
+          value={isFeature ? "true" : "false"}
+        />
+        <input
+          type="hidden"
+          name="isPremium"
+          value={isPremium ? "true" : "false"}
+        />
 
         {/* 기본 가격 */}
         <div>
@@ -324,7 +353,12 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
 
         {isPremium && (
           <div className="col-span-2 space-y-4 rounded-lg border border-dashed p-4">
-            <h4 className="text-foreground font-medium">프리미엄 기능 선택</h4>
+            <h4 className="text-foreground font-medium">
+              프리미엄 기능 선택{" "}
+              {state && !state.success && state.error.errors && (
+                <Alert type="error">{state.error.errors["options"]}</Alert>
+              )}{" "}
+            </h4>
             <div className="grid grid-cols-2 gap-3">
               {premiumFeatures.map((feature) => (
                 <div key={feature.code} className="flex items-center space-x-2">
