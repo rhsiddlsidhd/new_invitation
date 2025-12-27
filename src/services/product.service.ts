@@ -62,10 +62,6 @@ export const updateProductService = async (
     { new: true },
   );
 
-  if (!updatedProduct) {
-    throw new Error("상품을 찾을 수 없거나 이미 삭제된 상태입니다.");
-  }
-
   return updatedProduct.toJSON();
 };
 
@@ -77,10 +73,6 @@ export const deleteProductService = async (productId: string) => {
     { deletedAt: new Date() },
     { new: true },
   );
-
-  if (!deletedProduct) {
-    throw new Error("상품이 존재하지 않거나 이미 삭제되었습니다.");
-  }
 
   return deletedProduct.toJSON();
 };

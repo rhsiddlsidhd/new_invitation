@@ -33,7 +33,6 @@ interface ProductEditDialogProps {
 }
 
 export function ProductEditDialog({ product }: ProductEditDialogProps) {
-  const router = useRouter();
   const [state, action, pending] = useActionState(
     updateProductAction.bind(null, product._id),
     null,
@@ -54,7 +53,7 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
       toast.message(state.data.message);
       closeModal();
     }
-  }, [state, router, closeModal]);
+  }, [state, closeModal]);
 
   useEffect(() => {
     if (!isPremium) {

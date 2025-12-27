@@ -96,7 +96,15 @@ const useVisibleTemplate = ({
     });
 
     return sorted;
-  }, [category, state, keywordChosung, data]);
+  }, [
+    category,
+    state.keyword,
+    state.price,
+    state.premiumFeat,
+    state.sortBy,
+    keywordChosung,
+    data,
+  ]);
 
   return { visibleTemplates };
 };

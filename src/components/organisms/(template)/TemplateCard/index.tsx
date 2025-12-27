@@ -6,6 +6,16 @@ import { Btn } from "@/components/atoms/Btn/Btn";
 import { Product } from "@/services/product.service";
 import Thumbnail from "@/components/atoms/Thumbnail";
 
+type Category = "modern" | "minimal" | "vintage" | "classic" | "romantic";
+
+const productCategoryLabel: Record<Category, string> = {
+  modern: "모던",
+  minimal: "미니멀",
+  vintage: "빈티지",
+  classic: "클래식",
+  romantic: "로맨틱",
+};
+
 export function TemplateCard({ template }: { template: Product }) {
   return (
     <Card className="group border-border overflow-hidden transition-all duration-300 hover:shadow-lg">
@@ -47,7 +57,7 @@ export function TemplateCard({ template }: { template: Product }) {
               {template.title}
             </h3>
             <Badge variant="outline" className="shrink-0 text-xs">
-              {template.category}
+              {productCategoryLabel[template.category as Category]}
             </Badge>
           </div>
           <p className="text-primary text-lg font-bold">
