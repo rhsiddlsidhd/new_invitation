@@ -1,4 +1,4 @@
-import { BaseProduct, ProductModel, Status } from "@/models/product.model";
+import { BaseProduct, ProductModel } from "@/models/product.model";
 
 import { dbConnect } from "@/shared/utils/mongodb";
 
@@ -6,39 +6,21 @@ import mongoose from "mongoose";
 
 type ProductInput = Omit<BaseProduct, "options"> & { options: string[] | [] };
 
-export type Product = {
+export type Product = Omit<ProductModel, "options" | "createdAt"> & {
+  options: string[];
   _id: string;
-  authorId: string;
-  title: string;
-  description: string;
-  thumbnail: string;
-  previewUrl?: string;
-  price: number;
-  category: string;
-  isPremium: boolean;
-  options?: string[];
-  feature: boolean;
-  priority: number;
-  likes: number;
-  views: number;
-  salesCount: number;
-  status: Status;
+  createdAt: string;
 };
 
 export const createProductService = async (data: ProductInput) => {
-  try {
-    await dbConnect();
+  await dbConnect();
 
-    const newProduct = await new ProductModel({
-      ...data,
-      options: data.options.map((value) => new mongoose.Types.ObjectId(value)),
-    }).save();
+  const newProduct = await new ProductModel({
+    ...data,
+    options: data.options.map((value) => new mongoose.Types.ObjectId(value)),
+  }).save();
 
-    return newProduct.toJSON();
-  } catch (error) {
-    console.error("Failed to create product:", error);
-    throw new Error("상품 생성에 실패했습니다.");
-  }
+  return newProduct.toJSON();
 };
 export const getProductService = async (
   productId: string,
@@ -62,19 +44,23 @@ export const getAllProductsService = async (): Promise<Product[]> => {
 
 export const updateProductService = async (
   productId: string,
-  data: Partial<Product>,
+  data: Partial<ProductInput>,
 ) => {
   await dbConnect();
+
+  const updateData = {
+    ...data,
+    options: data.options
+      ? data.options.map((value) => new mongoose.Types.ObjectId(value))
+      : undefined,
+  };
+
   // 업데이트 시에도 삭제되지 않은 문서인지 확인하기 위해 findOneAndUpdate에 조건을 추가합니다.
   const updatedProduct = await ProductModel.findOneAndUpdate(
     { _id: productId, deletedAt: null },
-    { ...data },
+    updateData,
     { new: true },
   );
-
-  if (!updatedProduct) {
-    throw new Error("상품을 찾을 수 없거나 이미 삭제된 상태입니다.");
-  }
 
   return updatedProduct.toJSON();
 };
@@ -87,10 +73,6 @@ export const deleteProductService = async (productId: string) => {
     { deletedAt: new Date() },
     { new: true },
   );
-
-  if (!deletedProduct) {
-    throw new Error("상품이 존재하지 않거나 이미 삭제되었습니다.");
-  }
 
   return deletedProduct.toJSON();
 };

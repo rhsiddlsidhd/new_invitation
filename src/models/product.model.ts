@@ -21,6 +21,7 @@ export interface ProductModel extends BaseProduct {
   views: number; // 조회수 (노출/인기 지표)
   salesCount: number; // 판매 횟수 (실제 인기 지표)
   status: Status; // 판매 상태 (노출/비노출/품절)
+  createdAt: Date;
 }
 
 export interface ProductDocument extends ProductModel, Document {
@@ -37,7 +38,11 @@ const productSchema = new Schema<ProductDocument>(
     thumbnail: { type: String, required: true },
     previewUrl: { type: String },
     price: { type: Number, required: true },
-    category: { type: String, required: true },
+    category: {
+      type: String,
+      enum: ["modern", "romantic", "vintage", "classic", "minimal"],
+      required: true,
+    },
     feature: { type: Boolean, default: false },
     priority: { type: Number, default: 0 },
     likes: { type: Number, default: 0 },
@@ -62,7 +67,7 @@ const productSchema = new Schema<ProductDocument>(
     toJSON: {
       virtuals: true,
       transform: (_doc: ProductDocument, ret: Record<string, any>) => {
-        const { __v, createdAt, updatedAt, id, ...rest } = ret;
+        const { __v, updatedAt, id, ...rest } = ret;
 
         const result = {
           ...rest,

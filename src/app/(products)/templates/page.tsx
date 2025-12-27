@@ -1,6 +1,9 @@
 import TemplateCatalog from "@/components/organisms/(template)/TemplateCatalog";
+import { getAllProductsService } from "@/services/product.service";
 
-export default function TemplatesPage() {
+export default async function TemplatesPage() {
+  const products = await getAllProductsService();
+
   return (
     <main className="bg-background min-h-screen">
       {/* <Header /> */}
@@ -15,7 +18,7 @@ export default function TemplatesPage() {
               당신의 스타일에 맞는 완벽한 템플릿을 찾아보세요
             </p>
           </div>
-          <TemplateCatalog />
+          <TemplateCatalog products={products} />
         </div>
       </div>
     </main>

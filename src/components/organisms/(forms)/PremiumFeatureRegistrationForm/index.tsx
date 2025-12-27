@@ -6,15 +6,7 @@ import { Btn } from "@/components/atoms/Btn/Btn";
 import { Input } from "@/components/atoms/Input/Input";
 import { Label } from "@/components/atoms/Label/Label";
 import { Textarea } from "@/components/atoms/Textarea";
-import { TemplateFilterState } from "@/context/templateFilter/type";
 import { useActionState, useEffect } from "react";
-
-interface PremiumFeatureForm {
-  code: TemplateFilterState["premiumFeat"][number];
-  label: string;
-  description: string;
-  additionalPrice: number;
-}
 
 const PremiumFeatureRegistrationForm = () => {
   const [state, action, pending] = useActionState(

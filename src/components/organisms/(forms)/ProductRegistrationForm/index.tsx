@@ -5,10 +5,8 @@ import { useActionState, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { UploadCloud, X } from "lucide-react";
-
 import { createProductAction } from "@/actions/createProductAction";
 import type { PremiumFeature } from "@/services/premiumFeature.service";
-
 import Alert from "@/components/atoms/Alert/Alert";
 import {
   Card,
@@ -31,6 +29,7 @@ import {
 import { Switch } from "@/components/atoms/Switch";
 import { Checkbox } from "@/components/atoms/CheckBox/CheckBox";
 import { Label } from "@/components/atoms/Label/Label";
+import { getCategoryOptions } from "@/utils/category";
 
 interface ProductRegistrationFormProps {
   premiumFeatures: PremiumFeature[];
@@ -144,11 +143,11 @@ export function ProductRegistrationForm({
                     <SelectValue placeholder="카테고리를 선택하세요" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="classic">클래식</SelectItem>
-                    <SelectItem value="modern">모던</SelectItem>
-                    <SelectItem value="romantic">로맨틱</SelectItem>
-                    <SelectItem value="minimal">미니멀</SelectItem>
-                    <SelectItem value="vintage">빈티지</SelectItem>
+                    {getCategoryOptions().map((category) => (
+                      <SelectItem key={category.value} value={category.value}>
+                        {category.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>

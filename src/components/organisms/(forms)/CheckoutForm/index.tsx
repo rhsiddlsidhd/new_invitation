@@ -24,7 +24,7 @@ export function CheckoutForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("[v0] Checkout submitted");
+
     // TODO: Implement payment logic
   };
 

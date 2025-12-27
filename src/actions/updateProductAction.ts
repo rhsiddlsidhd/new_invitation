@@ -7,12 +7,11 @@ import { uploadProductImage } from "@/lib/cloudinary";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
 import { validateAndFlatten } from "@/lib/validation";
-import { Status } from "@/models/product.model";
+
 import { productSchema } from "@/schemas/product.schema";
 import { updateProductService } from "@/services/product.service";
 import { getUserById } from "@/services/user.service";
 import { revalidatePath } from "next/cache";
-import z from "zod";
 
 export const updateProductAction = async (
   productId: string,
@@ -38,16 +37,16 @@ export const updateProductAction = async (
     const thumbnailFile = formData.get("thumbnail") as File;
     const previewFile = formData.get("previewUrl") as File;
 
-    const data: z.infer<typeof productSchema> = {
-      title: formData.get("title") as string,
-      description: formData.get("description") as string,
-      category: formData.get("category") as string,
+    const data = {
+      title: formData.get("title"),
+      category: formData.get("category"),
+      status: formData.get("status"),
+      description: formData.get("description"),
+      feature: formData.get("feature") === "true",
       price: Number(formData.get("price")),
       isPremium: formData.get("isPremium") === "true",
-      options: formData.getAll("options") as string[],
-      feature: formData.get("feature") === "true",
+      options: formData.getAll("options"),
       priority: Number(formData.get("priority")),
-      status: formData.get("status") as Status,
     };
 
     const parsed = validateAndFlatten(productSchema, data);

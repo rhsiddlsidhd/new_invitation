@@ -19,19 +19,29 @@ import { useState } from "react";
 
 import { useTemplateFilter } from "@/context/templateFilter/reducer";
 import { TemplateFilterState } from "@/context/templateFilter/type";
+import { Product } from "@/services/product.service";
+import { getCategoryOptions } from "@/utils/category";
+import usePremiumFeature from "@/hooks/usePremiumFeatures";
 
-export function TemplateFilters() {
+const premiumFeatLabel: Record<
+  TemplateFilterState["premiumFeat"][number],
+  string
+> = {
+  VIDEO: "🎬 비디오 추가",
+  HORIZONTAL_SLIDE: "➡️ 가로 슬라이드 갤러리",
+  CUSTOM_FONT: "✍️ 나만의 폰트",
+  SAVE_MOBILE_INVITATION: "💌 영원히 간직하는 청첩장",
+  SAVE_GUESTBOOK: "📝 방명록 추억 저장",
+};
+
+export function TemplateFilters({ data }: { data: Product[] }) {
   const [state, dispatch] = useTemplateFilter();
+  const { premiumFeatures, loading } = usePremiumFeature();
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
-  const { suggestions } = useSugessteTemplate(state.keyword.trim());
-  const categorys: TemplateFilterState["category"][] = [
-    "전체",
-    "모던",
-    "클래식",
-    "미니멀",
-    "로맨틱",
-    "빈티지",
-  ];
+  const { suggestions } = useSugessteTemplate({
+    data,
+    keyword: state.keyword.trim(),
+  });
 
   const prices: TemplateFilterState["price"][] = [
     "ALL",
@@ -49,30 +59,12 @@ export function TemplateFilters() {
     "OVER-30k": "3만원 이상",
   };
 
-  const premiumFeat: TemplateFilterState["premiumFeat"] = [
-    "VIDEO",
-    "CUSTOM_FONT",
-    "HORIZONTAL_SLIDE",
-    "SAVE_MOBILE_INVITATION",
-    "SAVE_GUESTBOOK",
-  ];
-  const premiumFeatLabel: Record<
-    TemplateFilterState["premiumFeat"][number],
-    string
-  > = {
-    VIDEO: "🎬 비디오 추가",
-    HORIZONTAL_SLIDE: "➡️ 가로 슬라이드 갤러리",
-    CUSTOM_FONT: "✍️ 나만의 폰트",
-    SAVE_MOBILE_INVITATION: "💌 영원히 간직하는 청첩장",
-    SAVE_GUESTBOOK: "📝 방명록 추억 저장",
-  };
-
   const soryBy: TemplateFilterState["sortBy"][] = [
     "ALL",
     "POPULAR",
     "RECOMENDED",
     "LATEST",
-    "PRICE-LOW",
+    "PRICE_LOW",
     "PRICE_HIGH",
   ];
 
@@ -81,7 +73,7 @@ export function TemplateFilters() {
     POPULAR: "인기순",
     LATEST: "최신순",
     RECOMENDED: "추천순",
-    "PRICE-LOW": "낮은 가격순",
+    PRICE_LOW: "낮은 가격순",
     PRICE_HIGH: "높은 가격순",
   };
 
@@ -117,16 +109,16 @@ export function TemplateFilters() {
       </p>
 
       <div className="flex flex-wrap gap-2">
-        {categorys.map((category) => (
+        {getCategoryOptions(true).map((category) => (
           <Btn
-            key={`${category}`}
-            variant={state.category === category ? "default" : "outline"}
+            key={category.value}
+            variant={state.category === category.value ? "default" : "outline"}
             onClick={() =>
-              dispatch({ type: "SELECT_CATEGORY", payload: category })
+              dispatch({ type: "SELECT_CATEGORY", payload: category.value })
             }
             size="sm"
           >
-            {category}
+            {category.label}
           </Btn>
         ))}
       </div>
@@ -195,18 +187,27 @@ export function TemplateFilters() {
           <div className="space-y-2">
             <h3 className="text-sm font-medium">특별 옵션</h3>
             <div className="flex flex-wrap gap-2">
-              {premiumFeat.map((value) => (
+              {premiumFeatures.map((value) => (
                 <Badge
                   variant={
-                    state.premiumFeat.includes(value) ? "default" : "outline"
+                    state.premiumFeat.includes(value._id)
+                      ? "default"
+                      : "outline"
                   }
                   className="cursor-pointer"
-                  key={value}
+                  key={value._id}
                   onClick={() =>
-                    dispatch({ type: "SELECT_PREMIUM_FEAT", payload: value })
+                    dispatch({
+                      type: "SELECT_PREMIUM_FEAT",
+                      payload: value._id,
+                    })
                   }
                 >
-                  {premiumFeatLabel[value]}
+                  {
+                    premiumFeatLabel[
+                      value.code as keyof typeof premiumFeatLabel
+                    ]
+                  }
                 </Badge>
               ))}
             </div>
