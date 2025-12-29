@@ -1,15 +1,17 @@
 "use client";
 import { useEffect, useState } from "react";
 import useAuthTokenStore from "../store/authTokenStore";
-import { fetcher } from "@/api/fetcher";
+import { refreshAccessToken } from "@/api/fetcher";
 import { handleClientError } from "@/api/error";
-import { UserRole } from "@/models/user.model";
+import { decodeJwt } from "jose";
 
 const useAuth = () => {
   const isAuth = useAuthTokenStore((state) => state.isAuth);
+  const token = useAuthTokenStore((state) => state.token);
   const setToken = useAuthTokenStore((state) => state.setToken);
   const [loading, setLoading] = useState(true);
 
+  const userId = token ? (decodeJwt(token).id as string) : null;
   useEffect(() => {
     const verify = async () => {
       if (isAuth) {
@@ -18,12 +20,7 @@ const useAuth = () => {
       }
 
       try {
-        const data = await fetcher<{ accessToken: string; role: UserRole }>(
-          "/api/auth/refresh",
-        );
-
-        const { accessToken, role } = data;
-        setToken({ token: accessToken, role });
+        await refreshAccessToken();
       } catch (e) {
         handleClientError(e);
       } finally {
@@ -34,7 +31,7 @@ const useAuth = () => {
     verify();
   }, [isAuth, setToken]);
 
-  return { isAuth, loading };
+  return { isAuth, loading, userId };
 };
 
 export default useAuth;
