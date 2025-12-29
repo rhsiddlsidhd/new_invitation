@@ -11,7 +11,6 @@ import { productSchema } from "@/schemas/product.schema";
 import { createProductService } from "@/services/product.service";
 import { getUserById } from "@/services/user.service";
 import { revalidatePath } from "next/cache";
-import z from "zod";
 
 export const createProductAction = async (
   prev: unknown,
@@ -36,19 +35,16 @@ export const createProductAction = async (
     const thumbnailFile = formData.get("thumbnail") as File;
     const previewFile = formData.get("previewUrl") as File;
 
-    if (!thumbnailFile || thumbnailFile.size === 0) {
-      throw new HTTPError("썸네일 이미지는 필수입니다.", 400);
-    }
-
     const data = {
-      title: formData.get("title"),
-      description: formData.get("description"),
-      category: formData.get("category"),
-      price: formData.get("price"),
-      isPremium: formData.get("isPremium"),
-      options: formData.getAll("options"),
-      feature: formData.get("feature"),
-      priority: formData.get("priority"),
+      title: formData.get("title") as string,
+      description: formData.get("description") as string,
+      category: formData.get("category") as string,
+      price: Number(formData.get("price")) as number,
+      isPremium: formData.get("isPremium") === "true",
+      options: formData.getAll("options") as string[],
+      feature: formData.get("feature") === "true",
+      priority: Number(formData.get("priority")) as number,
+      thumbnail: thumbnailFile,
     };
 
     const parsed = validateAndFlatten(productSchema, data);
@@ -64,12 +60,14 @@ export const createProductAction = async (
       previewUrl = await uploadProductImage(previewFile, "preview");
     }
 
-    await createProductService({
+    const product = await createProductService({
       ...parsed.data,
       authorId: payload.id,
       thumbnail: thumbnailUrl,
       previewUrl,
     });
+
+    if (!product) throw new HTTPError("상품 등록에 실패하였습니다.", 500);
 
     revalidatePath("/admin/products");
 

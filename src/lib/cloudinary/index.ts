@@ -1,3 +1,5 @@
+import { HTTPError } from "@/api/type";
+
 const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 const UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 const BASE_URL = process.env.CLOUDINARY_BASE_URL;
@@ -21,12 +23,16 @@ const uploadToCloudinary = async (file: File, folder: string) => {
   if (data.error) {
     throw new HTTPError(`Cloudinary 오류: ${data.error.message}`, 500);
   }
-  
+
   return data;
 };
 
-export async function uploadProductImage(file: File, type: "thumbnail" | "preview" = "thumbnail") {
-  const folder = type === "thumbnail" ? "products/thumbnails" : "products/previews";
+export async function uploadProductImage(
+  file: File,
+  type: "thumbnail" | "preview" = "thumbnail",
+) {
+  const folder =
+    type === "thumbnail" ? "products/thumbnails" : "products/previews";
   const result = await uploadToCloudinary(file, folder);
   return result.secure_url;
 }

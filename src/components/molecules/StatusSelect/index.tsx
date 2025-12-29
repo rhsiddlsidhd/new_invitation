@@ -13,16 +13,21 @@ const StatusSelect = ({
   onValueChange,
   disabled,
   items,
+  className = "w-full",
+  placeholder,
 }: {
   value: string;
   onValueChange: (value: string) => void;
   disabled: boolean;
   items: readonly { value: string; label: string }[];
+  className?: string;
+  placeholder?: string;
 }) => {
   return (
     <Select value={value} onValueChange={onValueChange} disabled={disabled}>
-      <SelectTrigger className="w-27.5">
-        <SelectValue />
+      {/* w-27.5 */}
+      <SelectTrigger className={className}>
+        <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
         {items.map((item) => (

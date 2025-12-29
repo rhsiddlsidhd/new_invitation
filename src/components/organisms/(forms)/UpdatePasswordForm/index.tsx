@@ -4,7 +4,7 @@ import { updateUserPassword } from "@/actions/updateUserPassword";
 import { fetcher } from "@/api/fetcher";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import { Input } from "@/components/atoms/Input/Input";
-import Label from "@/components/atoms/Label/Label";
+import { Label } from "@/components/atoms/Label/Label";
 
 import { Lock } from "lucide-react";
 import Link from "next/link";

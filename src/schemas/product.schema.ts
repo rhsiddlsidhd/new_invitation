@@ -11,6 +11,11 @@ export const productSchema = z
     feature: z.boolean(),
     priority: z.number(),
     status: z.enum(["active", "inactive", "soldOut"]).optional(),
+    thumbnail: z
+      .instanceof(File, { message: "썸네일 이미지를 등록해주세요." })
+      .refine((file) => file.size > 0, {
+        message: "썸네일 이미지를 등록해주세요.",
+      }),
   })
   .refine(
     (data) => {

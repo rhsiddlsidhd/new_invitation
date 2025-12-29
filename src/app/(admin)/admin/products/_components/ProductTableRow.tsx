@@ -63,7 +63,7 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
           </div>
           <div className="flex items-center gap-1">
             <Heart className="h-3 w-3" />
-            <span>{product.likes}</span>
+            <span>{product.likes.length}</span>
           </div>
           <div className="flex items-center gap-1">
             <ShoppingCart className="h-3 w-3" />

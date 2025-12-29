@@ -5,7 +5,7 @@ import { decrypt, encrypt } from "@/lib/token";
 import { UserRole } from "@/models/user.model";
 import { getUser } from "@/services/auth.service";
 
-export const GET = async (): Promise<
+export const POST = async (): Promise<
   APIRouteResponse<{ accessToken: string; role: UserRole }>
 > => {
   // 리프레쉬 토큰 유효성 검사 이후 Access token 발행
@@ -26,7 +26,7 @@ export const GET = async (): Promise<
     if (!user) throw new HTTPError("사용자를 찾을 수가 없습니다.", 400);
 
     const accessToken = await encrypt({
-      id: user._id,
+      id: user._id.toString(),
       type: "ACCESS",
     });
 
