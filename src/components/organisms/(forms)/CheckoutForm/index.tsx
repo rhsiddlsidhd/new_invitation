@@ -11,10 +11,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/Card/Card";
-import Label from "@/components/atoms/Label/Label";
+
 import { Input } from "@/components/atoms/Input/Input";
 import { Checkbox } from "@/components/atoms/CheckBox/CheckBox";
 import { Btn } from "@/components/atoms/Btn/Btn";
+import { Label } from "@/components/atoms/Label/Label";
 
 export function CheckoutForm() {
   const [paymentMethod, setPaymentMethod] = useState<

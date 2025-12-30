@@ -1,7 +1,6 @@
 "use client";
-
 import Link from "next/link";
-import { Eye, ShoppingCart, Heart, Share2, X } from "lucide-react";
+import { Eye, ShoppingCart, Share2 } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 import { Badge } from "@/components/atoms/Badge/Badge";
 import { Btn } from "@/components/atoms/Btn/Btn";
@@ -11,54 +10,81 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { categoryLabels, isProductCategory } from "@/utils/category";
 import { salePercent } from "@/contants/product";
 import { Input } from "@/components/atoms/Input/Input";
-import { formatPriceWithComma } from "@/utils/price";
+import { basePriceAfterDiscount, formatPriceWithComma } from "@/utils/price";
 import { PremiumFeature } from "@/services/premiumFeature.service";
-import StatusSelect from "@/components/molecules/StatusSelect";
 import ProductLikeButton from "@/components/molecules/(button)/ProductLikeButton";
+import { CheckoutProductData, SelectedOption } from "@/types/checkout.d";
+import ProductOptions from "../../(product)/ProductOptions";
+import { useRouter } from "next/navigation";
 
-export function TemplateDetail({
+export function TemplateSummary({
   product,
   options,
 }: {
   product: Product;
   options: PremiumFeature[];
 }) {
-  // const [isLiked, setIsLiked] = useState(false);
   const [selectedOptionIds, setSelectedOptionIds] = useState<string[]>([]);
   const isMobile = useIsMobile();
-  console.log({ product });
-  const _options = useMemo(() => {
-    return options.map((option) => ({
-      label: `${option.label} (+${formatPriceWithComma(
-        option.additionalPrice,
-      )}원)`,
-      value: option._id.toString(),
-    }));
-  }, [options]);
-
-  const handleSelectOption = useCallback(
-    (value: string) => {
-      if (selectedOptionIds.includes(value)) {
-        alert("이미 선택한 옵션입니다.");
-        return;
-      }
-      setSelectedOptionIds((prev) => [...prev, value]);
-    },
-    [selectedOptionIds],
+  const router = useRouter();
+  const discountedPrice = useMemo(
+    () => basePriceAfterDiscount(product.price),
+    [product.price],
   );
 
-  const handleDeselectOption = useCallback((value: string) => {
-    setSelectedOptionIds((prev) => prev.filter((id) => id !== value));
-  }, []);
+  const selectedOptionsDetails: SelectedOption[] = useMemo(() => {
+    return selectedOptionIds.map((id) => {
+      const selectedOpt = options.find((opt) => opt._id.toString() === id);
+      if (!selectedOpt) {
+        throw new Error(`Selected option with ID ${id} not found.`);
+      }
+      return {
+        _id: selectedOpt._id.toString(),
+        code: selectedOpt.code,
+        label: selectedOpt.label,
+        price: selectedOpt.additionalPrice,
+      };
+    });
+  }, [selectedOptionIds, options]);
+
+  const selectedOptionPrice = useMemo(() => {
+    return selectedOptionsDetails.reduce((sum, opt) => sum + opt.price, 0);
+  }, [selectedOptionsDetails]);
 
   const totalPrice = useMemo(() => {
-    const basePrice = product.price * (1 - salePercent);
-    const optionsPrice = selectedOptionIds.reduce((sum, id) => {
-      const selectedOpt = options.find((opt) => opt._id === id);
-      return sum + (selectedOpt?.additionalPrice || 0);
-    }, 0);
-    return basePrice + optionsPrice;
-  }, [product.price, selectedOptionIds, options]);
+    return discountedPrice + selectedOptionPrice;
+  }, [discountedPrice, selectedOptionPrice]);
+
+  const handlePurchase = useCallback(() => {
+    const quantity = 1; // Default quantity for now
+    const checkoutData: CheckoutProductData = {
+      _id: product._id.toString(),
+      title: product.title,
+      originalPrice: discountedPrice, // Base price after product discount
+      thumbnail: product.thumbnail,
+      selectedOptionPrice: selectedOptionPrice,
+      selectedOptions: selectedOptionsDetails,
+      quantity: quantity,
+      totalPrice: totalPrice * quantity, // Total price for this item including quantity
+    };
+
+    try {
+      sessionStorage.setItem("checkoutItems", JSON.stringify([checkoutData]));
+      router.push("/couple-info");
+    } catch (error) {
+      console.error("Failed to save to sessionStorage:", error);
+      alert("상품 정보를 저장하는 데 실패했습니다. 다시 시도해 주세요.");
+    }
+  }, [
+    product._id,
+    product.title,
+    product.thumbnail,
+    discountedPrice,
+    selectedOptionPrice,
+    selectedOptionsDetails,
+    totalPrice,
+    router,
+  ]);
 
   return (
     <div className="mb-16">
@@ -108,99 +134,45 @@ export function TemplateDetail({
               </span>
             </div>
             <div className="text-destructive text-lg font-bold">
-              {formatPriceWithComma(product.price * (1 - salePercent))}원{" "}
+              {formatPriceWithComma(discountedPrice)}원{" "}
               <span className="text-sm font-normal">할인</span>
-              <Input
-                className="hidden"
-                defaultValue={product.price * (1 - salePercent)}
-              />
+              <Input className="hidden" defaultValue={discountedPrice} />
             </div>
           </div>
 
           {/* Options */}
-          {options.length > 0 && (
-            <div className="col-span-2 w-full space-y-4">
-              <StatusSelect
-                value=""
-                onValueChange={handleSelectOption}
-                disabled={selectedOptionIds.length === options.length}
-                items={_options}
-                placeholder="프리미엄 옵션 선택"
-              />
-              {selectedOptionIds.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {selectedOptionIds.map((id) => {
-                    const option = _options.find((opt) => opt.value === id);
-                    if (!option) return null;
-                    return (
-                      <Badge
-                        key={id}
-                        variant="outline"
-                        className="flex items-center gap-1"
-                      >
-                        {option.label}
-                        <button
-                          onClick={() => handleDeselectOption(id)}
-                          className="hover:bg-background/20 rounded-full"
-                        >
-                          <X className="h-3 w-3" />
-                        </button>
-                      </Badge>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          )}
+          <ProductOptions
+            options={options}
+            discountedPrice={discountedPrice}
+            setSelectedOptionIds={setSelectedOptionIds}
+            selectedOptionIds={selectedOptionIds}
+          />
 
           {/* Total Price */}
-          <div className="border-border flex items-center justify-between border-y py-4">
-            <span className="text-md font-medium">총 상품 금액</span>
-            <span className="text-destructive text-xl font-bold">
-              {formatPriceWithComma(totalPrice)}원
-            </span>
-          </div>
 
           {/* Action Buttons */}
           <div className="grid grid-cols-2 gap-2 max-sm:grid-cols-1">
-            {/* 버튼1 */}
-            <div>
-              <Link
-                href={`/templates/${product._id}/preview`}
-                className="block"
+            <Link href={`/templates/${product._id}/preview`} className="block">
+              <Btn
+                variant="outline"
+                size="lg"
+                className="w-full bg-transparent"
               >
-                <Btn
-                  variant="outline"
-                  size="lg"
-                  className="w-full bg-transparent"
-                >
-                  <Eye className="mr-2 h-5 w-5" />
-                  미리보기
-                </Btn>
-              </Link>
-            </div>
+                <Eye className="mr-2 h-5 w-5" />
+                미리보기
+              </Btn>
+            </Link>
 
-            {/* 버튼2 */}
-            <div>
-              <Link
-                href={`/checkout?templateId=${product._id}`}
-                className="block"
-              >
-                <Btn size="lg" className="w-full">
-                  <ShoppingCart className="mr-2 h-5 w-5" />
-                  구매하기
-                </Btn>
-              </Link>
-            </div>
-          </div>
+            <Btn size="lg" className="w-full" onClick={handlePurchase}>
+              <ShoppingCart className="mr-2 h-5 w-5" />
+              구매하기
+            </Btn>
 
-          {/* Secondary Actions */}
-          <div className="flex gap-2">
             <ProductLikeButton
               productLikes={product.likes}
               productId={product._id}
             />
-            <Btn variant="outline" size="sm" className="flex-1 bg-transparent">
+            <Btn variant="outline" size="lg" className="flex-1 bg-transparent">
               <Share2 className="mr-2 h-4 w-4" />
               공유하기
             </Btn>

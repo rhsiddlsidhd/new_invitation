@@ -51,7 +51,7 @@ const ProductLikeButton = ({
     <Btn
       onClick={updateProductLike}
       variant="outline"
-      size="sm"
+      size="lg"
       className="flex-1 bg-transparent"
       disabled={isPending}
     >
