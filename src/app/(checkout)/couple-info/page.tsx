@@ -1,7 +1,9 @@
+import { CheckoutForm } from "@/components/organisms/(forms)/CheckoutForm";
 import React from "react";
 
 const page = () => {
-  return <div>커플 INFO 페이지</div>;
+  //   return <CheckoutForm />;
+  return <div>Couple info</div>;
 };
 
 export default page;
