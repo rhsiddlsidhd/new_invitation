@@ -8,6 +8,7 @@ interface Person {
 
 // 부모님 정보 (이름, 연락처, 계좌번호)
 interface Parent extends Person {
+  bankName?: string;
   accountNumber?: string;
 }
 
@@ -15,7 +16,8 @@ interface Parent extends Person {
 interface CoupleSide {
   name: string;
   phone: string;
-  accountNumber: string;
+  bankName?: string;
+  accountNumber?: string;
   father?: Parent;
   mother?: Parent;
 }
@@ -47,6 +49,7 @@ const ParentSchema = new Schema<Parent>(
   {
     name: { type: String, required: true },
     phone: { type: String, required: true },
+    bankName: { type: String },
     accountNumber: { type: String },
   },
   { _id: false },
@@ -56,7 +59,8 @@ const CoupleSideSchema = new Schema<CoupleSide>(
   {
     name: { type: String, required: true },
     phone: { type: String, required: true },
-    accountNumber: { type: String, required: true },
+    bankName: { type: String },
+    accountNumber: { type: String },
     father: { type: ParentSchema, required: false },
     mother: { type: ParentSchema, required: false },
   },

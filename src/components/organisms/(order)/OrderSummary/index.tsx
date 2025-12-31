@@ -14,7 +14,7 @@ import { DELIVERY_FEE } from "@/contants/price";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export function OrderSummary() {
+export const OrderSummary = () => {
   // Assuming delivery fee is fixed or calculated elsewhere
 
   const router = useRouter();
@@ -198,4 +198,4 @@ export function OrderSummary() {
       </Card>
     </div>
   );
-}
+};
