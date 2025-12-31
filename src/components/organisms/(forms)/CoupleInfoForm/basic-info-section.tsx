@@ -24,6 +24,7 @@ import LabeledInput from "@/components/molecules/(input-group)/LabeledInput";
 import AddressSearchInput from "@/components/molecules/(input-group)/AddressSearchInput";
 import LabeledSwitch from "@/components/molecules/(input-group)/LabeledSwitch";
 import LabeledSelect from "@/components/molecules/(input-group)/LabeledSelect";
+import { Input } from "@/components/atoms/Input/Input";
 
 interface WeddingScheduel {
   date: Date | undefined;
@@ -59,6 +60,14 @@ export function BasicInfoSection() {
           {/* Date Picker */}
           <div className="space-y-2">
             <Label>결혼식 날짜 *</Label>
+            {weddingDate && (
+              <Input
+                hidden
+                value={format(weddingDate, "yyyy-MM-dd")}
+                name={"wedding-date"}
+                readOnly
+              />
+            )}
             <Popover>
               <PopoverTrigger asChild>
                 <Btn
