@@ -5,14 +5,14 @@ import { UserRole } from "@/models/user.model";
 
 let isRefreshing = false;
 let failedQueue: Array<{
-  resolve: (value: unknown) => void;
+  resolve: (value: string) => void;
   reject: (reason?: any) => void;
 }> = [];
 const processQueue = (error: any, token: string | null = null) => {
   failedQueue.forEach((prom) => {
     if (error) {
       prom.reject(error);
-    } else {
+    } else if (token) {
       prom.resolve(token);
     }
   });

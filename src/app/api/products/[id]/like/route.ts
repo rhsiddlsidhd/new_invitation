@@ -1,6 +1,5 @@
 import { apiError, APIRouteResponse, apiSuccess } from "@/api/response";
 import { HTTPError } from "@/api/type";
-import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
 import { updateProductLikeService } from "@/services/product.service";
 
@@ -11,13 +10,15 @@ export const POST = async (
   { params }: { params: { id: string } },
 ): Promise<APIRouteResponse<{ message: string }>> => {
   try {
-    const cookie = await getCookie("token");
     const { id } = await params;
+    const authHeader = req.headers.get("Authorization");
 
-    if (!cookie)
+    if (!authHeader?.startsWith("Bearer ")) {
       throw new HTTPError("접근 권한이 없습니다. 로그인 후 이용해주세요.", 401);
+    }
+    const accessToken = authHeader.substring(7);
 
-    const res = await decrypt({ token: cookie.value, type: "REFRESH" });
+    const res = await decrypt({ token: accessToken, type: "ACCESS" });
 
     if (!res.payload.id)
       throw new HTTPError("접근 권한이 없습니다. 로그인 후 이용해주세요.", 401);

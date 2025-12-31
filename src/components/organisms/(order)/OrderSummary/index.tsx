@@ -7,55 +7,15 @@ import {
   CardTitle,
 } from "@/components/atoms/Card/Card";
 
-import { CheckoutProductData, SelectedOption } from "@/types/checkout"; // Import CheckoutProductData
+import { SelectedOption } from "@/types/checkout"; // Import CheckoutProductData
 import { formatPriceWithComma } from "@/utils/price";
 import Thumbnail from "@/components/atoms/Thumbnail";
 import { DELIVERY_FEE } from "@/contants/price";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+
+import { useCheckoutData } from "@/hooks/useCheckoutData";
 
 export const OrderSummary = () => {
-  // Assuming delivery fee is fixed or calculated elsewhere
-
-  const router = useRouter();
-  const [checkoutData, setCheckoutData] = useState<CheckoutProductData | null>(
-    null,
-  );
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    try {
-      const storedItems = sessionStorage.getItem("checkoutItems");
-      if (storedItems) {
-        const items: CheckoutProductData[] = JSON.parse(storedItems);
-        // Assuming we only handle one item at a time for this flow
-        if (items.length > 0) {
-          setCheckoutData(items[0]);
-        } else {
-          // No items in sessionStorage, redirect
-          alert("주문할 상품 정보가 없습니다. 상품 선택 페이지로 이동합니다.");
-          router.replace("/products");
-        }
-      } else {
-        // No checkoutItems found, redirect
-        alert("주문할 상품 정보가 없습니다. 상품 선택 페이지로 이동합니다.");
-        router.replace("/products");
-      }
-    } catch (error) {
-      console.error(
-        "Failed to load checkout items from sessionStorage:",
-        error,
-      );
-      alert(
-        "주문 정보를 불러오는 데 실패했습니다. 상품 선택 페이지로 이동합니다.",
-      );
-      router.replace("/products");
-    } finally {
-      setLoading(false);
-    }
-    // Clean up sessionStorage after loading (optional, depending on desired persistence)
-    // sessionStorage.removeItem("checkoutItems");
-  }, [router]);
+  const { data, loading, error } = useCheckoutData();
 
   if (loading) {
     return (
@@ -65,7 +25,7 @@ export const OrderSummary = () => {
     );
   }
 
-  if (!checkoutData) {
+  if (!data) {
     // This state should ideally be prevented by the redirects above,
     // but added for robustness.
     return (
@@ -76,14 +36,14 @@ export const OrderSummary = () => {
   }
 
   const order = {
-    _id: checkoutData._id,
-    title: checkoutData.title,
-    originalPrice: checkoutData.originalPrice,
-    thumbnail: checkoutData.thumbnail,
-    totalPrice: checkoutData.totalPrice,
-    selectedOptionPrice: checkoutData.selectedOptionPrice,
-    selectedOptions: checkoutData.selectedOptions,
-    quantity: checkoutData.quantity,
+    _id: data._id,
+    title: data.title,
+    originalPrice: data.originalPrice,
+    thumbnail: data.thumbnail,
+    totalPrice: data.totalPrice,
+    selectedOptionPrice: data.selectedOptionPrice,
+    selectedOptions: data.selectedOptions,
+    quantity: data.quantity,
   };
 
   const total = order.totalPrice + DELIVERY_FEE;
