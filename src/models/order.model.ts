@@ -8,7 +8,7 @@ export interface OrderFeatureSnapshot {
 }
 
 export interface Order extends Document {
-  userId: string; // 구매자 ID
+  userId: Types.ObjectId; // 구매자 ID
   productId: Types.ObjectId;
   originalPrice: number; // 상품 기본 정가
   finalPrice: number; // 최종 결제 금액
@@ -21,7 +21,7 @@ export interface Order extends Document {
 
 const orderSchema = new Schema<Order>(
   {
-    userId: { type: String, required: true },
+    userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     productId: { type: Schema.Types.ObjectId, ref: "Product", required: true },
     originalPrice: { type: Number, required: true },
     finalPrice: { type: Number, required: true },
@@ -43,4 +43,5 @@ const orderSchema = new Schema<Order>(
   { timestamps: true },
 );
 
-export const OrderModel = mongoose.model<Order>("Order", orderSchema);
+export const OrderModel =
+  mongoose.models.Order || mongoose.model<Order>("Order", orderSchema);

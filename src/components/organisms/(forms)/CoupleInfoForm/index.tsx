@@ -10,9 +10,10 @@ import { ImagesSection } from "./images-section";
 import { startTransition, useActionState, useEffect } from "react";
 import { createCoupleInfoAction } from "@/actions/createCoupleInfoAction";
 import { uploadGalleryImages, uploadMainThumbnail } from "@/lib/cloudinary";
-import { CloudinaryResource } from "@/lib/cloudinary/type";
+import { useRouter } from "next/navigation";
 
 export function CoupleInfoForm() {
+  const router = useRouter();
   const [state, action, pending] = useActionState(createCoupleInfoAction, null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -68,8 +69,8 @@ export function CoupleInfoForm() {
   };
 
   useEffect(() => {
-    console.log("state", state);
-  }, [state]);
+    if (state && state.success) router.push("/payment");
+  }, [state, router]);
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
@@ -89,18 +90,9 @@ export function CoupleInfoForm() {
       <div className="bg-background/95 border-border fixed right-0 bottom-0 left-0 z-50 border-t backdrop-blur-sm">
         <div className="container mx-auto px-4 py-4">
           <div className="mx-auto flex max-w-5xl gap-4">
-            {/* <Btn
-              type="button"
-              variant="outline"
-              size="lg"
-              className="flex-1 bg-transparent"
-            >
-              <Eye className="mr-2 h-5 w-5" />
-              미리보기
-            </Btn> */}
             <Btn type="submit" size="lg" className="flex-1">
               <Save className="mr-2 h-5 w-5" />
-              저장하기
+              저장{pending ? "중" : "하기"}
             </Btn>
           </div>
         </div>

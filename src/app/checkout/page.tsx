@@ -101,7 +101,7 @@ export default function CheckoutPage() {
 
             {/* Right side - Order Summary */}
             <div className="lg:col-span-1">
-              <OrderSummary order={orderSummaryProps} />
+              <OrderSummary />
             </div>
           </div>
         </div>

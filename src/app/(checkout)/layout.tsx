@@ -9,7 +9,7 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
         <div className="mx-auto max-w-6xl">
           <PageTitle />
 
-          <div className="grid lg:grid-cols-3 lg:gap-8">
+          <div className="grid gap-8 lg:grid-cols-3">
             {/* Left side -  Form */}
             <div className="lg:col-span-2">{children}</div>
 
