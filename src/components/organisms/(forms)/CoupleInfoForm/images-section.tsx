@@ -2,8 +2,8 @@
 
 import type React from "react";
 
-import { Upload, X, Plus } from "lucide-react";
-import Image from "next/image";
+import { X, Plus } from "lucide-react";
+
 import {
   Card,
   CardContent,
@@ -29,7 +29,7 @@ export function ImagesSection() {
 
   const addGalleryCategory = () => {
     const newCategory: GalleryCategory = {
-      id: Date.now().toString(),
+      id: crypto.randomUUID(),
       categoryName: "",
       images: [],
     };
@@ -107,6 +107,7 @@ export function ImagesSection() {
                       onChange={(e) =>
                         updateCategoryName(categoryIndex, e.target.value)
                       }
+                      required
                     />
                   </div>
                   <Btn

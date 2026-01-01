@@ -7,12 +7,14 @@ import { BasicInfoSection } from "./basic-info-section";
 import { CoupleInfoSection } from "./couple-info-section";
 import { ParentsInfoSection } from "./parents-info-section";
 import { ImagesSection } from "./images-section";
-import { useActionState } from "react";
+import { startTransition, useActionState } from "react";
 import { createCoupleInfoAction } from "@/actions/createCoupleInfoAction";
+import { uploadGalleryImages, uploadMainThumbnail } from "@/lib/cloudinary";
+import { CloudinaryResource } from "@/lib/cloudinary/type";
 
 export function CoupleInfoForm() {
-  // const [state, action, pending] = useActionState(createCoupleInfoAction, null);
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [state, action, pending] = useActionState(createCoupleInfoAction, null);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
@@ -38,9 +40,31 @@ export function CoupleInfoForm() {
       };
     });
 
-    console.log("Thumbnail:", thumbnail);
-    console.log("Gallery:", galleryFiles);
+    // Cloudinary에 업로드
+    const thumbnailSource = await uploadMainThumbnail(thumbnail);
+
+    const gallerySource = [];
+    for (const { name, files } of galleryFiles) {
+      const galleryImages = await uploadGalleryImages(files);
+      gallerySource.push({
+        name: name,
+        images: galleryImages,
+      });
+    }
+
+    // 원본 파일 제거 (1MB 제한 회피)
+    formData.delete("thumbnail-upload");
+    uniqueKeys.forEach((key) => formData.delete(key));
+
+    // 업로드된 URL을 FormData에 추가
+    if (thumbnailSource) {
+      formData.set("thumbnailSource", JSON.stringify(thumbnailSource));
+    }
+    formData.set("gallerySource", JSON.stringify(gallerySource));
+
+    startTransition(() => action(formData));
   };
+
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
       {/* 기본 정보 */}
