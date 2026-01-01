@@ -64,7 +64,8 @@ export function BasicInfoSection() {
               <Input
                 hidden
                 value={format(weddingDate, "yyyy-MM-dd")}
-                name={"wedding-date"}
+                name={"wedding_date"}
+                required
                 readOnly
               />
             )}
@@ -96,9 +97,10 @@ export function BasicInfoSection() {
 
           <LabeledInput
             id="weddingTime"
-            name="weddingTime"
+            name="wedding_time"
             type="time"
             placeholder="결혼식 시간"
+            required
           >
             결혼식 시간 *
           </LabeledInput>
@@ -108,40 +110,42 @@ export function BasicInfoSection() {
         <div className="space-y-2"></div>
         <LabeledInput
           id="venueName"
-          name="venueName"
+          name="venue_name"
           type="text"
           placeholder="예: 더 컨벤션 웨딩홀"
+          required
         >
           예식장명 *
         </LabeledInput>
 
         {/* Address */}
-        <AddressSearchInput />
+        <AddressSearchInput required name="venue" />
 
         {/* Address Detail */}
         <LabeledInput
-          id="addressDetail"
-          name="addressDetail"
+          id="venueAddressDetail"
+          name="venue_address_detail"
           type="text"
           placeholder="예: 3층 그랜드볼룸"
+          required
         >
-          상세 주소
+          상세 주소 *
         </LabeledInput>
 
         {/* NEW SUBWAY STATION DROPDOWN */}
         <LabeledSelect
           id="subwayStation"
-          name="subwayStation"
+          name="subway_station"
           placeholder="지하철역 선택"
           data={MOCSUBWAYSTATIONS}
         >
-          인근 지하철 역{" "}
+          인근 지하철 역
         </LabeledSelect>
 
         {/* Guestbook Toggle */}
         <LabeledSwitch
           id={"guestbookEnabled"}
-          name={"guestbookEnabled"}
+          name={"guestbook_enabled"}
           message={"하객들이 축하 메시지를 남길 수 있습니다."}
         >
           방명록 사용

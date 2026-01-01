@@ -7,18 +7,20 @@ import { BasicInfoSection } from "./basic-info-section";
 import { CoupleInfoSection } from "./couple-info-section";
 import { ParentsInfoSection } from "./parents-info-section";
 import { ImagesSection } from "./images-section";
-import { startTransition, useActionState } from "react";
+import { startTransition, useActionState, useEffect } from "react";
 import { createCoupleInfoAction } from "@/actions/createCoupleInfoAction";
 import { uploadGalleryImages, uploadMainThumbnail } from "@/lib/cloudinary";
 import { CloudinaryResource } from "@/lib/cloudinary/type";
 
 export function CoupleInfoForm() {
   const [state, action, pending] = useActionState(createCoupleInfoAction, null);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
-
+    const date = formData.get("wedding_date") as string;
+    if (!date) return alert("날짜를 선택해주세요");
     // 썸네일 (고정 name)
     const thumbnail = formData.getAll("thumbnail-upload") as File[];
 
@@ -64,6 +66,10 @@ export function CoupleInfoForm() {
 
     startTransition(() => action(formData));
   };
+
+  useEffect(() => {
+    console.log("state", state);
+  }, [state]);
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>

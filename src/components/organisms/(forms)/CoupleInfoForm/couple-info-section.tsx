@@ -43,16 +43,17 @@ export function CoupleInfoSection() {
 
             <LabeledInput
               id="groom.name"
-              name="groom.name"
+              name="groom_name"
               type="text"
               placeholder="신랑 이름"
+              required
             >
               이름 *
             </LabeledInput>
 
             <LabeledInput
               id="groom.phone"
-              name="groom.phone"
+              name="groom_phone"
               type="tel"
               placeholder="010-1234-5678"
             >
@@ -70,7 +71,7 @@ export function CoupleInfoSection() {
 
             <LabeledInput
               id="bride.name"
-              name="bride.name"
+              name="bride_name"
               type="text"
               placeholder="신부 이름"
             >
@@ -79,7 +80,7 @@ export function CoupleInfoSection() {
 
             <LabeledInput
               id="bride.phone"
-              name="bride.phone"
+              name="bride_phone"
               type="tel"
               placeholder="010-1234-5678"
             >

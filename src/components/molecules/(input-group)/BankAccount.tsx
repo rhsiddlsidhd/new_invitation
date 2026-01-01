@@ -31,7 +31,7 @@ const BankAccount = ({ id }: { id: string }) => {
       <Label>계좌번호</Label>
       <div className="grid grid-cols-[120px_1fr] gap-2 max-sm:grid-cols-1">
         <Select
-          name={`${id}.bankname`}
+          name={`${id}_bank_name`}
           value={info.bankName}
           onValueChange={(value) =>
             setInfo((prev) => ({
@@ -54,7 +54,7 @@ const BankAccount = ({ id }: { id: string }) => {
         </Select>
         <Input
           placeholder="계좌번호"
-          name={`${id}.accountNumber}`}
+          name={`${id}_account_number`}
           onChange={(e) =>
             setInfo((prev) => ({
               ...prev,

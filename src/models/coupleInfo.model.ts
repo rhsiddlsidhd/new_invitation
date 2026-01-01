@@ -94,7 +94,7 @@ const coupleInfoSchema = new Schema<CoupleInfoDocument>(
     weddingDate: { type: Date, required: true },
     venue: { type: String, required: true },
     address: { type: String, required: true },
-    message: { type: String, required: true },
+    message: { type: String, required: true, default: "저희 결혼합니다." },
     subwayStation: { type: String },
     guestbookEnabled: { type: Boolean, default: false },
     thumbnailImages: {

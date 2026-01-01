@@ -55,23 +55,21 @@ export function ParentsInfoSection() {
                     <LabeledInput
                       placeholder="이름"
                       id={`groomParents.${parent.id}.name`}
-                      name={`groomParents.${parent.id}.name`}
+                      name={`groom_parents_${parent.id}_name`}
                       type="text"
                     >
                       이름
                     </LabeledInput>
                     <LabeledInput
                       id={`groomParents.${parent.id}.phone`}
-                      name={`groomParents.${parent.id}.phone`}
+                      name={`groom_parents_${parent.id}_phone`}
                       type="tel"
                       placeholder="010-1234-5678"
                     >
                       연락처
                     </LabeledInput>
                     <div className="col-span-2">
-                      <BankAccount
-                        id={`groomParents.${parent.id}.accountNumber`}
-                      />
+                      <BankAccount id={`groom_parents_${parent.id}`} />
                     </div>
                   </div>
                 </div>
@@ -101,23 +99,21 @@ export function ParentsInfoSection() {
                     <LabeledInput
                       placeholder="이름"
                       id={`brideParents.${parent.id}.name`}
-                      name={`brideParents.${parent.id}.name`}
+                      name={`bride_parents_${parent.id}_name`}
                       type="text"
                     >
                       이름
                     </LabeledInput>
                     <LabeledInput
                       id={`brideParents.${parent.id}.phone`}
-                      name={`brideParents.${parent.id}.phone`}
+                      name={`bride_parents_${parent.id}_phone`}
                       type="tel"
                       placeholder="010-1234-5678"
                     >
                       연락처
                     </LabeledInput>
                     <div className="col-span-2">
-                      <BankAccount
-                        id={`brideParents.${parent.id}.accountNumber`}
-                      />
+                      <BankAccount id={`bride_parents_${parent.id}`} />
                     </div>
                   </div>
                 </div>
