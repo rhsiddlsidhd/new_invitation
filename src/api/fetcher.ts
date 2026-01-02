@@ -23,7 +23,10 @@ const processQueue = (error: any, token: string | null = null) => {
 export async function refreshAccessToken(): Promise<string> {
   try {
     const res = await fetch("/api/auth/refresh", { method: "POST" });
-    if (!res.ok) throw new Error("Failed to refresh token");
+    if (!res.ok) {
+      console.error("Refresh token failed:", res.status, res.statusText);
+      throw new HTTPError("Failed to refresh token", res.status);
+    }
 
     const { data }: SuccessResponse<{ accessToken: string; role: string }> =
       await res.json();
@@ -37,6 +40,7 @@ export async function refreshAccessToken(): Promise<string> {
     return accessToken;
   } catch (error) {
     // 리프레시 실패 시, 사용자를 로그아웃 처리
+    console.error("Failed to refresh access token:", error);
     useAuthTokenStore.getState().clearAuth();
     throw error;
   }
@@ -92,6 +96,18 @@ export async function fetcher<T>(
         });
 
         if (!retryRes.ok) {
+          // retry 실패 시 에러 상세 정보 로깅
+          console.error("Retry failed after token refresh:", {
+            url,
+            status: retryRes.status,
+            statusText: retryRes.statusText,
+          });
+
+          // retry 실패가 401인 경우에만 인증 상태 초기화
+          // (다른 에러는 API 자체의 문제일 수 있음)
+          if (retryRes.status === 401) {
+            useAuthTokenStore.getState().clearAuth();
+          }
           throw new HTTPError("Retry failed", retryRes.status);
         }
 
@@ -99,7 +115,16 @@ export async function fetcher<T>(
         return retryBody.data;
       } catch (error) {
         processQueue(error, null);
-        throw new HTTPError("Session expired, please log in again.", 401);
+
+        // refresh 자체가 실패한 경우인지, retry가 실패한 경우인지 구분
+        if (
+          error instanceof HTTPError &&
+          error.message === "Failed to refresh token"
+        ) {
+          throw new HTTPError("Session expired, please log in again.", 401);
+        }
+
+        throw error;
       } finally {
         isRefreshing = false;
       }

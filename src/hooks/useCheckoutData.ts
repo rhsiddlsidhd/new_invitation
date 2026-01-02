@@ -16,10 +16,10 @@ export function useCheckoutData() {
       const stored = sessionStorage.getItem("checkoutItems");
       if (!stored) throw new Error("주문 정보가 없습니다.");
 
-      const items: CheckoutProductData[] = JSON.parse(stored);
-      if (items.length === 0) throw new Error("주문 항목이 비어있습니다.");
+      const items: CheckoutProductData = JSON.parse(stored);
+      if (!items) throw new Error("주문 항목이 비어있습니다.");
 
-      setData(items[0]);
+      setData(items);
     } catch (err) {
       setError(err instanceof Error ? err.message : "알 수 없는 오류");
       toast.error("주문 정보를 불러올 수 없습니다.");

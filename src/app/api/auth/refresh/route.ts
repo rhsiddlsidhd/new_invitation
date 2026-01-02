@@ -1,6 +1,7 @@
 import { apiError, APIRouteResponse, apiSuccess } from "@/api/response";
 import { HTTPError } from "@/api/type";
 import { getCookie } from "@/lib/cookies/get";
+import { deleteCookie } from "@/lib/cookies/delete";
 import { decrypt, encrypt } from "@/lib/token";
 import { UserRole } from "@/models/user.model";
 import { getUser } from "@/services/auth.service";
@@ -32,6 +33,8 @@ export const POST = async (): Promise<
 
     return apiSuccess({ accessToken, role: user.role });
   } catch (e) {
+    // refresh token이 만료되거나 유효하지 않을 경우 쿠키 삭제
+    await deleteCookie("token");
     return apiError(e);
   }
 };

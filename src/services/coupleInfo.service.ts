@@ -1,4 +1,4 @@
-import { CoupleInfoDocument, CoupleInfoModel } from "@/models/coupleInfo.model";
+import { CoupleInfoModel } from "@/models/coupleInfo.model";
 import { dbConnect } from "@/shared/utils/mongodb";
 
 interface Parent {

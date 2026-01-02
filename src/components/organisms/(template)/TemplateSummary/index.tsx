@@ -69,7 +69,7 @@ export function TemplateSummary({
     };
 
     try {
-      sessionStorage.setItem("checkoutItems", JSON.stringify([checkoutData]));
+      sessionStorage.setItem("checkoutItems", JSON.stringify(checkoutData));
       router.push("/couple-info");
     } catch (error) {
       console.error("Failed to save to sessionStorage:", error);

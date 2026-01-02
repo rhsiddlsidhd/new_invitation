@@ -1,3 +1,4 @@
+import Alert from "@/components/atoms/Alert/Alert";
 import { Input } from "@/components/atoms/Input/Input";
 import { Label } from "@/components/atoms/Label/Label";
 import React, { HTMLInputTypeAttribute, useState } from "react";
@@ -8,7 +9,7 @@ export interface LabeledInputBase {
   children: React.ReactNode;
 }
 
-interface LabeledInputProps extends LabeledInputBase {
+export interface LabeledInputProps extends LabeledInputBase {
   type: HTMLInputTypeAttribute | undefined;
   placeholder?: string;
   error?: string;
@@ -26,7 +27,7 @@ const LabeledInput = ({
 }: LabeledInputProps) => {
   const [info, setInfo] = useState("");
   return (
-    <div>
+    <div className="space-y-2">
       <Label htmlFor={id}>{children}</Label>
       <Input
         value={info}
@@ -38,7 +39,7 @@ const LabeledInput = ({
         onChange={(e) => setInfo(e.target.value)}
         className={error ? "border-destructive" : ""}
       />
-      {error && <p className="text-destructive text-sm">{error}</p>}
+      {error && <Alert type="error">{error}</Alert>}
     </div>
   );
 };

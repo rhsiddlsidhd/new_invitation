@@ -1,7 +1,26 @@
+import { HTTPError } from "@/api/type";
 import { CoupleInfoForm } from "@/components/organisms/(forms)/CoupleInfoForm";
+import { getCookie } from "@/lib/cookies/get";
+import { decrypt } from "@/lib/token";
+import { getCoupleInfoByUserId } from "@/services/coupleInfo.service";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import React from "react";
 
-const page = () => {
+const page = async () => {
+  const cookie = await getCookie("token");
+  if (!cookie) {
+    throw new HTTPError("접근 권한이 없습니다. 로그인 후 이용해주세요.", 401);
+  }
+
+  const { payload } = await decrypt({ token: cookie.value, type: "REFRESH" });
+
+  if (!payload.id) throw new HTTPError("유효하지 않은 토큰입니다.", 401);
+
+  const coupleInfo = await getCoupleInfoByUserId(payload.id);
+
+  if (coupleInfo) redirect("/payment");
+
   return <CoupleInfoForm />;
 };
 
