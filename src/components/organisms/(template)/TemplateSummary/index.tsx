@@ -38,8 +38,9 @@ export function TemplateSummary({
       if (!selectedOpt) {
         throw new Error(`Selected option with ID ${id} not found.`);
       }
+      console.log("detail");
       return {
-        _id: selectedOpt._id.toString(),
+        featureId: selectedOpt._id.toString(),
         code: selectedOpt.code,
         label: selectedOpt.label,
         price: selectedOpt.additionalPrice,

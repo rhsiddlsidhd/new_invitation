@@ -1,41 +1,34 @@
-import mongoose, { Schema, Document, Types } from "mongoose";
+import mongoose, { Schema, Document, Types, Model } from "mongoose";
 
 type OrderStatus = "PENDING" | "CONFIRMED" | "COMPLETED" | "CANCELLED";
 export interface OrderFeatureSnapshot {
-  featureId: string; // Feature 참조 ID
+  featureId: mongoose.Types.ObjectId; // Feature 참조 ID
   code: string;
   label: string;
   price: number; // 구매 당시 가격
 }
 
-export interface Order extends Document {
-  // 식별자
-  merchantUid: string;
-
-  // 구매자
-  userId: Types.ObjectId; // 구매자 ID
+interface CreateOrderDto {
+  productId: Types.ObjectId;
+  selectedFeatures?: OrderFeatureSnapshot[];
+  // 구매자 정보 (로그인 세션에서 가져올 수도 있지만, 직접 입력받는 경우 포함)
   buyerName: string;
   buyerEmail: string;
   buyerPhone: string;
+}
 
-  // 상품정보
-
-  productId: mongoose.Types.ObjectId;
-  selectedFeatures?: OrderFeatureSnapshot[];
-
-  // 금액정보
-  originalPrice: number; // 상품 기본 정가
-  finalPrice: number; // 최종 결제 금액
+export interface OrderBase extends CreateOrderDto {
+  merchantUid: string; // 서버에서 생성하는 고유 주문 번호
+  userId: Types.ObjectId;
+  originalPrice: number;
+  finalPrice: number;
   discountRate?: number;
   discountAmount?: number;
+}
 
-  // 주문 상태
+export interface Order extends OrderBase, Document {
   orderStatus: OrderStatus;
-
-  // 결제 참조
-  paymentId?: mongoose.Types.ObjectId; // 결제 ID
-
-  // 이력
+  paymentId?: Types.ObjectId;
   cancelledAt?: Date;
   cancelReason?: string;
   createdAt: Date;
@@ -94,4 +87,5 @@ const orderSchema = new Schema<Order>(
 );
 
 export const OrderModel =
-  mongoose.models.Order || mongoose.model<Order>("Order", orderSchema);
+  (mongoose.models.Order as Model<Order>) ||
+  mongoose.model<Order>("Order", orderSchema);

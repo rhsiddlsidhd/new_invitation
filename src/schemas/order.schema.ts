@@ -1,7 +1,7 @@
-import z, { codec } from "zod";
+import z from "zod";
 
 const SelectedOptionSchema = z.object({
-  _id: z.string().min(1, "옵션 ID가 필요합니다."),
+  featureId: z.string().min(1, "옵션 ID가 필요합니다."),
   label: z.string().min(1, "옵션 이름이 필요합니다."),
   price: z.number().min(0, "가격은 0 이상이어야 합니다."),
   code: z.string().min(1, "옵션 코드가 필요합니다."),
@@ -16,5 +16,5 @@ export const createOrderSchema = z.object({
   productId: z.string().min(1, "상품 ID가 필요합니다."),
   originalPrice: z.number().positive("가격은 양수여야 합니다."),
   finalPrice: z.number().positive("총 가격은 양수여야 합니다."),
-  selectedOptions: z.array(SelectedOptionSchema),
+  selectedFeatures: z.array(SelectedOptionSchema),
 });

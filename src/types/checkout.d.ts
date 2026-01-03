@@ -1,11 +1,15 @@
 // src/types/checkout.d.ts
 
-export interface SelectedOption {
-  _id: string; // Feature ID
-  code: string;
-  label: string;
-  price: number;
-}
+// export interface SelectedOption {
+//   _id: string; // Feature ID
+//   code: string;
+//   label: string;
+//   price: number;
+// }
+
+export type SelectedOption = Omit<OrderFeatureSnapshot, "featureId"> & {
+  featureId: string;
+};
 
 export interface CheckoutProductData {
   _id: string; // Product ID

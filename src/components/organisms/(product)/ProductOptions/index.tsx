@@ -55,7 +55,7 @@ const ProductOptions = ({
         throw new Error(`Selected option with ID ${id} not found.`);
       }
       return {
-        _id: selectedOpt._id.toString(),
+        featureId: selectedOpt._id.toString(),
         code: selectedOpt.code,
         label: selectedOpt.label,
         price: selectedOpt.additionalPrice,

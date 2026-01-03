@@ -11,7 +11,8 @@ import { getUser } from "@/services/auth.service";
 import { createOrderService } from "@/services/order.service";
 import { validateAndFlatten } from "@/lib/validation";
 import { createOrderSchema } from "@/schemas/order.schema";
-import { custom } from "zod";
+import { generateUid } from "@/utils/id";
+import mongoose from "mongoose";
 
 export async function createOrderAction(
   prev: unknown,
@@ -48,27 +49,32 @@ export async function createOrderAction(
       productId: formData.get("productId") as string,
       originalPrice: Number(formData.get("originalPrice")),
       finalPrice: Number(formData.get("finalPrice")),
-      selectedOptions: selectedOptionsRaw ? JSON.parse(selectedOptionsRaw) : [],
+      selectedFeatures: selectedOptionsRaw
+        ? JSON.parse(selectedOptionsRaw)
+        : [],
     };
-    console.log("data", data);
 
     // Zod 스키마로 유효성 검증
     const parsed = validateAndFlatten(createOrderSchema, data);
-    console.log("parsed", parsed);
 
     if (!parsed.success) {
       throw new HTTPError("알 수 없는 오류가 발생하였습니다.", 500);
     }
-    console.log("parsed", parsed.data);
+    const merchantUid = generateUid("ORDER");
 
     // 사용자 정보에서 구매자 정보 가져오기
 
-    await createOrderService({ ...parsed.data, userId: user._id.toString() });
+    const order = await createOrderService({
+      ...parsed.data,
+      userId: new mongoose.Types.ObjectId(user._id),
+      productId: new mongoose.Types.ObjectId(parsed.data.productId),
+      merchantUid,
+    });
 
-    // return success({
-    //   merchantUid: payment.merchantUid,
-    //   message: "주문이 성공적으로 생성되었습니다. 결제를 진행해주세요.",
-    // });
+    return success({
+      merchantUid: order.merchantUid,
+      message: "주문이 성공적으로 생성되었습니다. 결제를 진행해주세요.",
+    });
   } catch (e) {
     return handleActionError(e);
   }

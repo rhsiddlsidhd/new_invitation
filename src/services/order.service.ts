@@ -1,28 +1,31 @@
 import mongoose from "mongoose";
-import { OrderModel, OrderFeatureSnapshot } from "@/models/order.model";
-import { PaymentModel } from "@/models/payment";
+import { OrderModel, OrderBase, Order } from "@/models/order.model";
+
 import { dbConnect } from "@/shared/utils/mongodb";
-import { generateUid } from "@/utils/id";
-import User from "@/models/user.model";
+import { SelectedOption } from "@/types/checkout";
 
-interface CreateOrderAndPaymentParams {
-  userId: string;
-  productId: string;
-  originalPrice: number;
-  finalPrice: number;
-  selectedOptions: Array<{
-    _id: string;
-    label: string;
-    price: number;
-    code: string;
-  }>;
-  buyerName: string;
-  buyerEmail: string;
-  buyerPhone: string;
-}
+type CreateOrderService = Omit<OrderBase, "selectedFeatures"> & {
+  selectedFeatures: SelectedOption[];
+};
 
-export const createOrderService = async (data: CreateOrderAndPaymentParams) => {
+export const createOrderService = async (
+  data: CreateOrderService,
+): Promise<Order> => {
   await dbConnect();
 
-  console.log("service ", data);
+  const selectedFeatures =
+    data.selectedFeatures?.map((f) => ({
+      featureId: new mongoose.Types.ObjectId(f.featureId),
+      code: f.code,
+      label: f.label,
+      price: f.price,
+    })) ?? [];
+  const orderData = {
+    ...data,
+    selectedFeatures,
+  };
+
+  const order = await OrderModel.create(orderData);
+  console.log("order", order);
+  return order.toObject({ versionKey: false }) as Order;
 };
