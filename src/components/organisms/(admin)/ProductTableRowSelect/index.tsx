@@ -41,6 +41,7 @@ const ProductTableRowSelect = ({ product }: { product: Product }) => {
       onValueChange={(value) => {
         handleStatusChange(value);
       }}
+      className={"w-27.5"}
     />
   );
 };

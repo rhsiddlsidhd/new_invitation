@@ -53,7 +53,10 @@ export const loginUser = async (
 
     await setCookie({ name: "token", value: refreshJWT, remember });
 
-    const accessJWT = await encrypt({ id: user._id, type: "ACCESS" });
+    const accessJWT = await encrypt({
+      id: user._id.toString(),
+      type: "ACCESS",
+    });
 
     return success({ token: accessJWT, role: user.role });
   } catch (e) {

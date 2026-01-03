@@ -29,8 +29,8 @@ const Thumbnail = ({
       src={cloudinaryUrl}
       fill
       alt={alt ? alt : "이미지"}
+      sizes={`${widthPx}px`}
       className="object-cover"
-      sizes="100%"
       priority
     />
   );

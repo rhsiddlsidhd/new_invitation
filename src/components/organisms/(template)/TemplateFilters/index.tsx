@@ -36,7 +36,7 @@ const premiumFeatLabel: Record<
 
 export function TemplateFilters({ data }: { data: Product[] }) {
   const [state, dispatch] = useTemplateFilter();
-  const { premiumFeatures, loading } = usePremiumFeature();
+  const { premiumFeatures } = usePremiumFeature();
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
   const { suggestions } = useSugessteTemplate({
     data,

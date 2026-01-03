@@ -1,34 +1,58 @@
-import mongoose, { Schema, Document, Types } from "mongoose";
+import mongoose, { Schema, Document, Types, Model } from "mongoose";
+import { PayMethod } from "./payment";
 
+type OrderStatus = "PENDING" | "CONFIRMED" | "COMPLETED" | "CANCELLED";
 export interface OrderFeatureSnapshot {
-  featureId: string; // Feature 참조 ID
+  featureId: mongoose.Types.ObjectId; // Feature 참조 ID
   code: string;
   label: string;
   price: number; // 구매 당시 가격
 }
 
-export interface Order extends Document {
-  userId: string; // 구매자 ID
+interface CreateOrderDto {
   productId: Types.ObjectId;
-  originalPrice: number; // 상품 기본 정가
-  finalPrice: number; // 최종 결제 금액
+  selectedFeatures?: OrderFeatureSnapshot[];
+  // 구매자 정보 (로그인 세션에서 가져올 수도 있지만, 직접 입력받는 경우 포함)
+  buyerName: string;
+  buyerEmail: string;
+  buyerPhone: string;
+  payMethod: PayMethod; // 결제 수단
+}
+
+export interface OrderBase extends CreateOrderDto {
+  merchantUid: string; // 서버에서 생성하는 고유 주문 번호
+  userId: Types.ObjectId;
+  originalPrice: number;
+  finalPrice: number;
   discountRate?: number;
   discountAmount?: number;
-  selectedFeatures?: OrderFeatureSnapshot[]; // 선택한 유료 옵션
+}
+
+export interface Order extends OrderBase, Document {
+  orderStatus: OrderStatus;
+  paymentId?: Types.ObjectId;
+  cancelledAt?: Date;
+  cancelReason?: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
 const orderSchema = new Schema<Order>(
   {
-    userId: { type: String, required: true },
+    // 식별자
+    merchantUid: { type: String, required: true, unique: true },
+
+    // 구매자
+    userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    buyerName: { type: String, required: true },
+    buyerEmail: { type: String, required: true },
+    buyerPhone: { type: String, required: true },
+
+    // 상품정보
     productId: { type: Schema.Types.ObjectId, ref: "Product", required: true },
-    originalPrice: { type: Number, required: true },
-    finalPrice: { type: Number, required: true },
-    discountRate: { type: Number, default: 0 },
-    discountAmount: { type: Number, default: 0 },
     selectedFeatures: [
       {
+        _id: false,
         featureId: {
           type: Schema.Types.ObjectId,
           ref: "Feature",
@@ -39,8 +63,38 @@ const orderSchema = new Schema<Order>(
         price: { type: Number, required: true },
       },
     ],
+
+    // 금액정보
+    originalPrice: { type: Number, required: true },
+    finalPrice: { type: Number, required: true },
+    discountRate: { type: Number, default: 0 },
+    discountAmount: { type: Number, default: 0 },
+
+    // 결제 수단
+    payMethod: {
+      type: String,
+      enum: ["CARD", "TRANSFER", "VIRTUAL_ACCOUNT", "MOBILE"],
+      required: true,
+    },
+
+    // 주문 상태
+    orderStatus: {
+      type: String,
+      enum: ["PENDING", "CONFIRMED", "COMPLETED", "CANCELLED"],
+      required: true,
+      default: "PENDING",
+    },
+
+    // 결제 참조
+    paymentId: { type: Schema.Types.ObjectId, ref: "Payment" },
+
+    // 이력
+    cancelledAt: { type: Date },
+    cancelReason: { type: String },
   },
   { timestamps: true },
 );
 
-export const OrderModel = mongoose.model<Order>("Order", orderSchema);
+export const OrderModel =
+  (mongoose.models.Order as Model<Order>) ||
+  mongoose.model<Order>("Order", orderSchema);

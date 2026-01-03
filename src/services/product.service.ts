@@ -1,78 +1,136 @@
-import { BaseProduct, ProductModel } from "@/models/product.model";
-
+import {
+  ProductDB,
+  ProductDocument,
+  ProductModel,
+} from "@/models/product.model";
 import { dbConnect } from "@/shared/utils/mongodb";
-
 import mongoose from "mongoose";
 
-type ProductInput = Omit<BaseProduct, "options"> & { options: string[] | [] };
+interface ProductInput {
+  authorId: string;
+  title: string;
+  description: string;
+  thumbnail: string;
+  previewUrl?: string;
+  price: number;
+  category: string;
+  isPremium: boolean;
+  options?: string[];
+  feature: boolean;
+  priority: number;
+}
 
-export type Product = Omit<ProductModel, "options" | "createdAt"> & {
+export type Product = Omit<ProductDB, "options" | "likes"> & {
+  likes: string[];
   options: string[];
   _id: string;
-  createdAt: string;
+  createdAt: Date;
 };
 
-export const createProductService = async (data: ProductInput) => {
+// 상품생성
+export const createProductService = async (
+  data: ProductInput,
+): Promise<boolean> => {
   await dbConnect();
 
   const newProduct = await new ProductModel({
     ...data,
-    options: data.options.map((value) => new mongoose.Types.ObjectId(value)),
+    options:
+      data.isPremium && data.options
+        ? data.options.map((value) => new mongoose.Types.ObjectId(value))
+        : [],
   }).save();
 
-  return newProduct.toJSON();
+  return !!newProduct;
 };
+
+// 단일 상품 조회
 export const getProductService = async (
   productId: string,
 ): Promise<Product | null> => {
   await dbConnect();
-  // findById 대신 findOne을 사용하여 _id와 deletedAt을 동시에 체크합니다.
+
   const product = await ProductModel.findOne({
     _id: productId,
-    deletedAt: null, // 삭제되지 않은 상품만 조회
+    deletedAt: null,
   });
 
   return product ? product.toJSON() : null;
 };
 
+// 모든 상품 조회
 export const getAllProductsService = async (): Promise<Product[]> => {
   await dbConnect();
-  const products = await ProductModel.find({ deletedAt: null });
+  const products = await ProductModel.find({ deletedAt: null }).sort({
+    createdAt: -1,
+  });
 
-  return products.map((product) => product.toJSON());
+  return products.map((product) => product.toJSON() as Product).sort();
 };
 
+// 상품 업데이트
 export const updateProductService = async (
   productId: string,
   data: Partial<ProductInput>,
-) => {
+): Promise<Product | null> => {
   await dbConnect();
 
   const updateData = {
     ...data,
-    options: data.options
-      ? data.options.map((value) => new mongoose.Types.ObjectId(value))
-      : undefined,
+    options:
+      data.isPremium && data.options
+        ? data.options.map((value) => new mongoose.Types.ObjectId(value))
+        : [],
   };
 
-  // 업데이트 시에도 삭제되지 않은 문서인지 확인하기 위해 findOneAndUpdate에 조건을 추가합니다.
   const updatedProduct = await ProductModel.findOneAndUpdate(
     { _id: productId, deletedAt: null },
     updateData,
     { new: true },
   );
 
-  return updatedProduct.toJSON();
+  return updatedProduct ? updatedProduct.toJSON() : null;
 };
 
-export const deleteProductService = async (productId: string) => {
+// 상품 삭제
+export const deleteProductService = async (
+  productId: string,
+): Promise<boolean> => {
   await dbConnect();
-  // 이미 삭제된 상품을 중복 삭제(날짜 갱신)하지 않도록 필터링을 추가하는 것이 안전합니다.
+
   const deletedProduct = await ProductModel.findOneAndUpdate(
     { _id: productId, deletedAt: null },
     { deletedAt: new Date() },
     { new: true },
   );
 
-  return deletedProduct.toJSON();
+  return !!deletedProduct;
+};
+
+// 상품 좋아요 업데이트
+
+export const updateProductLikeService = async (
+  productId: string,
+  userId: string,
+): Promise<boolean> => {
+  const userObjectId = new mongoose.Types.ObjectId(userId);
+
+  const product = await ProductModel.findOne<ProductDocument>({
+    _id: productId,
+    deletedAt: null,
+  });
+
+  if (!product) return false;
+
+  const hasLiked = product.likes.some((id) => id.equals(userObjectId));
+
+  const updated = await ProductModel.findOneAndUpdate(
+    { _id: productId, deletedAt: null },
+    hasLiked
+      ? { $pull: { likes: userObjectId } }
+      : { $addToSet: { likes: userObjectId } },
+    { new: true },
+  );
+
+  return !!updated;
 };
