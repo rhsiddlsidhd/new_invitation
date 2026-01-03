@@ -26,6 +26,16 @@ export const createOrderService = async (
   };
 
   const order = await OrderModel.create(orderData);
-  console.log("order", order);
+
   return order.toObject({ versionKey: false }) as Order;
+};
+
+export const getOrderSeviceByMerchantUid = async (
+  merchantUid: string,
+): Promise<Order> => {
+  await dbConnect();
+
+  const order = await OrderModel.findOne({ merchantUid });
+
+  return order?.toObject({ versionKey: false }) as Order;
 };

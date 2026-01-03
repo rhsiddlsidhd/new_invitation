@@ -1,3 +1,4 @@
+import { PAY_METHOD_VALUES } from "@/contants/payment";
 import z from "zod";
 
 const SelectedOptionSchema = z.object({
@@ -17,4 +18,7 @@ export const createOrderSchema = z.object({
   originalPrice: z.number().positive("가격은 양수여야 합니다."),
   finalPrice: z.number().positive("총 가격은 양수여야 합니다."),
   selectedFeatures: z.array(SelectedOptionSchema),
+  payMethod: z.enum(PAY_METHOD_VALUES, {
+    message: "결제 수단을 선택해주세요.",
+  }),
 });

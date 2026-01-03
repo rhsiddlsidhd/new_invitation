@@ -75,7 +75,10 @@ export const OrderSummary = () => {
             <div className="space-y-1">
               <p className="text-sm font-medium">선택 옵션:</p>
               {order.selectedOptions.map((option: SelectedOption) => (
-                <div key={option._id} className="flex justify-between text-xs">
+                <div
+                  key={option.featureId}
+                  className="flex justify-between text-xs"
+                >
                   <span className="text-muted-foreground ml-2">
                     - {option.label}
                   </span>

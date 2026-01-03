@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document, Types, Model } from "mongoose";
+import { PayMethod } from "./payment";
 
 type OrderStatus = "PENDING" | "CONFIRMED" | "COMPLETED" | "CANCELLED";
 export interface OrderFeatureSnapshot {
@@ -15,6 +16,7 @@ interface CreateOrderDto {
   buyerName: string;
   buyerEmail: string;
   buyerPhone: string;
+  payMethod: PayMethod; // 결제 수단
 }
 
 export interface OrderBase extends CreateOrderDto {
@@ -67,6 +69,13 @@ const orderSchema = new Schema<Order>(
     finalPrice: { type: Number, required: true },
     discountRate: { type: Number, default: 0 },
     discountAmount: { type: Number, default: 0 },
+
+    // 결제 수단
+    payMethod: {
+      type: String,
+      enum: ["CARD", "TRANSFER", "VIRTUAL_ACCOUNT", "MOBILE"],
+      required: true,
+    },
 
     // 주문 상태
     orderStatus: {

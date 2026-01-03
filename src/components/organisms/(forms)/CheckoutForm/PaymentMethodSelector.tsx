@@ -10,6 +10,7 @@ import React from "react";
 import LabeledRadioGroup, {
   RadioGroupOption,
 } from "@/components/molecules/(input-group)/LabeledRadioGroup";
+import Alert from "@/components/atoms/Alert/Alert";
 
 const PAYMENT_METHODS: RadioGroupOption<PayMethod>[] = [
   {
@@ -42,7 +43,7 @@ const PAYMENT_METHODS: RadioGroupOption<PayMethod>[] = [
   },
 ];
 
-const PaymentMethodSelector = () => {
+const PaymentMethodSelector = ({ error }: { error?: string }) => {
   return (
     <Card className="border-border">
       <CardHeader>
@@ -50,14 +51,15 @@ const PaymentMethodSelector = () => {
           <span className="bg-primary/10 text-primary flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold">
             2
           </span>
-          결제 수단 *
+          결제 수단 * {error && <Alert type="error">{error}</Alert>}
         </CardTitle>
       </CardHeader>
       <CardContent>
         <LabeledRadioGroup
           options={PAYMENT_METHODS}
           id="PaymentMethod"
-          name="PAYMENT_METHOD"
+          name="payMethod"
+          defaultValue="CARD"
         />
       </CardContent>
     </Card>

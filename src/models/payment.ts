@@ -13,7 +13,7 @@ type PgProvider =
   | "NICE"
   | "KCP"
   | "DANAL"
-  | "inicis_v2";
+  | "INICIS_V2";
 export type PayStatus =
   | "PENDING"
   | "PAID"
@@ -22,7 +22,7 @@ export type PayStatus =
   | "PARTIAL_CANCELLED"
   | "REFUNDED";
 
-interface Payment extends Document {
+export interface Payment extends Document {
   // 식별자
   merchantUid: string; // PortOne의 주문번호 (우리 서버에서 생성)
   impUid?: string; // PortOne 트랜잭션 고유 ID

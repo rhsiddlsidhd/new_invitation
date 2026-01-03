@@ -19,19 +19,16 @@ export const POST = async (
 
     const token = authHeader.substring(7); // "Bearer " 제거
 
-    let payload;
-    try {
-      const result = await decrypt({ token, type: "ACCESS" });
-      payload = result.payload;
+    const result = await decrypt({ token, type: "ACCESS" });
+    const payload = result.payload;
 
-      if (!payload.id) {
-        console.error("[Payment Complete] No payload.id");
-        throw new HTTPError("유효하지 않은 토큰입니다.", 401, undefined, "/login");
-      }
-    } catch (decryptError) {
-      console.error("[Payment Complete] Decrypt failed:", decryptError);
-      throw new HTTPError("유효하지 않은 토큰입니다.", 401, undefined, "/login");
-    }
+    if (!payload.id)
+      throw new HTTPError(
+        "유효하지 않은 토큰입니다.",
+        401,
+        undefined,
+        "/login",
+      );
 
     const body = await req.json();
     const { paymentId } = body;
