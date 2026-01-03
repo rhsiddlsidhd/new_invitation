@@ -13,7 +13,6 @@ export const POST = async (
     // 인증 확인 - Authorization 헤더에서 토큰 추출
     const authHeader = req.headers.get("Authorization");
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      console.error("[Payment Complete] No auth header");
       throw new HTTPError("로그인이 필요합니다.", 401, undefined, "/login");
     }
 

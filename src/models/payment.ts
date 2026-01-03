@@ -7,13 +7,8 @@ export type PayMethod =
   | "VIRTUAL_ACCOUNT" // 가상계좌
   | "MOBILE"; // 휴대폰 소액결제
 
-type PgProvider =
-  | "KAKAOPAY"
-  | "TOSSPAYMENT"
-  | "NICE"
-  | "KCP"
-  | "DANAL"
-  | "INICIS_V2";
+// PortOne이 반환하는 PG사 식별자는 동적이므로 string으로 처리
+type PgProvider = string;
 export type PayStatus =
   | "PENDING"
   | "PAID"
@@ -96,11 +91,12 @@ const paymentSchema = new Schema<Payment>(
     // PG 결제 정보
     payMethod: {
       type: String,
-      enum: ["CARD", "TRANS", "VBANK", "PHONE", "KAKAOPAY", "NAVERPAY"],
+      enum: ["CARD", "TRANSFER", "VIRTUAL_ACCOUNT", "MOBILE"],
     },
     pgProvider: {
       type: String,
-      enum: ["KAKAOPAY", "TOSSPAYMENT", "NICE", "KCP", "DANAL"],
+      // enum 제거: PortOne이 반환하는 다양한 PG사 값을 모두 허용
+      // 예: "INICIS_V2", "INICIS", "HTML5_INICIS", "NICE_V2", "TOSSPAYMENTS" 등
     },
     pgTid: { type: String },
 
@@ -148,6 +144,5 @@ const paymentSchema = new Schema<Payment>(
   },
 );
 
-// Next.js 개발 환경에서 모델 재컴파일 방지
 export const PaymentModel =
   mongoose.models.Payment || mongoose.model<Payment>("Payment", paymentSchema);

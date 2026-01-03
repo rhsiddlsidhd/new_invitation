@@ -132,8 +132,6 @@ export function CheckoutForm() {
           },
         });
 
-        console.log("Payment result:", payment);
-
         if (payment?.code !== undefined) {
           // 결제 실패
           setPaymentStatus("FAILED");
@@ -145,10 +143,13 @@ export function CheckoutForm() {
         try {
           await completeResponse(payment);
           setPaymentStatus("PAID");
-          toast.success("결제가 완료되었습니다!");
 
-          // TODO: 결제 완료 페이지로 이동
-          // router.push(`/payment/success?orderId=${merchantUid}`);
+          // sessionStorage 정리
+          sessionStorage.removeItem("checkoutItems");
+
+          // 결제 완료 페이지로 이동
+          toast.success("결제가 완료되었습니다!");
+          router.push(`/payment/success?orderId=${merchantUid}`);
         } catch (completeError) {
           console.error("Payment verification error:", completeError);
           setPaymentStatus("FAILED");

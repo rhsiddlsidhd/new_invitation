@@ -1,8 +1,6 @@
-import { PayMethod } from "@/models/payment";
-
-export const PAY_METHOD_VALUES: PayMethod[] = [
+export const PAY_METHOD_VALUES = [
   "CARD",
   "TRANSFER",
   "VIRTUAL_ACCOUNT",
   "MOBILE",
-];
+] as const;
