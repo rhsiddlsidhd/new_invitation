@@ -14,6 +14,7 @@ export interface LabeledInputProps extends LabeledInputBase {
   placeholder?: string;
   error?: string;
   required?: boolean;
+  defaultValue?: string;
 }
 
 const LabeledInput = ({
@@ -24,8 +25,9 @@ const LabeledInput = ({
   placeholder,
   required = false,
   error,
+  defaultValue = "",
 }: LabeledInputProps) => {
-  const [info, setInfo] = useState("");
+  const [info, setInfo] = useState(defaultValue);
   return (
     <div className="space-y-2">
       <Label htmlFor={id}>{children}</Label>
