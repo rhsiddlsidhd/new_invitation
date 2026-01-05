@@ -1,17 +1,24 @@
-import AdminNavItem from "@/components/molecules/(nav)/AdminNavItem";
-
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
 } from "@/components/atoms/Sidebar";
+import { UserRole } from "@/models/user.model";
 
-export const AdminSidebar = async ({ email }: { email: string }) => {
+const SidebarLayout = async ({
+  email,
+  children,
+  role,
+}: {
+  email: string;
+  role: UserRole;
+  children: React.ReactNode;
+}) => {
   return (
     <Sidebar className="bg-card border-border fixed top-0 left-0 h-screen w-64 border-r pt-16">
       {/* Main Navigation */}
       <SidebarContent className="flex-1 overflow-y-auto">
-        <AdminNavItem />
+        {children}
       </SidebarContent>
 
       {/* Footer / User Info */}
@@ -21,10 +28,14 @@ export const AdminSidebar = async ({ email }: { email: string }) => {
             <p className="text-foreground truncate text-sm font-medium">
               {email}
             </p>
-            <p className="text-muted-foreground text-xs">관리자 계정</p>
+            <p className="text-muted-foreground text-xs">
+              {role === "ADMIN" ? "관리자" : "일반"} 계정
+            </p>
           </div>
         </div>
       </SidebarFooter>
     </Sidebar>
   );
 };
+
+export default SidebarLayout;

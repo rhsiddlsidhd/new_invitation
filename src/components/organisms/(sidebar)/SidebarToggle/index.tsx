@@ -14,7 +14,7 @@ import { Fragment, useMemo } from "react";
 
 const HIDDEN_SEGMENTS = new Set(["admin"]);
 
-const SidebarHeader = () => {
+const SidebarToggle = () => {
   const pathName = usePathname();
 
   const breadcrumbs = useMemo(() => {
@@ -23,7 +23,6 @@ const SidebarHeader = () => {
     const visible = segments.filter((seg) => !HIDDEN_SEGMENTS.has(seg));
 
     return [
-      { label: "HOME", href: "/" },
       ...visible.map((seg) => ({
         label: seg.toUpperCase(),
         href: "/" + segments.slice(0, segments.indexOf(seg) + 1).join("/"),
@@ -52,4 +51,4 @@ const SidebarHeader = () => {
   );
 };
 
-export default SidebarHeader;
+export default SidebarToggle;

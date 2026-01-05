@@ -46,9 +46,12 @@ const AuthButton = () => {
                     </NavigationMenuLink>
                   )}
                   <NavigationMenuLink asChild>
-                    <Link href="#">마이 페이지</Link>
+                    <Link href="/profile">마이 프로필</Link>
                   </NavigationMenuLink>
 
+                  <NavigationMenuLink asChild>
+                    <Link href="/order">마이 주문</Link>
+                  </NavigationMenuLink>
                   <NavigationMenuLink asChild onClick={handleSignOut}>
                     <Link href="#">로그아웃</Link>
                   </NavigationMenuLink>
