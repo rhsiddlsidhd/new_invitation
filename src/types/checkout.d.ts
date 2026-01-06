@@ -1,23 +1,19 @@
 // src/types/checkout.d.ts
 
-// export interface SelectedOption {
-//   _id: string; // Feature ID
-//   code: string;
-//   label: string;
-//   price: number;
-// }
-
-export type SelectedOption = Omit<OrderFeatureSnapshot, "featureId"> & {
-  featureId: string;
-};
+import { SelectFeatureDto } from "@/schemas/order.schema";
 
 export interface CheckoutProductData {
   _id: string; // Product ID
   title: string;
-  originalPrice: number; // Base price of the product
-  thumbnail: string; // Thumbnail image URL
-  selectedOptionPrice: number; // Sum of prices of all selected options
-  selectedOptions: SelectedOption[]; // Details of selected options
-  quantity: number; // Quantity selected by user
-  totalPrice: number; // calculated total price for this item = (originalPrice + selectedOptionPrice) * quantity
+  // 원가
+  originalPrice: number;
+  //할인가
+  discountedPrice: number;
+  // 옵션을 포함한 최종 가격
+  productTotalPrice: number; // 최종 가격
+  discount: { type: string; value: number };
+  thumbnail: string;
+  selectedFeatures: SelectFeatureDto[]; // 선택된 기능들
+  // selectedFeaturesPrice: number;
+  quantity: number; // 상품 가격
 }

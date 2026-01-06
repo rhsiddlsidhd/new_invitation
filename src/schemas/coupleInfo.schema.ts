@@ -33,3 +33,5 @@ export const coupleInfoSchema = z.object({
   thumbnailImages: z.array(z.string().url("유효한 URL이어야 합니다.")),
   galleryImages: z.array(GalleryImageGroupSchema),
 });
+
+export type CoupleInfoSchemaDto = z.infer<typeof coupleInfoSchema>;

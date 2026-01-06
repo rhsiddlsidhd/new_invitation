@@ -1,46 +1,52 @@
-import mongoose, { Schema, Document, Model, Types } from "mongoose";
+import mongoose, { Schema, Model, Types } from "mongoose";
 
-// 개인 기본 정보 (이름, 연락처)
+// 공통 변환 함수 (중첩된 객체 내의 ObjectId를 찾아 string으로 변환)
+const transformIds = (obj: any) => {
+  if (!obj || typeof obj !== "object") return;
+  for (const key in obj) {
+    if (obj[key] instanceof mongoose.Types.ObjectId) {
+      obj[key] = obj[key].toString();
+    } else if (typeof obj[key] === "object") {
+      transformIds(obj[key]);
+    }
+  }
+};
+// 공통 타입 정의
 interface Person {
   name: string;
   phone: string;
 }
 
-// 부모님 정보 (이름, 연락처, 계좌번호)
 interface Parent extends Person {
   bankName?: string;
   accountNumber?: string;
 }
 
-// 신랑 또는 신부 측 정보
-interface CoupleSide {
-  name: string;
-  phone: string;
+interface CoupleSide extends Person {
   bankName?: string;
   accountNumber?: string;
   father?: Parent;
   mother?: Parent;
 }
 
-// 카테고리별 갤러리 이미지 그룹
 interface GalleryImageGroup {
   category: string;
   urls: string[];
 }
 
-// 최종 CoupleInfo 문서 인터페이스
-export interface CoupleInfoDocument extends Document {
-  user: Types.ObjectId; // 청첩장 소유자 (User 모델 참조)
-  groom: CoupleSide; // 신랑 정보
-  bride: CoupleSide; // 신부 정보
-  weddingDate: Date; // 결혼식 날짜 및 시간
-  venue: string; // 결혼식 장소
-  address: string; // 결혼식 상세 주소
-  message: string; // 초대 문구
-  subwayStation?: string; // 인근 지하철역
-  guestbookEnabled: boolean; // 방명록 기능 활성화 여부
-  thumbnailImages: string[]; // 메인 썸네일 이미지 목록
-  galleryImages: GalleryImageGroup[]; // 카테고리별 갤러리 이미지 목록
+export interface ICoupleInfo {
+  _id: string | Types.ObjectId;
+  userId: string | Types.ObjectId;
+  groom: CoupleSide;
+  bride: CoupleSide;
+  weddingDate: Date;
+  venue: string;
+  address: string;
+  message: string;
+  subwayStation?: string;
+  guestbookEnabled: boolean;
+  thumbnailImages: string[];
+  galleryImages: GalleryImageGroup[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -75,13 +81,12 @@ const GalleryImageGroupSchema = new Schema<GalleryImageGroup>(
   { _id: false },
 );
 
-const coupleInfoSchema = new Schema<CoupleInfoDocument>(
+const coupleInfoSchema = new Schema<ICoupleInfo>(
   {
-    user: {
+    userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      unique: true, // 한 명의 유저는 하나의 커플 정보만 가질 수 있도록 설정
     },
     groom: {
       type: CoupleSideSchema,
@@ -94,7 +99,7 @@ const coupleInfoSchema = new Schema<CoupleInfoDocument>(
     weddingDate: { type: Date, required: true },
     venue: { type: String, required: true },
     address: { type: String, required: true },
-    message: { type: String, required: true, default: "저희 결혼합니다." },
+    message: { type: String, default: "저희 결혼합니다." },
     subwayStation: { type: String },
     guestbookEnabled: { type: Boolean, default: false },
     thumbnailImages: {
@@ -108,9 +113,18 @@ const coupleInfoSchema = new Schema<CoupleInfoDocument>(
   },
   {
     timestamps: true,
+    toJSON: {
+      virtuals: true,
+      versionKey: false,
+      transform: (doc, ret: Record<string, any>) => {
+        // 모든 깊이의 ObjectId를 찾아 string으로 변환 (재귀 방식)
+        transformIds(ret);
+        return ret;
+      },
+    },
   },
 );
 
-export const CoupleInfoModel: Model<CoupleInfoDocument> =
+export const CoupleInfoModel: Model<ICoupleInfo> =
   mongoose.models.CoupleInfo ||
-  mongoose.model<CoupleInfoDocument>("CoupleInfo", coupleInfoSchema);
+  mongoose.model<ICoupleInfo>("CoupleInfo", coupleInfoSchema);

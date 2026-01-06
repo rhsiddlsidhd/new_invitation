@@ -69,7 +69,7 @@ export function CoupleInfoForm() {
   };
 
   useEffect(() => {
-    if (state && state.success) router.push("/payment");
+    if (state && state.success) router.push(`/payment?q=${state.data._id}`);
   }, [state, router]);
 
   return (

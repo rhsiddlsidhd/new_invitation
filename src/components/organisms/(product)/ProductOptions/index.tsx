@@ -1,11 +1,11 @@
 "use client";
 import { Badge } from "@/components/atoms/Badge/Badge";
 import StatusSelect from "@/components/molecules/StatusSelect";
+import { SelectFeatureDto } from "@/schemas/order.schema";
 import { PremiumFeature } from "@/services/premiumFeature.service";
-import { SelectedOption } from "@/types/checkout";
 import { formatPriceWithComma } from "@/utils/price";
 import { X } from "lucide-react";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 
 const ProductOptions = ({
   options,
@@ -18,8 +18,6 @@ const ProductOptions = ({
   setSelectedOptionIds: React.Dispatch<React.SetStateAction<string[]>>;
   selectedOptionIds: string[];
 }) => {
-  //   const [selectedOptionIds, setSelectedOptionIds] = useState<string[]>([]);
-
   const handleSelectOption = useCallback(
     (value: string) => {
       if (selectedOptionIds.includes(value)) {
@@ -48,7 +46,7 @@ const ProductOptions = ({
     [setSelectedOptionIds],
   );
 
-  const selectedOptionsDetails: SelectedOption[] = useMemo(() => {
+  const selectedOptionsDetails: SelectFeatureDto[] = useMemo(() => {
     return selectedOptionIds.map((id) => {
       const selectedOpt = options.find((opt) => opt._id.toString() === id);
       if (!selectedOpt) {

@@ -1,4 +1,4 @@
-export const PAY_METHOD_VALUES = [
+export const PAY_METHOD = [
   "CARD",
   "TRANSFER",
   "VIRTUAL_ACCOUNT",

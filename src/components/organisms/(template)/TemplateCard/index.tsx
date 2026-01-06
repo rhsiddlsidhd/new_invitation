@@ -5,6 +5,7 @@ import { Badge } from "@/components/atoms/Badge/Badge";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import { Product } from "@/services/product.service";
 import Thumbnail from "@/components/atoms/Thumbnail";
+import { calculatePrice } from "@/utils/price";
 
 type Category = "modern" | "minimal" | "vintage" | "classic" | "romantic";
 
@@ -17,6 +18,7 @@ const productCategoryLabel: Record<Category, string> = {
 };
 
 export function TemplateCard({ template }: { template: Product }) {
+  console.log({ template });
   return (
     <Card className="group border-border overflow-hidden transition-all duration-300 hover:shadow-lg">
       <CardContent className="p-0">
@@ -60,9 +62,45 @@ export function TemplateCard({ template }: { template: Product }) {
               {productCategoryLabel[template.category as Category]}
             </Badge>
           </div>
-          <p className="text-primary text-lg font-bold">
-            {template.price.toLocaleString()}원
-          </p>
+          {/* <p className="text-primary text-lg font-bold">
+            {calculatePrice(template.price, template.discount).toLocaleString()}
+            원
+          </p> */}{" "}
+          <div>
+            {template.discount && template.discount.value > 0 ? (
+              <>
+                {/* 할인이 있을 때: 할인율/금액 + 원가(취소선) */}
+                <div className="flex items-baseline gap-2">
+                  <span className="text-primary text-sm font-bold">
+                    {template.discount.type === "rate"
+                      ? `${Math.round(template.discount.value * 100)}%`
+                      : `${template.discount.value.toLocaleString()}원 할인`}
+                  </span>
+                  <span className="text-muted-foreground/40 text-sm line-through">
+                    {template.price.toLocaleString()}원
+                  </span>
+                </div>
+
+                {/* 최종 계산된 가격 */}
+                <div className="text-destructive text-lg font-bold">
+                  {calculatePrice(
+                    template.price,
+                    template.discount,
+                  ).toLocaleString()}
+                  원
+                  <span className="ml-1 text-sm font-normal">할인 적용가</span>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* 할인이 없을 때: 깔끔하게 본 가격만 표시 */}
+                <div className="text-primary text-lg font-bold">
+                  {template.price.toLocaleString()}원
+                  <input type="hidden" defaultValue={template.price} />
+                </div>
+              </>
+            )}
+          </div>
         </div>
 
         <div className="flex w-full gap-2">

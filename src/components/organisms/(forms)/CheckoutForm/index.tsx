@@ -3,8 +3,7 @@
 import type React from "react";
 import PortOne, { PaymentResponse } from "@portone/browser-sdk/v2";
 import { startTransition, useActionState, useEffect, useState } from "react";
-import { PayStatus, PayMethod } from "@/models/payment";
-import { z } from "zod";
+import { PayStatus } from "@/models/payment";
 
 import { Save } from "lucide-react";
 
@@ -25,29 +24,15 @@ import { CheckoutProductData } from "@/types/checkout";
 import { validateAndFlatten } from "@/lib/validation";
 import { createOrderAction } from "@/actions/createOrderAction";
 import { useRouter } from "next/navigation";
-
-import { PAY_METHOD_VALUES } from "@/contants/payment";
 import { fetcher } from "@/api/fetcher";
 import Spinner from "@/components/atoms/Spinner/Spinner";
+import { BuyerInfo, BuyerInfoSchema } from "@/schemas/order.schema";
 
 const storeId = process.env.NEXT_PUBLIC_POST_ONE_STORE_ID;
 
 const channelKey = process.env.NEXT_PUBLIC_POST_ONE_CHANNELKEY;
 
-const BuyerInfoSchema = z.object({
-  buyerName: z.string().min(2, { message: "이름은 2자 이상 입력해주세요." }),
-  buyerEmail: z.string().email({ message: "유효한 이메일을 입력해주세요." }),
-  buyerPhone: z.string().regex(/^\d{3}-\d{3,4}-\d{4}$/, {
-    message: "연락처 형식이 올바르지 않습니다. (예: 010-1234-5678)",
-  }),
-  payMethod: z.enum(PAY_METHOD_VALUES, {
-    message: "결제 수단을 선택해주세요.",
-  }),
-});
-
-type BuyerInfo = z.infer<typeof BuyerInfoSchema>;
-
-export function CheckoutForm() {
+export function CheckoutForm({ query }: { query: string }) {
   const router = useRouter();
   const [state, action, pending] = useActionState(createOrderAction, null);
   const [agreed, setAgreed] = useState(false);
@@ -165,11 +150,12 @@ export function CheckoutForm() {
     if (state && state.success) {
       handlePortOne();
     }
-  }, [state]);
+  }, [state, router]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({}); // 이전 에러 초기화
+    console.log("클릭");
 
     const formData = new FormData(e.currentTarget as HTMLFormElement);
 
@@ -180,6 +166,7 @@ export function CheckoutForm() {
       return;
     }
     const item = JSON.parse(store) as CheckoutProductData;
+    console.log(item);
 
     // 폼 데이터 유효성 검사
     const BuyerData = {
@@ -195,11 +182,23 @@ export function CheckoutForm() {
       return;
     }
 
-    const { _id, selectedOptions, totalPrice, originalPrice } = item;
+    const {
+      _id,
+      originalPrice,
+      discountedPrice,
+      quantity,
+      selectedFeatures,
+      thumbnail,
+      title,
+    } = item;
     formData.append("productId", _id);
-    formData.append("finalPrice", String(totalPrice));
+    formData.append("productTitle", title);
+    formData.append("productThumbnail", thumbnail);
+    formData.append("productQuantity", String(quantity));
     formData.append("originalPrice", String(originalPrice));
-    formData.append("selectedOptions", JSON.stringify(selectedOptions ?? []));
+    formData.append("discountedPrice", String(discountedPrice));
+    formData.append("selectedFeatures", JSON.stringify(selectedFeatures ?? []));
+    formData.append("coupleInfoId", query);
 
     toast.info("데이터가 준비되었습니다. 다음 단계에서 서버로 전송됩니다.");
 

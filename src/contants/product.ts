@@ -1,1 +1,1 @@
-export const salePercent = 0.3;
+// export const salePercent = 0.3;

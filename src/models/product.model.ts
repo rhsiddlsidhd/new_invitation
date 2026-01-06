@@ -59,7 +59,28 @@ const productSchema = new Schema<ProductDocument>(
     salesCount: { type: Number, default: 0 },
     discount: {
       type: { type: String, enum: ["rate", "amount"], default: "rate" },
-      value: { type: Number, default: 0 },
+      value: {
+        type: Number,
+        default: 0,
+        validator: function (v) {
+          // rate일 경우: 0 이상 1 이하
+          if (this.discount.type === "rate") {
+            return v >= 0 && v <= 1;
+          }
+          // amount일 경우: 0 이상이면서 1000 단위 (1000으로 나눈 나머지가 0)
+          if (this.discount.type === "amount") {
+            return v >= 0 && v % 1000 === 0;
+          }
+          return true;
+        },
+        message: (props) => {
+          if (props.instance.discount.type === "rate") {
+            return `rate일 때 할인율은 0에서 1 사이여야 합니다. (입력값: ${props.value})`;
+          } else {
+            return `amount일 때 할인액은 1000원 단위여야 합니다. (입력값: ${props.value})`;
+          }
+        },
+      },
     },
 
     isPremium: { type: Boolean, required: true },

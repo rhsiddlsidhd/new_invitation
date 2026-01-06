@@ -6,13 +6,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/Card/Card";
-
-import { SelectedOption } from "@/types/checkout"; // Import CheckoutProductData
 import { formatPriceWithComma } from "@/utils/price";
 import Thumbnail from "@/components/atoms/Thumbnail";
 import { DELIVERY_FEE } from "@/contants/price";
 
 import { useCheckoutData } from "@/hooks/useCheckoutData";
+import { SelectFeatureDto } from "@/schemas/order.schema";
+import { useEffect } from "react";
 
 export const OrderSummary = () => {
   const { data, loading, error } = useCheckoutData();
@@ -38,13 +38,28 @@ export const OrderSummary = () => {
   const order = {
     _id: data._id,
     title: data.title,
+    discountedPrice: data.discountedPrice,
     originalPrice: data.originalPrice,
     thumbnail: data.thumbnail,
-    totalPrice: data.totalPrice,
-    selectedOptionPrice: data.selectedOptionPrice,
-    selectedOptions: data.selectedOptions,
+    totalPrice: data.productTotalPrice,
+    discount: data.discount,
+    selectedOptions: data.selectedFeatures,
     quantity: data.quantity,
   };
+
+  // Calculate selected options total price
+  const selectedOptionsTotal =
+    order.selectedOptions?.reduce(
+      (sum: number, option: SelectFeatureDto) => sum + option.price,
+      0,
+    ) || 0;
+
+  // Calculate discount amount for display
+  const discountAmount = order.discount
+    ? order.discount.type === "rate"
+      ? order.originalPrice * order.discount.value
+      : order.discount.value
+    : 0;
 
   const total = order.totalPrice + DELIVERY_FEE;
   return (
@@ -65,7 +80,7 @@ export const OrderSummary = () => {
               </h3>
               <p className="text-muted-foreground text-sm">청첩장 템플릿</p>
               <p className="text-foreground mt-2 text-sm font-semibold">
-                {formatPriceWithComma(order.originalPrice)}원
+                {formatPriceWithComma(order.discountedPrice)}원
               </p>
             </div>
           </div>
@@ -74,7 +89,7 @@ export const OrderSummary = () => {
           {order.selectedOptions && order.selectedOptions.length > 0 && (
             <div className="space-y-1">
               <p className="text-sm font-medium">선택 옵션:</p>
-              {order.selectedOptions.map((option: SelectedOption) => (
+              {order.selectedOptions.map((option: SelectFeatureDto) => (
                 <div
                   key={option.featureId}
                   className="flex justify-between text-xs"
@@ -90,7 +105,7 @@ export const OrderSummary = () => {
               <div className="mt-2 flex justify-between text-sm">
                 <span className="text-muted-foreground">옵션 총액</span>
                 <span className="text-foreground">
-                  +{formatPriceWithComma(order.selectedOptionPrice)}원
+                  +{formatPriceWithComma(selectedOptionsTotal)}원
                 </span>
               </div>
             </div>
@@ -105,19 +120,36 @@ export const OrderSummary = () => {
           {/* Price Breakdown */}
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">상품 기본 금액</span>
+              <span className="text-muted-foreground">상품 원가</span>
               <span className="text-foreground">
                 {formatPriceWithComma(order.originalPrice)}원
               </span>
             </div>
-            {order.selectedOptionPrice > 0 && (
+
+            {/* Discount */}
+            {order.discount && discountAmount > 0 && (
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">옵션 금액</span>
-                <span className="text-foreground">
-                  +{formatPriceWithComma(order.selectedOptionPrice)}원
+                <span className="text-muted-foreground">
+                  할인{" "}
+                  {order.discount.type === "rate" &&
+                    `(${Math.round(order.discount.value * 100)}%)`}
+                </span>
+                <span className="text-red-500">
+                  -{formatPriceWithComma(discountAmount)}원
                 </span>
               </div>
             )}
+
+            {/* Discounted Price */}
+            {order.discount && discountAmount > 0 && (
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">할인 적용가</span>
+                <span className="text-foreground font-medium">
+                  {formatPriceWithComma(order.discountedPrice)}원
+                </span>
+              </div>
+            )}
+
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">배송비</span>
               <span className="text-foreground">
@@ -132,7 +164,7 @@ export const OrderSummary = () => {
               총 결제금액
             </span>
             <span className="text-primary text-2xl font-bold">
-              {formatPriceWithComma(total)}원{" "}
+              {formatPriceWithComma(total)}원
               {/* Display the final calculated price */}
             </span>
           </div>

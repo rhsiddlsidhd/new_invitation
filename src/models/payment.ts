@@ -1,11 +1,9 @@
+import { PAY_METHOD } from "@/contants/payment";
 import mongoose, { Document, Schema } from "mongoose";
 
 // --- Enums --- TRANS 실시간 계좌이체 VBANK 가상 계좌
-export type PayMethod =
-  | "CARD" // 카드
-  | "TRANSFER" // 계좌이체
-  | "VIRTUAL_ACCOUNT" // 가상계좌
-  | "MOBILE"; // 휴대폰 소액결제
+
+export type PayMethod = (typeof PAY_METHOD)[number]; // 카드 , 계좌이체, 가상계좌, 휴대폰 소액결제
 
 // PortOne이 반환하는 PG사 식별자는 동적이므로 string으로 처리
 type PgProvider = string;

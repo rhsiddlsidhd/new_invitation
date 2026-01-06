@@ -14,7 +14,7 @@ export default async function TemplateDetailPage({
 
   if (!product) throw new Error("Product not found");
   const options = await getPremiumFeatureService(product.options);
-
+  console.log({ product });
   return (
     <main className="bg-background min-h-screen">
       <div className="container mx-auto px-4 pt-24 pb-16">
@@ -31,11 +31,3 @@ export default async function TemplateDetailPage({
     </main>
   );
 }
-/**
- *
- *
- *
- *
- *
- *
- */

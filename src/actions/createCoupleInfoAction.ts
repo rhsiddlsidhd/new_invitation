@@ -12,7 +12,7 @@ import { createCoupleInfoService } from "@/services/coupleInfo.service";
 export const createCoupleInfoAction = async (
   prev: unknown,
   formData: FormData,
-): Promise<APIResponse<{ message: string }>> => {
+): Promise<APIResponse<{ message: string; _id: string }>> => {
   try {
     const cookie = await getCookie("token");
 
@@ -23,19 +23,6 @@ export const createCoupleInfoAction = async (
     const { payload } = await decrypt({ token: cookie.value, type: "REFRESH" });
 
     if (!payload.id) throw new HTTPError("유효하지 않은 토큰입니다.", 401);
-
-    // const headersList = await headers();
-    //   const authHeader = headersList.get("Authorization");
-
-    //   if (!authHeader?.startsWith("Bearer ")) {
-    //     throw new HTTPError("접근 권한이 없습니다. 로그인 후 이용해주세요.", 401);
-    //   }
-
-    //   const accessToken = authHeader.substring(7);
-
-    //   const { payload } = await decrypt({ token: accessToken, type: "ACCESS" });
-
-    //   if (!payload.id) throw new HTTPError("유효하지 않은 토큰입니다.", 401);
 
     const thumbnailRaw = formData.get("thumbnailSource") as string;
     const galleryRaw = formData.get("gallerySource") as string;
@@ -95,21 +82,23 @@ export const createCoupleInfoAction = async (
     const parsed = validateAndFlatten(coupleInfoSchema, data);
 
     if (!parsed.success) {
+      console.log("????????", parsed.error);
       throw new HTTPError("입력값을 확인해주세요", 400, parsed.error);
     }
 
-    const weddingDateTime = new Date(
-      `${parsed.data.weddingDate}T${parsed.data.weddingTime}`,
-    );
-    console.log(parsed.data);
+    // const weddingDateTime = new Date(
+    //   `${parsed.data.weddingDate}T${parsed.data.weddingTime}`,
+    // );
+
     const coupleInfo = await createCoupleInfoService({
       userId: payload.id,
       groom: parsed.data.groom,
       bride: parsed.data.bride,
-      weddingDate: weddingDateTime,
+      weddingDate: parsed.data.weddingDate,
+      weddingTime: parsed.data.weddingTime,
       venue: parsed.data.venue,
       address: parsed.data.address,
-      message: undefined, // Default empty message - can be updated later
+      message: "", // Default empty message - can be updated later
       subwayStation: parsed.data.subwayStation,
       guestbookEnabled: parsed.data.guestbookEnabled,
       thumbnailImages: parsed.data.thumbnailImages,
@@ -121,6 +110,7 @@ export const createCoupleInfoAction = async (
 
     return success({
       message: "커플 정보가 성공적으로 등록되었습니다.",
+      _id: coupleInfo._id.toString(),
     });
   } catch (e) {
     return handleActionError(e);

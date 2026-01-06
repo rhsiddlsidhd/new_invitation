@@ -8,14 +8,14 @@ import { Product } from "@/services/product.service";
 import Thumbnail from "@/components/atoms/Thumbnail";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { categoryLabels, isProductCategory } from "@/utils/category";
-import { salePercent } from "@/contants/product";
-import { Input } from "@/components/atoms/Input/Input";
-import { basePriceAfterDiscount, formatPriceWithComma } from "@/utils/price";
+
+import { calculatePrice } from "@/utils/price";
 import { PremiumFeature } from "@/services/premiumFeature.service";
 import ProductLikeButton from "@/components/molecules/(button)/ProductLikeButton";
-import { CheckoutProductData, SelectedOption } from "@/types/checkout.d";
+import { CheckoutProductData } from "@/types/checkout.d";
 import ProductOptions from "../../(product)/ProductOptions";
 import { useRouter } from "next/navigation";
+import { SelectFeatureDto } from "@/schemas/order.schema";
 
 export function TemplateSummary({
   product,
@@ -27,18 +27,17 @@ export function TemplateSummary({
   const [selectedOptionIds, setSelectedOptionIds] = useState<string[]>([]);
   const isMobile = useIsMobile();
   const router = useRouter();
-  const discountedPrice = useMemo(
-    () => basePriceAfterDiscount(product.price),
-    [product.price],
-  );
+  const discountedPrice = useMemo(() => {
+    return calculatePrice(product.price, product.discount);
+  }, [product.price, product.discount]);
 
-  const selectedOptionsDetails: SelectedOption[] = useMemo(() => {
+  const selectedFeatures: SelectFeatureDto[] = useMemo(() => {
     return selectedOptionIds.map((id) => {
       const selectedOpt = options.find((opt) => opt._id.toString() === id);
       if (!selectedOpt) {
         throw new Error(`Selected option with ID ${id} not found.`);
       }
-      console.log("detail");
+
       return {
         featureId: selectedOpt._id.toString(),
         code: selectedOpt.code,
@@ -48,25 +47,33 @@ export function TemplateSummary({
     });
   }, [selectedOptionIds, options]);
 
-  const selectedOptionPrice = useMemo(() => {
-    return selectedOptionsDetails.reduce((sum, opt) => sum + opt.price, 0);
-  }, [selectedOptionsDetails]);
+  const selectedFeaturesPrice = useMemo(() => {
+    return selectedFeatures.reduce((sum, opt) => sum + opt.price, 0);
+  }, [selectedFeatures]);
 
-  const totalPrice = useMemo(() => {
-    return discountedPrice + selectedOptionPrice;
-  }, [discountedPrice, selectedOptionPrice]);
+  const finalProductPrice = useMemo(() => {
+    return discountedPrice + selectedFeaturesPrice;
+  }, [discountedPrice, selectedFeaturesPrice]);
 
   const handlePurchase = useCallback(() => {
-    const quantity = 1; // Default quantity for now
+    const quantity = 1;
+    /**
+     * sessionStoarge 전달해야 하는 값
+     * originalPrice 원가
+     * discountedPrice 할인가
+     */
     const checkoutData: CheckoutProductData = {
       _id: product._id.toString(),
       title: product.title,
-      originalPrice: discountedPrice, // Base price after product discount
+      // 상품 원가
+      originalPrice: product.price,
+      // 상품 할인가
+      discountedPrice,
+      discount: { type: product.discount.type, value: product.discount.value },
       thumbnail: product.thumbnail,
-      selectedOptionPrice: selectedOptionPrice,
-      selectedOptions: selectedOptionsDetails,
+      selectedFeatures,
       quantity: quantity,
-      totalPrice: totalPrice * quantity, // Total price for this item including quantity
+      productTotalPrice: finalProductPrice * quantity,
     };
 
     try {
@@ -77,13 +84,14 @@ export function TemplateSummary({
       alert("상품 정보를 저장하는 데 실패했습니다. 다시 시도해 주세요.");
     }
   }, [
+    product.price,
     product._id,
     product.title,
     product.thumbnail,
+    product.discount,
     discountedPrice,
-    selectedOptionPrice,
-    selectedOptionsDetails,
-    totalPrice,
+    selectedFeatures,
+    finalProductPrice,
     router,
   ]);
 
@@ -128,17 +136,36 @@ export function TemplateSummary({
 
           {/* Price */}
           <div className="border-border border-y py-6">
-            <div className="flex items-baseline gap-2">
-              <span className="text-sm">{salePercent * 100}%</span>
-              <span className="text-muted-foreground/40 text-sm line-through">
-                {formatPriceWithComma(product.price)}원
-              </span>
-            </div>
-            <div className="text-destructive text-lg font-bold">
-              {formatPriceWithComma(discountedPrice)}원{" "}
-              <span className="text-sm font-normal">할인</span>
-              <Input className="hidden" defaultValue={discountedPrice} />
-            </div>
+            {product.discount && product.discount.value > 0 ? (
+              <>
+                {/* 할인이 있을 때: 할인율/금액 + 원가(취소선) */}
+                <div className="flex items-baseline gap-2">
+                  <span className="text-primary text-sm font-bold">
+                    {product.discount.type === "rate"
+                      ? `${Math.round(product.discount.value * 100)}%`
+                      : `${product.discount.value.toLocaleString()}원 할인`}
+                  </span>
+                  <span className="text-muted-foreground/40 text-sm line-through">
+                    {product.price.toLocaleString()}원
+                  </span>
+                </div>
+
+                {/* 최종 계산된 가격 */}
+                <div className="text-destructive text-lg font-bold">
+                  {discountedPrice.toLocaleString()}원
+                  <span className="ml-1 text-sm font-normal">할인 적용가</span>
+                  <input type="hidden" defaultValue={discountedPrice} />
+                </div>
+              </>
+            ) : (
+              <>
+                {/* 할인이 없을 때: 깔끔하게 본 가격만 표시 */}
+                <div className="text-primary text-lg font-bold">
+                  {product.price.toLocaleString()}원
+                  <input type="hidden" defaultValue={product.price} />
+                </div>
+              </>
+            )}
           </div>
 
           {/* Options */}
@@ -148,8 +175,6 @@ export function TemplateSummary({
             setSelectedOptionIds={setSelectedOptionIds}
             selectedOptionIds={selectedOptionIds}
           />
-
-          {/* Total Price */}
 
           {/* Action Buttons */}
           <div className="grid grid-cols-2 gap-2 max-sm:grid-cols-1">
