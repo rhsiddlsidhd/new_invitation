@@ -48,14 +48,16 @@ export async function refreshAccessToken(): Promise<string> {
 
 export async function fetcher<T>(
   url: string,
+  config: { auth: boolean } = { auth: false },
   options?: RequestInit,
-  config: { auth?: boolean } = { auth: false },
 ): Promise<T> {
   try {
     const token = useAuthTokenStore.getState().token;
+    const { auth = false } = config || {}; // config가 undefined일 경우를 대비하여 기본값 처리
 
     const headers = new Headers(options?.headers);
-    if (config.auth && token) {
+    if (auth && token) {
+      // 변경된 auth 변수 사용
       headers.set("Authorization", `Bearer ${token}`);
     }
 

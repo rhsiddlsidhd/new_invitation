@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/atoms/Select";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LabeledInputBase } from "./LabeledInput";
 type LabeledSelect = LabeledInputBase & { placeholder: string; data: string[] };
 
@@ -15,9 +15,14 @@ const LabeledSelect = ({
   name,
   children,
   placeholder,
+  defaultValue,
   data,
 }: LabeledSelect) => {
   const [info, setInfo] = useState<string>("");
+  useEffect(() => {
+    console.log(defaultValue);
+    if (defaultValue) setInfo(defaultValue);
+  }, [defaultValue]);
   return (
     <div className="space-y-2">
       <Label htmlFor={id}>{children}</Label>
