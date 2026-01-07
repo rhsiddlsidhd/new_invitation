@@ -1,5 +1,4 @@
 import { apiError, APIRouteResponse, apiSuccess } from "@/api/response";
-import { NextResponse } from "next/server";
 
 /**
  * data

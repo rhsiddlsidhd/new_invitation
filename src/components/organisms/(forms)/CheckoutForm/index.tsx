@@ -52,6 +52,7 @@ export function CheckoutForm({ query }: { query: string }) {
     try {
       const data = await fetcher<{ status: PayStatus }>(
         "/api/payment/complete",
+        { auth: true },
         {
           method: "POST",
           headers: {
@@ -61,7 +62,6 @@ export function CheckoutForm({ query }: { query: string }) {
             paymentId: payment.paymentId,
           }),
         },
-        { auth: true },
       );
 
       setPaymentStatus(data.status);

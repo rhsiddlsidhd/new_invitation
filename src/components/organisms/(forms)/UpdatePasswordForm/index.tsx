@@ -13,7 +13,7 @@ import React, { useActionState, useEffect } from "react";
 
 const deleteCookieToUserEmail = async () => {
   try {
-    await fetcher<void>("/api/auth/cookie", { method: "DELETE" });
+    await fetcher<void>("/api/auth/cookie", undefined, { method: "DELETE" });
   } catch (error) {
     console.debug("Cookie deletion failed during cleanup:", error);
     return null;

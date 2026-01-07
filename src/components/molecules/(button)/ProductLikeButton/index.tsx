@@ -32,12 +32,11 @@ const ProductLikeButton = ({
     try {
       await fetcher(
         `/api/products/${productId}/like`,
+        { auth: true },
         {
           method: "POST",
         },
-        { auth: true },
       );
-
       startTransition(() => {
         router.refresh();
       });

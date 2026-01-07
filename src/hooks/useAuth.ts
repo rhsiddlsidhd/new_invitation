@@ -20,7 +20,7 @@ const useAuth = () => {
       try {
         // fetcher를 사용해서 인증 검증
         // access token이 없으면 401 발생 -> fetcher 내부에서 자동으로 refresh
-        await fetcher("/api/auth/verify", { method: "POST" }, { auth: true });
+        await fetcher("/api/auth/verify", { auth: true }, { method: "POST" });
       } catch (e) {
         // refresh 실패 시 (로그인 필요)
         handleClientError(e);
