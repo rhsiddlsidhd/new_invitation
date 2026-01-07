@@ -1,4 +1,5 @@
 import { HTTPError } from "@/api/type";
+import { CoupleInfoForm } from "@/components/organisms/(forms)/CoupleInfoForm";
 import { EditCoupleInfoForm } from "@/components/organisms/(forms)/EditCoupleInfoForm";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
@@ -33,8 +34,8 @@ const Page = async ({
   if (coupleInfo.userId.toString() !== payload.id) {
     throw new HTTPError("접근 권한이 없습니다.", 403);
   }
-  // <EditCoupleInfoForm initialData={coupleInfo} />
-  return <div>수정페이지</div>;
+  console.log(coupleInfo);
+  return <CoupleInfoForm />;
 };
 
 export default Page;

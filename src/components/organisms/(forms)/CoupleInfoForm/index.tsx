@@ -1,8 +1,5 @@
 "use client";
 
-import { Btn } from "@/components/atoms/Btn/Btn";
-
-import { Save } from "lucide-react";
 import { BasicInfoSection } from "./basic-info-section";
 import { CoupleInfoSection } from "./couple-info-section";
 import { ParentsInfoSection } from "./parents-info-section";
@@ -12,9 +9,12 @@ import { createCoupleInfoAction } from "@/actions/createCoupleInfoAction";
 import { uploadGalleryImages, uploadMainThumbnail } from "@/lib/cloudinary";
 import { useRouter } from "next/navigation";
 
+import BottomActionBar from "../../BottomActionBar";
+
 export function CoupleInfoForm() {
   const router = useRouter();
-  const [state, action, pending] = useActionState(createCoupleInfoAction, null);
+
+  const [state, action] = useActionState(createCoupleInfoAction, null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -87,16 +87,9 @@ export function CoupleInfoForm() {
       <ImagesSection />
 
       {/* Sticky Bottom Actions */}
-      <div className="bg-background/95 border-border fixed right-0 bottom-0 left-0 z-50 border-t backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="mx-auto flex max-w-5xl gap-4">
-            <Btn type="submit" size="lg" className="flex-1">
-              <Save className="mr-2 h-5 w-5" />
-              저장{pending ? "중" : "하기"}
-            </Btn>
-          </div>
-        </div>
-      </div>
+      {/* <div className="bg-background/95 border-border fixed right-0 bottom-0 left-0 z-50 border-t backdrop-blur-sm"> */}
+
+      <BottomActionBar />
     </form>
   );
 }

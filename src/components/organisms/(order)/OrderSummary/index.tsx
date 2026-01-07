@@ -12,7 +12,6 @@ import { DELIVERY_FEE } from "@/contants/price";
 
 import { useCheckoutData } from "@/hooks/useCheckoutData";
 import { SelectFeatureDto } from "@/schemas/order.schema";
-import { useEffect } from "react";
 
 export const OrderSummary = () => {
   const { data, loading, error } = useCheckoutData();

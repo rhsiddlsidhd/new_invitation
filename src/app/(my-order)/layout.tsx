@@ -23,7 +23,8 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
           <SidebarNavItem type="MY_ORDER" />
         </SidebarLayout>
         <main className="flex-1">
-          <div className="container mx-auto p-4">
+          {/* <div className="container mx-auto p-4 "> */}
+          <div className="container mx-auto px-4 pt-4 pb-20">
             <SidebarToggle />
             <div className="pt-4">{children}</div>
           </div>
