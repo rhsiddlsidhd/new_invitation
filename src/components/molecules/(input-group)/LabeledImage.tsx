@@ -2,11 +2,21 @@ import { Upload, X } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { LabeledInputBase } from "./LabeledInput";
 import Thumbnail from "@/components/atoms/Thumbnail";
+
+interface ImageItem {
+  type: "existing" | "new";
+  id: string;
+  preview: string;
+  file?: File;
+  originalUrl?: string;
+}
+
 type LabeledImage = Omit<LabeledInputBase, "children"> & {
   preview?: boolean;
   widthPx?: number;
   defaultImages?: string[];
 };
+
 const LabeledImage = ({
   id,
   name,
@@ -14,63 +24,84 @@ const LabeledImage = ({
   widthPx = 100,
   defaultImages = [],
 }: LabeledImage) => {
-  const [previewImage, setPreviewImage] = useState<string[]>(defaultImages);
-  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [images, setImages] = useState<ImageItem[]>([]);
 
-  // defaultImages 변경 시 미리보기 업데이트
+  // defaultImages를 ImageItem으로 변환하여 초기화
   useEffect(() => {
     if (defaultImages.length > 0) {
-      setPreviewImage(defaultImages);
+      const initialImages: ImageItem[] = defaultImages.map((url, index) => ({
+        type: "existing",
+        id: `existing-${index}-${Date.now()}`,
+        preview: url,
+        originalUrl: url,
+      }));
+      setImages(initialImages);
     }
   }, [defaultImages]);
 
-  const handleThumbnailUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target;
-    const newFiles = Array.from(input.files || []);
+  const handleThumbnailUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const newFiles = Array.from(e.target.files || []);
     if (newFiles.length === 0) return;
 
-    // 기존 파일 + 새 파일 합치기
-    const allFiles = [...uploadedFiles, ...newFiles];
-    setUploadedFiles(allFiles);
+    // 각 파일을 ImageItem으로 변환
+    const newImageItems: ImageItem[] = await Promise.all(
+      newFiles.map(async (file: File) => {
+        const preview = await readFileAsDataURL(file);
+        return {
+          type: "new" as const,
+          id: crypto.randomUUID(),
+          preview,
+          file,
+        };
+      }),
+    );
 
-    // input.files를 모든 파일로 업데이트
-    const dataTransfer = new DataTransfer();
-    allFiles.forEach((file) => dataTransfer.items.add(file));
-    input.files = dataTransfer.files;
+    setImages((prev) => [...prev, ...newImageItems]);
+  };
 
-    // 새 파일들의 미리보기만 생성
-    const readers = newFiles.map((file) => {
-      return new Promise<string>((resolve) => {
-        const reader = new FileReader();
-        reader.onload = (e) => resolve(e.target?.result as string);
-        reader.readAsDataURL(file);
-      });
-    });
-
-    Promise.all(readers).then((results) => {
-      setPreviewImage((prev) => [...prev, ...results]);
+  // 헬퍼 함수: File을 base64로 변환
+  const readFileAsDataURL = (file: File): Promise<string> => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target?.result as string);
+      reader.readAsDataURL(file);
     });
   };
 
-  const removeThumbnail = (index: number) => {
-    // 미리보기 제거
-    setPreviewImage((prev) => prev.filter((_, i) => i !== index));
+  const removeImage = (imageId: string) => {
+    setImages((prev) => prev.filter((img) => img.id !== imageId));
+  };
 
-    // state에서 파일 제거
-    const updatedFiles = uploadedFiles.filter((_, i) => i !== index);
-    setUploadedFiles(updatedFiles);
-
-    // 실제 input의 파일도 제거
+  // images 변경 시 input.files 동기화 (새 파일만)
+  useEffect(() => {
     const input = document.getElementById(id) as HTMLInputElement;
     if (!input) return;
 
+    const newFiles = images
+      .filter((img) => img.type === "new" && img.file)
+      .map((img) => img.file!);
+
     const dataTransfer = new DataTransfer();
-    updatedFiles.forEach((file) => dataTransfer.items.add(file));
+    newFiles.forEach((file) => dataTransfer.items.add(file));
     input.files = dataTransfer.files;
-  };
+  }, [images, id]);
+
+  // 기존 이미지 URL 추출 (hidden input용)
+  const existingUrls = images
+    .filter((img) => img.type === "existing")
+    .map((img) => img.originalUrl);
 
   return (
     <div className="space-y-4">
+      {/* Hidden Input: 기존 이미지 URL 전달 */}
+      <input
+        type="hidden"
+        name={`${name}_existing`}
+        value={JSON.stringify(existingUrls)}
+      />
+
       {/* Upload Button */}
       <label
         htmlFor={id}
@@ -95,21 +126,21 @@ const LabeledImage = ({
       </label>
 
       {/* Preview Grid */}
-      {preview && previewImage.length > 0 && (
+      {preview && images.length > 0 && (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-          {previewImage.map((image, index) => (
+          {images.map((image) => (
             <div
-              key={index}
+              key={image.id}
               className="border-border group relative aspect-square overflow-hidden rounded-lg border"
             >
               <Thumbnail
-                src={image}
-                alt={`Thumbnail ${index + 1}`}
+                src={image.preview}
+                alt={`Image ${image.id}`}
                 widthPx={widthPx}
               />
               <button
                 type="button"
-                onClick={() => removeThumbnail(index)}
+                onClick={() => removeImage(image.id)}
                 className="bg-background/90 hover:bg-background absolute top-2 right-2 rounded-full p-1.5 opacity-0 transition-opacity group-hover:opacity-100"
               >
                 <X className="h-4 w-4" />
@@ -118,8 +149,6 @@ const LabeledImage = ({
           ))}
         </div>
       )}
-
-      {/* {errors.thumbnailImages && <p className="text-sm text-destructive">{errors.thumbnailImages.message}</p>} */}
     </div>
   );
 };
