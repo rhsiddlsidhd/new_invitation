@@ -82,7 +82,6 @@ export const createCoupleInfoAction = async (
     const parsed = validateAndFlatten(coupleInfoSchema, data);
 
     if (!parsed.success) {
-      console.log("????????", parsed.error);
       throw new HTTPError("입력값을 확인해주세요", 400, parsed.error);
     }
 

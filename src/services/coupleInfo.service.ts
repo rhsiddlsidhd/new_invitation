@@ -52,6 +52,7 @@ export const createCoupleInfoService = async (
     weddingDate: weddingDateTime,
     venue: data.venue,
     address: data.address,
+    addressDetail: data.addressDetail,
     message: data.message.trim() === "" ? "결혼을 축하합니다" : data.message,
     subwayStation: data.subwayStation,
     guestbookEnabled: data.guestbookEnabled,
@@ -79,11 +80,9 @@ export const getCoupleInfoById = async (
 ): Promise<ICoupleInfo | null> => {
   await dbConnect();
 
-  if (!mongoose.Types.ObjectId.isValid(coupleInfoId)) {
-    return null;
-  }
-
-  const coupleInfo = await CoupleInfoModel.findById(coupleInfoId).lean();
+  const coupleInfo = await CoupleInfoModel.findById(
+    new mongoose.Types.ObjectId(coupleInfoId),
+  ).lean();
 
   return coupleInfo;
 };

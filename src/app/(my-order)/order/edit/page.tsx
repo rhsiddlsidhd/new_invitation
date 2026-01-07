@@ -1,9 +1,7 @@
 import { HTTPError } from "@/api/type";
 import { CoupleInfoForm } from "@/components/organisms/(forms)/CoupleInfoForm";
-import { EditCoupleInfoForm } from "@/components/organisms/(forms)/EditCoupleInfoForm";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
-import { getCoupleInfoById } from "@/services/coupleInfo.service";
 import { redirect } from "next/navigation";
 import React from "react";
 
@@ -24,18 +22,18 @@ const Page = async ({
   const { payload } = await decrypt({ token: cookie.value, type: "REFRESH" });
   if (!payload.id) return redirect("/login");
 
-  const coupleInfo = await getCoupleInfoById(q);
+  // const coupleInfo = await getCoupleInfoById(q);
 
-  if (!coupleInfo) {
-    throw new HTTPError("정보를 찾을 수 없습니다.", 404);
-  }
+  // if (!coupleInfo) {
+  //   throw new HTTPError("정보를 찾을 수 없습니다.", 404);
+  // }
 
-  // Check if user owns this coupleInfo
-  if (coupleInfo.userId.toString() !== payload.id) {
-    throw new HTTPError("접근 권한이 없습니다.", 403);
-  }
-  console.log(coupleInfo);
-  return <CoupleInfoForm />;
+  // // Check if user owns this coupleInfo
+  // if (coupleInfo.userId.toString() !== payload.id) {
+  //   throw new HTTPError("접근 권한이 없습니다.", 403);
+  // }
+  // console.log(coupleInfo);
+  return <CoupleInfoForm type={"edit"} />;
 };
 
 export default Page;
