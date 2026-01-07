@@ -50,7 +50,7 @@ const MOCSUBWAYSTATIONS = [
 
 export function BasicInfoSection() {
   const [weddingDate, setWeddingDate] = useState<Date | undefined>(undefined);
-  const { data, error, isLoading, mutate } = useFetchCoupleInfo();
+  const { data, isLoading } = useFetchCoupleInfo();
   useEffect(() => {
     if (data?.weddingDate) {
       setWeddingDate(new Date(data.weddingDate));
@@ -134,7 +134,11 @@ export function BasicInfoSection() {
         </LabeledInput>
 
         {/* Address */}
-        <AddressSearchInput required name="venue" />
+        <AddressSearchInput
+          required
+          name="venue"
+          dafulteValue={data?.address}
+        />
 
         {/* Address Detail */}
         <LabeledInput
@@ -164,6 +168,7 @@ export function BasicInfoSection() {
           id={"guestbookEnabled"}
           name={"guestbook_enabled"}
           message={"하객들이 축하 메시지를 남길 수 있습니다."}
+          defaultValue={data?.guestbookEnabled}
         >
           방명록 사용
         </LabeledSwitch>

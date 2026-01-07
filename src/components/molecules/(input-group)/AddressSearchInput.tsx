@@ -7,13 +7,15 @@ const AddressSearchInput = ({
   error,
   required = false,
   name,
+  dafulteValue,
 }: {
   name: string;
   error?: string;
   required?: boolean;
+  dafulteValue?: string;
 }) => {
   const { handleDaumAddressPopup, address } = useDaumPopup();
-  const [weddingAddress, setWeddingAddress] = useState("");
+  const [weddingAddress, setWeddingAddress] = useState(dafulteValue ?? "");
   useEffect(() => {
     if (address) {
       setWeddingAddress(address);

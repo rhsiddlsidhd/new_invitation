@@ -49,7 +49,7 @@ export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
         : [];
 
     // 1-4. 기존 + 신규 병합
-    const finalThumbnails = [...existingThumbnails, ...uploadedThumbnails];
+    const finalThumbnails = [...existingThumbnails, ...(uploadedThumbnails ?? [])];
 
     // ========================================
     // 2. 갤러리 처리 (gallery)
@@ -84,7 +84,7 @@ export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
           : [];
 
       // 2-2-4. 기존 + 신규 병합
-      const finalImages = [...existingGalleryImages, ...uploadedGalleryImages];
+      const finalImages = [...existingGalleryImages, ...(uploadedGalleryImages ?? [])];
 
       finalGallerySource.push({
         name: categoryName,

@@ -2,10 +2,19 @@ import { Switch } from "@/components/atoms/Switch";
 import { Label } from "@radix-ui/react-label";
 import React, { useState } from "react";
 import { LabeledInputBase } from "./LabeledInput";
-type LabeldSwitch = LabeledInputBase & { message?: string };
+type LabeldSwitch = Omit<LabeledInputBase, "defaultValue"> & {
+  message?: string;
+  defaultValue?: boolean;
+};
 
-const LabeledSwitch = ({ id, name, children, message }: LabeldSwitch) => {
-  const [info, setInfo] = useState<boolean>(false);
+const LabeledSwitch = ({
+  id,
+  name,
+  children,
+  message,
+  defaultValue,
+}: LabeldSwitch) => {
+  const [info, setInfo] = useState<boolean>(defaultValue ?? false);
 
   return (
     <div className="border-border flex items-center justify-between rounded-lg border p-4">
