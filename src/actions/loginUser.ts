@@ -6,11 +6,12 @@ import { validateAndFlatten } from "@/lib/validation";
 import { LoginSchema } from "@/schemas/login.schema";
 import { encrypt } from "@/lib/token";
 import { setCookie } from "@/lib/cookies/set";
-import { comparePasswords, getUser } from "@/services/auth.service";
+import { getUser } from "@/services/auth.service";
 
 import { handleActionError } from "@/api/error";
 import { HTTPError } from "@/api/type";
 import { UserRole } from "@/models/user.model";
+import { comparePasswords } from "@/lib/bcrypt";
 
 export const loginUser = async (
   prev: unknown,

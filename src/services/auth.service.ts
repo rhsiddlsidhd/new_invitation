@@ -1,6 +1,6 @@
 import User, { UserRole } from "@/models/user.model";
 import { dbConnect } from "@/shared/utils/mongodb";
-import bcrypt from "bcryptjs";
+
 import mongoose from "mongoose";
 
 export type LeanUser = {
@@ -37,13 +37,4 @@ export const getUser = async (query: UserQuery): Promise<LeanUser | null> => {
     .lean<LeanUser>();
 
   return user;
-};
-
-// hash 비밀번호 비교
-export const comparePasswords = async (
-  plainPassword: string,
-  hashedPassword: string,
-): Promise<boolean> => {
-  const isMatch = await bcrypt.compare(plainPassword, hashedPassword);
-  return isMatch;
 };
