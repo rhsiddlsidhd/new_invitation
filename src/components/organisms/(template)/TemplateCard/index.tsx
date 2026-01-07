@@ -1,11 +1,13 @@
-import Link from "next/link";
-import { Eye, ShoppingCart } from "lucide-react";
+"use client";
+
+import { Eye } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@/components/atoms/Card/Card";
 import { Badge } from "@/components/atoms/Badge/Badge";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import { Product } from "@/services/product.service";
 import Thumbnail from "@/components/atoms/Thumbnail";
 import { calculatePrice } from "@/utils/price";
+import { useRouter } from "next/navigation";
 
 type Category = "modern" | "minimal" | "vintage" | "classic" | "romantic";
 
@@ -18,9 +20,12 @@ const productCategoryLabel: Record<Category, string> = {
 };
 
 export function TemplateCard({ template }: { template: Product }) {
-  console.log({ template });
+  const router = useRouter();
   return (
-    <Card className="group border-border overflow-hidden transition-all duration-300 hover:shadow-lg">
+    <Card
+      className="group border-border cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-lg"
+      onClick={() => router.push(`/templates/${template._id}`)}
+    >
       <CardContent className="p-0">
         <div className="bg-muted relative aspect-3/4 overflow-hidden">
           <Thumbnail
@@ -42,12 +47,18 @@ export function TemplateCard({ template }: { template: Product }) {
 
           {/* Overlay on hover */}
           <div className="absolute inset-0 flex items-center justify-center gap-2 bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <Link href={`/templates/${template._id}`}>
-              <Btn size="sm" variant="secondary">
-                <Eye className="mr-1 h-4 w-4" />
-                미리보기
-              </Btn>
-            </Link>
+            <Btn
+              size="sm"
+              variant="secondary"
+              onClick={(e) => {
+                e.stopPropagation();
+                router.push(`/preview/${template._id}`);
+              }}
+              className="cursor-pointer"
+            >
+              <Eye className="mr-1 h-4 w-4" />
+              샘플보기
+            </Btn>
           </div>
         </div>
       </CardContent>
@@ -88,7 +99,6 @@ export function TemplateCard({ template }: { template: Product }) {
                     template.discount,
                   ).toLocaleString()}
                   원
-                  <span className="ml-1 text-sm font-normal">할인 적용가</span>
                 </div>
               </>
             ) : (
@@ -104,18 +114,18 @@ export function TemplateCard({ template }: { template: Product }) {
         </div>
 
         <div className="flex w-full gap-2">
-          <Link href={`/templates/${template._id}`} className="flex-1">
+          {/* <Link href={`/templates/${template._id}`} className="flex-1">
             <Btn variant="outline" size="sm" className="w-full bg-transparent">
               <Eye className="mr-1 h-4 w-4" />
               샘플보기
             </Btn>
-          </Link>
-          <Link href={`/templates/${template._id}`} className="flex-1">
+          </Link> */}
+          {/* <Link href={`/templates/${template._id}`} className="flex-1">
             <Btn size="sm" className="w-full">
               <ShoppingCart className="mr-1 h-4 w-4" />
               제작하기
             </Btn>
-          </Link>
+          </Link> */}
         </div>
       </CardFooter>
     </Card>

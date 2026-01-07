@@ -13,8 +13,8 @@ import WeddingGalleryForm from "../forms/WeddingGalleryForm";
 import Overlay from "../../atoms/Overlay/Overlay";
 import Contact from "../panel/Contact";
 
-import GuestBook from "@/components/molecules/wedding/GuestBook";
-import GuestBookForm from "../forms/GuestBookForm";
+import GuestBook from "@/components/organisms/(preview)/GuestbookView";
+import GuestBookForm from "../(preview)/GuestbookForm";
 import { useClearUserErrors } from "@/domains/user";
 
 const Modal = () => {

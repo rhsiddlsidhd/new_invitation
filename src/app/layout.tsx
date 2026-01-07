@@ -1,5 +1,3 @@
-import { Toaster } from "sonner";
-import Header from "@/components/layout/Header";
 import "./globals.css";
 import { Metadata } from "next";
 
@@ -65,12 +63,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        <Header />
-        {children}
-        <Toaster />
-        {/* <Modal /> */}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

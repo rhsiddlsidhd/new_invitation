@@ -3,41 +3,6 @@ import { CoupleInfoSchemaDto } from "@/schemas/coupleInfo.schema";
 import { dbConnect } from "@/shared/utils/mongodb";
 import mongoose from "mongoose";
 
-// interface Parent {
-//   name: string;
-//   phone: string;
-//   bankName?: string;
-//   accountNumber?: string;
-// }
-
-// interface CoupleSide {
-//   name: string;
-//   phone: string;
-//   bankName?: string;
-//   accountNumber?: string;
-//   father?: Parent;
-//   mother?: Parent;
-// }
-
-// interface GalleryImageGroup {
-//   category: string;
-//   urls: string[];
-// }
-
-// interface CoupleInfoInput {
-//   userId: string;
-//   groom: CoupleSide;
-//   bride: CoupleSide;
-//   weddingDate: Date;
-//   venue: string;
-//   address: string;
-//   message?: string;
-//   subwayStation?: string;
-//   guestbookEnabled: boolean;
-//   thumbnailImages: string[];
-//   galleryImages: GalleryImageGroup[];
-// }
-
 export const createCoupleInfoService = async (
   data: CoupleInfoSchemaDto & { userId: string; message: string },
 ): Promise<ICoupleInfo> => {
@@ -65,14 +30,6 @@ export const createCoupleInfoService = async (
   const newCoupleInfo = await CoupleInfoModel.create(coupleInfo);
 
   return newCoupleInfo.toJSON();
-};
-
-export const getCoupleInfoByUserId = async (userId: string) => {
-  await dbConnect();
-
-  const coupleInfo = await CoupleInfoModel.findOne({ user: userId }).lean();
-
-  return coupleInfo;
 };
 
 export const getCoupleInfoById = async (
