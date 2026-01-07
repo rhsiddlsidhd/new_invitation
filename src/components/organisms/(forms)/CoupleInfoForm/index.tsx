@@ -10,11 +10,14 @@ import { uploadGalleryImages, uploadMainThumbnail } from "@/lib/cloudinary";
 import { useRouter } from "next/navigation";
 
 import BottomActionBar from "../../BottomActionBar";
+import { updateCouleInfoAction } from "@/actions/updateCouleInfoAction";
 
-export function CoupleInfoForm() {
+export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
   const router = useRouter();
 
-  const [state, action] = useActionState(createCoupleInfoAction, null);
+  const currentAction =
+    type === "edit" ? updateCouleInfoAction : createCoupleInfoAction;
+  const [state, action] = useActionState(currentAction, null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -69,7 +72,11 @@ export function CoupleInfoForm() {
   };
 
   useEffect(() => {
-    if (state && state.success) router.push(`/payment?q=${state.data._id}`);
+    if (!state || !state.success) return;
+    console.log(state);
+
+    if (state && state.success && state.data._id)
+      router.push(`/payment?q=${state.data._id}`);
   }, [state, router]);
 
   return (
@@ -85,9 +92,6 @@ export function CoupleInfoForm() {
 
       {/* 이미지 정보 */}
       <ImagesSection />
-
-      {/* Sticky Bottom Actions */}
-      {/* <div className="bg-background/95 border-border fixed right-0 bottom-0 left-0 z-50 border-t backdrop-blur-sm"> */}
 
       <BottomActionBar />
     </form>

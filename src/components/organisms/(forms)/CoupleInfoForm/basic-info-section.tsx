@@ -17,7 +17,7 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/atoms/Calendar";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ko } from "date-fns/locale";
 
 import LabeledInput from "@/components/molecules/(input-group)/LabeledInput";
@@ -25,6 +25,7 @@ import AddressSearchInput from "@/components/molecules/(input-group)/AddressSear
 import LabeledSwitch from "@/components/molecules/(input-group)/LabeledSwitch";
 import LabeledSelect from "@/components/molecules/(input-group)/LabeledSelect";
 import { Input } from "@/components/atoms/Input/Input";
+import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
 
 interface WeddingScheduel {
   date: Date | undefined;
@@ -49,6 +50,14 @@ const MOCSUBWAYSTATIONS = [
 
 export function BasicInfoSection() {
   const [weddingDate, setWeddingDate] = useState<Date | undefined>(undefined);
+  const { data, error, isLoading, mutate } = useFetchCoupleInfo();
+  useEffect(() => {
+    if (data?.weddingDate) {
+      setWeddingDate(new Date(data.weddingDate));
+    }
+  }, [data]);
+
+  if (isLoading) return <div>로딩중</div>;
 
   return (
     <Card>
@@ -100,6 +109,11 @@ export function BasicInfoSection() {
             name="wedding_time"
             type="time"
             placeholder="결혼식 시간"
+            defaultValue={
+              data?.weddingDate
+                ? format(new Date(data.weddingDate), "HH:mm")
+                : ""
+            }
             required
           >
             결혼식 시간 *
@@ -113,6 +127,7 @@ export function BasicInfoSection() {
           name="venue_name"
           type="text"
           placeholder="예: 더 컨벤션 웨딩홀"
+          defaultValue={data?.venue}
           required
         >
           예식장명 *
@@ -127,6 +142,7 @@ export function BasicInfoSection() {
           name="venue_address_detail"
           type="text"
           placeholder="예: 3층 그랜드볼룸"
+          defaultValue={data?.addressDetail}
           required
         >
           상세 주소 *
@@ -137,6 +153,7 @@ export function BasicInfoSection() {
           id="subwayStation"
           name="subway_station"
           placeholder="지하철역 선택"
+          defaultValue={data && data.subwayStation}
           data={MOCSUBWAYSTATIONS}
         >
           인근 지하철 역

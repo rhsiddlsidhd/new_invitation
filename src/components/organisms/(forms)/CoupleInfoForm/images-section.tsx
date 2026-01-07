@@ -14,7 +14,8 @@ import { Label } from "@/components/atoms/Label/Label";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import { Input } from "@/components/atoms/Input/Input";
 import LabeledImage from "@/components/molecules/(input-group)/LabeledImage";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
 
 interface GalleryCategory {
   id: string;
@@ -26,7 +27,21 @@ export function ImagesSection() {
   const [galleryCategories, setGalleryCategories] = useState<GalleryCategory[]>(
     [],
   );
+  const { data, isLoading } = useFetchCoupleInfo();
 
+  // 데이터 로드 시 갤러리 카테고리 초기화
+  useEffect(() => {
+    if (data?.galleryImages && data.galleryImages.length > 0) {
+      const initialCategories: GalleryCategory[] = data.galleryImages.map(
+        (gallery) => ({
+          id: crypto.randomUUID(),
+          categoryName: gallery.category,
+          images: gallery.urls,
+        }),
+      );
+      setGalleryCategories(initialCategories);
+    }
+  }, [data]);
   const addGalleryCategory = () => {
     const newCategory: GalleryCategory = {
       id: crypto.randomUUID(),
@@ -46,6 +61,8 @@ export function ImagesSection() {
     setGalleryCategories(updated);
   };
 
+  if (isLoading) return <div>로딩중...</div>;
+
   return (
     <Card>
       <CardHeader>
@@ -59,13 +76,14 @@ export function ImagesSection() {
             <p className="text-muted-foreground mt-1 text-sm">
               청첩장에 표시될 메인 이미지를 업로드하세요. (최대 10장)
             </p>
+            <LabeledImage
+              id="thumbnail-upload"
+              name="thumbnail-upload"
+              preview={true}
+              widthPx={259}
+              defaultImages={data?.thumbnailImages}
+            />
           </div>
-          <LabeledImage
-            id="thumbnail-upload"
-            name="thumbnail-upload"
-            preview={true}
-            widthPx={259}
-          />
         </div>
         {/* Gallery Categories */}
         <div className="space-y-4">
@@ -126,6 +144,7 @@ export function ImagesSection() {
                     name={`gallery-upload-${category.id}`}
                     preview={true}
                     widthPx={259}
+                    defaultImages={category.images}
                   />
                 </div>
               </div>

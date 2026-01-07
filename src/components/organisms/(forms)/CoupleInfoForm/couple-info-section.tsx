@@ -9,8 +9,13 @@ import {
 
 import BankAccount from "@/components/molecules/(input-group)/BankAccount";
 import LabeledInput from "@/components/molecules/(input-group)/LabeledInput";
+import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
 
 export function CoupleInfoSection() {
+  const { data, isLoading } = useFetchCoupleInfo();
+
+  if (isLoading) return <div>로딩중...</div>;
+
   return (
     <Card>
       <CardHeader>
@@ -24,28 +29,12 @@ export function CoupleInfoSection() {
               신랑 정보
             </h3>
 
-            {/* <Label htmlFor="groom.name">이름 *</Label>
-              <Input
-                id="groom.name"
-                placeholder="신랑 이름"
-                onChange={(e) =>
-                  setCoupleInfo((prev) => ({
-                    ...prev,
-                    groom: { ...prev.groom, name: e.target.value },
-                  }))
-                }
-                value={coupleInfo.groom.name}
-
-                {...register("groom.name")}
-                className={errors.groom?.name ? "border-destructive" : ""}
-              />
-              {errors.groom?.name && <p className="text-sm text-destructive">{errors.groom.name.message}</p>} */}
-
             <LabeledInput
               id="groom.name"
               name="groom_name"
               type="text"
               placeholder="신랑 이름"
+              defaultValue={data?.groom?.name}
               required
             >
               이름 *
@@ -56,11 +45,17 @@ export function CoupleInfoSection() {
               name="groom_phone"
               type="tel"
               placeholder="010-1234-5678"
+              defaultValue={data?.groom?.phone}
+              required
             >
               연락처 *
             </LabeledInput>
 
-            <BankAccount id="groom" />
+            <BankAccount
+              id="groom"
+              defaultBankName={data?.groom?.bankName}
+              defaultAccountNumber={data?.groom?.accountNumber}
+            />
           </div>
 
           {/* Bride Info */}
@@ -74,6 +69,8 @@ export function CoupleInfoSection() {
               name="bride_name"
               type="text"
               placeholder="신부 이름"
+              defaultValue={data?.bride?.name}
+              required
             >
               이름 *
             </LabeledInput>
@@ -83,11 +80,17 @@ export function CoupleInfoSection() {
               name="bride_phone"
               type="tel"
               placeholder="010-1234-5678"
+              defaultValue={data?.bride?.phone}
+              required
             >
               연락처 *
             </LabeledInput>
 
-            <BankAccount id="bride" />
+            <BankAccount
+              id="bride"
+              defaultBankName={data?.bride?.bankName}
+              defaultAccountNumber={data?.bride?.accountNumber}
+            />
           </div>
         </div>
       </CardContent>

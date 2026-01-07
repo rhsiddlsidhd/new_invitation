@@ -13,6 +13,7 @@ import {
 } from "@/components/atoms/Collapsible";
 import BankAccount from "@/components/molecules/(input-group)/BankAccount";
 import LabeledInput from "@/components/molecules/(input-group)/LabeledInput";
+import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
 import { ChevronDown } from "lucide-react";
 
 import { useState } from "react";
@@ -27,6 +28,9 @@ const PARENTS: { id: ParentRole; title: string }[] = [
 export function ParentsInfoSection() {
   const [groomParentsOpen, setGroomParentsOpen] = useState(false);
   const [brideParentsOpen, setBrideParentsOpen] = useState(false);
+  const { data, isLoading } = useFetchCoupleInfo();
+
+  if (isLoading) return <div>로딩중...</div>;
 
   return (
     <Card>
@@ -57,6 +61,7 @@ export function ParentsInfoSection() {
                       id={`groomParents.${parent.id}.name`}
                       name={`groom_parents_${parent.id}_name`}
                       type="text"
+                      defaultValue={data?.groom?.[parent.id]?.name}
                     >
                       이름
                     </LabeledInput>
@@ -65,11 +70,18 @@ export function ParentsInfoSection() {
                       name={`groom_parents_${parent.id}_phone`}
                       type="tel"
                       placeholder="010-1234-5678"
+                      defaultValue={data?.groom?.[parent.id]?.phone}
                     >
                       연락처
                     </LabeledInput>
                     <div className="col-span-2">
-                      <BankAccount id={`groom_parents_${parent.id}`} />
+                      <BankAccount
+                        id={`groom_parents_${parent.id}`}
+                        defaultBankName={data?.groom?.[parent.id]?.bankName}
+                        defaultAccountNumber={
+                          data?.groom?.[parent.id]?.accountNumber
+                        }
+                      />
                     </div>
                   </div>
                 </div>
@@ -101,6 +113,7 @@ export function ParentsInfoSection() {
                       id={`brideParents.${parent.id}.name`}
                       name={`bride_parents_${parent.id}_name`}
                       type="text"
+                      defaultValue={data?.bride?.[parent.id]?.name}
                     >
                       이름
                     </LabeledInput>
@@ -109,11 +122,18 @@ export function ParentsInfoSection() {
                       name={`bride_parents_${parent.id}_phone`}
                       type="tel"
                       placeholder="010-1234-5678"
+                      defaultValue={data?.bride?.[parent.id]?.phone}
                     >
                       연락처
                     </LabeledInput>
                     <div className="col-span-2">
-                      <BankAccount id={`bride_parents_${parent.id}`} />
+                      <BankAccount
+                        id={`bride_parents_${parent.id}`}
+                        defaultBankName={data?.bride?.[parent.id]?.bankName}
+                        defaultAccountNumber={
+                          data?.bride?.[parent.id]?.accountNumber
+                        }
+                      />
                     </div>
                   </div>
                 </div>
