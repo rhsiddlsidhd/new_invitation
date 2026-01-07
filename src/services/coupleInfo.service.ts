@@ -88,14 +88,46 @@ export const getCoupleInfoById = async (
 };
 
 export const updateCoupleInfoService = async (
+  coupleInfoId: string,
   userId: string,
-  data: Partial<ICoupleInfo>,
+  data: CoupleInfoSchemaDto & { message: string },
 ): Promise<boolean> => {
   await dbConnect();
 
-  const updated = await CoupleInfoModel.findOneAndUpdate(
-    { user: userId },
-    { $set: data },
+  // 1. 권한 확인: 해당 coupleInfo가 현재 유저의 것인지 확인
+  const coupleInfo = await CoupleInfoModel.findById(
+    new mongoose.Types.ObjectId(coupleInfoId),
+  );
+
+  if (!coupleInfo) {
+    return false; // 문서가 존재하지 않음
+  }
+
+  if (coupleInfo.userId.toString() !== userId) {
+    throw new Error("권한이 없습니다."); // 권한 없음
+  }
+
+  // 2. weddingDateTime 변환 (createCoupleInfoService와 동일)
+  const weddingDateTime = new Date(`${data.weddingDate}T${data.weddingTime}`);
+
+  const updateData = {
+    groom: data.groom,
+    bride: data.bride,
+    weddingDate: weddingDateTime,
+    venue: data.venue,
+    address: data.address,
+    addressDetail: data.addressDetail,
+    message: data.message.trim() === "" ? "결혼을 축하합니다" : data.message,
+    subwayStation: data.subwayStation,
+    guestbookEnabled: data.guestbookEnabled,
+    thumbnailImages: data.thumbnailImages,
+    galleryImages: data.galleryImages,
+  };
+
+  // 3. 업데이트 수행
+  const updated = await CoupleInfoModel.findByIdAndUpdate(
+    new mongoose.Types.ObjectId(coupleInfoId),
+    { $set: updateData },
     { new: true },
   );
 

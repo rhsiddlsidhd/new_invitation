@@ -7,13 +7,15 @@ import { ImagesSection } from "./images-section";
 import { startTransition, useActionState, useEffect } from "react";
 import { createCoupleInfoAction } from "@/actions/createCoupleInfoAction";
 import { uploadGalleryImages, uploadMainThumbnail } from "@/lib/cloudinary";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import BottomActionBar from "../../BottomActionBar";
 import { updateCouleInfoAction } from "@/actions/updateCouleInfoAction";
 
 export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const coupleInfoId = searchParams.get("q");
 
   const currentAction =
     type === "edit" ? updateCouleInfoAction : createCoupleInfoAction;
@@ -25,49 +27,88 @@ export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
     const formData = new FormData(form);
     const date = formData.get("wedding_date") as string;
     if (!date) return alert("날짜를 선택해주세요");
-    // 썸네일 (고정 name)
-    const thumbnail = formData.getAll("thumbnail-upload") as File[];
 
-    // 갤러리 (동적 name - gallery-upload-로 시작하는 모든 유니크한 키 찾기)
+    // ========================================
+    // 1. 썸네일 처리 (thumbnail)
+    // ========================================
+
+    // 1-1. 기존 썸네일 URL 추출
+    const existingThumbnails = JSON.parse(
+      (formData.get("thumbnail-upload_existing") as string) || "[]",
+    );
+
+    // 1-2. 새 파일 추출
+    const newThumbnailFiles = formData
+      .getAll("thumbnail-upload")
+      .filter((file) => file instanceof File && file.size > 0) as File[];
+
+    // 1-3. 새 파일만 업로드
+    const uploadedThumbnails =
+      newThumbnailFiles.length > 0
+        ? await uploadMainThumbnail(newThumbnailFiles)
+        : [];
+
+    // 1-4. 기존 + 신규 병합
+    const finalThumbnails = [...existingThumbnails, ...uploadedThumbnails];
+
+    // ========================================
+    // 2. 갤러리 처리 (gallery)
+    // ========================================
+
+    // 2-1. 갤러리 키 추출
     const galleryKeys = Array.from(formData.keys()).filter((key) =>
       key.startsWith("gallery-upload-"),
     );
     const uniqueKeys = [...new Set(galleryKeys)];
 
-    const galleryFiles = uniqueKeys.map((key) => {
+    // 2-2. 각 갤러리 카테고리 처리
+    const finalGallerySource = [];
+    for (const key of uniqueKeys) {
       const categoryId = key.replace("gallery-upload-", "");
-      const name = formData.get(`category-name-${categoryId}`) as string;
+      const categoryName = formData.get(`category-name-${categoryId}`) as string;
 
-      return {
-        name,
-        files: formData
-          .getAll(key)
-          .filter((file) => file instanceof File && file.size > 0) as File[],
-      };
-    });
+      // 2-2-1. 기존 이미지 URL 추출
+      const existingGalleryImages = JSON.parse(
+        (formData.get(`${key}_existing`) as string) || "[]",
+      );
 
-    // Cloudinary에 업로드
-    const thumbnailSource = await uploadMainThumbnail(thumbnail);
+      // 2-2-2. 새 파일 추출
+      const newGalleryFiles = formData
+        .getAll(key)
+        .filter((file) => file instanceof File && file.size > 0) as File[];
 
-    const gallerySource = [];
-    for (const { name, files } of galleryFiles) {
-      const galleryImages = await uploadGalleryImages(files);
-      gallerySource.push({
-        name: name,
-        images: galleryImages,
+      // 2-2-3. 새 파일만 업로드
+      const uploadedGalleryImages =
+        newGalleryFiles.length > 0
+          ? await uploadGalleryImages(newGalleryFiles)
+          : [];
+
+      // 2-2-4. 기존 + 신규 병합
+      const finalImages = [...existingGalleryImages, ...uploadedGalleryImages];
+
+      finalGallerySource.push({
+        name: categoryName,
+        images: finalImages,
       });
     }
 
-    // 원본 파일 제거 (1MB 제한 회피)
+    // ========================================
+    // 3. FormData 정리 및 저장
+    // ========================================
+
+    // 3-1. 원본 파일 및 _existing 제거
     formData.delete("thumbnail-upload");
-    uniqueKeys.forEach((key) => formData.delete(key));
+    formData.delete("thumbnail-upload_existing");
+    uniqueKeys.forEach((key) => {
+      formData.delete(key);
+      formData.delete(`${key}_existing`);
+    });
 
-    // 업로드된 URL을 FormData에 추가
-    if (thumbnailSource) {
-      formData.set("thumbnailSource", JSON.stringify(thumbnailSource));
-    }
-    formData.set("gallerySource", JSON.stringify(gallerySource));
+    // 3-2. 최종 결과 저장
+    formData.set("thumbnailSource", JSON.stringify(finalThumbnails));
+    formData.set("gallerySource", JSON.stringify(finalGallerySource));
 
+    // 3-3. 서버 액션 호출
     startTransition(() => action(formData));
   };
 
@@ -81,6 +122,11 @@ export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
+      {/* Hidden input for edit mode */}
+      {type === "edit" && coupleInfoId && (
+        <input type="hidden" name="couple_info_id" value={coupleInfoId} />
+      )}
+
       {/* 기본 정보 */}
       <BasicInfoSection />
 

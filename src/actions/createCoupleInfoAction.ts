@@ -73,6 +73,7 @@ export const createCoupleInfoAction = async (
       weddingTime: formData.get("wedding_time") as string,
       venue: formData.get("venue_name") as string,
       address: formData.get("venue_address") as string,
+      addressDetail: formData.get("venue_address_detail") as string,
       subwayStation: formData.get("subway_station") as string,
       guestbookEnabled: formData.get("guestbook_enabled") === "on",
       thumbnailImages: thumbnailRaw ? JSON.parse(thumbnailRaw) : [],
@@ -85,10 +86,6 @@ export const createCoupleInfoAction = async (
       throw new HTTPError("입력값을 확인해주세요", 400, parsed.error);
     }
 
-    // const weddingDateTime = new Date(
-    //   `${parsed.data.weddingDate}T${parsed.data.weddingTime}`,
-    // );
-
     const coupleInfo = await createCoupleInfoService({
       userId: payload.id,
       groom: parsed.data.groom,
@@ -97,6 +94,7 @@ export const createCoupleInfoAction = async (
       weddingTime: parsed.data.weddingTime,
       venue: parsed.data.venue,
       address: parsed.data.address,
+      addressDetail: parsed.data.addressDetail,
       message: "", // Default empty message - can be updated later
       subwayStation: parsed.data.subwayStation,
       guestbookEnabled: parsed.data.guestbookEnabled,
