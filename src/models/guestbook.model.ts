@@ -1,18 +1,18 @@
-import mongoose, { Schema, Document, Model, Types } from "mongoose";
+import mongoose, { Schema, Model, Types } from "mongoose";
 
 // Guestbook 문서 인터페이스
-export interface GuestbookDocument extends Document {
-  coupleInfoId: Types.ObjectId; // 어떤 청첩장의 방명록인지 식별 (CoupleInfo 모델 참조)
-  author: string;                 // 작성자 이름
-  message: string;                // 방명록 내용
-  password: string;               // 수정/삭제를 위한 비밀번호
-  isPrivate: boolean;             // 주인만 보기 여부
+export interface IGuestbook {
+  _id: Types.ObjectId | string;
+  coupleInfoId: Types.ObjectId | string; // 어떤 청첩장의 방명록인지 식별 (CoupleInfo 모델 참조)
+  author: string; // 작성자 이름
+  message: string; // 방명록 내용
+  password: string; // 수정/삭제를 위한 비밀번호
+  isPrivate: boolean; // 주인만 보기 여부
   createdAt: Date;
-  updatedAt: Date;
 }
 
 // Mongoose 스키마 정의
-const guestbookSchema = new Schema<GuestbookDocument>(
+const guestbookSchema = new Schema<IGuestbook>(
   {
     coupleInfoId: {
       type: Schema.Types.ObjectId,
@@ -42,6 +42,6 @@ const guestbookSchema = new Schema<GuestbookDocument>(
   },
 );
 
-export const GuestbookModel: Model<GuestbookDocument> =
+export const GuestbookModel: Model<IGuestbook> =
   mongoose.models.Guestbook ||
-  mongoose.model<GuestbookDocument>("Guestbook", guestbookSchema);
+  mongoose.model<IGuestbook>("Guestbook", guestbookSchema);

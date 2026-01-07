@@ -17,17 +17,17 @@ const GuestBookDeleteForm = ({
 }) => {
   const [state, action, pending] = useActionState(deleteGuestBook, null);
   const router = useRouter();
-  const { setModalOpen } = useModalStore();
-  useEffect(() => {
-    if (!state) return;
-    if (!state.success) {
-      alert(state.error);
-    } else {
-      alert(state.message);
-      setModalOpen({ isOpen: false });
-      router.refresh();
-    }
-  }, [state, router, setModalOpen]);
+  // const { setModalOpen } = useModalStore();
+  // useEffect(() => {
+  //   if (!state) return;
+  //   if (!state.success) {
+  //     alert(state.error);
+  //   } else {
+  //     alert(state.message);
+  //     setModalOpen({ isOpen: false });
+  //     router.refresh();
+  //   }
+  // }, [state, router, setModalOpen]);
 
   return (
     <motion.form
