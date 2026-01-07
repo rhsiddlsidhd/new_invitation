@@ -42,6 +42,7 @@ export interface ICoupleInfo {
   weddingDate: Date;
   venue: string;
   address: string;
+  addressDetail: string;
   message: string;
   subwayStation?: string;
   guestbookEnabled: boolean;
@@ -99,6 +100,7 @@ const coupleInfoSchema = new Schema<ICoupleInfo>(
     weddingDate: { type: Date, required: true },
     venue: { type: String, required: true },
     address: { type: String, required: true },
+    addressDetail: { type: String, required: true },
     message: { type: String, default: "저희 결혼합니다." },
     subwayStation: { type: String },
     guestbookEnabled: { type: Boolean, default: false },
