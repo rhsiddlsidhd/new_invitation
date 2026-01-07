@@ -1,12 +1,13 @@
 import Alert from "@/components/atoms/Alert/Alert";
 import { Input } from "@/components/atoms/Input/Input";
 import { Label } from "@/components/atoms/Label/Label";
-import React, { HTMLInputTypeAttribute, useState } from "react";
+import React, { HTMLInputTypeAttribute, useState, useEffect } from "react";
 
 export interface LabeledInputBase {
   id: string;
   name: string;
   children: React.ReactNode;
+  defaultValue?: string;
 }
 
 export interface LabeledInputProps extends LabeledInputBase {
@@ -14,7 +15,6 @@ export interface LabeledInputProps extends LabeledInputBase {
   placeholder?: string;
   error?: string;
   required?: boolean;
-  defaultValue?: string;
 }
 
 const LabeledInput = ({
@@ -28,6 +28,14 @@ const LabeledInput = ({
   defaultValue = "",
 }: LabeledInputProps) => {
   const [info, setInfo] = useState(defaultValue);
+
+  // defaultValue 변경 시 state 업데이트 (data 로딩 후 반영)
+  useEffect(() => {
+    if (defaultValue !== undefined) {
+      setInfo(defaultValue);
+    }
+  }, [defaultValue]);
+
   return (
     <div className="space-y-2">
       <Label htmlFor={id}>{children}</Label>

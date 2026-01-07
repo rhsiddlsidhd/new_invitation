@@ -1,19 +1,28 @@
 import { Upload, X } from "lucide-react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LabeledInputBase } from "./LabeledInput";
 import Thumbnail from "@/components/atoms/Thumbnail";
 type LabeledImage = Omit<LabeledInputBase, "children"> & {
   preview?: boolean;
   widthPx?: number;
+  defaultImages?: string[];
 };
 const LabeledImage = ({
   id,
   name,
   preview = false,
   widthPx = 100,
+  defaultImages = [],
 }: LabeledImage) => {
-  const [previewImage, setPreviewImage] = useState<string[]>([]);
+  const [previewImage, setPreviewImage] = useState<string[]>(defaultImages);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+
+  // defaultImages 변경 시 미리보기 업데이트
+  useEffect(() => {
+    if (defaultImages.length > 0) {
+      setPreviewImage(defaultImages);
+    }
+  }, [defaultImages]);
 
   const handleThumbnailUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target;

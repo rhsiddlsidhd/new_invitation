@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/atoms/Select";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useSWR from "swr";
 
 interface BankAccountInfo {
@@ -18,13 +18,33 @@ interface BankAccountInfo {
   accountNumber: string;
 }
 
-const BankAccount = ({ id }: { id: string }) => {
+interface BankAccountProps {
+  id: string;
+  defaultBankName?: string;
+  defaultAccountNumber?: string;
+}
+
+const BankAccount = ({
+  id,
+  defaultBankName = "",
+  defaultAccountNumber = "",
+}: BankAccountProps) => {
   const [info, setInfo] = useState<BankAccountInfo>({
-    bankName: "",
-    accountNumber: "",
+    bankName: defaultBankName,
+    accountNumber: defaultAccountNumber,
   });
 
   const { data } = useSWR<{ items: Banks }>("/api/banks", fetcher);
+
+  // defaultValue 변경 시 state 업데이트 (data 로딩 후 반영)
+  useEffect(() => {
+    if (defaultBankName || defaultAccountNumber) {
+      setInfo({
+        bankName: defaultBankName,
+        accountNumber: defaultAccountNumber,
+      });
+    }
+  }, [defaultBankName, defaultAccountNumber]);
 
   return (
     <div>
