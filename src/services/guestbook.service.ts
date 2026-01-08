@@ -33,3 +33,29 @@ export const getGuestbookService = async (
     coupleInfoId: guestbook.coupleInfoId.toString(),
   }));
 };
+
+export const getPrivateGuestbookService = async (id: string): Promise<IGuestbook | null> => {
+  await dbConnect();
+
+  const _id = new mongoose.Types.ObjectId(id);
+  const guestbook = await GuestbookModel.findById(_id).lean();
+
+  if (!guestbook) return null;
+
+  return {
+    ...guestbook,
+    _id: guestbook._id.toString(),
+    coupleInfoId: guestbook.coupleInfoId.toString(),
+  };
+};
+
+export const deleteGuestbookService = async (
+  id: string,
+): Promise<{ acknowledged: boolean; deletedCount: number }> => {
+  await dbConnect();
+
+  const _id = new mongoose.Types.ObjectId(id);
+  const result = await GuestbookModel.deleteOne({ _id });
+
+  return result;
+};

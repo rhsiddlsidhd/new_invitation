@@ -30,25 +30,13 @@ const GuestBookSection = () => {
   }, [type]);
 
   useEffect(() => {
-    if (!isOpen) return;
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        modalref.current &&
-        !modalref.current.contains(event.target as Node)
-      ) {
-        closeModal();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    document.body.style.overflow = "hidden";
-
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    }
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = "auto";
     };
-  }, [isOpen, closeModal]);
+  }, [isOpen]);
 
   if (!Component) return null;
 
@@ -63,7 +51,12 @@ const GuestBookSection = () => {
           onAnimationComplete={() => {
             if (!isOpen) clearIsOpen();
           }}
-          className={`fixed inset-0 z-50 flex items-center justify-center bg-black/60`}
+          className={`fixed inset-0 z-50 flex transform-gpu items-center justify-center bg-black/60 backdrop-blur-sm`}
+          onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+            if (e.target === e.currentTarget) {
+              closeModal();
+            }
+          }}
         >
           <motion.div
             initial={{ scale: 0.8, opacity: 0, y: 20 }}

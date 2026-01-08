@@ -1,22 +1,70 @@
 import GuestBookAction from "@/components/organisms/(preview)/GuestBookAction";
+import { HeroSection } from "@/components/organisms/(preview)/HeroSection";
+import { InvitationMessage } from "@/components/organisms/(preview)/InvitationMessage";
+import { DdayCounter } from "@/components/organisms/(preview)/DDayCounter";
+import { GallerySection } from "@/components/organisms/(preview)/GallerySection";
+import { LocationSection } from "@/components/organisms/(preview)/LocationSection";
+import { ShareSection } from "@/components/organisms/(preview)/ShareSection";
+import { Footer } from "@/components/organisms/(preview)/Footer";
+import { getCoupleInfoById } from "@/services/coupleInfo.service";
 import { getGuestbookService } from "@/services/guestbook.service";
 import React from "react";
-// 695dfae9ad249322407807a8 고정의 ID
-const COUPLEINFO_ID = process.env.PREVIEW_COUPLEINFO_ID;
 
-// VIEW 경우
-//  COUPLEINFO_ID 에 해당하는 방명록 게시물을 useGuestbookModalStore 값에 payload로 데이터 형태를 던져줌
-// payload.map .... 뿌려주기
+const COUPLEINFO_ID = process.env.NEXT_PUBLIC_PREVIEW_COUPLEINFO_ID;
 
-// Write 의 경우
-// COUPLEINFO_ID 를 payload 로 전달받아서 action 에서 COUPLEINFO_ID 값을 넣은 데이터 생성
-const Page = async () => {
+const Page = async ({ params }: { params: { id: string } }) => {
   if (!COUPLEINFO_ID) throw new Error("COUPLEINFO_ID is required");
   const data = await getGuestbookService(COUPLEINFO_ID);
+  const coupleInfoData = await getCoupleInfoById(COUPLEINFO_ID);
+
+  if (!coupleInfoData) throw new Error("CoupleInfoData not found");
+
+  // 갤러리 데이터 변환
+  const galleryCategories = coupleInfoData.galleryImages.map((group, index) => ({
+    id: `category-${index}`,
+    categoryName: group.category,
+    images: group.urls,
+  }));
 
   return (
     <div className="relative">
+      <HeroSection
+        groomName={coupleInfoData.groom.name}
+        brideName={coupleInfoData.bride.name}
+        venueName={coupleInfoData.venue}
+        thumbnailImage={coupleInfoData.thumbnailImages[0]}
+        weddingDate={coupleInfoData.weddingDate}
+      />
+
+      <InvitationMessage
+        message="평생 서로 사랑하며 함께 살아갈 수 있도록\n저희 두 사람의 소중한 첫걸음에\n귀한 걸음 하시어 축복해 주시면 감사하겠습니다."
+        groomName={coupleInfoData.groom.name}
+        brideName={coupleInfoData.bride.name}
+        groomParents={{
+          father: coupleInfoData.groom.father,
+          mother: coupleInfoData.groom.mother,
+        }}
+        brideParents={{
+          father: coupleInfoData.bride.father,
+          mother: coupleInfoData.bride.mother,
+        }}
+      />
+
+      <DdayCounter weddingDate={new Date(coupleInfoData.weddingDate)} />
+
+      <GallerySection categories={galleryCategories} />
+
+      <LocationSection
+        venueName={coupleInfoData.venue}
+        address={coupleInfoData.address}
+        addressDetail={coupleInfoData.addressDetail}
+      />
+
       <GuestBookAction id={COUPLEINFO_ID} data={data} />
+
+      <ShareSection invitationId={params.id} />
+
+      <Footer />
     </div>
   );
 };
