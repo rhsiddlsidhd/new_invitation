@@ -18,6 +18,8 @@ const productCategoryLabel: Record<Category, string> = {
   classic: "클래식",
   romantic: "로맨틱",
 };
+const PREVIEW_ID = process.env.NEXT_PUBLIC_PREVIEW_COUPLEINFO_ID;
+if (!PREVIEW_ID) throw new Error("PREVIEW_ID is not defined");
 
 export function TemplateCard({ template }: { template: Product }) {
   const router = useRouter();
@@ -52,7 +54,7 @@ export function TemplateCard({ template }: { template: Product }) {
               variant="secondary"
               onClick={(e) => {
                 e.stopPropagation();
-                router.push(`/preview/${template._id}`);
+                router.push(`/preview/${template._id}?u=${PREVIEW_ID}`);
               }}
               className="cursor-pointer"
             >

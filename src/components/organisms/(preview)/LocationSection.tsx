@@ -2,6 +2,7 @@
 
 import { Btn } from "@/components/atoms/Btn/Btn";
 import { Card, CardContent } from "@/components/atoms/Card/Card";
+import KakaoMap from "@/components/molecules/wedding/KakaoMap";
 import { MapPin, Navigation, Copy, CheckCircle } from "lucide-react";
 import { useState } from "react";
 
@@ -90,9 +91,10 @@ export function LocationSection({
 
         {/* Map placeholder */}
         <div className="bg-muted relative mb-6 aspect-video overflow-hidden rounded-xl">
-          <div className="text-muted-foreground absolute inset-0 flex items-center justify-center">
-            <MapPin className="h-12 w-12" />
-          </div>
+          {/* <div className="text-muted-foreground absolute inset-0 flex items-center justify-center">
+            <KakaoMap address={address} />
+          </div> */}
+          <KakaoMap address={address} />
         </div>
 
         {/* Navigation Buttons */}

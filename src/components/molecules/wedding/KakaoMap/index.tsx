@@ -1,6 +1,7 @@
 import useKakaoLoader from "@/lib/kakao/useKakaoLoader";
 import React, { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { MapPin } from "lucide-react";
 
 const KakaoMap = ({ address }: { address: string }) => {
   useKakaoLoader();
@@ -14,6 +15,7 @@ const KakaoMap = ({ address }: { address: string }) => {
     const getCoordinates = async (address: string) => {
       try {
         const res = await fetch(`/api/kakaomap?address=${address}`);
+
         const data = await res.json();
         if (!res.ok || data.errorType) {
           throw new Error(data.message);
@@ -33,14 +35,20 @@ const KakaoMap = ({ address }: { address: string }) => {
 
   return (
     <div className="flex justify-center">
-      {geoState.lat !== null && geoState.lng !== null && (
+      {geoState.lat === null || geoState.lng === null ? (
+        <div className="bg-muted relative aspect-video w-full overflow-hidden rounded-xl animate-pulse">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <MapPin className="text-muted-foreground/30 h-12 w-12" />
+          </div>
+        </div>
+      ) : (
         <Map
           id="map"
           center={{
             lat: geoState.lat,
             lng: geoState.lng,
           }}
-          className="aspect-[10/16] w-full"
+          className="aspect-10/16 w-full"
           level={3}
         >
           <MapMarker position={{ lat: geoState.lat, lng: geoState.lng }} />

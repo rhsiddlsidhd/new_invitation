@@ -2,8 +2,10 @@ import { Btn } from "@/components/atoms/Btn/Btn";
 import { GuestBookView } from "@/components/template/invitation/InvitationContainer";
 import { IGuestbook } from "@/models/guestbook.model";
 import { motion } from "framer-motion";
+import { X } from "lucide-react";
 
 import React, { useEffect, useMemo, useState } from "react";
+import ActionConfirmationDialog from "./ActionConfirmationDialog";
 
 const isPayloadValidation = (payload: unknown): payload is IGuestbook[] => {
   if (!Array.isArray(payload)) return false;
@@ -88,20 +90,9 @@ const GuestbookView = ({ payload }: { payload: unknown }) => {
                   opacity: !isDelete[item._id as string] ? 1 : 0,
                   y: !isDelete[item._id as string] ? 0 : -10,
                 }}
-                className="absolute top-2 right-2 w-full"
+                className="absolute top-2 right-2"
               >
-                {/* <OverlayCloseBtn
-                  size="sm"
-                  onClick={() => {
-                    setIsDelete((prev) => {
-                      const newState: Record<string, boolean> = {};
-                      Object.keys(prev).forEach((key) => {
-                        newState[key] = key === item._id ? !prev[key] : false;
-                      });
-                      return newState;
-                    });
-                  }}
-                /> */}
+                <ActionConfirmationDialog id={item._id as string} />
               </motion.div>
 
               {/* <GuestBookDeleteForm

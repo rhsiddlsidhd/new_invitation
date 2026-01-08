@@ -21,6 +21,10 @@ export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
     type === "edit" ? updateCouleInfoAction : createCoupleInfoAction;
   const [state, action] = useActionState(currentAction, null);
 
+  useEffect(() => {
+    console.log(state);
+  }, [state]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -49,7 +53,10 @@ export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
         : [];
 
     // 1-4. 기존 + 신규 병합
-    const finalThumbnails = [...existingThumbnails, ...(uploadedThumbnails ?? [])];
+    const finalThumbnails = [
+      ...existingThumbnails,
+      ...(uploadedThumbnails ?? []),
+    ];
 
     // ========================================
     // 2. 갤러리 처리 (gallery)
@@ -65,7 +72,9 @@ export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
     const finalGallerySource = [];
     for (const key of uniqueKeys) {
       const categoryId = key.replace("gallery-upload-", "");
-      const categoryName = formData.get(`category-name-${categoryId}`) as string;
+      const categoryName = formData.get(
+        `category-name-${categoryId}`,
+      ) as string;
 
       // 2-2-1. 기존 이미지 URL 추출
       const existingGalleryImages = JSON.parse(
@@ -84,12 +93,29 @@ export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
           : [];
 
       // 2-2-4. 기존 + 신규 병합
-      const finalImages = [...existingGalleryImages, ...(uploadedGalleryImages ?? [])];
+      const finalImages = [
+        ...existingGalleryImages,
+        ...(uploadedGalleryImages ?? []),
+      ];
 
-      finalGallerySource.push({
-        name: categoryName,
-        images: finalImages,
-      });
+      // 유효성 검사
+      if (finalImages.length > 0 && !categoryName) {
+        alert("이미지가 추가된 갤러리의 카테고리 이름을 입력해주세요.");
+        return; // 제출 중단
+      }
+
+      if (categoryName && finalImages.length === 0) {
+        alert(`'${categoryName}' 카테고리에 이미지를 1개 이상 추가해주세요.`);
+        return; // 제출 중단
+      }
+
+      // 이름과 이미지가 모두 있는 경우에만 추가
+      if (categoryName && finalImages.length > 0) {
+        finalGallerySource.push({
+          name: categoryName,
+          images: finalImages,
+        });
+      }
     }
 
     // ========================================
