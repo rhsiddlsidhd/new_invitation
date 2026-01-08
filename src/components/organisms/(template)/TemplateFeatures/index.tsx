@@ -1,45 +1,51 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/atoms/Card/Card";
-import { Check, Palette, Type, Settings } from "lucide-react";
+import { Card } from "@/components/atoms/Card/Card";
+import { PremiumFeature } from "@/services/premiumFeature.service";
+import clsx from "clsx";
+import { Check, Palette, Type, Settings, FileText } from "lucide-react";
 
 interface TemplateFeaturesProps {
-  features: string[];
-  details: Array<{
-    title: string;
-    content: string;
-  }>;
+  options: PremiumFeature[];
 }
 
-export function TemplateFeatures({ features, details }: TemplateFeaturesProps) {
-  const icons = [Palette, Type, Settings, Settings];
+export function TemplateFeatures({ options }: TemplateFeaturesProps) {
+  const icons = [Check, Palette, Type, Settings];
 
   return (
     <div className="mb-16 space-y-12">
       {/* Features List */}
-      <div>
-        <h2 className="text-foreground mb-6 text-3xl font-bold">주요 기능</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map((feature, index) => (
-            <Card key={index} className="border-border">
-              <CardContent className="flex items-center gap-3 p-4">
-                <div className="bg-primary/10 flex h-5 w-5 shrink-0 items-center justify-center rounded-full">
-                  <Check className="text-primary h-3 w-3" />
+      <div className={clsx(options.length === 0 && "hidden")}>
+        <h2 className="text-foreground mb-6 text-3xl font-bold">주요 옵션</h2>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
+          {options.map((feature, index) => {
+            let Icon;
+            if (feature.label.includes("PDF")) {
+              Icon = FileText;
+            } else {
+              Icon = icons[index % icons.length];
+            }
+            return (
+              <Card key={index} className="border-border flex flex-col p-4">
+                <div className="mb-3 flex items-center gap-3">
+                  <div className="bg-primary/10 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
+                    <Icon className="text-primary h-5 w-5" />
+                  </div>
+                  <h3 className="text-foreground text-sm font-semibold">
+                    {feature.label}
+                  </h3>
                 </div>
-                <span className="text-foreground text-sm">{feature}</span>
-              </CardContent>
-            </Card>
-          ))}
+                <p className="text-muted-foreground text-sm">
+                  {feature.description}
+                </p>
+              </Card>
+            );
+          })}
         </div>
       </div>
 
       {/* Detailed Features */}
       <div>
         <h2 className="text-foreground mb-6 text-3xl font-bold">상세 정보</h2>
-        <div className="grid gap-6 sm:grid-cols-2">
+        {/* <div className="grid gap-6 sm:grid-cols-2">
           {details.map((detail, index) => {
             const Icon = icons[index % icons.length];
             return (
@@ -60,7 +66,7 @@ export function TemplateFeatures({ features, details }: TemplateFeaturesProps) {
               </Card>
             );
           })}
-        </div>
+        </div> */}
       </div>
     </div>
   );

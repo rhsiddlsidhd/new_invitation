@@ -10,10 +10,11 @@ import { GlobeAmericasIcon } from "@/components/atoms/Icon";
 
 import { useRouter } from "next/navigation";
 import { signupUser } from "@/actions/signupUser";
-import Label from "@/components/atoms/Label/Label";
+
 import { Input } from "@/components/atoms/Input/Input";
 import { Checkbox } from "@/components/atoms/CheckBox/CheckBox";
 import { Btn } from "@/components/atoms/Btn/Btn";
+import { Label } from "@/components/atoms/Label/Label";
 
 export function SignupForm() {
   const router = useRouter();

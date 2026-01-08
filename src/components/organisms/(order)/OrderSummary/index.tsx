@@ -1,3 +1,4 @@
+"use client";
 import {
   Card,
   CardContent,
@@ -5,21 +6,61 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/Card/Card";
-import Image from "next/image";
+import { formatPriceWithComma } from "@/utils/price";
+import Thumbnail from "@/components/atoms/Thumbnail";
+import { DELIVERY_FEE } from "@/contants/price";
 
-interface OrderSummaryProps {
-  order: {
-    templateId: number;
-    templateName: string;
-    templateImage: string;
-    price: number;
+import { useCheckoutData } from "@/hooks/useCheckoutData";
+import { SelectFeatureDto } from "@/schemas/order.schema";
+
+export const OrderSummary = () => {
+  const { data, loading, error } = useCheckoutData();
+
+  if (loading) {
+    return (
+      <main className="bg-background flex min-h-screen items-center justify-center">
+        <p>주문 정보를 불러오는 중...</p>
+      </main>
+    );
+  }
+
+  if (!data) {
+    // This state should ideally be prevented by the redirects above,
+    // but added for robustness.
+    return (
+      <main className="bg-background flex min-h-screen items-center justify-center">
+        <p>상품 정보를 찾을 수 없습니다.</p>
+      </main>
+    );
+  }
+
+  const order = {
+    _id: data._id,
+    title: data.title,
+    discountedPrice: data.discountedPrice,
+    originalPrice: data.originalPrice,
+    thumbnail: data.thumbnail,
+    totalPrice: data.productTotalPrice,
+    discount: data.discount,
+    selectedOptions: data.selectedFeatures,
+    quantity: data.quantity,
   };
-}
 
-export function OrderSummary({ order }: OrderSummaryProps) {
-  const deliveryFee = 0;
-  const total = order.price + deliveryFee;
+  // Calculate selected options total price
+  const selectedOptionsTotal =
+    order.selectedOptions?.reduce(
+      (sum: number, option: SelectFeatureDto) => sum + option.price,
+      0,
+    ) || 0;
 
+  // Calculate discount amount for display
+  const discountAmount = order.discount
+    ? order.discount.type === "rate"
+      ? order.originalPrice * order.discount.value
+      : order.discount.value
+    : 0;
+
+  const total = order.totalPrice + DELIVERY_FEE;
   return (
     <div className="lg:sticky lg:top-24">
       <Card className="border-border">
@@ -30,43 +71,91 @@ export function OrderSummary({ order }: OrderSummaryProps) {
           {/* Product */}
           <div className="flex gap-4">
             <div className="bg-muted relative h-24 w-20 shrink-0 overflow-hidden rounded-lg">
-              <Image
-                src={order.templateImage || "/placeholder.svg"}
-                alt={order.templateName}
-                fill
-                className="object-cover"
-              />
+              <Thumbnail src={order.thumbnail} widthPx={80} />
             </div>
             <div className="min-w-0 flex-1">
               <h3 className="text-foreground mb-1 truncate font-medium">
-                {order.templateName}
+                {order.title}
               </h3>
               <p className="text-muted-foreground text-sm">청첩장 템플릿</p>
               <p className="text-foreground mt-2 text-sm font-semibold">
-                {order.price.toLocaleString()}원
+                {formatPriceWithComma(order.discountedPrice)}원
               </p>
             </div>
           </div>
 
-          {/* <Separator /> */}
+          {/* Selected Options */}
+          {order.selectedOptions && order.selectedOptions.length > 0 && (
+            <div className="space-y-1">
+              <p className="text-sm font-medium">선택 옵션:</p>
+              {order.selectedOptions.map((option: SelectFeatureDto) => (
+                <div
+                  key={option.featureId}
+                  className="flex justify-between text-xs"
+                >
+                  <span className="text-muted-foreground ml-2">
+                    - {option.label}
+                  </span>
+                  <span className="text-foreground">
+                    +{formatPriceWithComma(option.price)}원
+                  </span>
+                </div>
+              ))}
+              <div className="mt-2 flex justify-between text-sm">
+                <span className="text-muted-foreground">옵션 총액</span>
+                <span className="text-foreground">
+                  +{formatPriceWithComma(selectedOptionsTotal)}원
+                </span>
+              </div>
+            </div>
+          )}
+
+          {/* Quantity */}
+          <div className="flex justify-between text-sm">
+            <span className="text-muted-foreground">수량</span>
+            <span className="text-foreground">{order.quantity}개</span>
+          </div>
 
           {/* Price Breakdown */}
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">상품 금액</span>
+              <span className="text-muted-foreground">상품 원가</span>
               <span className="text-foreground">
-                {order.price.toLocaleString()}원
+                {formatPriceWithComma(order.originalPrice)}원
               </span>
             </div>
+
+            {/* Discount */}
+            {order.discount && discountAmount > 0 && (
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">
+                  할인{" "}
+                  {order.discount.type === "rate" &&
+                    `(${Math.round(order.discount.value * 100)}%)`}
+                </span>
+                <span className="text-red-500">
+                  -{formatPriceWithComma(discountAmount)}원
+                </span>
+              </div>
+            )}
+
+            {/* Discounted Price */}
+            {order.discount && discountAmount > 0 && (
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">할인 적용가</span>
+                <span className="text-foreground font-medium">
+                  {formatPriceWithComma(order.discountedPrice)}원
+                </span>
+              </div>
+            )}
+
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">배송비</span>
               <span className="text-foreground">
-                {deliveryFee === 0 ? "무료" : `${deliveryFee}원`}
+                {DELIVERY_FEE === 0 ? "무료" : `${DELIVERY_FEE}원`}
               </span>
             </div>
           </div>
-
-          {/* <Separator /> */}
 
           {/* Total */}
           <div className="flex items-center justify-between">
@@ -74,7 +163,8 @@ export function OrderSummary({ order }: OrderSummaryProps) {
               총 결제금액
             </span>
             <span className="text-primary text-2xl font-bold">
-              {total.toLocaleString()}원
+              {formatPriceWithComma(total)}원
+              {/* Display the final calculated price */}
             </span>
           </div>
         </CardContent>
@@ -102,4 +192,4 @@ export function OrderSummary({ order }: OrderSummaryProps) {
       </Card>
     </div>
   );
-}
+};

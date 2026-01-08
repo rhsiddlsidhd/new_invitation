@@ -12,6 +12,7 @@ export const useSignIn = () => {
 
       const data = await fetcher<{ path: string }>(
         `/api/auth/entry?next=${encodeURIComponent(nextPath)}`,
+        undefined,
         {
           method: "POST",
         },

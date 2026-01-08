@@ -19,7 +19,7 @@ export interface SubwayApiResponse {
   };
 }
 
-const Subway = () => {
+const Subway = ({ station }: { station?: string }) => {
   // 현재 지하철역 데이터가 없음
   const [lineColorMap, setLineColorMap] = useState<Map<string, string>>(
     new Map(),
@@ -66,13 +66,14 @@ const Subway = () => {
     }
   };
 
-  const getSelectedSubway = async (): Promise<SubwayInfo[]> => {
+  const getSelectedSubway = async (
+    stationName: string,
+  ): Promise<SubwayInfo[]> => {
     // Next Proxy 로 우회 요청할 거임
     // 클라이언트측에서 http 요청을 하면 CORS 에러가 남
     // 서버측으로 API 요청 > 서버는 데이터 Res > 해당 데이터를 클라이언트로 전달
-    const parmas = "진접";
     try {
-      const res = await fetch(`/subway/${parmas}`);
+      const res = await fetch(`/subway/${stationName}`);
 
       if (!res.ok)
         throw new Error(`selected subway proxy failed: ${res.statusText}`);
@@ -86,11 +87,13 @@ const Subway = () => {
   };
 
   useEffect(() => {
+    if (!station) return;
+
     const fetchData = async () => {
       try {
         const [allSubwayData, selectedSubwayData] = await Promise.all([
           getAllSubway(),
-          getSelectedSubway(),
+          getSelectedSubway(station),
         ]);
 
         const lineData = createLineColorMap(allSubwayData);
@@ -104,7 +107,11 @@ const Subway = () => {
     };
 
     fetchData();
-  }, []);
+  }, [station]);
+
+  if (!station) {
+    return null;
+  }
 
   return (
     <div className="space-y-2">

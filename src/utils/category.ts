@@ -1,4 +1,4 @@
-import { Category } from "@/models/product.model";
+type Category = "classic" | "modern" | "minimal" | "romantic" | "vintage";
 
 export const categoryLabels: Record<Category, string> = {
   classic: "클래식",
@@ -11,6 +11,10 @@ export const categoryLabels: Record<Category, string> = {
 const categoryBaseOptions = Object.entries(categoryLabels).map(
   ([value, label]) => ({ value: value as Category, label }),
 );
+
+export const isProductCategory = (value: string): value is Category => {
+  return Object.keys(categoryLabels).includes(value);
+};
 
 export const getCategoryOptions = (includeAll = false) => {
   const allOption = includeAll

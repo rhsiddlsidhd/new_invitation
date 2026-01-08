@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductEditDialog } from "@/app/(admin)/admin/products/_components/ProductEditDialog";
+import { ProductEditDialog } from "@/app/(main)/(admin)/admin/products/_components/ProductEditDialog";
 import { AdminModalState, useAdminModalStore } from "@/store/admin.modal.store";
 import React from "react";
 import { PremiumFeatureDialog } from "../PremiumFeatureDialog";

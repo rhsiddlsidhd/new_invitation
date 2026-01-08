@@ -3,21 +3,37 @@ import { premiumFeatureSchema } from "@/schemas/premiumFeature.schema";
 import { dbConnect } from "@/shared/utils/mongodb";
 import mongoose from "mongoose";
 import z from "zod";
-
-interface PremiumFeatureRaw {
+interface FeatureLeanDoc {
+  _id: mongoose.Types.ObjectId;
+  code: string;
+  label: string;
+  description?: string;
+  additionalPrice: number;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+// FeatureJSON을 재사용
+export type PremiumFeature = {
+  _id: string;
   code: string;
   label: string;
   description: string;
   additionalPrice: number;
   isActive: boolean;
-  createdAt: Date;
-  _id: mongoose.Types.ObjectId;
-}
-
-export type PremiumFeature = Omit<PremiumFeatureRaw, "_id" | "createdAt"> & {
-  _id: string;
   createdAt: string;
 };
+
+// Mapper 함수: DB 결과를 PremiumFeature로 변환
+const mapToPremiumFeature = (doc: FeatureLeanDoc): PremiumFeature => ({
+  _id: String(doc._id),
+  code: doc.code,
+  label: doc.label,
+  description: doc.description ?? "",
+  additionalPrice: doc.additionalPrice,
+  isActive: doc.isActive,
+  createdAt: doc.createdAt.toISOString(),
+});
 
 export const createPremiumFeatureService = async (
   data: z.infer<typeof premiumFeatureSchema>,
@@ -31,15 +47,18 @@ export const getAllPremiumFeatureService = async (): Promise<
   PremiumFeature[]
 > => {
   await dbConnect();
-  const features = await FeatureModel.find()
-    .select("-__v -updatedAt")
-    .lean<PremiumFeatureRaw[]>();
+  const features = await FeatureModel.find().lean<FeatureLeanDoc[]>();
+  return features.map(mapToPremiumFeature);
+};
 
-  return features.map((f) => ({
-    ...f,
-    _id: f._id.toString(),
-    createdAt: f.createdAt.toISOString(),
-  }));
+export const getPremiumFeatureService = async (ids: string[] | []) => {
+  if (ids.length === 0) return [];
+  await dbConnect();
+  const _ids = ids.map((id) => new mongoose.Types.ObjectId(id));
+  const features = await FeatureModel.find({ _id: { $in: _ids } }).lean<
+    FeatureLeanDoc[]
+  >();
+  return features.map(mapToPremiumFeature);
 };
 
 export const updatePremiumFeatureService = async (

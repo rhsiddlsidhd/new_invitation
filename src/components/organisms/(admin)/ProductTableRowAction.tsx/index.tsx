@@ -1,6 +1,6 @@
 "use client";
 import { deleteProductAction } from "@/actions/deleteProductAction";
-import { ProductTableRowProps } from "@/app/(admin)/admin/products/_components/ProductTableRow";
+import { ProductTableRowProps } from "@/app/(main)/(admin)/admin/products/_components/ProductTableRow";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import { useAdminModalStore } from "@/store/admin.modal.store";
 import { Edit, Trash2 } from "lucide-react";

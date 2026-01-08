@@ -1,0 +1,39 @@
+"use server";
+
+import { handleActionError } from "@/api/error";
+import { APIResponse, success } from "@/api/response";
+import { HTTPError } from "@/api/type";
+import { hashPassword } from "@/lib/bcrypt";
+import { validateAndFlatten } from "@/lib/validation";
+import { GuestbookSchema } from "@/schemas/guestbook.schema";
+import { createGuestbookService } from "@/services/guestbook.service";
+
+export const createGuestbook = async (
+  _prev: unknown,
+  formData: FormData,
+): Promise<APIResponse<{ message: string }>> => {
+  try {
+    const data = {
+      coupleInfoId: formData.get("coupleInfoId") as string,
+      author: formData.get("author") as string,
+      password: formData.get("password") as string,
+      message: formData.get("message") as string,
+      isPrivate: formData.get("isPrivate") === "true",
+    };
+
+    const parsed = validateAndFlatten(GuestbookSchema, data);
+    if (!parsed.success) {
+      throw new HTTPError("입력값을 확인해주세요", 400, parsed.error);
+    }
+
+    const hashedPassword = await hashPassword(parsed.data.password);
+    // TODO: 데이터베이스에 방명록 저장
+    await createGuestbookService({
+      data: { ...parsed.data, password: hashedPassword },
+    });
+
+    return success({ message: "방명록 작성이 완료되었습니다." });
+  } catch (error) {
+    return handleActionError(error);
+  }
+};
