@@ -1,4 +1,4 @@
-import { ServerError } from "@/api/type";
+import { ServerError } from "@/types/error";
 import User, { BaseUser } from "@/models/user.model";
 
 import { dbConnect } from "@/shared/utils/mongodb";

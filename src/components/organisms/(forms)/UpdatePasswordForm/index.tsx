@@ -37,7 +37,8 @@ const UpdatePasswordForm = () => {
     };
   }, []);
 
-  const fieldErrors = state && !state.success && state.error.errors;
+  const fieldErrors =
+    state && !state.success && "errors" in state.error && state.error.errors;
 
   return (
     <div className="space-y-6">

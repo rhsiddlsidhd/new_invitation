@@ -1,48 +1,35 @@
-import { error as createErrorResponse, ErrorResponse } from "@/api/response";
-import { HTTPError } from "./type";
-
 /**
- * Handles errors for Server Actions, returning a structured ErrorResponse object.
- * This function does not include HTTP status codes in the response body,
- * as it's designed for server-to-server communication or client-side logic
- * that processes a structured response.
+ * Centralized error handling module
  *
- * @param e - The error object, which can be of any type.
- * @returns An ErrorResponse object with `success: false` and error details.
+ * This module provides consistent error handlers for different contexts:
+ * - Server Actions (handleActionError)
+ * - API Routes (handleRouteError)
+ * - Client Side (handleClientError)
+ *
+ * All handlers delegate to corresponding create functions in response.ts
  */
+
+export { type ErrorResponse } from "@/api/response";
+import {
+  createErrorResponse,
+  createApiErrorResponse,
+  createClientErrorResponse,
+  type ErrorResponse,
+  ClientFieldErrors,
+  ClientMessageError,
+} from "@/api/response";
+import { NextResponse } from "next/server";
+
 export const handleActionError = (e: unknown): ErrorResponse => {
   return createErrorResponse(e);
 };
 
-/**
- * Handles errors for API route handlers (e.g., in `route.ts`),
- * returning a `NextResponse` object with an appropriate HTTP status code.
- * This is suitable for traditional client-side `fetch` calls that rely on
- * HTTP status codes for error handling.
- *
- * @param e - The error object, which can be of any type.
- * @returns A `NextResponse` object containing the error details and status.
- */
+export const handleRouteError = (e: unknown): NextResponse<ErrorResponse> => {
+  return createApiErrorResponse(e);
+};
 
-export const handleClientError = (e: unknown) => {
-  if (e instanceof HTTPError) {
-    switch (e.code) {
-      case 400:
-      //     if (e.errors) {
-      //         showFormErrors(e.errors);
-      //     } else {
-      //         showToast(e.message);
-      //     }
-      //     break;
-      case 401:
-        if (e.path) {
-          window.location.href = e.path;
-        }
-      //     break;
-      default:
-        console.error("HandleClientError", e);
-    }
-  }
-
-  console.error(e);
+export const handleClientError = (
+  e: unknown,
+): ClientFieldErrors | ClientMessageError | void => {
+  return createClientErrorResponse(e);
 };

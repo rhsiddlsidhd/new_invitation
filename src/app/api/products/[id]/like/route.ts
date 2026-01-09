@@ -1,5 +1,6 @@
-import { apiError, APIRouteResponse, apiSuccess } from "@/api/response";
-import { HTTPError } from "@/api/type";
+import { APIRouteResponse, apiSuccess } from "@/api/response";
+import { handleRouteError } from "@/api/error";
+import { HTTPError } from "@/types/error";
 import { decrypt } from "@/lib/token";
 import { updateProductLikeService } from "@/services/product.service";
 
@@ -31,6 +32,6 @@ export const POST = async (
 
     return apiSuccess({ message: "좋아요 업데이트에 성공하였습니다." });
   } catch (error) {
-    return apiError(error);
+    return handleRouteError(error);
   }
 };

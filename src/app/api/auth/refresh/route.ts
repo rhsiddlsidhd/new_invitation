@@ -1,5 +1,6 @@
-import { apiError, APIRouteResponse, apiSuccess } from "@/api/response";
-import { HTTPError } from "@/api/type";
+import { APIRouteResponse, apiSuccess } from "@/api/response";
+import { handleRouteError } from "@/api/error";
+import { HTTPError } from "@/types/error";
 import { getCookie } from "@/lib/cookies/get";
 import { deleteCookie } from "@/lib/cookies/delete";
 import { decrypt, encrypt } from "@/lib/token";
@@ -35,6 +36,6 @@ export const POST = async (): Promise<
   } catch (e) {
     // refresh token이 만료되거나 유효하지 않을 경우 쿠키 삭제
     await deleteCookie("token");
-    return apiError(e);
+    return handleRouteError(e);
   }
 };

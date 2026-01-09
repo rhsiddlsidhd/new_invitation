@@ -1,5 +1,6 @@
-import { apiError, APIRouteResponse, apiSuccess } from "@/api/response";
-import { HTTPError } from "@/api/type";
+import { APIRouteResponse, apiSuccess } from "@/api/response";
+import { handleRouteError } from "@/api/error";
+import { HTTPError } from "@/types/error";
 import { decrypt } from "@/lib/token";
 import { ICoupleInfo } from "@/models/coupleInfo.model";
 import { getCoupleInfoById } from "@/services/coupleInfo.service";
@@ -28,6 +29,6 @@ export const GET = async (
     console.log(coupleInfo);
     return apiSuccess(coupleInfo);
   } catch (error) {
-    return apiError(error);
+    return handleRouteError(error);
   }
 };

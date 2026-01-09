@@ -1,4 +1,5 @@
-import { apiError, APIRouteResponse, apiSuccess } from "@/api/response";
+import { APIRouteResponse, apiSuccess } from "@/api/response";
+import { handleRouteError } from "@/api/error";
 import { getAllProductsService, Product } from "@/services/product.service";
 
 export const GET = async (): Promise<APIRouteResponse<Product[]>> => {
@@ -6,6 +7,6 @@ export const GET = async (): Promise<APIRouteResponse<Product[]>> => {
     const products = await getAllProductsService();
     return apiSuccess(products);
   } catch (error) {
-    return apiError(error);
+    return handleRouteError(error);
   }
 };

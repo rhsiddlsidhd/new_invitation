@@ -1,4 +1,5 @@
-import { apiError, APIRouteResponse, apiSuccess } from "@/api/response";
+import { APIRouteResponse, apiSuccess } from "@/api/response";
+import { handleRouteError } from "@/api/error";
 import { deleteCookie } from "@/lib/cookies/delete";
 
 export const DELETE = async (): Promise<
@@ -8,6 +9,6 @@ export const DELETE = async (): Promise<
     await deleteCookie("userEmail");
     return apiSuccess({ message: "로그아웃에 성공하였습니다." });
   } catch (e) {
-    return apiError(e);
+    return handleRouteError(e);
   }
 };

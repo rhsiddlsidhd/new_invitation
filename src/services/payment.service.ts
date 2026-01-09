@@ -3,7 +3,7 @@ import { PaymentModel, PayStatus } from "@/models/payment";
 import { OrderModel } from "@/models/order.model";
 import { getProductService } from "./product.service";
 import { getOrderSeviceByMerchantUid } from "./order.service";
-import { HTTPError } from "@/api/type";
+import { HTTPError } from "@/types/error";
 import { dbConnect } from "@/shared/utils/mongodb";
 
 // 환경 변수 확인

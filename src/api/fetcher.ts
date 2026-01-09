@@ -1,6 +1,6 @@
 import useAuthTokenStore from "@/store/authTokenStore";
 import { ErrorResponse, SuccessResponse } from "./response";
-import { HTTPError } from "./type";
+import { HTTPError } from "@/types/error";
 import { UserRole } from "@/models/user.model";
 
 let isRefreshing = false;
@@ -75,10 +75,10 @@ export async function fetcher<T>(
 
     // ===== 에러 응답 처리 =====
     const body: ErrorResponse = await res.json();
-    const { message, code, errors, path } = body.error;
+    const { message, code } = body.error;
 
     if (res.status !== 401) {
-      throw new HTTPError(message, code, errors, path);
+      throw new HTTPError(message, code);
     }
 
     // ===== 401 처리 (토큰 리프레시) =====

@@ -89,7 +89,8 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
     );
   };
 
-  const error = state && !state.success && state.error.errors;
+  const error =
+    state && !state.success && "errors" in state.error && state.error.errors;
 
   // 로딩 중일 때 스피너 표시
   if (loading) {
@@ -353,9 +354,7 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
           <div className="col-span-2 space-y-4 rounded-lg border border-dashed p-4">
             <h4 className="text-foreground font-medium">
               프리미엄 기능 선택{" "}
-              {state && !state.success && state.error.errors && (
-                <Alert type="error">{state.error.errors["options"]}</Alert>
-              )}{" "}
+              {error && <Alert type="error">{error["options"]}</Alert>}
             </h4>
             <div className="grid grid-cols-2 gap-3">
               {premiumFeatures.map((feature) => (

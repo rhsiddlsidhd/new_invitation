@@ -7,6 +7,7 @@ import useAuth from "@/hooks/useAuth";
 import { Heart } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState, useTransition } from "react";
+import { toast } from "sonner";
 
 const ProductLikeButton = ({
   productId,
@@ -42,7 +43,10 @@ const ProductLikeButton = ({
       });
     } catch (error) {
       setLocalLikes(productLikes);
-      handleClientError(error);
+      const result = handleClientError(error);
+      if (result && "message" in result) {
+        toast.error(result.message);
+      }
     }
   };
 

@@ -8,7 +8,7 @@ import { setCookie } from "@/lib/cookies/set";
 import { APIResponse, success } from "@/api/response";
 import { checkEmailDuplicate } from "@/services/user.service";
 import { handleActionError } from "@/api/error";
-import { HTTPError } from "@/api/type";
+import { HTTPError } from "@/types/error";
 
 const createChangePWDomain = (token: string): string => {
   return process.env.NODE_ENV === "development"

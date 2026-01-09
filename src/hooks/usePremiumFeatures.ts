@@ -9,6 +9,7 @@ import { handleClientError } from "@/api/error";
 import { fetcher } from "@/api/fetcher";
 import { PremiumFeature } from "@/services/premiumFeature.service";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const usePremiumFeature = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -29,7 +30,10 @@ const usePremiumFeature = () => {
         setPremiumFeatures(data.features ?? []);
       } catch (error) {
         if (flag) return;
-        handleClientError(error);
+        const result = handleClientError(error);
+        if (result && "message" in result) {
+          toast.error(result.message);
+        }
         setPremiumFeatures([]);
       } finally {
         if (flag) return;

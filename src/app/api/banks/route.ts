@@ -1,4 +1,5 @@
-import { apiError, APIRouteResponse, apiSuccess } from "@/api/response";
+import { APIRouteResponse, apiSuccess } from "@/api/response";
+import { handleRouteError } from "@/api/error";
 
 /**
  * data
@@ -20,6 +21,6 @@ export const GET = async (): Promise<APIRouteResponse<Banks>> => {
     const data: Banks = await res.json();
     return apiSuccess(data);
   } catch (error) {
-    return apiError(error);
+    return handleRouteError(error);
   }
 };

@@ -1,7 +1,7 @@
-import { apiError } from "@/api/response";
-import { HTTPError } from "@/api/type";
-import { NextRequest, NextResponse } from "next/server";
 import { APIRouteResponse } from "@/api/response";
+import { handleRouteError } from "@/api/error";
+import { HTTPError } from "@/types/error";
+import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { validateAndFlatten } from "@/lib/validation";
 import { decrypt } from "@/lib/token";
@@ -34,7 +34,7 @@ export const POST = async (
     const authHeader = req.headers.get("Authorization");
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       console.error("[Order Create] No auth header");
-      throw new HTTPError("로그인이 필요합니다.", 401, undefined, "/login");
+      throw new HTTPError("로그인이 필요합니다.", 401);
     }
 
     const token = authHeader.substring(7); // "Bearer " 제거
@@ -46,21 +46,11 @@ export const POST = async (
 
       if (!payload.id) {
         console.error("[Order Create] No payload.id");
-        throw new HTTPError(
-          "유효하지 않은 토큰입니다.",
-          401,
-          undefined,
-          "/login",
-        );
+        throw new HTTPError("유효하지 않은 토큰입니다.", 401);
       }
     } catch (decryptError) {
       console.error("[Order Create] Decrypt failed:", decryptError);
-      throw new HTTPError(
-        "유효하지 않은 토큰입니다.",
-        401,
-        undefined,
-        "/login",
-      );
+      throw new HTTPError("유효하지 않은 토큰입니다.", 401);
     }
 
     const body = await req.json();
@@ -108,6 +98,6 @@ export const POST = async (
       { status: 201 },
     );
   } catch (error) {
-    return apiError(error);
+    return handleRouteError(error);
   }
 };
