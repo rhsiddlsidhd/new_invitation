@@ -1,3 +1,4 @@
+"use client";
 import Image, { ImageLoaderProps, StaticImageData } from "next/image";
 import React from "react";
 
@@ -10,7 +11,7 @@ const cloudinaryLoader = ({ src, width, quality }: ImageLoaderProps) => {
   if (typeof src !== "string" || !src.includes("res.cloudinary.com")) {
     return src;
   }
-
+  // console.log(width);
   const params = [`f_auto`, `q_auto`, `w_${width}`];
 
   if (quality) {
@@ -35,6 +36,7 @@ const LoaderThumbnail = ({
     <Image
       loader={cloudinaryLoader}
       src={src}
+      // sizes="(max-width: 508px) 100vw, 508px"
       fill
       alt={alt ? alt : "이미지"}
       className="object-cover"

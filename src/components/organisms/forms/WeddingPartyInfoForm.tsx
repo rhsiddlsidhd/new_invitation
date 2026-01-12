@@ -1,11 +1,11 @@
-import { patchText } from "@/domains/invitation";
+import { patchText } from "@/__domains/invitation";
 import WeddingCoupleInfoPanel from "@/components/organisms/panel/WeddingCoupleInfoPanel";
 import { useModalStore } from "@/shared/store";
 import {
   useClearUserErrors,
   useSetUser,
   useSetUserErrors,
-} from "@/domains/user";
+} from "@/__domains/user";
 import React, { useActionState, useEffect } from "react";
 
 const WeddingPartyInfoForm = () => {

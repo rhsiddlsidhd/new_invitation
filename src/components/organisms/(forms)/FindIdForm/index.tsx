@@ -9,12 +9,13 @@ import { User, Phone, Mail } from "lucide-react";
 import { findUserEmail } from "@/actions/findUserEmail";
 import { Card } from "@/components/atoms/Card/Card";
 import { Btn } from "@/components/atoms/Btn/Btn";
-import Label from "@/components/atoms/Label/Label";
 import { Input } from "@/components/atoms/Input/Input";
+import { Label } from "@/components/atoms/Label/Label";
 
 export function FindIdForm() {
   const [state, action, pending] = useActionState(findUserEmail, null);
-  const fieldErrors = state && !state.success && state.error.errors;
+  const fieldErrors =
+    state && !state.success && "errors" in state.error && state.error.errors;
   const formError = state && !state.success && state.error.message;
 
   if (state && state.success) {

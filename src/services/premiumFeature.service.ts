@@ -1,6 +1,7 @@
 import { FeatureModel } from "@/models/product.feature.model";
 import { premiumFeatureSchema } from "@/schemas/premiumFeature.schema";
-import { dbConnect } from "@/shared/utils/mongodb";
+import { dbConnect } from "@/utils/mongodb";
+
 import mongoose from "mongoose";
 import z from "zod";
 interface FeatureLeanDoc {

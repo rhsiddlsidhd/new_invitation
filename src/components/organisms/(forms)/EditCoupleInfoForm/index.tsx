@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/Card/Card";
-import { Input } from "@/components/atoms/Input/Input";
 import { Label } from "@/components/atoms/Label/Label";
 import { Textarea } from "@/components/atoms/Textarea";
 import { Save, ArrowLeft } from "lucide-react";

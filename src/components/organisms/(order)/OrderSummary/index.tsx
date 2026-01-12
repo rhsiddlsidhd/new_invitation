@@ -14,7 +14,7 @@ import { useCheckoutData } from "@/hooks/useCheckoutData";
 import { SelectFeatureDto } from "@/schemas/order.schema";
 
 export const OrderSummary = () => {
-  const { data, loading, error } = useCheckoutData();
+  const { data, loading } = useCheckoutData();
 
   if (loading) {
     return (

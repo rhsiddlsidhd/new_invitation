@@ -1,13 +1,13 @@
 "use client";
 
-import { patchGallery } from "@/domains/invitation";
+import { patchGallery } from "@/__domains/invitation";
 import WeddingGalleryPanel from "@/components/organisms/panel/WeddingGalleryPanel";
 import { useModalStore } from "@/shared/store/modalStore";
 import {
   useClearUserErrors,
   useSetUser,
   useSetUserErrors,
-} from "@/domains/user";
+} from "@/__domains/user";
 
 import { GalleryMapClient, GalleryPayload } from "@/shared/types";
 import { validateAndFlatten, GalleryMapSchema } from "@/lib/validation";

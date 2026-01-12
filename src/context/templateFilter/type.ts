@@ -1,13 +1,6 @@
-import { Category } from "@/models/product.model";
+import { Category } from "@/utils/category";
 
 type TemplatePrice = "ALL" | "FREE" | "UNDER-10k" | "10k-30k" | "OVER-30k";
-
-type TemplateFeature =
-  | "VIDEO"
-  | "HORIZONTAL_SLIDE"
-  | "CUSTOM_FONT"
-  | "SAVE_MOBILE_INVITATION"
-  | "SAVE_GUESTBOOK";
 
 export type TemplateFilterState = {
   keyword: string;

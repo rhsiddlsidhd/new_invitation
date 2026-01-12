@@ -1,8 +1,5 @@
-import { Btn } from "@/components/atoms/Btn/Btn";
-import { GuestBookView } from "@/components/template/invitation/InvitationContainer";
 import { IGuestbook } from "@/models/guestbook.model";
 import { motion } from "framer-motion";
-import { X } from "lucide-react";
 
 import React, { useEffect, useMemo, useState } from "react";
 import ActionConfirmationDialog from "./ActionConfirmationDialog";

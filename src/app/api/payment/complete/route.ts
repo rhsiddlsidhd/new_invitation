@@ -1,8 +1,8 @@
-import { APIRouteResponse } from "@/api/response";
+import { APIRouteResponse, apiSuccess } from "@/api/response";
 import { handleRouteError } from "@/api/error";
 import { HTTPError } from "@/types/error";
 import { syncPayment } from "@/services/payment.service";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { PayStatus } from "@/models/payment";
 import { decrypt } from "@/lib/token";
 
@@ -36,13 +36,7 @@ export const POST = async (
       throw new HTTPError("결제 동기화에 실패했습니다.", 500);
     }
 
-    return NextResponse.json(
-      {
-        success: true,
-        data: { status: payment.status },
-      },
-      { status: 200 },
-    );
+    return apiSuccess({ status: payment.status });
   } catch (error) {
     return handleRouteError(error);
   }

@@ -1,4 +1,3 @@
-import { Badge } from "@/components/atoms/Badge/Badge";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import {
   Card,

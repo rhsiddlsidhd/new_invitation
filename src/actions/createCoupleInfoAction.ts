@@ -10,7 +10,7 @@ import { coupleInfoSchema } from "@/schemas/coupleInfo.schema";
 import { createCoupleInfoService } from "@/services/coupleInfo.service";
 
 export const createCoupleInfoAction = async (
-  prev: unknown,
+  _prev: null,
   formData: FormData,
 ): Promise<APIResponse<{ message: string; _id: string }>> => {
   try {
@@ -105,7 +105,7 @@ export const createCoupleInfoAction = async (
     if (!coupleInfo)
       throw new HTTPError("커플 정보 등록에 실패하였습니다.", 500);
 
-    return success({
+    return success<{ message: string; _id: string }>({
       message: "커플 정보가 성공적으로 등록되었습니다.",
       _id: coupleInfo._id.toString(),
     });

@@ -1,6 +1,7 @@
 import { useMemo } from "react";
-import { getChosung, isChosungOnly } from "@/shared/utils/string/hangul";
+
 import { Product } from "@/services/product.service";
+import { getChosung, isChosungOnly } from "@/utils/hangul";
 
 const useSugessteTemplate = ({
   data,

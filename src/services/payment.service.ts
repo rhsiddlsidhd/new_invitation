@@ -4,7 +4,7 @@ import { OrderModel } from "@/models/order.model";
 import { getProductService } from "./product.service";
 import { getOrderSeviceByMerchantUid } from "./order.service";
 import { HTTPError } from "@/types/error";
-import { dbConnect } from "@/shared/utils/mongodb";
+import { dbConnect } from "@/utils/mongodb";
 
 // 환경 변수 확인
 const PORTONE_API_SECRET = process.env.POST_ONE_API_KEY;

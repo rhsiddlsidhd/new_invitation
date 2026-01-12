@@ -1,5 +1,5 @@
 import { PAY_METHOD } from "@/contants/payment";
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Model, Schema } from "mongoose";
 
 // --- Enums --- TRANS 실시간 계좌이체 VBANK 가상 계좌
 
@@ -143,4 +143,5 @@ const paymentSchema = new Schema<Payment>(
 );
 
 export const PaymentModel =
-  mongoose.models.Payment || mongoose.model<Payment>("Payment", paymentSchema);
+  (mongoose.models.Payment as Model<Payment>) ||
+  mongoose.model<Payment>("Payment", paymentSchema);

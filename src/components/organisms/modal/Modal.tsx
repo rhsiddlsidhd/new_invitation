@@ -15,7 +15,7 @@ import Contact from "../panel/Contact";
 
 import GuestBook from "@/components/organisms/(preview)/GuestbookView";
 import GuestBookForm from "../(preview)/GuestbookForm";
-import { useClearUserErrors } from "@/domains/user";
+import { useClearUserErrors } from "@/__domains/user";
 
 const Modal = () => {
   const { isOpen, modalType, config, setModalOpen } = useModalStore();

@@ -8,7 +8,7 @@ import { NextRequest } from "next/server";
 
 export const POST = async (
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ): Promise<APIRouteResponse<{ message: string }>> => {
   try {
     const { id } = await params;

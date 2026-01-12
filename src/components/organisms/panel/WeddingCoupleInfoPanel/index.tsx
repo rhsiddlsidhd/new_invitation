@@ -3,7 +3,7 @@ import { ModalType, useModalStore } from "@/shared/store";
 import Label from "@/components/atoms/Label/Label";
 import Input from "@/components/atoms/Input/Input";
 import Btn from "@/components/atoms/Btn";
-import { useWeddingCouple } from "@/domains/user";
+import { useWeddingCouple } from "@/__domains/user";
 import { CoupleField } from "./type";
 
 const FieldGroup = ({

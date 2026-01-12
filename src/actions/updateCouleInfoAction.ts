@@ -10,7 +10,7 @@ import { coupleInfoSchema } from "@/schemas/coupleInfo.schema";
 import { updateCoupleInfoService } from "@/services/coupleInfo.service";
 
 export const updateCouleInfoAction = async (
-  prev: unknown,
+  _prev: null,
   formData: FormData,
 ): Promise<APIResponse<{ message: string; _id: string }>> => {
   try {
@@ -97,20 +97,16 @@ export const updateCouleInfoAction = async (
     }
 
     // 5. DB 업데이트
-    const updated = await updateCoupleInfoService(
-      coupleInfoId,
-      payload.id,
-      {
-        ...parsed.data,
-        message: "", // Default empty message - can be updated later
-      },
-    );
+    const updated = await updateCoupleInfoService(coupleInfoId, payload.id, {
+      ...parsed.data,
+      message: "", // Default empty message - can be updated later
+    });
 
     if (!updated) {
       throw new HTTPError("커플 정보 업데이트에 실패하였습니다.", 500);
     }
 
-    return success({
+    return success<{ message: string; _id: string }>({
       message: "커플 정보가 성공적으로 업데이트되었습니다.",
       _id: coupleInfoId,
     });

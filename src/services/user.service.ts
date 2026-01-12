@@ -1,7 +1,8 @@
 import { HTTPError } from "@/types/error";
 import User, { BaseUser, UserDocument } from "@/models/user.model";
-import { dbConnect } from "@/shared/utils/mongodb";
+
 import bcrypt from "bcryptjs";
+import { dbConnect } from "@/utils/mongodb";
 // 유저 생성
 export const createUser = async (user: BaseUser): Promise<UserDocument> => {
   await dbConnect();

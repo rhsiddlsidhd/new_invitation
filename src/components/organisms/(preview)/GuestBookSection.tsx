@@ -51,7 +51,7 @@ const GuestBookSection = () => {
           onAnimationComplete={() => {
             if (!isOpen) clearIsOpen();
           }}
-          className={`fixed inset-0 z-50 flex transform-gpu items-center justify-center bg-black/60 backdrop-blur-sm`}
+          className={`fixed inset-0 z-50 flex transform-gpu items-center justify-center bg-black/60 p-4 backdrop-blur-sm`}
           onClick={(e: React.MouseEvent<HTMLDivElement>) => {
             if (e.target === e.currentTarget) {
               closeModal();

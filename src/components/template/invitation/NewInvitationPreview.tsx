@@ -5,16 +5,16 @@ import DateDisplay from "@/components/atoms/Date/Date";
 import { PhoneIcon } from "@/components/atoms/Icon";
 import Img from "@/components/atoms/Thumbnail";
 import MusicBtn from "@/components/molecules/btns/MusicBtn";
-import Account from "@/components/molecules/wedding/Account";
-import Calender from "@/components/molecules/wedding/Calender";
-import Navigation from "@/components/molecules/wedding/Navigation";
-import Schedule from "@/components/molecules/wedding/Schedule";
-import Subway from "@/components/molecules/wedding/Subway";
+import Account from "@/components/molecules/__wedding/Account";
+import Calender from "@/components/organisms/(preview)/WeddingMonthCalendar";
+import Navigation from "@/components/organisms/(preview)/Navigation";
+import Schedule from "@/components/molecules/__wedding/Schedule";
+import Subway from "@/components/molecules/__wedding/Subway";
 import React from "react";
 import AnimateViewBox from "../Box/AnimateViewBox";
-import DigitalWatch from "@/components/molecules/wedding/DigitalWatch";
-import KakaoMap from "../../molecules/wedding/KakaoMap/index";
-import NewGallery from "@/components/molecules/wedding/NewGallery";
+import DigitalWatch from "@/components/molecules/(preview)/DigitalWatch";
+import KakaoMap from "../../molecules/KakaoMap/index";
+import NewGallery from "@/components/molecules/__wedding/NewGallery";
 import { ICoupleInfo } from "@/models/coupleInfo.model";
 import useInvitationData from "@/hooks/useInvitationData";
 import { GuestBookView } from "@/types/invitation";
@@ -47,9 +47,7 @@ const NewInvitationPreview = ({
 
   return (
     <section className="w-full bg-gray-100">
-      <div
-        className={`bg-akwmrlawz m-auto w-full max-w-[432px] bg-white p-4`}
-      >
+      <div className={`bg-akwmrlawz m-auto w-full max-w-[432px] bg-white p-4`}>
         <AnimateViewBox triggerOnce>
           <div className="flex justify-end">
             <MusicBtn />

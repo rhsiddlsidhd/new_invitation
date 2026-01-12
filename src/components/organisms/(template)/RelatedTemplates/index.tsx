@@ -1,8 +1,4 @@
-import { TemplateCard } from "../TemplateCard";
-
-interface RelatedTemplatesProps {}
-
-export function RelatedTemplates({}: RelatedTemplatesProps) {
+export function RelatedTemplates() {
   // const filtered = relatedTemplates.filter((t) => t.id !== currentTemplateId);
 
   return (
