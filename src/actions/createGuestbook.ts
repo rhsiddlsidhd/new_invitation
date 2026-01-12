@@ -9,7 +9,7 @@ import { GuestbookSchema } from "@/schemas/guestbook.schema";
 import { createGuestbookService } from "@/services/guestbook.service";
 
 export const createGuestbook = async (
-  _prev: unknown,
+  _prev: null,
   formData: FormData,
 ): Promise<APIResponse<{ message: string }>> => {
   try {
@@ -32,7 +32,9 @@ export const createGuestbook = async (
       data: { ...parsed.data, password: hashedPassword },
     });
 
-    return success({ message: "방명록 작성이 완료되었습니다." });
+    return success<{ message: string }>({
+      message: "방명록 작성이 완료되었습니다.",
+    });
   } catch (error) {
     return handleActionError(error);
   }

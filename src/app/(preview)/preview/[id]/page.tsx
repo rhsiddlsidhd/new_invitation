@@ -20,6 +20,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const data = await getGuestbookService(COUPLEINFO_ID);
   const coupleInfoData = await getCoupleInfoById(COUPLEINFO_ID);
 
+  console.log("data", data);
   if (!coupleInfoData) throw new Error("CoupleInfoData not found");
 
   // 갤러리 데이터 변환

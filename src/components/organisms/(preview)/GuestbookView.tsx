@@ -91,17 +91,6 @@ const GuestbookView = ({ payload }: { payload: unknown }) => {
               >
                 <ActionConfirmationDialog id={item._id as string} />
               </motion.div>
-
-              {/* <GuestBookDeleteForm
-                isDelete={isDelete}
-                id={item._id}
-                onCancel={() =>
-                  setIsDelete((prev) => ({
-                    ...prev,
-                    [item._id]: false,
-                  }))
-                }
-              /> */}
             </li>
           ))}
 

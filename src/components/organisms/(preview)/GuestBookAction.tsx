@@ -5,16 +5,85 @@ import SectionBody from "@/components/molecules/(preview)/SectionBody";
 import { IGuestbook } from "@/models/guestbook.model";
 import { useGuestbookModalStore } from "@/store/guestbook.modal.store";
 import { BookOpen, PenLine } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import ActionConfirmationDialog from "./ActionConfirmationDialog";
 
 const GuestBookAction = ({ id, data }: { id: string; data: IGuestbook[] }) => {
   const setIsOpen = useGuestbookModalStore((state) => state.setIsOpen);
-
+  const [isDelete, setIsDelete] = useState<Record<string, boolean>>({});
+  useEffect(() => {
+    if (data) {
+      data.forEach((item) => {
+        setIsDelete((prev) => ({ ...prev, [item._id as string]: false }));
+      });
+    }
+  }, [data]);
   return (
     <SectionBody title="GUESTBOOK" subTitle="방명록">
       <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+        {/* <Btn
+          variant="outline"
+          onClick={() =>
+            setIsOpen({ isOpen: true, type: "VIEW_GUESTBOOK", payload: data })
+          }
+          className="w-full gap-2 px-8 py-6 sm:w-auto"
+        >
+          <BookOpen className="h-5 w-5" />
+          <span className="font-semibold">방명록 전체보기 ({data.length})</span>
+        </Btn> */}
+        <div className="h-full text-gray-300">
+          <ul className="space-y-3 py-2">
+            {data && data.length === 0 && (
+              <li className="py-6 text-center text-gray-400">
+                등록된 방명록이 없습니다.
+              </li>
+            )}
+
+            {data &&
+              data.map((item) => (
+                <li
+                  className="relative flex items-start gap-3 rounded-md p-3 shadow-sm"
+                  key={item._id as string}
+                >
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{
+                      opacity: !isDelete[item._id as string] ? 1 : 0,
+                      y: !isDelete[item._id as string] ? 0 : -10,
+                    }}
+                    className="relative min-w-0 flex-1"
+                  >
+                    <p className="text-foreground truncate text-start text-sm font-semibold">
+                      {item.author}
+                    </p>
+                    <p className="overflow-scroll-hidden wrap-break-words text-muted-foreground mt-1 line-clamp-3 overflow-hidden text-sm">
+                      {item.message}
+                    </p>
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{
+                        opacity: !isDelete[item._id as string] ? 1 : 0,
+                        y: !isDelete[item._id as string] ? 0 : -10,
+                      }}
+                      className="absolute top-0 right-0"
+                    >
+                      <ActionConfirmationDialog id={item._id as string} />
+                    </motion.div>
+                  </motion.div>
+                </li>
+              ))}
+
+            {!data && (
+              <li className="py-6 text-center text-gray-400">
+                방명록을 불러오는 중입니다.
+              </li>
+            )}
+          </ul>
+        </div>
+
         <Btn
-          variant="default"
+          variant="secondary"
           onClick={() => {
             setIsOpen({
               isOpen: true,
@@ -26,16 +95,6 @@ const GuestBookAction = ({ id, data }: { id: string; data: IGuestbook[] }) => {
         >
           <PenLine className="h-5 w-5" />
           <span className="font-semibold">방명록 작성하기</span>
-        </Btn>
-        <Btn
-          variant="outline"
-          onClick={() =>
-            setIsOpen({ isOpen: true, type: "VIEW_GUESTBOOK", payload: data })
-          }
-          className="w-full gap-2 px-8 py-6 sm:w-auto"
-        >
-          <BookOpen className="h-5 w-5" />
-          <span className="font-semibold">방명록 전체보기 ({data.length})</span>
         </Btn>
       </div>
     </SectionBody>

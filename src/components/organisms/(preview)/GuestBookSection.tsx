@@ -70,7 +70,7 @@ const GuestBookSection = () => {
             className={clsx(
               `scrollbar-hide relative max-h-[80vh] w-full max-w-md overflow-y-scroll rounded-lg p-6`,
               type === "WRITE_GUESTBOOK"
-                ? "bg-white shadow-xl"
+                ? "bg-white/95 shadow-xl"
                 : "bg-transparent",
             )}
             ref={modalref}

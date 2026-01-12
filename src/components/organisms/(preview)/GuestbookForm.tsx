@@ -6,6 +6,7 @@ import LabeledInput from "@/components/molecules/(input-group)/LabeledInput";
 import LabeledSwitch from "@/components/molecules/(input-group)/LabeledSwitch";
 import { createGuestbook } from "@/actions/createGuestbook";
 import { useGuestbookModalStore } from "@/store/guestbook.modal.store";
+import { cn } from "@/lib/utils";
 
 interface Payload {
   id: string;
@@ -30,7 +31,7 @@ const GuestbookForm = ({ payload }: { payload: unknown }) => {
   if (!id) throw new Error("GuestBookForm payload is required");
 
   useEffect(() => {
-    if (state && !state.success && state.error) {
+    if (state && !state.success) {
       alert("잠시 후에 다시 시도해주세요.");
     } else if (state && state.success) {
       alert(state.data.message);
@@ -46,7 +47,7 @@ const GuestbookForm = ({ payload }: { payload: unknown }) => {
 
       <LabeledInput
         name="author"
-        placeholder="이름을 입력하세요"
+        placeholder="이름을 입력하세요."
         id="author"
         type="text"
         required
@@ -65,8 +66,12 @@ const GuestbookForm = ({ payload }: { payload: unknown }) => {
 
       <textarea
         name="message"
-        placeholder="메시지를 입력하세요"
-        className="w-full rounded-lg border border-gray-300 p-2"
+        placeholder="메시지를 입력하세요."
+        className={cn(
+          "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+          "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+          "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+        )}
       />
 
       <LabeledSwitch id="isPrivate" name="isPrivate">
