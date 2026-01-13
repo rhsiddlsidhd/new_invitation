@@ -1,6 +1,4 @@
 "use client";
-import { fetcher } from "@/api/fetcher";
-import { Banks } from "@/app/api/banks/route";
 import { Input } from "@/components/atoms/Input/Input";
 import { Label } from "@/components/atoms/Label/Label";
 import {
@@ -10,8 +8,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/atoms/Select";
+import { useBanks } from "@/hooks/useBanks";
 import React, { useState, useEffect } from "react";
-import useSWR from "swr";
 
 interface BankAccountInfo {
   bankName: string;
@@ -34,9 +32,9 @@ const BankAccount = ({
     accountNumber: defaultAccountNumber,
   });
 
-  const { data } = useSWR<{ items: Banks }>("/api/banks", fetcher);
+  const { banks } = useBanks(); // useSWR -> useBanks 훅으로 교체
 
-  // defaultValue 변경 시 state 업데이트 (data 로딩 후 반영)
+  // defaultValue 변경 시 state 업데이트
   useEffect(() => {
     if (defaultBankName || defaultAccountNumber) {
       setInfo({
@@ -64,8 +62,9 @@ const BankAccount = ({
             <SelectValue placeholder="은행 선택" />
           </SelectTrigger>
           <SelectContent className="max-h-60!" position="popper" align="start">
-            {data &&
-              data.items.map((bank) => (
+            {/* data.items -> banks 로 변경 */}
+            {banks &&
+              banks.map((bank) => (
                 <SelectItem key={bank.bank} value={bank.bank}>
                   {bank.name.ko}
                 </SelectItem>

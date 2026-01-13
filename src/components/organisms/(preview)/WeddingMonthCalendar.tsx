@@ -7,6 +7,8 @@ import { ko } from "date-fns/locale";
 import clsx from "clsx";
 import DigitalWatch from "../../molecules/(preview)/DigitalWatch";
 
+import { WeddingMonthCalendarProps } from "./weddingMonthCalendar.mapper";
+
 const getDayOfMonth = (year: number, month: number) => {
   const dayInMonth = [];
   const start = new Date(year, month - 1, 1).getDay();
@@ -25,7 +27,7 @@ const getDayOfMonth = (year: number, month: number) => {
 
 const weekOfKr = ["일", "월", "화", "수", "목", "금", "토"] as const;
 
-const WeddingMonthCalendar = ({ date }: { date: Date }) => {
+const WeddingMonthCalendar = ({ date }: WeddingMonthCalendarProps) => {
   const monthCalender = useMemo(() => {
     const newDate = new Date(date);
     return getDayOfMonth(newDate.getFullYear(), newDate.getMonth() + 1);

@@ -10,6 +10,9 @@ import React, { useEffect, useMemo, useState } from "react";
 import CreateGuestbookForm from "../forms/CreateGuestbookForm";
 import DeleteGuestbookForm from "../forms/DeleteGuestbookForm";
 import { Dialog, DialogContent } from "@/components/atoms/Dialog/Dialog";
+import ViewContact from "../(preview)/ViewContact";
+import { cn } from "@/lib/utils";
+import clsx from "clsx";
 
 const GUESTBOOK: Record<
   GuestbookModalType,
@@ -17,6 +20,7 @@ const GUESTBOOK: Record<
 > = {
   WRITE_GUESTBOOK: CreateGuestbookForm,
   DELETE_GUESTBOOK: DeleteGuestbookForm,
+  VIEW_CONTACT: ViewContact,
 };
 
 const GuestBookModal = () => {
@@ -67,7 +71,10 @@ const GuestBookModal = () => {
           onAnimationComplete={() => {
             if (!isOpen) clearIsOpen();
           }}
-          className={`fixed inset-0 z-50 flex transform-gpu items-center justify-center bg-black/60 p-4 backdrop-blur-sm`}
+          className={clsx(
+            `fixed inset-0 z-50 flex transform-gpu items-center justify-center bg-black/60 p-4 backdrop-blur-sm`,
+            type === "VIEW_CONTACT" && `bg-purple-300/50`,
+          )}
           onClick={(e: React.MouseEvent<HTMLDivElement>) => {
             if (e.target === e.currentTarget) {
               handleBackdropClick();
@@ -79,7 +86,13 @@ const GuestBookModal = () => {
             open={dialogOpen}
             onOpenChange={handleDialogClose}
           >
-            <DialogContent className="sm:max-w-106.25">
+            <DialogContent
+              className={cn(
+                `sm:max-w-106.25`,
+                type === "VIEW_CONTACT" &&
+                  "rounded-none border-2 border-r-0 border-l-0 border-dotted border-gray-500/50 bg-transparent shadow-none",
+              )}
+            >
               <Component payload={payload} />
             </DialogContent>
           </Dialog>
