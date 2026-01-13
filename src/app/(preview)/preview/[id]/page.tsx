@@ -14,6 +14,8 @@ import React from "react";
 import WeddingMonthCalendar from "@/components/organisms/(preview)/WeddingMonthCalendar";
 import GuestBookSection from "@/components/organisms/(preview)/GuestBookSection";
 import AccountSection from "@/components/organisms/(preview)/AccountSection";
+import LoaderThumbnail from "@/components/atoms/LoaderThumbnail";
+import { WavyDivider } from "@/components/atoms/WavyDivider/WavyDivider";
 
 const COUPLEINFO_ID = process.env.NEXT_PUBLIC_PREVIEW_COUPLEINFO_ID;
 
@@ -56,21 +58,32 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
       <WeddingMonthCalendar date={coupleInfoData.weddingDate} />
 
+      <GallerySection categories={galleryCategories} />
+
       <LocationSection
         venueName={coupleInfoData.venue}
         address={coupleInfoData.address}
         addressDetail={coupleInfoData.addressDetail}
       />
 
-      <GallerySection categories={galleryCategories} />
-
       <GuestBookSection id={COUPLEINFO_ID} data={data} />
-
+      <div className="relative h-[50vh] w-full">
+        {/* <WavyDivider className="absolute -top-15 z-100 h-[10vh] w-full" /> */}
+        <div className="via-35%-white absolute top-0 z-10 h-[10vh] w-full bg-linear-to-b from-white to-white/0" />
+        <div className="via-35%-white absolute bottom-0 z-10 h-[10vh] w-full bg-linear-to-t from-white to-white/0" />
+        <LoaderThumbnail src={coupleInfoData.thumbnailImages[1]} />
+        <div className="absolute inset-0 bg-linear-to-b from-black/40 via-black/20 to-black/40" />
+      </div>
       <AccountSection {...accountSectionProps} />
 
       {/* <ShareSection invitationId={id} /> */}
 
-      {/* <Footer /> */}
+      <Footer message={coupleInfoData.message}>
+        <div className="via-35%-white absolute top-0 z-10 h-[10vh] w-full bg-linear-to-b from-white to-white/0" />
+
+        <LoaderThumbnail src={coupleInfoData.thumbnailImages[2]} />
+        <div className="absolute inset-0 bg-linear-to-b from-black/40 via-black/20 to-black/40" />
+      </Footer>
     </div>
   );
 };

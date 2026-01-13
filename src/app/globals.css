@@ -144,3 +144,40 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+/* Wavy Divider Animation */
+@keyframes wave {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.animate-wave {
+  animation: wave 10s linear infinite;
+}
+
+/* Additional animations for parallax wave effect */
+@keyframes wave-2 {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.animate-wave-2 {
+  animation: wave-2 15s linear infinite;
+}
+
+@keyframes wave-3 {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.animate-wave-3 {
+  animation: wave-3 8s linear infinite;
+}
