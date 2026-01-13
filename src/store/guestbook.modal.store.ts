@@ -1,6 +1,9 @@
 import { create } from "zustand";
 
-export type GuestbookModalType = "WRITE_GUESTBOOK" | "DELETE_GUESTBOOK";
+export type GuestbookModalType =
+  | "WRITE_GUESTBOOK"
+  | "DELETE_GUESTBOOK"
+  | "VIEW_CONTACT";
 
 interface InitialState {
   isOpen: boolean;

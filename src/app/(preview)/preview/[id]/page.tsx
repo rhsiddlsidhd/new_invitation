@@ -5,6 +5,7 @@ import { GallerySection } from "@/components/organisms/(preview)/GallerySection"
 import { LocationSection } from "@/components/organisms/(preview)/LocationSection";
 import { ShareSection } from "@/components/organisms/(preview)/ShareSection";
 import { Footer } from "@/components/organisms/(preview)/Footer";
+import { mapCoupleInfoToInvitationProps } from "@/components/organisms/(preview)/InvitationMessage.mapper";
 import { getCoupleInfoById } from "@/services/coupleInfo.service";
 import { getGuestbookService } from "@/services/guestbook.service";
 import React from "react";
@@ -12,7 +13,6 @@ import React from "react";
 import WeddingMonthCalendar from "@/components/organisms/(preview)/WeddingMonthCalendar";
 import GuestBookSection from "@/components/organisms/(preview)/GuestBookSection";
 import AccountSection from "@/components/organisms/(preview)/AccountSection";
-import ContactSection from "@/components/organisms/(preview)/ContactSection";
 
 const COUPLEINFO_ID = process.env.NEXT_PUBLIC_PREVIEW_COUPLEINFO_ID;
 
@@ -33,6 +33,9 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
     }),
   );
 
+  // InvitationMessage에 전달할 props를 매퍼 함수를 통해 생성
+  const invitationMessageProps = mapCoupleInfoToInvitationProps(coupleInfoData);
+
   console.log(coupleInfoData);
 
   return (
@@ -45,18 +48,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
         weddingDate={coupleInfoData.weddingDate}
       />
 
-      <InvitationMessage
-        groomName={coupleInfoData.groom.name}
-        brideName={coupleInfoData.bride.name}
-        groomParents={{
-          father: coupleInfoData.groom.father,
-          mother: coupleInfoData.groom.mother,
-        }}
-        brideParents={{
-          father: coupleInfoData.bride.father,
-          mother: coupleInfoData.bride.mother,
-        }}
-      />
+      <InvitationMessage {...invitationMessageProps} />
 
       <WeddingMonthCalendar date={coupleInfoData.weddingDate} />
 
@@ -69,7 +61,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
       <GallerySection categories={galleryCategories} />
 
       <GuestBookSection id={COUPLEINFO_ID} data={data} />
-      <ContactSection />
+
       <AccountSection />
 
       {/* <ShareSection invitationId={id} /> */}
