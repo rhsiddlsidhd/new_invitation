@@ -1,6 +1,7 @@
-import mongoose, { model, Schema, Document } from "mongoose";
+import mongoose, { model, Schema, Document, Model } from "mongoose";
 
 export type Status = "active" | "inactive" | "soldOut";
+export type Category = "modern" | "romantic" | "vintage" | "classic" | "minimal";
 
 export interface ProductDB {
   authorId: string;
@@ -9,7 +10,7 @@ export interface ProductDB {
   thumbnail: string;
   previewUrl?: string;
   price: number;
-  category: "modern" | "romantic" | "vintage" | "classic" | "minimal";
+  category: Category;
   isPremium: boolean;
   options?: mongoose.Types.ObjectId[];
   feature: boolean;
@@ -30,6 +31,17 @@ export interface ProductDB {
 export interface ProductDocument extends ProductDB, Document {
   createdAt: Date;
   updatedAt: Date;
+}
+
+// toJSON() 반환 타입 정의
+export interface ProductJSON
+  extends Omit<ProductDB, "likes" | "options" | "deletedAt"> {
+  _id: string;
+  likes: string[];
+  options: string[];
+  createdAt: string;
+  updatedAt: string;
+  deletedAt?: string;
 }
 
 const productSchema = new Schema<ProductDocument>(
@@ -108,26 +120,34 @@ const productSchema = new Schema<ProductDocument>(
     timestamps: true,
     toJSON: {
       virtuals: true,
-      transform: (_doc: ProductDB, ret: Record<string, any>) => {
-        const { __v, updatedAt, deletedAt, id, ...rest } = ret;
+      versionKey: false,
+      transform: (_doc, ret: any) => {
+        // 불필요한 필드 제거
+        delete ret.__v;
+        delete ret.id;
 
-        const result = {
-          ...rest,
-          _id: ret._id.toString(),
-          createdAt: ret.createdAt.toISOString(),
-          likes: ret.likes
-            ? ret.likes.map((v: mongoose.Types.ObjectId) => v.toString())
-            : [],
-          options: ret.options
-            ? ret.options.map((v: mongoose.Types.ObjectId) => v.toString())
-            : [],
-        };
+        // _id를 string으로 변환
+        ret._id = ret._id.toString();
 
-        return result;
+        // 날짜를 ISO string으로 변환
+        if (ret.createdAt) ret.createdAt = ret.createdAt.toISOString();
+        if (ret.updatedAt) ret.updatedAt = ret.updatedAt.toISOString();
+        if (ret.deletedAt) ret.deletedAt = ret.deletedAt.toISOString();
+
+        // ObjectId 배열을 string 배열로 변환
+        ret.likes = ret.likes?.map((v: mongoose.Types.ObjectId) =>
+          v.toString(),
+        ) || [];
+        ret.options = ret.options?.map((v: mongoose.Types.ObjectId) =>
+          v.toString(),
+        ) || [];
+
+        return ret;
       },
     },
   },
 );
 
 export const ProductModel =
-  mongoose.models.Product || model<ProductDocument>("Product", productSchema);
+  (mongoose.models.Product as Model<ProductDocument>) ||
+  model<ProductDocument>("Product", productSchema);

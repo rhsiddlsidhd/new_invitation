@@ -1,6 +1,6 @@
 "use client";
 import { PhoneIcon } from "@/components/atoms/Icon";
-import { PhonePayload } from "@/components/template/invitation/InvitationContainer";
+import { PhonePayload } from "@/components/template/__InvitationContainer";
 import { useModalStore } from "@/shared/store";
 
 const Contact = () => {

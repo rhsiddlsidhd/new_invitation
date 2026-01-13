@@ -1,5 +1,6 @@
-import { apiError, APIRouteResponse, apiSuccess } from "@/api/response";
-import { HTTPError } from "@/api/type";
+import { APIRouteResponse, apiSuccess } from "@/api/response";
+import { handleRouteError } from "@/api/error";
+import { HTTPError } from "@/types/error";
 import { decrypt } from "@/lib/token";
 import { NextRequest } from "next/server";
 
@@ -23,6 +24,6 @@ export const POST = async (
     console.log(payload.id);
     return apiSuccess({ valid: true });
   } catch (e) {
-    return apiError(e);
+    return handleRouteError(e);
   }
 };

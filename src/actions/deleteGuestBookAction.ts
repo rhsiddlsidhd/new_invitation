@@ -2,7 +2,7 @@
 
 import { handleActionError } from "@/api/error";
 import { APIResponse, success } from "@/api/response";
-import { HTTPError } from "@/api/type";
+import { HTTPError } from "@/types/error";
 import { comparePasswords } from "@/lib/bcrypt";
 import { validateAndFlatten } from "@/lib/validation";
 import { GuestbookSchema } from "@/schemas/guestbook.schema";
@@ -14,11 +14,10 @@ import z from "zod";
 import { revalidatePath } from "next/cache"; // revalidatePath 추가
 
 export const deleteGuestbookAction = async (
-  _prev: unknown,
+  _prev: null,
   formData: FormData,
 ): Promise<APIResponse<{ message: string }>> => {
   try {
-    console.log("클릭");
     const data = {
       password: formData.get("password") as string,
       guestbookId: formData.get("guestbookId") as string,
@@ -63,7 +62,9 @@ export const deleteGuestbookAction = async (
       `/preview/${parsed.data.productId}?u=${parsed.data.coupleInfoId}`,
     );
 
-    return success({ message: "게시글이 성공적으로 삭제되었습니다." });
+    return success<{ message: string }>({
+      message: "게시글이 성공적으로 삭제되었습니다.",
+    });
   } catch (error) {
     return handleActionError(error);
   }

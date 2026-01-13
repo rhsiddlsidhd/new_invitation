@@ -6,7 +6,7 @@ import { PWConfirmSchema } from "@/schemas/pwConfirm.schema";
 import { APIResponse, success } from "@/api/response";
 import { changePassword } from "@/services/user.service";
 import { handleActionError } from "@/api/error";
-import { HTTPError } from "@/api/type";
+import { HTTPError } from "@/types/error";
 
 // 유저가 비밀번호를 기억이 나지 않을때 로그인 하지 않은 상태에서 유저의 이메일의 비밀번호를 변경하는 컨트롤러
 export const updateUserPassword = async (

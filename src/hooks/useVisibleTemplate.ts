@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 
-import { getChosung } from "@/shared/utils/string/hangul";
 import { Product } from "@/services/product.service";
 import { TemplateFilterState } from "@/context/templateFilter/type";
+import { getChosung } from "@/utils/hangul";
 
 const useVisibleTemplate = ({
   state,

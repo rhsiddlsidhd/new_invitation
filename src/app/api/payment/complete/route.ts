@@ -1,9 +1,9 @@
-import { apiError } from "@/api/response";
-import { HTTPError } from "@/api/type";
+import { APIRouteResponse, apiSuccess } from "@/api/response";
+import { handleRouteError } from "@/api/error";
+import { HTTPError } from "@/types/error";
 import { syncPayment } from "@/services/payment.service";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { PayStatus } from "@/models/payment";
-import { APIRouteResponse } from "@/api/response";
 import { decrypt } from "@/lib/token";
 
 export const POST = async (
@@ -13,7 +13,7 @@ export const POST = async (
     // 인증 확인 - Authorization 헤더에서 토큰 추출
     const authHeader = req.headers.get("Authorization");
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      throw new HTTPError("로그인이 필요합니다.", 401, undefined, "/login");
+      throw new HTTPError("로그인이 필요합니다.", 401);
     }
 
     const token = authHeader.substring(7); // "Bearer " 제거
@@ -21,13 +21,7 @@ export const POST = async (
     const result = await decrypt({ token, type: "ACCESS" });
     const payload = result.payload;
 
-    if (!payload.id)
-      throw new HTTPError(
-        "유효하지 않은 토큰입니다.",
-        401,
-        undefined,
-        "/login",
-      );
+    if (!payload.id) throw new HTTPError("유효하지 않은 토큰입니다.", 401);
 
     const body = await req.json();
     const { paymentId } = body;
@@ -42,14 +36,8 @@ export const POST = async (
       throw new HTTPError("결제 동기화에 실패했습니다.", 500);
     }
 
-    return NextResponse.json(
-      {
-        success: true,
-        data: { status: payment.status },
-      },
-      { status: 200 },
-    );
+    return apiSuccess({ status: payment.status });
   } catch (error) {
-    return apiError(error);
+    return handleRouteError(error);
   }
 };

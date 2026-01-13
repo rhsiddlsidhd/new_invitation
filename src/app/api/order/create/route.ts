@@ -1,7 +1,7 @@
-import { apiError } from "@/api/response";
-import { HTTPError } from "@/api/type";
-import { NextRequest, NextResponse } from "next/server";
 import { APIRouteResponse } from "@/api/response";
+import { handleRouteError } from "@/api/error";
+import { HTTPError } from "@/types/error";
+import { NextRequest } from "next/server";
 import { z } from "zod";
 import { validateAndFlatten } from "@/lib/validation";
 import { decrypt } from "@/lib/token";
@@ -34,7 +34,7 @@ export const POST = async (
     const authHeader = req.headers.get("Authorization");
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       console.error("[Order Create] No auth header");
-      throw new HTTPError("로그인이 필요합니다.", 401, undefined, "/login");
+      throw new HTTPError("로그인이 필요합니다.", 401);
     }
 
     const token = authHeader.substring(7); // "Bearer " 제거
@@ -46,21 +46,11 @@ export const POST = async (
 
       if (!payload.id) {
         console.error("[Order Create] No payload.id");
-        throw new HTTPError(
-          "유효하지 않은 토큰입니다.",
-          401,
-          undefined,
-          "/login",
-        );
+        throw new HTTPError("유효하지 않은 토큰입니다.", 401);
       }
     } catch (decryptError) {
       console.error("[Order Create] Decrypt failed:", decryptError);
-      throw new HTTPError(
-        "유효하지 않은 토큰입니다.",
-        401,
-        undefined,
-        "/login",
-      );
+      throw new HTTPError("유효하지 않은 토큰입니다.", 401);
     }
 
     const body = await req.json();
@@ -75,39 +65,11 @@ export const POST = async (
       throw new HTTPError("입력값을 확인해주세요", 400, parsed.error);
     }
 
-    const {
-      productId,
-      originalPrice,
-      selectedOptions,
-      totalPrice,
-      buyerName,
-      buyerEmail,
-      buyerTel,
-    } = parsed.data;
-
-    // Order + Payment 생성
-    const { order, payment } = await createOrderAndPaymentService({
-      userId: payload.id,
-      productId,
-      originalPrice,
-      finalPrice: totalPrice,
-      selectedOptions,
-      buyerName,
-      buyerEmail,
-      buyerTel,
-    });
-
-    return NextResponse.json(
-      {
-        success: true,
-        data: {
-          merchantUid: payment.merchantUid,
-          orderId: order._id.toString(),
-        },
-      },
-      { status: 201 },
-    );
+    // TODO: 이 API는 아직 완전히 구현되지 않았습니다.
+    // createOrderService를 사용하여 주문을 생성하고,
+    // payment는 결제 완료 후 syncPayment로 생성됩니다.
+    throw new HTTPError("이 API는 현재 사용할 수 없습니다.", 501);
   } catch (error) {
-    return apiError(error);
+    return handleRouteError(error);
   }
 };

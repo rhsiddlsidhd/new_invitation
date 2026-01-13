@@ -43,6 +43,9 @@ next-env.d.ts
 # MCP
 .mcp.json
 
+# Claude Code temp files
+tmpclaude-*-cwd
+
 # docs
 
 

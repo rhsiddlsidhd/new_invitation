@@ -27,16 +27,6 @@ import LabeledSelect from "@/components/molecules/(input-group)/LabeledSelect";
 import { Input } from "@/components/atoms/Input/Input";
 import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
 
-interface WeddingScheduel {
-  date: Date | undefined;
-  time: string;
-  venueName: string;
-  address: string;
-  addressDetail: string;
-  guestbookEnabled: boolean;
-  subwayStation?: string;
-}
-
 // 현재 지하철역 가져오기 API ERROR-331 에러 발생 원인 알 수 없음
 const MOCSUBWAYSTATIONS = [
   "강남역",

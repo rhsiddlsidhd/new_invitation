@@ -6,7 +6,7 @@ import Input from "@/components/atoms/Input/Input";
 import Btn from "@/components/atoms/Btn";
 import { PanelField } from "@/shared/types";
 import useDaumPopup from "@/hooks/useDaumPopup";
-import { useUserStore } from "@/domains/user";
+import { useUserStore } from "@/__domains/user";
 
 const createLocationFields = ({
   weddingDate,

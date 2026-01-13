@@ -1,4 +1,9 @@
-type Category = "classic" | "modern" | "minimal" | "romantic" | "vintage";
+export type Category =
+  | "classic"
+  | "modern"
+  | "minimal"
+  | "romantic"
+  | "vintage";
 
 export const categoryLabels: Record<Category, string> = {
   classic: "클래식",

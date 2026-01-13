@@ -1,4 +1,4 @@
-import { HTTPError } from "@/api/type";
+import { HTTPError } from "@/types/error";
 import { CoupleInfoForm } from "@/components/organisms/(forms)/CoupleInfoForm";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";

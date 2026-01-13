@@ -1,5 +1,5 @@
 import User, { UserRole } from "@/models/user.model";
-import { dbConnect } from "@/shared/utils/mongodb";
+import { dbConnect } from "@/utils/mongodb";
 
 import mongoose from "mongoose";
 

@@ -11,6 +11,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import BottomActionBar from "../../BottomActionBar";
 import { updateCouleInfoAction } from "@/actions/updateCouleInfoAction";
+import { toast } from "sonner";
 
 export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
   const router = useRouter();
@@ -20,10 +21,6 @@ export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
   const currentAction =
     type === "edit" ? updateCouleInfoAction : createCoupleInfoAction;
   const [state, action] = useActionState(currentAction, null);
-
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -139,12 +136,21 @@ export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
   };
 
   useEffect(() => {
-    if (!state || !state.success) return;
-    console.log(state);
+    if (!state) return;
 
     if (state && state.success && state.data._id)
-      router.push(`/payment?q=${state.data._id}`);
-  }, [state, router]);
+      switch (type) {
+        case "create":
+          router.push(`/payment?q=${state.data._id}`);
+          break;
+        case "edit":
+          toast.success(state.data.message);
+          router.push(`/order`);
+          break;
+        default:
+          break;
+      }
+  }, [state, router, type]);
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>

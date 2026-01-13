@@ -1,4 +1,4 @@
-import { patchThumbnail } from "@/domains/invitation";
+import { patchThumbnail } from "@/__domains/invitation";
 import WeddingThumbnailPanel from "@/components/organisms/panel/WeddingThumbnailPanel";
 
 import { useModalStore } from "@/shared/store/modalStore";
@@ -6,7 +6,7 @@ import {
   useClearUserErrors,
   useSetUser,
   useSetUserErrors,
-} from "@/domains/user";
+} from "@/__domains/user";
 import { validateAndFlatten, ThumbnailSchema } from "@/lib/validation";
 import React, { startTransition, useActionState, useEffect } from "react";
 

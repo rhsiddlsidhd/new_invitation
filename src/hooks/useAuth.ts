@@ -4,6 +4,7 @@ import useAuthTokenStore from "../store/authTokenStore";
 import { fetcher } from "@/api/fetcher";
 import { handleClientError } from "@/api/error";
 import { decodeJwt } from "jose";
+import { toast } from "sonner";
 
 const useAuth = () => {
   const isAuth = useAuthTokenStore((state) => state.isAuth);
@@ -23,7 +24,11 @@ const useAuth = () => {
         await fetcher("/api/auth/verify", { auth: true }, { method: "POST" });
       } catch (e) {
         // refresh 실패 시 (로그인 필요)
-        handleClientError(e);
+        const result = handleClientError(e);
+
+        if (result && "message" in result) {
+          toast.error(result.message);
+        }
       } finally {
         setLoading(false);
       }
@@ -31,7 +36,6 @@ const useAuth = () => {
 
     verify();
     // 마운트 시 한 번만 실행 (isAuth를 dependency에 넣으면 불필요한 재실행 발생)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return { isAuth, loading, userId };

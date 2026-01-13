@@ -1,4 +1,5 @@
-import { apiError, apiSuccess, APIRouteResponse } from "@/api/response";
+import { apiSuccess, APIRouteResponse } from "@/api/response";
+import { handleRouteError } from "@/api/error";
 import {
   getAllPremiumFeatureService,
   PremiumFeature,
@@ -12,6 +13,6 @@ export const GET = async (): Promise<
 
     return apiSuccess({ features: features ?? [] });
   } catch (error) {
-    return apiError(error);
+    return handleRouteError(error);
   }
 };

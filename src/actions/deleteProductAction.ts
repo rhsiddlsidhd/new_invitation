@@ -2,7 +2,7 @@
 
 import { handleActionError } from "@/api/error";
 import { APIResponse, success } from "@/api/response";
-import { HTTPError } from "@/api/type";
+import { HTTPError } from "@/types/error";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
 import { deleteProductService } from "@/services/product.service";
@@ -16,7 +16,7 @@ export const deleteProductAction = async (
     const cookie = await getCookie("token");
 
     if (!cookie?.value) {
-      throw new HTTPError("로그인이 필요합니다.", 401, undefined, "/");
+      throw new HTTPError("로그인이 필요합니다.", 401);
     }
 
     const { payload } = await decrypt({ token: cookie.value, type: "REFRESH" });

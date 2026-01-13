@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import Label from "@/components/atoms/Label/Label";
 import Card from "@/components/atoms/Card/Card";
 import { useCallback, useRef } from "react";
-import { getUserState } from "@/domains/user";
+import { getUserState } from "@/__domains/user";
 
 const ThumbnailCard = ({
   url,

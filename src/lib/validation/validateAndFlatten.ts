@@ -5,8 +5,8 @@ import z from "zod";
 //   | { success: false; error: Record<string, string[] | undefined> };
 
 type ValidationResult<T> =
-  | { success: true; data: T }
-  | { success: false; error: Partial<Record<keyof T, string[]>> };
+  | { success: true; data: T; error?: never }
+  | { success: false; data?: never; error: Partial<Record<keyof T, string[]>> };
 
 export const validateAndFlatten = <T>(
   schema: z.ZodSchema<T>,

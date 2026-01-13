@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import Btn from "../../atoms/Btn";
-import { InvitationInput } from "@/domains/invitation";
-import { useInvitationSubmit } from "@/domains/invitation";
+import { InvitationInput } from "@/__domains/invitation";
+import { useInvitationSubmit } from "@/__domains/invitation";
 import WeddingCoupleInfoPanel from "@/components/organisms/panel/WeddingCoupleInfoPanel/index";
 import WeddingLocationInfoPanel from "@/components/organisms/panel/WeddingLocationInfoPanel";
 import WeddingParentInfoPanel from "@/components/organisms/panel/WeddingParnetInfoPanel";

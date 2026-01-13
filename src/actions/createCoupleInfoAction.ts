@@ -2,7 +2,7 @@
 
 import { handleActionError } from "@/api/error";
 import { APIResponse, success } from "@/api/response";
-import { HTTPError } from "@/api/type";
+import { HTTPError } from "@/types/error";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
 import { validateAndFlatten } from "@/lib/validation";
@@ -10,14 +10,14 @@ import { coupleInfoSchema } from "@/schemas/coupleInfo.schema";
 import { createCoupleInfoService } from "@/services/coupleInfo.service";
 
 export const createCoupleInfoAction = async (
-  prev: unknown,
+  _prev: null,
   formData: FormData,
 ): Promise<APIResponse<{ message: string; _id: string }>> => {
   try {
     const cookie = await getCookie("token");
 
     if (!cookie?.value) {
-      throw new HTTPError("로그인이 필요합니다.", 401, undefined, "/");
+      throw new HTTPError("로그인이 필요합니다.", 401);
     }
 
     const { payload } = await decrypt({ token: cookie.value, type: "REFRESH" });
@@ -105,7 +105,7 @@ export const createCoupleInfoAction = async (
     if (!coupleInfo)
       throw new HTTPError("커플 정보 등록에 실패하였습니다.", 500);
 
-    return success({
+    return success<{ message: string; _id: string }>({
       message: "커플 정보가 성공적으로 등록되었습니다.",
       _id: coupleInfo._id.toString(),
     });

@@ -2,7 +2,7 @@
 
 import { handleActionError } from "@/api/error";
 import { APIResponse, success } from "@/api/response";
-import { HTTPError } from "@/api/type";
+import { HTTPError } from "@/types/error";
 import { redirect } from "next/navigation";
 
 import { getCookie } from "@/lib/cookies/get";

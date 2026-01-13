@@ -20,7 +20,6 @@ type LabeledRadioGroup = Omit<LabeledInputBase, "children"> & {
 };
 
 const LabeledRadioGroup = ({
-  id,
   name,
   options,
   defaultValue = "",

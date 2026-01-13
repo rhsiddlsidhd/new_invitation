@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { Calendar, MapPin } from "lucide-react";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
+import LoaderThumbnail from "@/components/atoms/LoaderThumbnail";
 
 interface HeroSectionProps {
   groomName: string;
@@ -10,6 +10,13 @@ interface HeroSectionProps {
   venueName: string;
   thumbnailImage: string;
 }
+
+// LoaderThumbnail
+/**
+ * 이미지 Map 생성
+ * keys= preview, createForm , updateForm ...
+ * sizes = (max-width)...
+ */
 
 export function HeroSection({
   groomName,
@@ -22,14 +29,11 @@ export function HeroSection({
     <section className="relative flex h-screen items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
-        <Image
-          src={thumbnailImage || "/placeholder.svg?height=1200&width=800"}
-          alt="Wedding main photo"
-          fill
-          className="object-cover"
-          priority
+        <LoaderThumbnail
+          src={thumbnailImage}
+          alt="inivitation main Thumbnail"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/40" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/40 via-black/20 to-black/40" />
       </div>
 
       {/* Content */}
@@ -58,7 +62,7 @@ export function HeroSection({
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 animate-bounce">
           <div className="flex h-10 w-6 items-start justify-center rounded-full border-2 border-white/50 p-2">
             <div className="h-2 w-1 rounded-full bg-white/50" />
           </div>

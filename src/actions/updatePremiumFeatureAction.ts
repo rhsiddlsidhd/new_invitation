@@ -2,7 +2,7 @@
 
 import { handleActionError } from "@/api/error";
 import { APIResponse, success } from "@/api/response";
-import { HTTPError } from "@/api/type";
+import { HTTPError } from "@/types/error";
 import { validateAndFlatten } from "@/lib/validation";
 import { premiumFeatureSchema } from "@/schemas/premiumFeature.schema";
 import { updatePremiumFeatureService } from "@/services/premiumFeature.service";

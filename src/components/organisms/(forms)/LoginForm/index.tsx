@@ -10,13 +10,13 @@ import { GlobeAmericasIcon } from "@/components/atoms/Icon";
 import { useRouter } from "next/navigation";
 import useAuthStore from "@/store/authTokenStore";
 
-import Alert from "@/components/atoms/Alert/Alert";
 import { Btn } from "@/components/atoms/Btn/Btn";
 
 import { Input } from "@/components/atoms/Input/Input";
 import { Checkbox } from "@/components/atoms/CheckBox/CheckBox";
 import { loginUser } from "@/actions/loginUser";
 import { Label } from "@/components/atoms/Label/Label";
+import { toast } from "sonner";
 
 export function LoginForm() {
   const router = useRouter();
@@ -28,7 +28,10 @@ export function LoginForm() {
       setToken({ token: state.data.token, role: state.data.role });
       router.push("/");
     } else if (state && !state.success) {
-      console.log(state.error);
+      // 'errors' 속성이 없을 때 (즉, 일반 에러일 때)만 Toast를 호출합니다.
+      if (!("errors" in state.error)) {
+        toast.error(state.error.message);
+      }
     }
   }, [state, setToken, router]);
 
@@ -55,6 +58,15 @@ export function LoginForm() {
               required
             />
           </div>
+          {/* Email 필드 에러 메시지 표시 */}
+          {state &&
+            !state.success &&
+            "errors" in state.error &&
+            state.error.errors?.email && (
+              <p className="pt-1 text-sm text-red-500">
+                {state.error.errors.email[0]}
+              </p>
+            )}
         </div>
 
         <div className="space-y-2">
@@ -70,16 +82,20 @@ export function LoginForm() {
               required
             />
           </div>
+          {/* Password 필드 에러 메시지 표시 */}
+          {state &&
+            !state.success &&
+            "errors" in state.error &&
+            state.error.errors?.password && (
+              <p className="pt-1 text-sm text-red-500">
+                {state.error.errors.password[0]}
+              </p>
+            )}
         </div>
-
-        {state && !state.success && (
-          <Alert type="error">{state.error.message}</Alert>
-        )}
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Checkbox id="remember" name="remember" />
-
             <Label
               htmlFor="remember"
               className="cursor-pointer text-sm font-normal"
@@ -96,8 +112,8 @@ export function LoginForm() {
           </Link>
         </div>
 
-        <Btn type="submit" className="w-full" size="lg">
-          {pending ? "로그인 중" : "로그인"}
+        <Btn type="submit" className="w-full" size="lg" disabled={pending}>
+          {pending ? "로그인 중..." : "로그인"}
         </Btn>
       </form>
 

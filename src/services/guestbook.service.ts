@@ -1,6 +1,7 @@
 import { GuestbookModel, IGuestbook } from "@/models/guestbook.model";
 import { GuestBookType } from "@/schemas/guestbook.schema";
-import { dbConnect } from "@/shared/utils/mongodb";
+import { dbConnect } from "@/utils/mongodb";
+
 import mongoose from "mongoose";
 
 export const createGuestbookService = async ({
@@ -34,7 +35,9 @@ export const getGuestbookService = async (
   }));
 };
 
-export const getPrivateGuestbookService = async (id: string): Promise<IGuestbook | null> => {
+export const getPrivateGuestbookService = async (
+  id: string,
+): Promise<IGuestbook | null> => {
   await dbConnect();
 
   const _id = new mongoose.Types.ObjectId(id);

@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 import { IOrder, OrderModel } from "@/models/order.model";
 
-import { dbConnect } from "@/shared/utils/mongodb";
 import { CreateOrderDto } from "@/schemas/order.schema";
 import { generateUid } from "@/utils/id";
+import { dbConnect } from "@/utils/mongodb";
 
 export const createOrderService = async (
   data: CreateOrderDto & { userId: string },

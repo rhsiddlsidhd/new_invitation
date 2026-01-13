@@ -9,12 +9,12 @@ import { setCookie } from "@/lib/cookies/set";
 import { getUser } from "@/services/auth.service";
 
 import { handleActionError } from "@/api/error";
-import { HTTPError } from "@/api/type";
+import { HTTPError } from "@/types/error";
 import { UserRole } from "@/models/user.model";
 import { comparePasswords } from "@/lib/bcrypt";
 
 export const loginUser = async (
-  prev: unknown,
+  _prev: unknown,
   formData: FormData,
 ): Promise<APIResponse<{ token: string; role: UserRole }>> => {
   try {

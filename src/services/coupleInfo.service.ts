@@ -1,6 +1,7 @@
 import { CoupleInfoModel, ICoupleInfo } from "@/models/coupleInfo.model";
 import { CoupleInfoSchemaDto } from "@/schemas/coupleInfo.schema";
-import { dbConnect } from "@/shared/utils/mongodb";
+import { dbConnect } from "@/utils/mongodb";
+
 import mongoose from "mongoose";
 
 export const createCoupleInfoService = async (

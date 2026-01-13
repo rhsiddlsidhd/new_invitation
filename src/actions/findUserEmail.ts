@@ -11,7 +11,7 @@ import { UserEmailSchema } from "@/schemas/userEmail.schema";
 
 import { getUserEmail } from "@/services/user.service";
 import { handleActionError } from "@/api/error";
-import { HTTPError } from "@/api/type";
+import { HTTPError } from "@/types/error";
 
 export const findUserEmail = async (
   _prev: unknown,
