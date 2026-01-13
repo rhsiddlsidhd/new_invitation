@@ -1,4 +1,3 @@
-import GuestBookAction from "@/components/organisms/(preview)/GuestBookAction";
 import { HeroSection } from "@/components/organisms/(preview)/HeroSection";
 import { InvitationMessage } from "@/components/organisms/(preview)/InvitationMessage";
 
@@ -11,6 +10,9 @@ import { getGuestbookService } from "@/services/guestbook.service";
 import React from "react";
 
 import WeddingMonthCalendar from "@/components/organisms/(preview)/WeddingMonthCalendar";
+import GuestBookSection from "@/components/organisms/(preview)/GuestBookSection";
+import AccountSection from "@/components/organisms/(preview)/AccountSection";
+import ContactSection from "@/components/organisms/(preview)/ContactSection";
 
 const COUPLEINFO_ID = process.env.NEXT_PUBLIC_PREVIEW_COUPLEINFO_ID;
 
@@ -20,7 +22,6 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const data = await getGuestbookService(COUPLEINFO_ID);
   const coupleInfoData = await getCoupleInfoById(COUPLEINFO_ID);
 
-  console.log("data", data);
   if (!coupleInfoData) throw new Error("CoupleInfoData not found");
 
   // 갤러리 데이터 변환
@@ -32,7 +33,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
     }),
   );
 
-  console.log(coupleInfoData.weddingDate);
+  console.log(coupleInfoData);
 
   return (
     <div className="relative">
@@ -67,7 +68,9 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
       <GallerySection categories={galleryCategories} />
 
-      <GuestBookAction id={COUPLEINFO_ID} data={data} />
+      <GuestBookSection id={COUPLEINFO_ID} data={data} />
+      <ContactSection />
+      <AccountSection />
 
       {/* <ShareSection invitationId={id} /> */}
 

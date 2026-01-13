@@ -1,85 +1,99 @@
 "use client";
 
-import {
-  GuestbookModalType,
-  useGuestbookModalStore,
-} from "@/store/guestbook.modal.store";
-import { AnimatePresence, motion } from "motion/react";
-import React, { useEffect, useMemo } from "react";
+import { Btn } from "@/components/atoms/Btn/Btn";
+import SectionBody from "@/components/molecules/(preview)/SectionBody";
+import { IGuestbook } from "@/models/guestbook.model";
+import { useGuestbookModalStore } from "@/store/guestbook.modal.store";
+import { PenLine, X } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
-import GuestbookView from "./GuestbookView";
-import GuestbookForm from "./GuestbookForm";
-import clsx from "clsx";
-
-const GUESTBOOK: Record<
-  GuestbookModalType,
-  React.ComponentType<{ payload: unknown }>
-> = {
-  VIEW_GUESTBOOK: GuestbookView,
-  WRITE_GUESTBOOK: GuestbookForm,
-};
-
-const GuestBookSection = () => {
-  const { isOpen, type, payload, closeModal, clearIsOpen } =
-    useGuestbookModalStore();
-
-  const modalref = React.useRef<HTMLDivElement>(null);
-
-  const Component = useMemo(() => {
-    return type ? GUESTBOOK[type] : null;
-  }, [type]);
-
+const GuestBookSection = ({ id, data }: { id: string; data: IGuestbook[] }) => {
+  const setIsOpen = useGuestbookModalStore((state) => state.setIsOpen);
+  const [isDelete, setIsDelete] = useState<Record<string, boolean>>({});
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
+    if (data) {
+      data.forEach((item) => {
+        setIsDelete((prev) => ({ ...prev, [item._id as string]: false }));
+      });
     }
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isOpen]);
-
-  if (!Component) return null;
-
+  }, [data]);
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.25, ease: "easeInOut" }}
-          onAnimationComplete={() => {
-            if (!isOpen) clearIsOpen();
-          }}
-          className={`fixed inset-0 z-50 flex transform-gpu items-center justify-center bg-black/60 p-4 backdrop-blur-sm`}
-          onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-            if (e.target === e.currentTarget) {
-              closeModal();
-            }
-          }}
-        >
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0, y: 20 }}
-            animate={{
-              scale: 1,
-              opacity: 1,
-              y: 0,
-            }}
-            exit={{ scale: 0.8, opacity: 0, y: 20 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            className={clsx(
-              `scrollbar-hide relative max-h-[80vh] w-full max-w-md overflow-y-scroll rounded-lg p-6`,
-              type === "WRITE_GUESTBOOK"
-                ? "bg-white/95 shadow-xl"
-                : "bg-transparent",
+    <SectionBody title="GUESTBOOK" subTitle="방명록">
+      <div className="flex flex-col items-center gap-4">
+        <div className="h-full text-gray-300">
+          <ul className="space-y-4 py-2">
+            {data && data.length === 0 && (
+              <li className="py-6 text-center text-gray-400">
+                등록된 방명록이 없습니다.
+              </li>
             )}
-            ref={modalref}
-          >
-            <Component payload={payload} />
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+
+            {data &&
+              data.map((item) => (
+                <li
+                  className="relative flex items-start gap-3 rounded-md p-3 shadow-sm"
+                  key={item._id as string}
+                >
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{
+                      opacity: !isDelete[item._id as string] ? 1 : 0,
+                      y: !isDelete[item._id as string] ? 0 : -10,
+                    }}
+                    className="relative min-w-0 flex-1"
+                  >
+                    <p className="text-foreground truncate text-start text-sm font-semibold">
+                      {item.author}
+                    </p>
+                    <p className="overflow-scroll-hidden wrap-break-words text-muted-foreground mt-1 line-clamp-3 overflow-hidden text-sm">
+                      {item.message}
+                    </p>
+                    <motion.button
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{
+                        opacity: !isDelete[item._id as string] ? 1 : 0,
+                        y: !isDelete[item._id as string] ? 0 : -10,
+                      }}
+                      className="absolute top-0 right-0 cursor-pointer"
+                      onClick={() =>
+                        setIsOpen({
+                          isOpen: true,
+                          type: "DELETE_GUESTBOOK",
+                          payload: item._id,
+                        })
+                      }
+                    >
+                      <X className="h-4 w-4" />
+                    </motion.button>
+                  </motion.div>
+                </li>
+              ))}
+
+            {!data && (
+              <li className="py-6 text-center text-gray-400">
+                방명록을 불러오는 중입니다.
+              </li>
+            )}
+          </ul>
+        </div>
+
+        <Btn
+          variant="secondary"
+          onClick={() => {
+            setIsOpen({
+              isOpen: true,
+              type: "WRITE_GUESTBOOK",
+              payload: { id },
+            });
+          }}
+          className="w-full gap-2 px-8 py-6 sm:w-auto"
+        >
+          <PenLine className="h-5 w-5" />
+          <span className="font-semibold">방명록 작성하기</span>
+        </Btn>
+      </div>
+    </SectionBody>
   );
 };
 
