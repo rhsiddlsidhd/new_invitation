@@ -7,6 +7,7 @@ import { ShareSection } from "@/components/organisms/(preview)/ShareSection";
 import { Footer } from "@/components/organisms/(preview)/Footer";
 import { mapCoupleInfoToInvitationProps } from "@/components/organisms/(preview)/InvitationMessage.mapper";
 import { getCoupleInfoById } from "@/services/coupleInfo.service";
+import { mapCoupleInfoToAccountProps } from "@/components/organisms/(preview)/AccountSection.mapper";
 import { getGuestbookService } from "@/services/guestbook.service";
 import React from "react";
 
@@ -36,6 +37,9 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   // InvitationMessage에 전달할 props를 매퍼 함수를 통해 생성
   const invitationMessageProps = mapCoupleInfoToInvitationProps(coupleInfoData);
 
+  // AccountSection에 전달할 props를 매퍼 함수를 통해 생성
+  const accountSectionProps = mapCoupleInfoToAccountProps(coupleInfoData);
+
   console.log(coupleInfoData);
 
   return (
@@ -62,7 +66,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
       <GuestBookSection id={COUPLEINFO_ID} data={data} />
 
-      <AccountSection />
+      <AccountSection {...accountSectionProps} />
 
       {/* <ShareSection invitationId={id} /> */}
 
