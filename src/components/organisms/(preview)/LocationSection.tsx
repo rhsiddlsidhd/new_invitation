@@ -4,7 +4,7 @@ import { CopyButton } from "@/components/molecules/CopyButton/CopyButton";
 import SectionBody from "@/components/molecules/(preview)/SectionBody";
 import KakaoMap from "@/components/molecules/KakaoMap";
 import Navigation from "@/components/organisms/(preview)/Navigation";
-import { LocationSectionProps } from "./LocationSection.mapper";
+import { LocationSectionProps } from "./locationSection.mapper";
 
 export function LocationSection({
   venueName,

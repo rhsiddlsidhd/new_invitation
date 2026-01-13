@@ -7,7 +7,7 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import { Dialog, DialogContent } from "@/components/atoms/Dialog/Dialog";
 import SectionBody from "@/components/molecules/(preview)/SectionBody";
-import { GallerySectionProps } from "./GallerySection.mapper";
+import { GallerySectionProps } from "./gallerySection.mapper";
 
 export function GallerySection({ categories }: GallerySectionProps) {
   const [selectedCategory, setSelectedCategory] = useState(

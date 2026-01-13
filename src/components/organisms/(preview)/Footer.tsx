@@ -1,4 +1,4 @@
-import { FooterProps } from "./Footer.mapper";
+import { FooterProps } from "./footer.mapper";
 
 export function Footer({
   children,

@@ -1,5 +1,5 @@
 // AccountSection 컴포넌트가 받을 props 타입 정의
-interface AccountInfo {
+export interface AccountInfo {
   relation: string;
   name: string;
   bankName: string;
@@ -26,7 +26,8 @@ interface CoupleDataWithBank {
   mother?: PersonDataWithBank;
 }
 
-interface CoupleInfoData { // coupleInfo.model.ts의 실제 타입으로 대체되어야 함
+interface CoupleInfoData {
+  // coupleInfo.model.ts의 실제 타입으로 대체되어야 함
   groom: CoupleDataWithBank;
   bride: CoupleDataWithBank;
 }
@@ -34,7 +35,7 @@ interface CoupleInfoData { // coupleInfo.model.ts의 실제 타입으로 대체�
 // 헬퍼 함수: PersonDataWithBank를 AccountInfo 타입으로 변환
 function createAccountInfo(
   person: PersonDataWithBank | undefined,
-  relation: string
+  relation: string,
 ): AccountInfo | undefined {
   // 이름, 은행명, 계좌번호가 모두 있어야 유효한 계좌 정보로 간주
   if (!person?.name || !person.bankName || !person.accountNumber) {
@@ -54,7 +55,7 @@ function createAccountInfo(
  * @returns AccountSection 컴포넌트가 필요로 하는 `groomAccounts` 및 `brideAccounts` 배열을 포함한 객체
  */
 export function mapCoupleInfoToAccountProps(
-  coupleInfoData: CoupleInfoData
+  coupleInfoData: CoupleInfoData,
 ): AccountSectionMappedProps {
   // 1. 신랑측 계좌 정보 배열 생성
   const groomAccounts = [

@@ -8,7 +8,7 @@ import { PenLine, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-import { GuestBookSectionProps } from "./GuestBookSection.mapper";
+import { GuestBookSectionProps } from "./guestBookSection.mapper";
 
 const GuestBookSection = ({ id, data }: GuestBookSectionProps) => {
   const setIsOpen = useGuestbookModalStore((state) => state.setIsOpen);

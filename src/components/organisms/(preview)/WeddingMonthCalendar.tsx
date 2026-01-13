@@ -7,7 +7,7 @@ import { ko } from "date-fns/locale";
 import clsx from "clsx";
 import DigitalWatch from "../../molecules/(preview)/DigitalWatch";
 
-import { WeddingMonthCalendarProps } from "./WeddingMonthCalendar.mapper";
+import { WeddingMonthCalendarProps } from "./weddingMonthCalendar.mapper";
 
 const getDayOfMonth = (year: number, month: number) => {
   const dayInMonth = [];

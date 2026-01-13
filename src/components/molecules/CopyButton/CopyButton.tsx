@@ -5,6 +5,7 @@ import { Copy, CheckCircle } from "lucide-react";
 import { Btn, buttonVariants } from "@/components/atoms/Btn/Btn";
 import { cn } from "@/lib/utils";
 import { type VariantProps } from "class-variance-authority";
+import { toast } from "sonner";
 
 // Btn 컴포넌트의 props 타입을 기반으로 CopyButton의 props 타입을 정의합니다.
 export type CopyButtonProps = ComponentProps<"button"> &
@@ -21,14 +22,18 @@ export function CopyButton({
 }: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(textToCopy);
-    setCopied(true);
-    alert("복사되었습니다."); // 기존 로직과 동일하게 alert 유지
-    if (onCopy) {
-      onCopy();
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+      setCopied(true);
+      toast.success("복사되었습니다.");
+      onCopy?.();
+    } catch (error) {
+      console.error("복사 실패:", error);
+      toast.error("복사에 실패했습니다.");
+    } finally {
+      setTimeout(() => setCopied(false), 2000);
     }
-    setTimeout(() => setCopied(false), 2000); // 2초 후 아이콘 원래대로
   };
 
   return (

@@ -8,24 +8,15 @@ import { CopyButton } from "@/components/molecules/CopyButton/CopyButton";
 import { cn } from "@/lib/utils";
 import { useBanks } from "@/hooks/useBanks";
 import { Tabs, TabsList, TabsTrigger } from "@/components/atoms/Tabs";
-
-// Props types
-interface AccountInfo {
-  relation: string;
-  name: string;
-  bankName: string;
-  accountNumber: string;
-}
-
-interface AccountSectionProps {
-  groomAccounts: AccountInfo[];
-  brideAccounts: AccountInfo[];
-}
+import {
+  AccountInfo,
+  AccountSectionMappedProps,
+} from "./accountSection.mapper";
 
 const AccountSection = ({
   groomAccounts,
   brideAccounts,
-}: AccountSectionProps) => {
+}: AccountSectionMappedProps) => {
   const [selectedSide, setSelectedSide] = useState<"groom" | "bride">("groom");
   const { banks } = useBanks();
 
@@ -50,7 +41,12 @@ const AccountSection = ({
     }
 
     return accounts.map((account) => (
-      <Card key={account.relation} className="p-4 shadow-sm">
+      <Card
+        key={account.relation}
+        className="p-4 shadow-sm"
+        role="article"
+        aria-label={`${account.relation} ${account.name}의 계좌 정보`}
+      >
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
             <p className="text-muted-foreground text-sm font-semibold">

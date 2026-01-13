@@ -2,7 +2,7 @@ import { Calendar, MapPin } from "lucide-react";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import LoaderThumbnail from "@/components/atoms/LoaderThumbnail";
-import { HeroSectionProps } from "./HeroSection.mapper";
+import { HeroSectionProps } from "./heroSection.mapper";
 
 // LoaderThumbnail
 /**

@@ -1,13 +1,12 @@
-import { mapCoupleInfoToHeroProps } from "@/components/organisms/(preview)/HeroSection.mapper";
+import { mapCoupleInfoToHeroProps } from "@/components/organisms/(preview)/heroSection.mapper";
 import { InvitationMessage } from "@/components/organisms/(preview)/InvitationMessage";
 
 import { GallerySection } from "@/components/organisms/(preview)/GallerySection";
 import { LocationSection } from "@/components/organisms/(preview)/LocationSection";
-import { ShareSection } from "@/components/organisms/(preview)/ShareSection";
 import { Footer } from "@/components/organisms/(preview)/Footer";
 import { mapCoupleInfoToInvitationProps } from "@/components/organisms/(preview)/InvitationMessage.mapper";
 import { getCoupleInfoById } from "@/services/coupleInfo.service";
-import { mapCoupleInfoToAccountProps } from "@/components/organisms/(preview)/AccountSection.mapper";
+import { mapCoupleInfoToAccountProps } from "@/components/organisms/(preview)/accountSection.mapper";
 import { getGuestbookService } from "@/services/guestbook.service";
 import React from "react";
 
@@ -15,13 +14,12 @@ import WeddingMonthCalendar from "@/components/organisms/(preview)/WeddingMonthC
 import GuestBookSection from "@/components/organisms/(preview)/GuestBookSection";
 import AccountSection from "@/components/organisms/(preview)/AccountSection";
 import LoaderThumbnail from "@/components/atoms/LoaderThumbnail";
-import { WavyDivider } from "@/components/atoms/WavyDivider/WavyDivider";
-import { mapCoupleInfoToCalendarProps } from "@/components/organisms/(preview)/WeddingMonthCalendar.mapper";
-import { mapCoupleInfoToGalleryProps } from "@/components/organisms/(preview)/GallerySection.mapper";
-import { mapCoupleInfoToLocationProps } from "@/components/organisms/(preview)/LocationSection.mapper";
-import { mapDataToGuestbookProps } from "@/components/organisms/(preview)/GuestBookSection.mapper";
-import { mapCoupleInfoToFooterProps } from "@/components/organisms/(preview)/Footer.mapper";
-import { mapCoupleInfoToThumbnails } from "@/components/organisms/(preview)/Thumbnails.mapper";
+import { mapCoupleInfoToCalendarProps } from "@/components/organisms/(preview)/weddingMonthCalendar.mapper";
+import { mapCoupleInfoToGalleryProps } from "@/components/organisms/(preview)/gallerySection.mapper";
+import { mapCoupleInfoToLocationProps } from "@/components/organisms/(preview)/locationSection.mapper";
+import { mapDataToGuestbookProps } from "@/components/organisms/(preview)/guestBookSection.mapper";
+import { mapCoupleInfoToFooterProps } from "@/components/organisms/(preview)/footer.mapper";
+import { mapCoupleInfoToThumbnails } from "@/components/organisms/(preview)/thumbnails.mapper";
 import { HeroSection } from "@/components/organisms/(preview)/HeroSection";
 
 const COUPLEINFO_ID = process.env.NEXT_PUBLIC_PREVIEW_COUPLEINFO_ID;
@@ -47,8 +45,6 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   // AccountSection에 전달할 props를 매퍼 함수를 통해 생성
   const accountSectionProps = mapCoupleInfoToAccountProps(coupleInfoData);
-
-  console.log(coupleInfoData);
 
   return (
     <div className="relative">
