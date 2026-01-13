@@ -8,7 +8,9 @@ import { PenLine, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-const GuestBookSection = ({ id, data }: { id: string; data: IGuestbook[] }) => {
+import { GuestBookSectionProps } from "./GuestBookSection.mapper";
+
+const GuestBookSection = ({ id, data }: GuestBookSectionProps) => {
   const setIsOpen = useGuestbookModalStore((state) => state.setIsOpen);
   const [isDelete, setIsDelete] = useState<Record<string, boolean>>({});
   useEffect(() => {

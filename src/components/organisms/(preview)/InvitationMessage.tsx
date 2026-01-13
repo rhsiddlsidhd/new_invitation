@@ -1,6 +1,7 @@
 "use client";
 
 import { Btn } from "@/components/atoms/Btn/Btn";
+import { Card } from "@/components/atoms/Card/Card";
 import SectionBody from "@/components/molecules/(preview)/SectionBody";
 import { useGuestbookModalStore } from "@/store/guestbook.modal.store";
 
@@ -43,12 +44,12 @@ export function InvitationMessage({ parties }: InvitationMessageProps) {
       <div className="space-y-8">
         {/* 서버에서 가공된 parties prop을 직접 순회하여 렌더링 */}
         {parties.map((party) => (
-          <div key={party.title} className="flex flex-col items-center">
+          <Card
+            key={party.title}
+            className="flex flex-col items-center shadow-2xs"
+          >
             {/* 이름/부모님 정보 표시 그리드 */}
-            <div className="grid w-full grid-cols-4 items-center justify-items-center gap-2 text-sm">
-              <div className="text-muted-foreground col-span-2 text-right">
-                {party.parentNames}
-              </div>
+            <div className="grid w-full grid-cols-2 justify-items-center gap-4 text-sm">
               <div className="text-muted-foreground col-span-1 text-left">
                 <span>{party.title} </span>
               </div>
@@ -56,6 +57,10 @@ export function InvitationMessage({ parties }: InvitationMessageProps) {
                 <span className="text-foreground font-semibold">
                   {party.name}
                 </span>
+              </div>
+
+              <div className="text-muted-foreground col-span-2 text-right">
+                {party.parentNames}
               </div>
             </div>
 
@@ -73,7 +78,7 @@ export function InvitationMessage({ parties }: InvitationMessageProps) {
             >
               {`${party.title}측 연락하기`}
             </Btn>
-          </div>
+          </Card>
         ))}
       </div>
     </SectionBody>

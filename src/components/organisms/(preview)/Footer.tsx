@@ -1,9 +1,10 @@
+import { FooterProps } from "./Footer.mapper";
+
 export function Footer({
   children,
   message,
-}: {
+}: FooterProps & {
   children: React.ReactNode;
-  message?: string;
 }) {
   return (
     <footer className="relative h-[50vh] py-4 text-center">

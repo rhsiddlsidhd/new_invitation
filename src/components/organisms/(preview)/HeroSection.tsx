@@ -2,14 +2,7 @@ import { Calendar, MapPin } from "lucide-react";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import LoaderThumbnail from "@/components/atoms/LoaderThumbnail";
-
-interface HeroSectionProps {
-  groomName: string;
-  brideName: string;
-  weddingDate: Date;
-  venueName: string;
-  thumbnailImage: string;
-}
+import { HeroSectionProps } from "./HeroSection.mapper";
 
 // LoaderThumbnail
 /**
@@ -33,7 +26,8 @@ export function HeroSection({
           src={thumbnailImage}
           alt="inivitation main Thumbnail"
         />
-        <div className="absolute inset-0 bg-linear-to-b from-black/40 via-black/20 to-black/40" />
+
+        <div className="absolute inset-0 bg-linear-to-t from-black/65 to-transparent" />
       </div>
 
       {/* Content */}
@@ -48,7 +42,7 @@ export function HeroSection({
           </h1>
         </div>
 
-        <div className="space-y-3 text-xs font-light md:text-base">
+        <div className="space-y-3 text-lg font-light">
           <div className="flex items-center justify-center gap-2">
             <Calendar className="h-4 w-4" />
             <span>
