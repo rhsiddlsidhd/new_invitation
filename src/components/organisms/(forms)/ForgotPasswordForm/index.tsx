@@ -1,32 +1,37 @@
 "use client";
 
 import type React from "react";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect } from "react";
 
 import Link from "next/link";
-import { Mail, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
+import { toast } from "sonner";
 
 import { Card } from "@/components/atoms/Card/Card";
 import { Btn } from "@/components/atoms/Btn/Btn";
-import { Input } from "@/components/atoms/Input/Input";
+import LabeledInput from "@/components/molecules/(input-group)/LabeledInput";
 
 import { requestPasswordReset } from "@/actions/requestPasswordReset";
-import { Label } from "@/components/atoms/Label/Label";
+import { getFieldError, hasFieldErrors } from "@/utils/error";
+import { APIResponse } from "@/types/error";
 
 export function ForgotPasswordForm() {
-  const [state, action] = useActionState(requestPasswordReset, null);
-
-  const [email, setEmail] = useState("");
-
-  const fieldError = state && !state.success && state.error;
+  const [state, action, pending] = useActionState<
+    APIResponse<{ message: string; email: string }>,
+    FormData
+  >(requestPasswordReset, null);
 
   useEffect(() => {
-    if (state && state.success) {
-      alert(`${state.data.message}`);
+    if (!state || state.success === true) return;
+
+    if (!hasFieldErrors(state.error)) {
+      toast.error(state.error.message);
     }
   }, [state]);
 
-  if (state && state.success) {
+  const emailError = getFieldError(state, "email");
+
+  if (state && state.success === true) {
     return (
       <div className="space-y-6">
         <div className="space-y-2 text-center">
@@ -48,7 +53,7 @@ export function ForgotPasswordForm() {
             <p className="font-medium">
               다음 이메일로 재설정 링크가 전송되었습니다:
             </p>
-            <p className="text-primary font-semibold">{email}</p>
+            <p className="text-primary font-semibold">{state.data.email}</p>
             <div className="text-muted-foreground space-y-2 pt-3">
               <p>• 이메일이 도착하지 않았다면 스팸함을 확인해주세요</p>
               <p>• 링크는 10분 동안 유효합니다</p>
@@ -61,21 +66,20 @@ export function ForgotPasswordForm() {
             <Link href="/login">로그인으로 돌아가기</Link>
           </Btn>
           <form action={action}>
-            <Input
-              id="email"
-              type="email"
+            <input
+              type="hidden"
               name="email"
-              value={email}
-              className="hidden"
-              required
+              value={state.data.email}
+              readOnly
             />
             <Btn
               type="submit"
               variant="outline"
               className="w-full bg-transparent"
               size="lg"
+              disabled={pending}
             >
-              다시 보내기
+              {pending ? "전송 중..." : "다시 보내기"}
             </Btn>
           </form>
         </div>
@@ -93,32 +97,23 @@ export function ForgotPasswordForm() {
       </div>
 
       <form action={action} className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="email">
-            이메일{" "}
-            {fieldError && (
-              <span className="text-xs text-red-500">{fieldError.message}</span>
-            )}
-          </Label>
-          <div className="relative">
-            <Mail className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
-            <Input
-              id="email"
-              type="email"
-              name="email"
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
-              className="pl-10"
-              required
-            />
-          </div>
-          <p className="text-muted-foreground text-sm">
-            입력하신 이메일로 비밀번호 재설정 링크를 보내드립니다
-          </p>
-        </div>
+        <LabeledInput
+          id="email"
+          type="email"
+          name="email"
+          placeholder="your@email.com"
+          required
+          error={emailError}
+        >
+          이메일
+        </LabeledInput>
 
-        <Btn type="submit" className="w-full" size="lg">
-          재설정 링크 받기
+        <p className="text-muted-foreground text-sm">
+          입력하신 이메일로 비밀번호 재설정 링크를 보내드립니다
+        </p>
+
+        <Btn type="submit" className="w-full" size="lg" disabled={pending}>
+          {pending ? "전송 중..." : "재설정 링크 받기"}
         </Btn>
       </form>
 

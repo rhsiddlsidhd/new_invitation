@@ -13,6 +13,9 @@ import LabeledInput from "@/components/molecules/(input-group)/LabeledInput";
 import LabeledSwitch from "@/components/molecules/(input-group)/LabeledSwitch";
 import { createGuestbook } from "@/actions/createGuestbook";
 import { cn } from "@/lib/utils";
+import { APIResponse } from "@/types/error";
+import { toast } from "sonner";
+import { getFieldError, hasFieldErrors } from "@/utils/error";
 
 interface Payload {
   id: string;
@@ -30,19 +33,28 @@ const isPayload = (payload: unknown): payload is Payload => {
 };
 
 const CreateGuestbookForm = ({ payload }: { payload: unknown }) => {
-  const [state, action, pending] = useActionState(createGuestbook, null);
+  const [state, action, pending] = useActionState<
+    APIResponse<{ message: string }>,
+    FormData
+  >(createGuestbook, null);
   const router = useRouter();
   const id = isPayload(payload) ? payload.id : null;
   if (!id) throw new Error("CreateGuestbookForm payload is required");
 
   useEffect(() => {
-    if (state && !state.success) {
-      alert("잠시 후에 다시 시도해주세요.");
-    } else if (state && state.success) {
-      alert(state.data.message);
-      router.refresh();
+    if (!state) return;
+    if (state.success === true) {
+      toast.message(state.data.message);
+      return router.refresh();
+    } else {
+      if (!hasFieldErrors(state.error)) {
+        toast.error(state.error.message);
+      }
     }
   }, [state, router]);
+
+  const authorError = getFieldError(state, "author");
+  const passwordError = getFieldError(state, "password");
 
   return (
     <form action={action} className="space-y-4">
@@ -59,6 +71,7 @@ const CreateGuestbookForm = ({ payload }: { payload: unknown }) => {
         id="author"
         type="text"
         required
+        error={authorError}
       >
         이름
       </LabeledInput>
@@ -68,6 +81,7 @@ const CreateGuestbookForm = ({ payload }: { payload: unknown }) => {
         name="password"
         id="password"
         placeholder="비밀번호를 입력하세요."
+        error={passwordError}
       >
         비밀번호
       </LabeledInput>

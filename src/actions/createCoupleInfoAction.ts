@@ -5,7 +5,7 @@ import { APIResponse, success } from "@/api/response";
 import { HTTPError } from "@/types/error";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
-import { validateAndFlatten } from "@/lib/validation";
+import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
 import { coupleInfoSchema } from "@/schemas/coupleInfo.schema";
 import { createCoupleInfoService } from "@/services/coupleInfo.service";
 

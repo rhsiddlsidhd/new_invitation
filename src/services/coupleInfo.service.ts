@@ -26,8 +26,6 @@ export const createCoupleInfoService = async (
     galleryImages: data.galleryImages,
   };
 
-  console.log("여긴?", { coupleInfo });
-
   const newCoupleInfo = await CoupleInfoModel.create(coupleInfo);
 
   return newCoupleInfo.toJSON();

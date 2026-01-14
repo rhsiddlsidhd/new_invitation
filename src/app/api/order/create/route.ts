@@ -3,7 +3,7 @@ import { handleRouteError } from "@/api/error";
 import { HTTPError } from "@/types/error";
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import { validateAndFlatten } from "@/lib/validation";
+import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
 import { decrypt } from "@/lib/token";
 
 const createOrderRequestSchema = z.object({

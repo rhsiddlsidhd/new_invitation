@@ -15,22 +15,38 @@ import { Input } from "@/components/atoms/Input/Input";
 import { Checkbox } from "@/components/atoms/CheckBox/CheckBox";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import { Label } from "@/components/atoms/Label/Label";
+import Alert from "@/components/atoms/Alert/Alert";
+import { getFieldError, hasFieldErrors } from "@/utils/error";
+import { toast } from "sonner";
+import { APIResponse } from "@/types/error";
 
 export function SignupForm() {
   const router = useRouter();
-  const [state, action, pending] = useActionState(signupUser, null);
+  const [state, action, pending] = useActionState<
+    APIResponse<{ message: string }>,
+    FormData
+  >(signupUser, null);
 
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
-  const fieldErrors = state && !state.success && state.error.errors;
-  const formError = state && !state.success && state.error.message;
 
   useEffect(() => {
-    if (state && state.success) {
+    if (!state) return;
+    if (state.success === true) {
       alert(state.data.message);
       router.push("/login");
+    } else {
+      if (!hasFieldErrors(state.error)) {
+        toast.error(state.error.message);
+      }
     }
   }, [state, router]);
+
+  const nameError = getFieldError(state, "name");
+  const emailError = getFieldError(state, "email");
+  const phoneError = getFieldError(state, "phone");
+  const passwordError = getFieldError(state, "password");
+  const confirmPasswordError = getFieldError(state, "confirmPassword");
 
   return (
     <div className="space-y-6">
@@ -53,9 +69,7 @@ export function SignupForm() {
               required
             />
           </div>
-          {fieldErrors && fieldErrors.name?.[0] && (
-            <p className="text-destructive text-sm">{fieldErrors.name[0]}</p>
-          )}
+          {nameError && <Alert type="error">{nameError}</Alert>}
         </div>
 
         <div className="space-y-2">
@@ -71,11 +85,7 @@ export function SignupForm() {
               required
             />
           </div>
-          {fieldErrors && fieldErrors.email?.[0] && (
-            <p className="text-destructive text-sm">
-              {fieldErrors["email"][0]}
-            </p>
-          )}
+          {emailError && <Alert type="error">{emailError}</Alert>}
         </div>
 
         <div className="space-y-2">
@@ -91,9 +101,7 @@ export function SignupForm() {
               required
             />
           </div>
-          {fieldErrors && fieldErrors.phone?.[0] && (
-            <p className="text-destructive text-sm">{fieldErrors.phone[0]}</p>
-          )}
+          {phoneError && <Alert type="error">{phoneError}</Alert>}
         </div>
 
         <div className="space-y-2">
@@ -109,11 +117,7 @@ export function SignupForm() {
               required
             />
           </div>
-          {fieldErrors && fieldErrors.password?.[0] && (
-            <p className="text-destructive text-sm">
-              {fieldErrors.password[0]}
-            </p>
-          )}
+          {passwordError && <Alert type="error">{passwordError}</Alert>}
         </div>
 
         <div className="space-y-2">
@@ -129,10 +133,8 @@ export function SignupForm() {
               required
             />
           </div>
-          {fieldErrors && fieldErrors.confirmPassword?.[0] && (
-            <p className="text-destructive text-sm">
-              {fieldErrors.confirmPassword[0]}
-            </p>
+          {confirmPasswordError && (
+            <Alert type="error">{confirmPasswordError}</Alert>
           )}
         </div>
 
@@ -184,9 +186,6 @@ export function SignupForm() {
         >
           회원가입
         </Btn>
-        {formError && (
-          <p className="text-destructive text-center text-sm">{formError}</p>
-        )}
       </form>
 
       <div className="relative">

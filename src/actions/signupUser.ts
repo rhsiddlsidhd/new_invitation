@@ -6,7 +6,7 @@ import { HTTPError } from "@/types/error";
 
 import { hashPassword } from "@/lib/bcrypt";
 
-import { validateAndFlatten } from "@/lib/validation";
+import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
 import { RegisterSchema } from "@/schemas/register.schema";
 import { checkEmailDuplicate, createUser } from "@/services/user.service";
 

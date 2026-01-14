@@ -4,8 +4,7 @@ import type React from "react";
 import { useActionState, useEffect } from "react";
 
 import Link from "next/link";
-import { Mail, Lock } from "lucide-react";
-import { GlobeAmericasIcon } from "@/components/atoms/Icon";
+import { Mail, Lock, Globe } from "lucide-react";
 
 import { useRouter } from "next/navigation";
 import useAuthStore from "@/store/authTokenStore";
@@ -17,23 +16,33 @@ import { Checkbox } from "@/components/atoms/CheckBox/CheckBox";
 import { loginUser } from "@/actions/loginUser";
 import { Label } from "@/components/atoms/Label/Label";
 import { toast } from "sonner";
+import { APIResponse } from "@/types/error";
+import { UserRole } from "@/models/user.model";
+import Alert from "@/components/atoms/Alert/Alert";
+import { getFieldError, hasFieldErrors } from "@/utils/error";
 
 export function LoginForm() {
   const router = useRouter();
-  const [state, action, pending] = useActionState(loginUser, null);
+  const [state, action, pending] = useActionState<
+    APIResponse<{ token: string; role: UserRole }>,
+    FormData
+  >(loginUser, null);
   const setToken = useAuthStore((state) => state.setToken);
 
   useEffect(() => {
-    if (state && state.success) {
+    if (!state) return;
+    if (state.success === true) {
       setToken({ token: state.data.token, role: state.data.role });
-      router.push("/");
-    } else if (state && !state.success) {
-      // 'errors' 속성이 없을 때 (즉, 일반 에러일 때)만 Toast를 호출합니다.
-      if (!("errors" in state.error)) {
+      return router.push("/");
+    } else {
+      if (!hasFieldErrors(state.error)) {
         toast.error(state.error.message);
       }
     }
   }, [state, setToken, router]);
+
+  const emailError = getFieldError(state, "email");
+  const passwordError = getFieldError(state, "password");
 
   return (
     <div className="space-y-6">
@@ -59,14 +68,8 @@ export function LoginForm() {
             />
           </div>
           {/* Email 필드 에러 메시지 표시 */}
-          {state &&
-            !state.success &&
-            "errors" in state.error &&
-            state.error.errors?.email && (
-              <p className="pt-1 text-sm text-red-500">
-                {state.error.errors.email[0]}
-              </p>
-            )}
+
+          {emailError && <Alert type="error">{emailError}</Alert>}
         </div>
 
         <div className="space-y-2">
@@ -83,14 +86,8 @@ export function LoginForm() {
             />
           </div>
           {/* Password 필드 에러 메시지 표시 */}
-          {state &&
-            !state.success &&
-            "errors" in state.error &&
-            state.error.errors?.password && (
-              <p className="pt-1 text-sm text-red-500">
-                {state.error.errors.password[0]}
-              </p>
-            )}
+
+          {passwordError && <Alert type="error">{passwordError}</Alert>}
         </div>
 
         <div className="flex items-center justify-between">
@@ -132,7 +129,7 @@ export function LoginForm() {
         className="w-full bg-transparent"
         size="lg"
       >
-        <GlobeAmericasIcon className="mr-2 h-5 w-5" />
+        <Globe className="mr-2 h-5 w-5" />
         Google로 계속하기
       </Btn>
 

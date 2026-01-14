@@ -3,7 +3,7 @@
 import { handleActionError } from "@/api/error";
 import { APIResponse, success } from "@/api/response";
 import { HTTPError } from "@/types/error";
-import { validateAndFlatten } from "@/lib/validation";
+import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
 import { premiumFeatureSchema } from "@/schemas/premiumFeature.schema";
 import { updatePremiumFeatureService } from "@/services/premiumFeature.service";
 import { revalidatePath } from "next/cache";

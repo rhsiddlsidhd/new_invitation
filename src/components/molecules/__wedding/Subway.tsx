@@ -1,4 +1,4 @@
-import { createLineColorMap, createSelecedSubwayMap } from "@/utils";
+import { createLineColorMap, createSelecedSubwayMap } from "@/utils/subway";
 import { useEffect, useState } from "react";
 
 export interface SubwayInfo {

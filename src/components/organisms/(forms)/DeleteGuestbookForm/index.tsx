@@ -16,33 +16,11 @@ import { APIResponse } from "@/types/error";
 
 import { useParams } from "next/navigation";
 import React, { useActionState, useEffect } from "react";
+import { getFieldError, hasFieldErrors } from "@/utils/error";
+import { toast } from "sonner";
 
 const PREVIEW_ID = process.env.NEXT_PUBLIC_PREVIEW_COUPLEINFO_ID;
 if (!PREVIEW_ID) throw new Error("PREVIEW_ID is not define");
-
-const getErrorMessageFromState = (
-  state: APIResponse<{ message: string }>,
-): string => {
-  let errorMessage = "";
-
-  if (
-    state &&
-    state.success === false &&
-    state.error &&
-    "errors" in state.error
-  ) {
-    errorMessage = state.error.errors["password"][0];
-  } else if (
-    state &&
-    state.success === false &&
-    state.error &&
-    "message" in state.error
-  ) {
-    errorMessage = state.error.message;
-  }
-
-  return errorMessage;
-};
 
 const DeleteGuestbookForm = ({ payload }: { payload: string }) => {
   const params = useParams();
@@ -53,12 +31,17 @@ const DeleteGuestbookForm = ({ payload }: { payload: string }) => {
   >(deleteGuestbookAction, null);
 
   useEffect(() => {
-    if (state && state.success) {
+    if (!state) return;
+    if (state.success === true) {
       alert(state.data.message);
+    } else {
+      if (!hasFieldErrors(state.error)) {
+        toast.error(state.error.message);
+      }
     }
   }, [state]);
 
-  const errorMessage = getErrorMessageFromState(state);
+  const passwordError = getFieldError(state, "password");
 
   return (
     <form action={action} className="space-y-4">
@@ -71,12 +54,12 @@ const DeleteGuestbookForm = ({ payload }: { payload: string }) => {
         <DialogDescription>
           계속 진행하려면 비밀번호를 입력해주세요.
         </DialogDescription>
-        {errorMessage && <Alert type="error">{errorMessage}</Alert>}
       </DialogHeader>
 
       <LabeledInput id="password" name="password" type="password">
         비밀번호
       </LabeledInput>
+      {passwordError && <Alert type="error">{passwordError}</Alert>}
 
       <DialogFooter>
         <DialogClose asChild>

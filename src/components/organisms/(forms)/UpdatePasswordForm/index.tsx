@@ -10,8 +10,12 @@ import { Lock } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useActionState, useEffect } from "react";
+import Alert from "@/components/atoms/Alert/Alert";
+import { getFieldError, hasFieldErrors } from "@/utils/error";
+import { APIResponse } from "@/types/error";
+import { toast } from "sonner";
 
-const deleteCookieToUserEmail = async () => {
+const deleteCookieToUserEmail = async (): Promise<void> => {
   try {
     await fetcher<void>("/api/auth/cookie", undefined, { method: "DELETE" });
   } catch (error) {
@@ -20,14 +24,23 @@ const deleteCookieToUserEmail = async () => {
   }
 };
 
-const UpdatePasswordForm = () => {
+const UpdatePasswordForm = ({ token }: { token: string }) => {
   const router = useRouter();
-  const [state, action, pending] = useActionState(updateUserPassword, null);
+  const [state, action, pending] = useActionState<
+    APIResponse<{ message: string }>,
+    FormData
+  >(updateUserPassword, null);
 
   useEffect(() => {
-    if (state && state.success) {
-      alert(state.data.message);
-      router.push("/login");
+    if (!state) return;
+    if (state.success === true) {
+      toast.message(state.data.message);
+      return router.push("/login");
+    } else {
+      if (!hasFieldErrors(state.error)) {
+        toast.error(state.error.message);
+        router.push("/login");
+      }
     }
   }, [state, router]);
 
@@ -37,8 +50,8 @@ const UpdatePasswordForm = () => {
     };
   }, []);
 
-  const fieldErrors =
-    state && !state.success && "errors" in state.error && state.error.errors;
+  const passwordError = getFieldError(state, "password");
+  const confirmPasswordError = getFieldError(state, "confirmPassword");
 
   return (
     <div className="space-y-6">
@@ -48,15 +61,11 @@ const UpdatePasswordForm = () => {
       </div>
 
       <form action={action} className="space-y-4">
+        <input name="token" defaultValue={token} hidden />
         <div className="space-y-2">
           <Label className="" htmlFor="password">
             비밀번호
           </Label>
-          {fieldErrors && fieldErrors.password && (
-            <span className="text-xs text-red-500">
-              {fieldErrors.password[0]}
-            </span>
-          )}
           <div className="relative">
             <Lock className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
             <Input
@@ -68,28 +77,25 @@ const UpdatePasswordForm = () => {
               required
             />
           </div>
+          {passwordError && <Alert type="error">{passwordError}</Alert>}
+        </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="confirmPassword">
-              비밀번호 확인{" "}
-              {fieldErrors && fieldErrors.confirmPassword && (
-                <span className="text-xs text-red-500">
-                  {fieldErrors.confirmPassword[0]}
-                </span>
-              )}
-            </Label>
-            <div className="relative">
-              <Lock className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
-              <Input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                placeholder="••••••••"
-                className="pl-10"
-                required
-              />
-            </div>
+        <div className="space-y-2">
+          <Label htmlFor="confirmPassword">비밀번호 확인</Label>
+          <div className="relative">
+            <Lock className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+            <Input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              placeholder="••••••••"
+              className="pl-10"
+              required
+            />
           </div>
+          {confirmPasswordError && (
+            <Alert type="error">{confirmPasswordError}</Alert>
+          )}
         </div>
 
         <Btn type="submit" className="w-full" size="lg">

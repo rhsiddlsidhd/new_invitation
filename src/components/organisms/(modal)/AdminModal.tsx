@@ -3,7 +3,7 @@
 import { ProductEditDialog } from "@/app/(main)/(admin)/admin/products/_components/ProductEditDialog";
 import { AdminModalState, useAdminModalStore } from "@/store/admin.modal.store";
 import React from "react";
-import { PremiumFeatureDialog } from "../PremiumFeatureDialog";
+
 import {
   Dialog,
   DialogContent,
@@ -11,6 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/atoms/Dialog/Dialog";
+import { PremiumFeatureDialog } from "../(admin)/PremiumFeatureDialog";
 
 const modalPayload: Record<
   Exclude<AdminModalState["type"], null>,

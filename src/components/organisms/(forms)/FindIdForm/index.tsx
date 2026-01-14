@@ -11,11 +11,18 @@ import { Card } from "@/components/atoms/Card/Card";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import { Input } from "@/components/atoms/Input/Input";
 import { Label } from "@/components/atoms/Label/Label";
+import Alert from "@/components/atoms/Alert/Alert";
+import { getFieldError } from "@/utils/error";
+import { APIResponse } from "@/types/error";
 
 export function FindIdForm() {
-  const [state, action, pending] = useActionState(findUserEmail, null);
-  const fieldErrors =
-    state && !state.success && "errors" in state.error && state.error.errors;
+  const [state, action, pending] = useActionState<
+    APIResponse<{ email: string }>,
+    FormData
+  >(findUserEmail, null);
+
+  const nameError = getFieldError(state, "name");
+  const phoneError = getFieldError(state, "phone");
   const formError = state && !state.success && state.error.message;
 
   if (state && state.success) {
@@ -72,12 +79,7 @@ export function FindIdForm() {
 
       <form action={action} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="name">
-            이름{" "}
-            <span className="text-xs text-red-500">
-              {fieldErrors && fieldErrors.name && fieldErrors.name[0]}
-            </span>
-          </Label>
+          <Label htmlFor="name">이름</Label>
           <div className="relative">
             <User className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
             <Input
@@ -89,15 +91,11 @@ export function FindIdForm() {
               required
             />
           </div>
+          {nameError && <Alert type="error">{nameError}</Alert>}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="phone">
-            전화번호{" "}
-            <span className="text-xs text-red-500">
-              {fieldErrors && fieldErrors.phone && fieldErrors.phone[0]}
-            </span>
-          </Label>
+          <Label htmlFor="phone">전화번호</Label>
           <div className="relative">
             <Phone className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
             <Input
@@ -109,8 +107,9 @@ export function FindIdForm() {
               required
             />
           </div>
+          {phoneError && <Alert type="error">{phoneError}</Alert>}
         </div>
-        {formError && <p className="text-xs text-red-500">{formError}</p>}
+        {formError && <Alert type="error">{formError}</Alert>}
         <Btn type="submit" className="w-full" size="lg">
           아이디 찾기 {pending ? "중" : ""}
         </Btn>
