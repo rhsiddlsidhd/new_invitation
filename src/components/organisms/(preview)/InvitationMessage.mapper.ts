@@ -16,7 +16,6 @@ export interface InvitationMessageMappedProps {
   parties: Party[];
 }
 
-// coupleInfoData에서 가져올 데이터의 최소 타입 정의
 interface PersonData {
   name: string;
   phone: string;
