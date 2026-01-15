@@ -41,14 +41,16 @@ export const createCoupleInfoAction = async (
     const buildParentData = (prefix: string) => {
       const name = formData.get(`${prefix}_name`) as string;
       const phone = formData.get(`${prefix}_phone`) as string;
+      const bankName = formData.get(`${prefix}_bank_name`) as string;
+      const accountNumber = formData.get(`${prefix}_account_number`) as string;
 
-      if (!name || !phone) return undefined;
+      if (!name || !phone || !bankName || !accountNumber) return undefined;
 
       return {
         name,
         phone,
-        bankName: formData.get(`${prefix}_bank_name`) as string,
-        accountNumber: formData.get(`${prefix}_account_number`) as string,
+        bankName,
+        accountNumber,
       };
     };
 

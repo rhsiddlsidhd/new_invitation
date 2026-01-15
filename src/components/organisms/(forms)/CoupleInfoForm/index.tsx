@@ -6,12 +6,12 @@ import { ParentsInfoSection } from "./parents-info-section";
 import { ImagesSection } from "./images-section";
 import { startTransition, useActionState, useEffect } from "react";
 import { createCoupleInfoAction } from "@/actions/createCoupleInfoAction";
-import { uploadGalleryImages, uploadMainThumbnail } from "@/lib/cloudinary";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import BottomActionBar from "../../BottomActionBar";
 import { updateCouleInfoAction } from "@/actions/updateCouleInfoAction";
 import { toast } from "sonner";
+import { useImageUpload } from "./hooks/useImageUpload";
 
 export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
   const router = useRouter();
@@ -22,117 +22,18 @@ export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
     type === "edit" ? updateCouleInfoAction : createCoupleInfoAction;
   const [state, action] = useActionState(currentAction, null);
 
+  const { processFormSubmit, uploadProgress, isUploading } = useImageUpload();
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-    const date = formData.get("wedding_date") as string;
-    if (!date) return alert("날짜를 선택해주세요");
+    const formData = new FormData(e.currentTarget);
 
-    // ========================================
-    // 1. 썸네일 처리 (thumbnail)
-    // ========================================
+    // ✅ 검증 → 업로드 → 정리 (통합)
+    const cleanedFormData = await processFormSubmit(formData);
+    if (!cleanedFormData) return; // 검증 실패 시 중단
 
-    // 1-1. 기존 썸네일 URL 추출
-    const existingThumbnails = JSON.parse(
-      (formData.get("thumbnail-upload_existing") as string) || "[]",
-    );
-
-    // 1-2. 새 파일 추출
-    const newThumbnailFiles = formData
-      .getAll("thumbnail-upload")
-      .filter((file) => file instanceof File && file.size > 0) as File[];
-
-    // 1-3. 새 파일만 업로드
-    const uploadedThumbnails =
-      newThumbnailFiles.length > 0
-        ? await uploadMainThumbnail(newThumbnailFiles)
-        : [];
-
-    // 1-4. 기존 + 신규 병합
-    const finalThumbnails = [
-      ...existingThumbnails,
-      ...(uploadedThumbnails ?? []),
-    ];
-
-    // ========================================
-    // 2. 갤러리 처리 (gallery)
-    // ========================================
-
-    // 2-1. 갤러리 키 추출
-    const galleryKeys = Array.from(formData.keys()).filter((key) =>
-      key.startsWith("gallery-upload-"),
-    );
-    const uniqueKeys = [...new Set(galleryKeys)];
-
-    // 2-2. 각 갤러리 카테고리 처리
-    const finalGallerySource = [];
-    for (const key of uniqueKeys) {
-      const categoryId = key.replace("gallery-upload-", "");
-      const categoryName = formData.get(
-        `category-name-${categoryId}`,
-      ) as string;
-
-      // 2-2-1. 기존 이미지 URL 추출
-      const existingGalleryImages = JSON.parse(
-        (formData.get(`${key}_existing`) as string) || "[]",
-      );
-
-      // 2-2-2. 새 파일 추출
-      const newGalleryFiles = formData
-        .getAll(key)
-        .filter((file) => file instanceof File && file.size > 0) as File[];
-
-      // 2-2-3. 새 파일만 업로드
-      const uploadedGalleryImages =
-        newGalleryFiles.length > 0
-          ? await uploadGalleryImages(newGalleryFiles)
-          : [];
-
-      // 2-2-4. 기존 + 신규 병합
-      const finalImages = [
-        ...existingGalleryImages,
-        ...(uploadedGalleryImages ?? []),
-      ];
-
-      // 유효성 검사
-      if (finalImages.length > 0 && !categoryName) {
-        alert("이미지가 추가된 갤러리의 카테고리 이름을 입력해주세요.");
-        return; // 제출 중단
-      }
-
-      if (categoryName && finalImages.length === 0) {
-        alert(`'${categoryName}' 카테고리에 이미지를 1개 이상 추가해주세요.`);
-        return; // 제출 중단
-      }
-
-      // 이름과 이미지가 모두 있는 경우에만 추가
-      if (categoryName && finalImages.length > 0) {
-        finalGallerySource.push({
-          name: categoryName,
-          images: finalImages,
-        });
-      }
-    }
-
-    // ========================================
-    // 3. FormData 정리 및 저장
-    // ========================================
-
-    // 3-1. 원본 파일 및 _existing 제거
-    formData.delete("thumbnail-upload");
-    formData.delete("thumbnail-upload_existing");
-    uniqueKeys.forEach((key) => {
-      formData.delete(key);
-      formData.delete(`${key}_existing`);
-    });
-
-    // 3-2. 최종 결과 저장
-    formData.set("thumbnailSource", JSON.stringify(finalThumbnails));
-    formData.set("gallerySource", JSON.stringify(finalGallerySource));
-
-    // 3-3. 서버 액션 호출
-    startTransition(() => action(formData));
+    // Server Action 호출
+    startTransition(() => action(cleanedFormData));
   };
 
   useEffect(() => {
@@ -170,6 +71,20 @@ export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
 
       {/* 이미지 정보 */}
       <ImagesSection />
+
+      {/* 업로드 진행 상황 */}
+      {isUploading && (
+        <div className="fixed right-4 bottom-4 rounded-lg border bg-white p-4 shadow-lg">
+          <p className="mb-2 text-sm font-medium">이미지 업로드 중...</p>
+          <div className="h-2 w-64 overflow-hidden rounded-full bg-gray-200">
+            <div
+              className="h-2 rounded-full bg-blue-500 transition-all duration-300"
+              style={{ width: `${uploadProgress}%` }}
+            />
+          </div>
+          <p className="mt-1 text-xs text-gray-500">{uploadProgress}%</p>
+        </div>
+      )}
 
       <BottomActionBar />
     </form>
