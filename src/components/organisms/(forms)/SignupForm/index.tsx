@@ -5,8 +5,7 @@ import type React from "react";
 import { useActionState, useEffect, useState } from "react";
 
 import Link from "next/link";
-import { Mail, Lock, User, Phone } from "lucide-react";
-import { GlobeAmericasIcon } from "@/components/atoms/Icon";
+import { Mail, Lock, User, Phone, Globe } from "lucide-react";
 
 import { useRouter } from "next/navigation";
 import { signupUser } from "@/actions/signupUser";
@@ -203,7 +202,7 @@ export function SignupForm() {
         className="w-full bg-transparent"
         size="lg"
       >
-        <GlobeAmericasIcon className="mr-2 h-5 w-5" />
+        <Globe className="aspect-square w-4" />
         Google로 가입하기
       </Btn>
 

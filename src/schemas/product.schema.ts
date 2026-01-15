@@ -4,10 +4,10 @@ export const productSchema = z
   .object({
     title: z.string().min(1, "상품명을 입력해주세요."),
     description: z.string().min(10, "상품 설명은 최소 10자 이상이어야 합니다."),
-    category: z.string(),
+    category: z.enum(["modern", "romantic", "vintage", "classic", "minimal"]),
     price: z.number().min(0, "가격은 0 이상이어야 합니다."),
     isPremium: z.boolean(),
-    options: z.array(z.string()),
+    options: z.array(z.string()).optional(),
     feature: z.boolean(),
     priority: z.number(),
     status: z.enum(["active", "inactive", "soldOut"]).optional(),
@@ -29,3 +29,5 @@ export const productSchema = z
       path: ["options"],
     },
   );
+
+export type ProductDto = z.infer<typeof productSchema>;

@@ -26,7 +26,8 @@ type FailedPayment = Extract<GetPaymentResult, { status: "FAILED" }>;
 /**
  * PortOne 결제 상태를 시스템 상태로 매핑
  */
-function mapPortOneStatus(status: string): PayStatus {
+function mapPortOneStatus(status: unknown): PayStatus {
+  if (typeof status !== "string") return "PENDING";
   const statusMap: Record<string, PayStatus> = {
     READY: "PENDING",
     VIRTUAL_ACCOUNT_ISSUED: "PENDING",
@@ -208,7 +209,7 @@ export const syncPayment = async (paymentId: string) => {
     }
 
     // 결제 대기 중
-    return { success: false, status: actualPayment.status };
+    return { success: false, status: mapPortOneStatus(actualPayment.status) };
   } catch (e) {
     if (e instanceof PortOne.PortOneError) {
       throw new HTTPError(`포트원 오류: ${e.message}`, 400);

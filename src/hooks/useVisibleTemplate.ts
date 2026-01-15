@@ -74,7 +74,7 @@ const useVisibleTemplate = ({
     const sorted = [...filtered].sort((a, b) => {
       switch (state.sortBy) {
         case "POPULAR":
-          return b.likes - a.likes;
+          return b.likes.length - a.likes.length;
         case "RECOMENDED":
           // feature가 true인 것을 우선으로, 그 다음 priority가 높은 순으로
           if (a.feature !== b.feature) {

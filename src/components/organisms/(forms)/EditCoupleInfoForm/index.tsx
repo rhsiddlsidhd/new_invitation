@@ -66,43 +66,56 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
           <CardContent className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
               <LabeledInput
-                label="결혼식 날짜"
+                id="wedding_date"
                 name="wedding_date"
                 type="date"
                 defaultValue={defaultDate}
                 required
-              />
+              >
+                결혼식 날짜
+              </LabeledInput>
               <LabeledInput
-                label="결혼식 시간"
+                id="wedding_time"
                 name="wedding_time"
                 type="time"
                 defaultValue={defaultTime}
                 required
-              />
+              >
+                결혼식 시간
+              </LabeledInput>
             </div>
 
             <LabeledInput
-              label="예식장 이름"
+              id="venue"
               name="venue"
+              type="text"
               defaultValue={initialData.venue}
               placeholder="○○웨딩홀"
               required
-            />
+            >
+              예식장 이름
+            </LabeledInput>
 
             <LabeledInput
-              label="예식장 주소"
+              id="address"
               name="address"
+              type="text"
               defaultValue={initialData.address}
               placeholder="서울시 강남구..."
               required
-            />
+            >
+              예식장 주소
+            </LabeledInput>
 
             <LabeledInput
-              label="가까운 지하철역 (선택)"
+              id="subway_station"
               name="subway_station"
+              type="text"
               defaultValue={initialData.subwayStation || ""}
               placeholder="강남역"
-            />
+            >
+              가까운 지하철역 (선택)
+            </LabeledInput>
 
             <div className="space-y-2">
               <Label htmlFor="message">초대 메시지 (선택)</Label>
@@ -124,31 +137,43 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
           </CardHeader>
           <CardContent className="space-y-4">
             <LabeledInput
-              label="신랑 이름"
+              id="groom_name"
               name="groom_name"
+              type="text"
               defaultValue={initialData.groom.name}
               required
-            />
+            >
+              신랑 이름
+            </LabeledInput>
             <LabeledInput
-              label="신랑 연락처"
+              id="groom_phone"
               name="groom_phone"
+              type="tel"
               defaultValue={initialData.groom.phone}
               placeholder="010-1234-5678"
               required
-            />
+            >
+              신랑 연락처
+            </LabeledInput>
             <div className="grid gap-4 sm:grid-cols-2">
               <LabeledInput
-                label="신랑 은행명 (선택)"
+                id="groom_bank_name"
                 name="groom_bank_name"
+                type="text"
                 defaultValue={initialData.groom.bankName || ""}
                 placeholder="○○은행"
-              />
+              >
+                신랑 은행명 (선택)
+              </LabeledInput>
               <LabeledInput
-                label="신랑 계좌번호 (선택)"
+                id="groom_account_number"
                 name="groom_account_number"
+                type="text"
                 defaultValue={initialData.groom.accountNumber || ""}
                 placeholder="123-456-789"
-              />
+              >
+                신랑 계좌번호 (선택)
+              </LabeledInput>
             </div>
           </CardContent>
         </Card>
@@ -160,31 +185,43 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
           </CardHeader>
           <CardContent className="space-y-4">
             <LabeledInput
-              label="신부 이름"
+              id="bride_name"
               name="bride_name"
+              type="text"
               defaultValue={initialData.bride.name}
               required
-            />
+            >
+              신부 이름
+            </LabeledInput>
             <LabeledInput
-              label="신부 연락처"
+              id="bride_phone"
               name="bride_phone"
+              type="tel"
               defaultValue={initialData.bride.phone}
               placeholder="010-1234-5678"
               required
-            />
+            >
+              신부 연락처
+            </LabeledInput>
             <div className="grid gap-4 sm:grid-cols-2">
               <LabeledInput
-                label="신부 은행명 (선택)"
+                id="bride_bank_name"
                 name="bride_bank_name"
+                type="text"
                 defaultValue={initialData.bride.bankName || ""}
                 placeholder="○○은행"
-              />
+              >
+                신부 은행명 (선택)
+              </LabeledInput>
               <LabeledInput
-                label="신부 계좌번호 (선택)"
+                id="bride_account_number"
                 name="bride_account_number"
+                type="text"
                 defaultValue={initialData.bride.accountNumber || ""}
                 placeholder="123-456-789"
-              />
+              >
+                신부 계좌번호 (선택)
+              </LabeledInput>
             </div>
           </CardContent>
         </Card>

@@ -6,14 +6,14 @@ import { HTTPError } from "@/types/error";
 import { uploadProductImage } from "@/lib/cloudinary";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
-import { validateAndFlatten } from "@/lib/validation";
 import { productSchema } from "@/schemas/product.schema";
 import { createProductService } from "@/services/product.service";
 import { getUserById } from "@/services/user.service";
 import { revalidatePath } from "next/cache";
+import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
 
 export const createProductAction = async (
-  prev: unknown,
+  _prev: unknown,
   formData: FormData,
 ): Promise<APIResponse<{ message: string }>> => {
   try {
@@ -45,7 +45,7 @@ export const createProductAction = async (
       feature: formData.get("feature") === "true",
       priority: Number(formData.get("priority")) as number,
       thumbnail: thumbnailFile,
-    };
+    } as const;
 
     const parsed = validateAndFlatten(productSchema, data);
 

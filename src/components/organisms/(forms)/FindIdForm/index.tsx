@@ -1,10 +1,10 @@
 "use client";
 
-import type React from "react";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 
 import Link from "next/link";
 import { User, Phone, Mail } from "lucide-react";
+import { toast } from "sonner";
 
 import { findUserEmail } from "@/actions/findUserEmail";
 import { Card } from "@/components/atoms/Card/Card";
@@ -12,7 +12,7 @@ import { Btn } from "@/components/atoms/Btn/Btn";
 import { Input } from "@/components/atoms/Input/Input";
 import { Label } from "@/components/atoms/Label/Label";
 import Alert from "@/components/atoms/Alert/Alert";
-import { getFieldError } from "@/utils/error";
+import { getFieldError, hasFieldErrors } from "@/utils/error"; // Added hasFieldErrors
 import { APIResponse } from "@/types/error";
 
 export function FindIdForm() {
@@ -21,9 +21,17 @@ export function FindIdForm() {
     FormData
   >(findUserEmail, null);
 
+  useEffect(() => {
+    if (!state) return;
+    if (state.success === false) {
+      if (!hasFieldErrors(state.error)) {
+        toast.error(state.error.message);
+      }
+    }
+  }, [state]);
+
   const nameError = getFieldError(state, "name");
   const phoneError = getFieldError(state, "phone");
-  const formError = state && !state.success && state.error.message;
 
   if (state && state.success) {
     return (
@@ -109,7 +117,7 @@ export function FindIdForm() {
           </div>
           {phoneError && <Alert type="error">{phoneError}</Alert>}
         </div>
-        {formError && <Alert type="error">{formError}</Alert>}
+
         <Btn type="submit" className="w-full" size="lg">
           아이디 찾기 {pending ? "중" : ""}
         </Btn>

@@ -4,7 +4,7 @@ import { InvitationMessage } from "@/components/organisms/(preview)/InvitationMe
 import { GallerySection } from "@/components/organisms/(preview)/GallerySection";
 import { LocationSection } from "@/components/organisms/(preview)/LocationSection";
 import { Footer } from "@/components/organisms/(preview)/Footer";
-import { mapCoupleInfoToInvitationProps } from "@/components/organisms/(preview)/invitationMessage.mapper";
+
 import { getCoupleInfoById } from "@/services/coupleInfo.service";
 import { mapCoupleInfoToAccountProps } from "@/components/organisms/(preview)/accountSection.mapper";
 import { getGuestbookService } from "@/services/guestbook.service";
@@ -21,11 +21,11 @@ import { mapDataToGuestbookProps } from "@/components/organisms/(preview)/guestB
 import { mapCoupleInfoToFooterProps } from "@/components/organisms/(preview)/footer.mapper";
 import { mapCoupleInfoToThumbnails } from "@/components/organisms/(preview)/thumbnails.mapper";
 import { HeroSection } from "@/components/organisms/(preview)/HeroSection";
+import { mapCoupleInfoToInvitationProps } from "@/components/organisms/(preview)/invitationMessage.mapper";
 
 const COUPLEINFO_ID = process.env.NEXT_PUBLIC_PREVIEW_COUPLEINFO_ID;
-
-const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
-  const { id } = await params;
+// { params }: { params: Promise<{ id: string }> }
+const Page = async () => {
   if (!COUPLEINFO_ID) throw new Error("COUPLEINFO_ID is required");
   const data = await getGuestbookService(COUPLEINFO_ID);
   const coupleInfoData = await getCoupleInfoById(COUPLEINFO_ID);

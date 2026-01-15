@@ -1,7 +1,6 @@
 "use server";
 
 import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
-import { cookies } from "next/headers";
 import { PWConfirmSchema } from "@/schemas/pwConfirm.schema";
 import { APIResponse, success } from "@/api/response";
 import { changePassword } from "@/services/user.service";

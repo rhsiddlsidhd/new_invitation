@@ -87,9 +87,18 @@ export async function createOrderAction(
       userId: user._id,
     });
 
-    console.log(order);
-
-    return success({
+    return success<{
+      merchantUid: string;
+      finalPrice: number;
+      payMethod: PayMethod;
+      buyerName: string;
+      buyerEmail: string;
+      buyerPhone: string;
+      title: string;
+      userId: string;
+      productId: string;
+      message: string;
+    }>({
       merchantUid: order.merchantUid,
       finalPrice: order.finalPrice,
       payMethod: order.payMethod,

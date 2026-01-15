@@ -7,68 +7,76 @@ import { Input } from "@/components/atoms/Input/Input";
 import { Textarea } from "@/components/atoms/Textarea";
 import type React from "react";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { toast } from "sonner";
 import { PremiumFeature } from "@/services/premiumFeature.service";
 import { updatePremiumFeatureAction } from "@/actions/updatePremiumFeatureAction";
 import Alert from "@/components/atoms/Alert/Alert";
 import { Label } from "@/components/atoms/Label/Label";
+import { APIResponse } from "@/types/error";
+import { getFieldError, hasFieldErrors } from "@/utils/error";
+import LabeledInput from "@/components/molecules/(input-group)/LabeledInput";
 
 export function PremiumFeatureDialog({
   premiumFeature: feature,
 }: {
   premiumFeature: PremiumFeature;
 }) {
-  const [state, action, pending] = useActionState(
-    updatePremiumFeatureAction,
-    null,
-  );
+  const [state, action, pending] = useActionState<
+    APIResponse<{ message: string }>,
+    FormData
+  >(updatePremiumFeatureAction, null);
 
-  const error = state && !state.success && state.error.errors;
+  useEffect(() => {
+    if (!state) return;
+    if (state.success === true) {
+      toast.success(state.data.message);
+      // For now, just toast. You might want to close the dialog or refresh data here.
+    } else {
+      if (!hasFieldErrors(state.error)) {
+        toast.error(state.error.message);
+      }
+    }
+  }, [state]);
+
+  const codeError = getFieldError(state, "code");
+  const labelError = getFieldError(state, "label");
+  const descriptionError = getFieldError(state, "description");
+  const additionalPriceError = getFieldError(state, "additionalPrice");
 
   return (
     <form action={action}>
       <div className="space-y-4 py-4">
-        <div className="space-y-2">
-          <Label htmlFor="code">
-            기능 코드 *
-            {error && error["code"] && (
-              <Alert type="error">{error["code"][0]}</Alert>
-            )}
-          </Label>
-          <Input
+        <LabeledInput
             id="code"
             name="code"
+            type="text"
             placeholder="예: ANIMATION"
             defaultValue={feature.code}
             required
-          />
+            error={codeError}
+          >
+            기능 코드 *
+          </LabeledInput>
           <p className="text-muted-foreground text-xs">
             영문 대문자와 언더스코어만 사용 가능합니다.
           </p>
-        </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="label">
-            기능 이름 *
-            {error && error["label"] && (
-              <Alert type="error">{error["label"][0]}</Alert>
-            )}
-          </Label>
-          <Input
+        <LabeledInput
             id="label"
             name="label"
+            type="text"
             placeholder="예: 애니메이션 효과"
             defaultValue={feature.label}
             required
-          />
-        </div>
+            error={labelError}
+          >
+            기능 이름 *
+          </LabeledInput>
 
         <div className="space-y-2">
           <Label htmlFor="description">
             기능 설명 *
-            {error && error["description"] && (
-              <Alert type="error">{error["description"][0]}</Alert>
-            )}
           </Label>
           <Textarea
             id="description"
@@ -78,14 +86,12 @@ export function PremiumFeatureDialog({
             defaultValue={feature.description}
             required
           />
+          {descriptionError && <Alert type="error">{descriptionError}</Alert>}
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="additionalPrice">
             추가 비용 *
-            {error && error["additionalPrice"] && (
-              <Alert type="error">{error["additionalPrice"][0]}</Alert>
-            )}
           </Label>
           <div className="relative">
             <Input
@@ -103,6 +109,9 @@ export function PremiumFeatureDialog({
               원
             </span>
           </div>
+          {additionalPriceError && (
+            <Alert type="error">{additionalPriceError}</Alert>
+          )}
         </div>
 
         <input

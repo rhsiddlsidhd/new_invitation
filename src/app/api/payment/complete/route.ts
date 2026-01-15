@@ -18,8 +18,7 @@ export const POST = async (
 
     const token = authHeader.substring(7); // "Bearer " 제거
 
-    const result = await decrypt({ token, type: "ACCESS" });
-    const payload = result.payload;
+    const { payload } = await decrypt({ token, type: "ACCESS" });
 
     if (!payload.id) throw new HTTPError("유효하지 않은 토큰입니다.", 401);
 
@@ -36,7 +35,7 @@ export const POST = async (
       throw new HTTPError("결제 동기화에 실패했습니다.", 500);
     }
 
-    return apiSuccess({ status: payment.status });
+    return apiSuccess<{ status: PayStatus }>({ status: payment.status });
   } catch (error) {
     return handleRouteError(error);
   }

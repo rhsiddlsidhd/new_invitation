@@ -2,9 +2,9 @@
 import { handleActionError } from "@/api/error";
 import { APIResponse, success } from "@/api/response";
 import { HTTPError } from "@/types/error";
-import { validateAndFlatten } from "@/lib/validation";
 import { premiumFeatureSchema } from "@/schemas/premiumFeature.schema";
 import { createPremiumFeatureService } from "@/services/premiumFeature.service";
+import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
 
 export const createPremiumFeatureAction = async (
   _prev: unknown,
