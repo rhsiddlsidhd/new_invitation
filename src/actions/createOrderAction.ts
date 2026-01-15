@@ -80,8 +80,6 @@ export async function createOrderAction(
       throw new HTTPError("입력값이 올바르지 않습니다.", 400, parsed.error);
     }
 
-    console.log("parsed", { data: parsed.data });
-
     const order = await createOrderService({
       ...parsed.data,
       userId: user._id,

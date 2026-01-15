@@ -72,7 +72,7 @@ const productSchema = new Schema<ProductDocument>(
     },
     isLiked: {
       type: Boolean,
-      defalut: false,
+      default: false,
     },
     views: { type: Number, default: 0 },
     salesCount: { type: Number, default: 0 },

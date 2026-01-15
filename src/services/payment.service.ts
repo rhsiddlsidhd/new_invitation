@@ -26,19 +26,19 @@ type FailedPayment = Extract<GetPaymentResult, { status: "FAILED" }>;
 /**
  * PortOne 결제 상태를 시스템 상태로 매핑
  */
-function mapPortOneStatus(status: unknown): PayStatus {
-  if (typeof status !== "string") return "PENDING";
-  const statusMap: Record<string, PayStatus> = {
-    READY: "PENDING",
-    VIRTUAL_ACCOUNT_ISSUED: "PENDING",
-    PAID: "PAID",
-    FAILED: "FAILED",
-    CANCELLED: "CANCELLED",
-    PARTIAL_CANCELLED: "PARTIAL_CANCELLED",
-  };
-  return statusMap[status] || "PENDING";
-}
 
+function mapPortOneStatus(status: unknown): PayStatus {
+  if (typeof status !== "string") {
+    console.error(`[mapPortOneStatus] Invalid status type: ${typeof status}`);
+    throw new HTTPError("유효하지 않은 결제 상태입니다.", 400);
+  }
+  const statusMap: Record<string, PayStatus> = {};
+  if (!(status in statusMap)) {
+    console.error(`[mapPortOneStatus] Unknown status: ${status}`);
+    throw new HTTPError(`알 수 없는 결제 상태: ${status}`, 400);
+  }
+  return statusMap[status];
+}
 /**
  * 결제 데이터 검증 (위변조 방지)
  */
