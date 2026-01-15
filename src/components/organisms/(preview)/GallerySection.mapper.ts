@@ -1,8 +1,7 @@
 import { ICoupleInfo } from "@/models/coupleInfo.model";
-import { GalleryCategory } from "@/types/couple";
 
 export interface GallerySectionProps {
-  categories: GalleryCategory[];
+  categories: { id: string; categoryName: string; images: string[] }[];
 }
 
 export const mapCoupleInfoToGalleryProps = (

@@ -1,7 +1,12 @@
-import mongoose, { model, Schema, Document, Model } from "mongoose";
+import mongoose, { model, Schema, Model, ValidatorProps } from "mongoose";
 
 export type Status = "active" | "inactive" | "soldOut";
-export type Category = "modern" | "romantic" | "vintage" | "classic" | "minimal";
+export type Category =
+  | "modern"
+  | "romantic"
+  | "vintage"
+  | "classic"
+  | "minimal";
 
 export interface ProductDB {
   authorId: string;
@@ -28,14 +33,16 @@ export interface ProductDB {
   deletedAt?: Date;
 }
 
-export interface ProductDocument extends ProductDB, Document {
+export interface ProductDocument extends ProductDB {
   createdAt: Date;
   updatedAt: Date;
 }
 
 // toJSON() 반환 타입 정의
-export interface ProductJSON
-  extends Omit<ProductDB, "likes" | "options" | "deletedAt"> {
+export interface ProductJSON extends Omit<
+  ProductDB,
+  "likes" | "options" | "deletedAt"
+> {
   _id: string;
   likes: string[];
   options: string[];
@@ -65,7 +72,7 @@ const productSchema = new Schema<ProductDocument>(
     },
     isLiked: {
       type: Boolean,
-      defalut: false,
+      default: false,
     },
     views: { type: Number, default: 0 },
     salesCount: { type: Number, default: 0 },
@@ -74,7 +81,7 @@ const productSchema = new Schema<ProductDocument>(
       value: {
         type: Number,
         default: 0,
-        validator: function (v) {
+        validator: function (this: ProductDocument, v: number) {
           // rate일 경우: 0 이상 1 이하
           if (this.discount.type === "rate") {
             return v >= 0 && v <= 1;
@@ -85,8 +92,8 @@ const productSchema = new Schema<ProductDocument>(
           }
           return true;
         },
-        message: (props) => {
-          if (props.instance.discount.type === "rate") {
+        message: function (this: ProductDocument, props: ValidatorProps) {
+          if (this.discount.type === "rate") {
             return `rate일 때 할인율은 0에서 1 사이여야 합니다. (입력값: ${props.value})`;
           } else {
             return `amount일 때 할인액은 1000원 단위여야 합니다. (입력값: ${props.value})`;
@@ -105,7 +112,10 @@ const productSchema = new Schema<ProductDocument>(
       type: [{ type: Schema.Types.ObjectId, ref: "Feature" }],
       default: [],
       validate: {
-        validator: function (this: any, value: mongoose.Types.ObjectId[]) {
+        validator: function (
+          this: ProductDocument,
+          value: mongoose.Types.ObjectId[],
+        ) {
           if (this.isPremium === false) {
             return value.length === 0;
           }
@@ -118,33 +128,6 @@ const productSchema = new Schema<ProductDocument>(
   },
   {
     timestamps: true,
-    toJSON: {
-      virtuals: true,
-      versionKey: false,
-      transform: (_doc, ret: any) => {
-        // 불필요한 필드 제거
-        delete ret.__v;
-        delete ret.id;
-
-        // _id를 string으로 변환
-        ret._id = ret._id.toString();
-
-        // 날짜를 ISO string으로 변환
-        if (ret.createdAt) ret.createdAt = ret.createdAt.toISOString();
-        if (ret.updatedAt) ret.updatedAt = ret.updatedAt.toISOString();
-        if (ret.deletedAt) ret.deletedAt = ret.deletedAt.toISOString();
-
-        // ObjectId 배열을 string 배열로 변환
-        ret.likes = ret.likes?.map((v: mongoose.Types.ObjectId) =>
-          v.toString(),
-        ) || [];
-        ret.options = ret.options?.map((v: mongoose.Types.ObjectId) =>
-          v.toString(),
-        ) || [];
-
-        return ret;
-      },
-    },
   },
 );
 

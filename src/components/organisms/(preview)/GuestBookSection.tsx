@@ -2,7 +2,6 @@
 
 import { Btn } from "@/components/atoms/Btn/Btn";
 import SectionBody from "@/components/molecules/(preview)/SectionBody";
-import { IGuestbook } from "@/models/guestbook.model";
 import { useGuestbookModalStore } from "@/store/guestbook.modal.store";
 import { PenLine, X } from "lucide-react";
 import React, { useEffect, useState } from "react";

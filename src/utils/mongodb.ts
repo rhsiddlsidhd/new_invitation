@@ -1,5 +1,17 @@
 import mongoose from "mongoose";
 
+// 1. 캐시 객체의 타입을 정의합니다.
+interface MongooseCache {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
+}
+
+// 2. NodeJS의 전역(global) 타입에 mongooseCache 속성을 추가합니다.
+
+declare global {
+  var mongooseCache: MongooseCache;
+}
+
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@new-invitation-cluster.8umdvcl.mongodb.net/new_invitation?retryWrites=true&w=majority&appName=new-invitation-cluster`;
 
 if (!uri) {

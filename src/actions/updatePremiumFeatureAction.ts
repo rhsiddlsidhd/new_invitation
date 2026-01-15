@@ -9,7 +9,7 @@ import { updatePremiumFeatureService } from "@/services/premiumFeature.service";
 import { revalidatePath } from "next/cache";
 
 export const updatePremiumFeatureAction = async (
-  prev: unknown,
+  _prev: unknown,
   formData: FormData,
 ): Promise<APIResponse<{ message: string }>> => {
   try {
@@ -36,7 +36,7 @@ export const updatePremiumFeatureAction = async (
 
     revalidatePath("/admin/premium-features");
 
-    return success({
+    return success<{ message: string }>({
       message: "프리미엄 기능이 수정되었습니다.",
     });
   } catch (e) {

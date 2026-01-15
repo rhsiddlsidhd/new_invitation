@@ -4,7 +4,15 @@ export const navigationButtons = [
   {
     name: "네이버지도",
     path: "navermap.webp",
-    onClick: ({ current, target, address }) =>
+    onClick: ({
+      current,
+      target,
+      address,
+    }: {
+      current: { lng: number | null; lat: number | null };
+      target: { lng: number | null; lat: number | null };
+      address: string;
+    }) =>
       current &&
       target &&
       address &&
@@ -13,12 +21,21 @@ export const navigationButtons = [
   {
     name: "티맵",
     path: "tmap.webp",
-    onClick: ({ address }) => address && openApp.openTmap(address),
+    onClick: ({ address }: { address: string }) =>
+      address && openApp.openTmap(address),
   },
   {
     name: "카카오내비",
     path: "kakaonavi.webp",
-    onClick: ({ current, target, address }) =>
+    onClick: ({
+      current,
+      target,
+      address,
+    }: {
+      current: { lng: number | null; lat: number | null };
+      target: { lng: number | null; lat: number | null };
+      address: string;
+    }) =>
       current &&
       target &&
       address &&

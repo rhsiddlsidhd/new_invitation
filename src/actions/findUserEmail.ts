@@ -6,12 +6,12 @@
 
 import { APIResponse, success } from "@/api/response";
 
-import { validateAndFlatten } from "@/lib/validation";
 import { UserEmailSchema } from "@/schemas/userEmail.schema";
 
 import { getUserEmail } from "@/services/user.service";
 import { handleActionError } from "@/api/error";
 import { HTTPError } from "@/types/error";
+import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
 
 export const findUserEmail = async (
   _prev: unknown,

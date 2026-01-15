@@ -19,8 +19,8 @@ const ProductTableRowSelect = ({ product }: { product: Product }) => {
     try {
       const result = await updateProductStatusAction(product._id, newStatus);
 
-      if (!result.success) {
-        toast.error(result.error?.message || "상태 변경에 실패했습니다.");
+      if (result.success === false) {
+        toast.error(result.error.message || "상태 변경에 실패했습니다.");
         setStatus(product.status);
         return;
       }

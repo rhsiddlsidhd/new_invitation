@@ -4,7 +4,6 @@ import { encrypt } from "@/lib/token";
 import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
 import { sendEmail } from "@/lib/email";
 import { emailSchema } from "@/schemas/email.schema";
-import { setCookie } from "@/lib/cookies/set";
 import { APIResponse, success } from "@/api/response";
 import { checkEmailDuplicate } from "@/services/user.service";
 import { handleActionError } from "@/api/error";

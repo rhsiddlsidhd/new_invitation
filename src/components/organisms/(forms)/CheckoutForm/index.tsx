@@ -3,7 +3,7 @@
 import type React from "react";
 import PortOne, { PaymentResponse } from "@portone/browser-sdk/v2";
 import { startTransition, useActionState, useEffect, useState } from "react";
-import { PayStatus } from "@/models/payment";
+import { PayMethod, PayStatus } from "@/models/payment";
 
 import { Save } from "lucide-react";
 
@@ -27,6 +27,7 @@ import { useRouter } from "next/navigation";
 import { fetcher } from "@/api/fetcher";
 import Spinner from "@/components/atoms/Spinner/Spinner";
 import { BuyerInfo, BuyerInfoSchema } from "@/schemas/order.schema";
+import { APIResponse } from "@/types/error";
 
 const storeId = process.env.NEXT_PUBLIC_POST_ONE_STORE_ID;
 
@@ -34,7 +35,21 @@ const channelKey = process.env.NEXT_PUBLIC_POST_ONE_CHANNELKEY;
 
 export function CheckoutForm({ query }: { query: string }) {
   const router = useRouter();
-  const [state, action, pending] = useActionState(createOrderAction, null);
+  const [state, action, pending] = useActionState<
+    APIResponse<{
+      merchantUid: string;
+      finalPrice: number;
+      payMethod: PayMethod;
+      buyerName: string;
+      buyerEmail: string;
+      buyerPhone: string;
+      title: string;
+      userId: string;
+      productId: string;
+      message: string;
+    }>,
+    FormData
+  >(createOrderAction, null);
   const [agreed, setAgreed] = useState(false);
   const [errors, setErrors] = useState<
     Partial<Record<keyof BuyerInfo, string[]>>
@@ -78,10 +93,7 @@ export function CheckoutForm({ query }: { query: string }) {
     if (!storeId || !channelKey) return;
 
     const handlePortOne = async () => {
-      if (!state || !state.success) {
-        console.error("stateError", state?.error);
-        return;
-      }
+      if (!state || state.success === false) return;
 
       const {
         merchantUid,
@@ -166,7 +178,6 @@ export function CheckoutForm({ query }: { query: string }) {
       return;
     }
     const item = JSON.parse(store) as CheckoutProductData;
-    console.log(item);
 
     // 폼 데이터 유효성 검사
     const BuyerData = {

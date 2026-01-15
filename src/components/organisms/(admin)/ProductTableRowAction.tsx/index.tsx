@@ -23,8 +23,8 @@ const ProductTableRowAction = ({ product }: ProductTableRowProps) => {
     try {
       const result = await deleteProductAction(product._id);
 
-      if (!result.success) {
-        toast.error(result.error?.message || "삭제에 실패했습니다.");
+      if (result.success === false) {
+        toast.error(result.error.message || "삭제에 실패했습니다.");
         return;
       }
 

@@ -1,34 +1,41 @@
-import {
-  ProductModel,
-  ProductJSON,
-  Status,
-  Category,
-} from "@/models/product.model";
+import { ProductModel, ProductJSON, ProductDB } from "@/models/product.model";
+import { ProductDto } from "@/schemas/product.schema";
 import { dbConnect } from "@/utils/mongodb";
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 
 // Product 타입을 export (다른 파일에서 사용)
 export type Product = ProductJSON;
 
-// 상품 생성/수정 시 입력 타입
-interface ProductInput {
-  authorId: string;
-  title: string;
-  description: string;
-  thumbnail: string;
-  previewUrl?: string;
-  price: number;
-  category: Category;
-  isPremium: boolean;
-  options?: string[];
-  feature: boolean;
-  priority: number;
-  status?: Status;
-}
+type LeanProduct = ProductDB & {
+  _id: Types.ObjectId;
+  createdAt: Date;
+  updatedAt: Date;
+  __v?: number;
+};
+
+const transformProduct = (product: LeanProduct): ProductJSON => {
+  delete product.__v;
+  const { deletedAt, _id, ...rest } = product;
+
+  return {
+    ...rest,
+    _id: _id.toString(),
+    likes: product.likes?.map((id) => id.toString()) || [],
+    options: product.options?.map((id) => id.toString()) || [],
+    createdAt: product.createdAt.toISOString(),
+    updatedAt: product.updatedAt.toISOString(),
+    ...(deletedAt && { deletedAt: deletedAt.toISOString() }),
+  };
+};
 
 // 상품생성
+
 export const createProductService = async (
-  data: ProductInput,
+  data: Omit<ProductDto, "thumbnail"> & {
+    thumbnail: string;
+    authorId: string;
+    previewUrl?: string;
+  },
 ): Promise<boolean> => {
   await dbConnect();
 
@@ -53,25 +60,30 @@ export const getProductService = async (
   const product = await ProductModel.findOne({
     _id: productId,
     deletedAt: null,
-  });
+  }).lean();
 
-  return product ? (product.toJSON() as ProductJSON) : null;
+  return product ? transformProduct(product) : null;
 };
 
 // 모든 상품 조회
 export const getAllProductsService = async (): Promise<ProductJSON[]> => {
   await dbConnect();
-  const products = await ProductModel.find({ deletedAt: null }).sort({
-    createdAt: -1,
-  });
+  const products = await ProductModel.find({ deletedAt: null })
+    .sort({ createdAt: -1 })
+    .lean();
 
-  return products.map((product) => product.toJSON() as ProductJSON);
+  return products.map(transformProduct);
 };
 
 // 상품 업데이트
 export const updateProductService = async (
   productId: string,
-  data: Partial<ProductInput>,
+  data: Partial<Omit<ProductDto, "thumbnail">> & {
+    thumbnail?: string;
+    previewUrl?: string; // Add previewUrl type
+    isPremium?: boolean;
+    options?: string[];
+  },
 ): Promise<ProductJSON | null> => {
   await dbConnect();
 
@@ -86,10 +98,10 @@ export const updateProductService = async (
   const updatedProduct = await ProductModel.findOneAndUpdate(
     { _id: productId, deletedAt: null },
     updateData,
-    { new: true },
+    { new: true, lean: true },
   );
 
-  return updatedProduct ? updatedProduct.toJSON() : null;
+  return updatedProduct ? transformProduct(updatedProduct) : null;
 };
 
 // 상품 삭제
