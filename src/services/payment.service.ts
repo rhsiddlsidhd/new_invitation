@@ -25,18 +25,29 @@ type FailedPayment = Extract<GetPaymentResult, { status: "FAILED" }>;
 
 /**
  * PortOne 결제 상태를 시스템 상태로 매핑
+ * - 알 수 없는 상태는 에러를 던져 즉시 감지
+ * - 결제는 민감한 영역이므로 silent failure 방지
  */
-
 function mapPortOneStatus(status: unknown): PayStatus {
   if (typeof status !== "string") {
     console.error(`[mapPortOneStatus] Invalid status type: ${typeof status}`);
     throw new HTTPError("유효하지 않은 결제 상태입니다.", 400);
   }
-  const statusMap: Record<string, PayStatus> = {};
+
+  const statusMap: Record<string, PayStatus> = {
+    READY: "PENDING",
+    VIRTUAL_ACCOUNT_ISSUED: "PENDING",
+    PAID: "PAID",
+    FAILED: "FAILED",
+    CANCELLED: "CANCELLED",
+    PARTIAL_CANCELLED: "PARTIAL_CANCELLED",
+  };
+
   if (!(status in statusMap)) {
     console.error(`[mapPortOneStatus] Unknown status: ${status}`);
     throw new HTTPError(`알 수 없는 결제 상태: ${status}`, 400);
   }
+
   return statusMap[status];
 }
 /**
