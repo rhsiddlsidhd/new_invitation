@@ -1,5 +1,4 @@
 import {
-  ProductDocument,
   ProductModel,
   ProductJSON,
   Status,

@@ -4,7 +4,7 @@ import { InvitationMessage } from "@/components/organisms/(preview)/InvitationMe
 import { GallerySection } from "@/components/organisms/(preview)/GallerySection";
 import { LocationSection } from "@/components/organisms/(preview)/LocationSection";
 import { Footer } from "@/components/organisms/(preview)/Footer";
-import { mapCoupleInfoToInvitationProps } from "@/components/organisms/(preview)/InvitationMessage.mapper";
+import { mapCoupleInfoToInvitationProps } from "@/components/organisms/(preview)/invitationMessage.mapper";
 import { getCoupleInfoById } from "@/services/coupleInfo.service";
 import { mapCoupleInfoToAccountProps } from "@/components/organisms/(preview)/accountSection.mapper";
 import { getGuestbookService } from "@/services/guestbook.service";

@@ -2,7 +2,7 @@
 
 import { APIResponse, success } from "@/api/response";
 
-import { validateAndFlatten } from "@/lib/validation";
+import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
 import { LoginSchema } from "@/schemas/login.schema";
 import { encrypt } from "@/lib/token";
 import { setCookie } from "@/lib/cookies/set";
@@ -14,7 +14,7 @@ import { UserRole } from "@/models/user.model";
 import { comparePasswords } from "@/lib/bcrypt";
 
 export const loginUser = async (
-  _prev: unknown,
+  _prev: null,
   formData: FormData,
 ): Promise<APIResponse<{ token: string; role: UserRole }>> => {
   try {
@@ -31,7 +31,11 @@ export const loginUser = async (
     const parsed = validateAndFlatten(LoginSchema, data);
 
     if (!parsed.success) {
-      throw new HTTPError("입력 값을 확인해주세요.", 400, parsed.error);
+      throw new HTTPError(
+        "입력하신 정보의 형식이 올바르지 않습니다.",
+        400,
+        parsed.error,
+      );
     }
 
     const { email, password, remember } = parsed.data;
@@ -39,12 +43,13 @@ export const loginUser = async (
     // 이메일를 바탕으로 사용자 조회
     const user = await getUser({ email });
 
-    if (!user) throw new HTTPError("사용자를 찾을 수가 없습니다.", 400);
+    if (!user)
+      throw new HTTPError("이메일 또는 비밀번호가 일치하지 않습니다.", 401);
 
     const isPasswordValid = await comparePasswords(password, user.password);
 
     if (!isPasswordValid) {
-      throw new HTTPError("비밀번호가 일치하지 않습니다.", 401);
+      throw new HTTPError("이메일 또는 비밀번호가 일치하지 않습니다.", 401);
     }
 
     const refreshJWT = await encrypt({
@@ -59,7 +64,10 @@ export const loginUser = async (
       type: "ACCESS",
     });
 
-    return success({ token: accessJWT, role: user.role });
+    return success<{ token: string; role: UserRole }>({
+      token: accessJWT,
+      role: user.role,
+    });
   } catch (e) {
     return handleActionError(e);
   }

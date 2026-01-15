@@ -6,7 +6,7 @@ import { HTTPError } from "@/types/error";
 import { uploadProductImage } from "@/lib/cloudinary";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
-import { validateAndFlatten } from "@/lib/validation";
+import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
 
 import { productSchema } from "@/schemas/product.schema";
 import { updateProductService } from "@/services/product.service";

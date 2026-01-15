@@ -5,7 +5,7 @@ import useAuth from "@/hooks/useAuth";
 import Link from "next/link";
 import React from "react";
 import useAuthTokenStore from "@/store/authTokenStore";
-import { UserIcon } from "@/components/atoms/Icon";
+
 import { Btn } from "@/components/atoms/Btn/Btn";
 import {
   NavigationMenu,
@@ -16,6 +16,7 @@ import {
 } from "@/components/atoms/NavigationMenu/NavigationMenu";
 import { useSignOut } from "@/hooks/useSignOut";
 import { useSignIn } from "@/hooks/useSignIn";
+import { UserIcon } from "lucide-react";
 
 const AuthButton = () => {
   const { isAuth, loading } = useAuth();
@@ -35,7 +36,7 @@ const AuthButton = () => {
         <NavigationMenu>
           <NavigationMenuItem className="hidden md:block">
             <NavigationMenuTrigger>
-              <UserIcon size={18} />
+              <UserIcon className="aspect-square w-4" />
             </NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-50 gap-4">

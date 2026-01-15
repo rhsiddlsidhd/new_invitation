@@ -1,7 +1,7 @@
 "use server";
 
 import { encrypt } from "@/lib/token";
-import { validateAndFlatten } from "@/lib/validation";
+import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
 import { sendEmail } from "@/lib/email";
 import { emailSchema } from "@/schemas/email.schema";
 import { setCookie } from "@/lib/cookies/set";
@@ -19,7 +19,7 @@ const createChangePWDomain = (token: string): string => {
 export const requestPasswordReset = async (
   prev: unknown,
   formData: FormData,
-): Promise<APIResponse<{ message: string }>> => {
+): Promise<APIResponse<{ message: string; email: string }>> => {
   // 이메일 비밀번호 재설정 링크 전송
   // nodeMailer 라이브러리 사용
 
@@ -40,10 +40,6 @@ export const requestPasswordReset = async (
     if (!isEmail) throw new HTTPError("등록되지 않은 이메일입니다.", 400);
 
     // entry token 발행 && createDomatin
-
-    // 수정 사항 Email을 Encrypt 하지 않고 Cookie 의 값에 저장 * (만료시간이 짧은) 영구 쿠키
-    await setCookie({ name: "userEmail", value: email, maxAge: 600 });
-
     const entryToken = await encrypt({ id: email, type: "ENTRY" });
 
     // 도메인을 생성
@@ -51,7 +47,10 @@ export const requestPasswordReset = async (
 
     await sendEmail({ email, path });
 
-    return success({ message: "이메일 발송에 성공하였습니다." });
+    return success<{ message: string; email: string }>({
+      message: "이메일 발송에 성공하였습니다.",
+      email,
+    });
   } catch (e) {
     return handleActionError(e);
   }

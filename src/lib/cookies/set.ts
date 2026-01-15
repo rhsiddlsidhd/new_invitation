@@ -30,6 +30,6 @@ export const setCookie = async ({
   } else if (remember) {
     expirationOptions = { maxAge: 7 * 24 * 60 * 60 };
   }
-
+  console.log("name으로 저장하기", name);
   store.set(name, value, { ...baseOption, ...expirationOptions });
 };

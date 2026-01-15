@@ -4,9 +4,10 @@ import { handleActionError } from "@/api/error";
 import { APIResponse, success } from "@/api/response";
 import { HTTPError } from "@/types/error";
 import { hashPassword } from "@/lib/bcrypt";
-import { validateAndFlatten } from "@/lib/validation";
+
 import { GuestbookSchema } from "@/schemas/guestbook.schema";
 import { createGuestbookService } from "@/services/guestbook.service";
+import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
 
 export const createGuestbook = async (
   _prev: null,

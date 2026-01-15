@@ -1,10 +1,5 @@
 import { ICoupleInfo } from "@/models/coupleInfo.model";
-
-interface GalleryCategory {
-  id: string;
-  categoryName: string;
-  images: string[];
-}
+import { GalleryCategory } from "@/types/couple";
 
 export interface GallerySectionProps {
   categories: GalleryCategory[];

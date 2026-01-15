@@ -20,7 +20,6 @@ const LabeledSelect = ({
 }: LabeledSelect) => {
   const [info, setInfo] = useState<string>(defaultValue ?? "");
 
-  console.log("info", info);
   return (
     <div className="space-y-2">
       <Label htmlFor={id}>{children}</Label>

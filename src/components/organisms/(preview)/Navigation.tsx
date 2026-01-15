@@ -1,22 +1,12 @@
 "use client";
 import { Btn } from "@/components/atoms/Btn/Btn";
-import { getNavigationBtn } from "@/utils/map";
+import { navigationButtons } from "@/contants/navigation";
+
 import { GeoState } from "@/utils/openApp";
 import Image from "next/image";
-import React, { useEffect, useMemo, useState } from "react";
-
-export interface NavigationButton {
-  name: string;
-  path: string;
-  onClick: (props: {
-    current?: GeoState;
-    target?: GeoState;
-    address?: string;
-  }) => void;
-}
+import React, { useEffect, useState } from "react";
 
 const Navigation = ({ address }: { address: string }) => {
-  const navigationBtn = useMemo(() => getNavigationBtn(), []);
   const [geoState, setGeoState] = useState<{
     current: { lng: number | null; lat: number | null };
     target: {
@@ -87,7 +77,7 @@ const Navigation = ({ address }: { address: string }) => {
         원하시는 앱을 선택하시면 길안내가 시작됩니다.
       </p>
       <div className="flex flex-col gap-2">
-        {navigationBtn.map((btn, i) => {
+        {navigationButtons.map((btn, i) => {
           return (
             <Btn
               variant="outline"

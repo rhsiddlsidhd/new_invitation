@@ -1,26 +1,23 @@
 "use server";
 
-import { validateAndFlatten } from "@/lib/validation";
+import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
 import { cookies } from "next/headers";
 import { PWConfirmSchema } from "@/schemas/pwConfirm.schema";
 import { APIResponse, success } from "@/api/response";
 import { changePassword } from "@/services/user.service";
 import { handleActionError } from "@/api/error";
 import { HTTPError } from "@/types/error";
+import { decrypt } from "@/lib/token";
+import { deleteCookie } from "@/lib/cookies/delete";
 
-// 유저가 비밀번호를 기억이 나지 않을때 로그인 하지 않은 상태에서 유저의 이메일의 비밀번호를 변경하는 컨트롤러
+// 유저가 비밀번호를 기억하지 못할 때 로그인하지 않은 상태에서 이메일로 비밀번호 변경
 export const updateUserPassword = async (
   prev: unknown,
   formData: FormData,
 ): Promise<APIResponse<{ message: string }>> => {
   try {
-    const cookieStore = await cookies();
-
-    const user = cookieStore.get("userEmail");
-
-    if (!user) throw new HTTPError("잠시 후 다시 시도해주세요", 500);
-
     const data = {
+      token: formData.get("token") as string,
       password: formData.get("password") as string,
       confirmPassword: formData.get("confirmPassword") as string,
     };
@@ -28,15 +25,31 @@ export const updateUserPassword = async (
     const parsed = validateAndFlatten(PWConfirmSchema, data);
 
     if (!parsed.success) {
-      throw new HTTPError("입력 값을 확인해주세요.", 400, parsed.error);
+      throw new HTTPError(
+        "입력한 정보가 올바르지 않습니다. 다시 확인해주세요.",
+        400,
+        parsed.error,
+      );
     }
 
-    const { password } = parsed.data;
+    const { password, token } = parsed.data;
+    const { payload } = await decrypt({ token, type: "ENTRY" });
 
-    const userFound = await changePassword(user.value, password);
-    if (!userFound) throw new HTTPError("유저를 찾을 수가 없습니다.", 404);
+    if (!payload.id) {
+      throw new HTTPError(
+        "유효하지 않거나 만료된 토큰입니다. 비밀번호 재설정을 다시 시도해주세요.",
+        401,
+      );
+    }
 
-    cookieStore.delete("userEmail");
+    const userFound = await changePassword(payload.id, password);
+    if (!userFound) {
+      throw new HTTPError(
+        "해당 계정을 찾을 수 없습니다. 이메일 주소를 확인해주세요.",
+        404,
+      );
+    }
+    await deleteCookie("userEmail");
     return success({ message: "비밀번호가 성공적으로 변경되었습니다." });
   } catch (error) {
     return handleActionError(error);

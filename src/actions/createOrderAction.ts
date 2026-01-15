@@ -9,12 +9,12 @@ import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
 import { getUser } from "@/services/auth.service";
 import { createOrderService } from "@/services/order.service";
-import { validateAndFlatten } from "@/lib/validation";
+import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
 import { createOrderSchema } from "@/schemas/order.schema";
 import { PayMethod } from "@/models/payment";
 
 export async function createOrderAction(
-  prev: unknown,
+  _prev: unknown,
   formData: FormData,
 ): Promise<
   APIResponse<{

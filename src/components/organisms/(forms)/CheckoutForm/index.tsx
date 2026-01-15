@@ -21,7 +21,7 @@ import LabeledInput from "@/components/molecules/(input-group)/LabeledInput";
 import PaymentMethodSelector from "./PaymentMethodSelector";
 import { toast } from "sonner";
 import { CheckoutProductData } from "@/types/checkout";
-import { validateAndFlatten } from "@/lib/validation";
+import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
 import { createOrderAction } from "@/actions/createOrderAction";
 import { useRouter } from "next/navigation";
 import { fetcher } from "@/api/fetcher";

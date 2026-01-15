@@ -39,16 +39,70 @@ export async function uploadProductImage(
   }
 }
 
+// Presigned URL 방식으로 업로드
+async function uploadWithSignature(
+  files: File[],
+  folder: string,
+  onProgress?: (progress: number) => void,
+): Promise<string[]> {
+  // 1. 서명 요청
+  const signatureRes = await fetch("/api/upload/signature", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ folder }),
+  });
+
+  console.log("서명요청", { signatureRes });
+
+  if (!signatureRes.ok) {
+    const error = await signatureRes.json();
+    throw new HTTPError(error.error || "서명 요청 실패", signatureRes.status);
+  }
+
+  const { signature, timestamp, cloudName, apiKey, allowed_formats } =
+    await signatureRes.json();
+
+  // 2. 각 파일 업로드
+  let completed = 0;
+  const uploadPromises = files.map(async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("signature", signature);
+    formData.append("timestamp", timestamp);
+    formData.append("allowed_formats", allowed_formats);
+    formData.append("api_key", apiKey);
+    formData.append("folder", folder);
+
+    const res = await fetch(`${BASE_URL}/${cloudName}/image/upload`, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!res.ok) {
+      throw new HTTPError(`업로드 실패: ${file.name}`, res.status);
+    }
+
+    const data = await res.json();
+
+    // 진행률 업데이트
+    completed++;
+    if (onProgress) {
+      onProgress(Math.round((completed / files.length) * 100));
+    }
+
+    return data.secure_url;
+  });
+
+  return await Promise.all(uploadPromises);
+}
+
 export async function uploadMainThumbnail(
   files: File[],
+  onProgress?: (progress: number) => void,
 ): Promise<string[] | undefined> {
   try {
-    const result = await Promise.all(
-      files.map((file) =>
-        uploadToCloudinary<CloudinaryResource>(file, "thumbnailImg"),
-      ),
-    );
-    return result.map((res) => res.secure_url);
+    console.log("uploadMainThumbnail", { files });
+    return await uploadWithSignature(files, "thumbnailImg", onProgress);
   } catch (error) {
     console.error("uploadMainThumbnail:", error);
     return undefined;
@@ -57,32 +111,12 @@ export async function uploadMainThumbnail(
 
 export async function uploadGalleryImages(
   files: File[],
+  onProgress?: (progress: number) => void,
 ): Promise<string[] | undefined> {
   try {
-    const result = await Promise.all(
-      files.map((file) =>
-        uploadToCloudinary<CloudinaryResource>(file, "galleryImg"),
-      ),
-    );
-    return result.map((res) => res.secure_url);
+    return await uploadWithSignature(files, "galleryImg", onProgress);
   } catch (error) {
     console.error("uploadGalleryImages:", error);
     return undefined;
   }
 }
-
-// export async function uploadGalleries(
-//   galleryMap: Map<
-//     string,
-//     { type: "A" | "B" | "C" | "D" | "E"; images: File[] }
-//   >,
-// ) {
-//   return Promise.all(
-//     Array.from(galleryMap.entries()).map(async ([id, gallery]) => {
-//       const images = await Promise.all(
-//         gallery.images.map((file) => uploadToCloudinary(file, "galleryImg")),
-//       );
-//       return { id, type: gallery.type, images };
-//     }),
-//   );
-// }

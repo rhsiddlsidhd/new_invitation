@@ -5,7 +5,7 @@ import { APIResponse, success } from "@/api/response";
 import { HTTPError } from "@/types/error";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
-import { validateAndFlatten } from "@/lib/validation";
+import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
 import { coupleInfoSchema } from "@/schemas/coupleInfo.schema";
 import { updateCoupleInfoService } from "@/services/coupleInfo.service";
 
@@ -14,7 +14,6 @@ export const updateCouleInfoAction = async (
   formData: FormData,
 ): Promise<APIResponse<{ message: string; _id: string }>> => {
   try {
-    // 1. coupleInfoId 추출
     const coupleInfoId = formData.get("couple_info_id") as string;
 
     if (!coupleInfoId) {
@@ -36,7 +35,6 @@ export const updateCouleInfoAction = async (
     const thumbnailRaw = formData.get("thumbnailSource") as string;
     const galleryRaw = formData.get("gallerySource") as string;
 
-    // Transform gallery data from { name, images }[] to { category, urls }[]
     const galleryData = galleryRaw
       ? JSON.parse(galleryRaw).map(
           (item: { name: string; images: string[] }) => ({
@@ -46,7 +44,6 @@ export const updateCouleInfoAction = async (
         )
       : [];
 
-    // Helper to build parent data only if name is provided
     const buildParentData = (prefix: string) => {
       const name = formData.get(`${prefix}_name`) as string;
       const phone = formData.get(`${prefix}_phone`) as string;

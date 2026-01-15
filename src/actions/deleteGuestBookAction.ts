@@ -4,7 +4,7 @@ import { handleActionError } from "@/api/error";
 import { APIResponse, success } from "@/api/response";
 import { HTTPError } from "@/types/error";
 import { comparePasswords } from "@/lib/bcrypt";
-import { validateAndFlatten } from "@/lib/validation";
+import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
 import { GuestbookSchema } from "@/schemas/guestbook.schema";
 import {
   getPrivateGuestbookService,

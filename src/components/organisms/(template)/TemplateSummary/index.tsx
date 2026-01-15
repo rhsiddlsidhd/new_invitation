@@ -12,7 +12,7 @@ import { categoryLabels, isProductCategory } from "@/utils/category";
 import { calculatePrice } from "@/utils/price";
 import { PremiumFeature } from "@/services/premiumFeature.service";
 import ProductLikeButton from "@/components/molecules/(button)/ProductLikeButton";
-import { CheckoutProductData } from "@/types/checkout.d";
+import { CheckoutProductData } from "@/types/checkout";
 import ProductOptions from "../../(product)/ProductOptions";
 import { useRouter } from "next/navigation";
 import { SelectFeatureDto } from "@/schemas/order.schema";

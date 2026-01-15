@@ -30,6 +30,8 @@ import { Switch } from "@/components/atoms/Switch";
 import { Checkbox } from "@/components/atoms/CheckBox/CheckBox";
 import { Label } from "@/components/atoms/Label/Label";
 import { getCategoryOptions } from "@/utils/category";
+import { getFieldError } from "@/utils/error";
+import { APIResponse } from "@/types/error";
 
 interface ProductRegistrationFormProps {
   premiumFeatures: PremiumFeature[];
@@ -42,7 +44,10 @@ export function ProductRegistrationForm({
   premiumFeatures,
 }: ProductRegistrationFormProps) {
   const router = useRouter();
-  const [state, action, pending] = useActionState(createProductAction, null);
+  const [state, action, pending] = useActionState<
+    APIResponse<{ message: string }>,
+    FormData
+  >(createProductAction, null);
   const [isPremium, setIsPremium] = useState(false);
   const [isFeature, setIsFeature] = useState(false);
   const [thumbnail, setThumbnail] = useState<string | null>(null);
@@ -87,7 +92,12 @@ export function ProductRegistrationForm({
     );
   };
 
-  const error = state && !state.success && state.error.errors;
+  const titleError = getFieldError(state, "title");
+  const descriptionError = getFieldError(state, "description");
+  const categoryError = getFieldError(state, "category");
+  const priceError = getFieldError(state, "price");
+  const priorityError = getFieldError(state, "priority");
+  const thumbnailError = getFieldError(state, "thumbnail");
 
   return (
     <form action={action} className="space-y-6">
@@ -103,26 +113,17 @@ export function ProductRegistrationForm({
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="title">
-                  상품명 *
-                  {error && error["title"] && (
-                    <Alert type="error">{error["title"][0]}</Alert>
-                  )}
-                </Label>
+                <Label htmlFor="title">상품명 *</Label>
                 <Input
                   id="title"
                   name="title"
                   placeholder="예: 엘레강트 로즈 청첩장"
                   required
                 />
+                {titleError && <Alert type="error">{titleError}</Alert>}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="description">
-                  상품 설명 *
-                  {error && error["description"] && (
-                    <Alert type="error">{error["description"][0]}</Alert>
-                  )}
-                </Label>
+                <Label htmlFor="description">상품 설명 *</Label>
                 <Textarea
                   id="description"
                   name="description"
@@ -130,14 +131,12 @@ export function ProductRegistrationForm({
                   rows={4}
                   required
                 />
+                {descriptionError && (
+                  <Alert type="error">{descriptionError}</Alert>
+                )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="category">
-                  카테고리 *
-                  {error && error["category"] && (
-                    <Alert type="error">{error["category"][0]}</Alert>
-                  )}
-                </Label>
+                <Label htmlFor="category">카테고리 *</Label>
                 <Select name="category" required>
                   <SelectTrigger>
                     <SelectValue placeholder="카테고리를 선택하세요" />
@@ -150,6 +149,7 @@ export function ProductRegistrationForm({
                     ))}
                   </SelectContent>
                 </Select>
+                {categoryError && <Alert type="error">{categoryError}</Alert>}
               </div>
             </CardContent>
           </Card>
@@ -163,12 +163,7 @@ export function ProductRegistrationForm({
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="price">
-                  기본 가격 *
-                  {error && error["price"] && (
-                    <Alert type="error">{error["price"][0]}</Alert>
-                  )}
-                </Label>
+                <Label htmlFor="price">기본 가격 *</Label>
                 <div className="relative">
                   <Input
                     id="price"
@@ -184,6 +179,7 @@ export function ProductRegistrationForm({
                     원
                   </span>
                 </div>
+                {priceError && <Alert type="error">{priceError}</Alert>}
               </div>
 
               <div className="border-border flex items-center justify-between rounded-lg border p-4">
@@ -280,12 +276,7 @@ export function ProductRegistrationForm({
               />
 
               <div className="space-y-2">
-                <Label htmlFor="priority">
-                  추천 우선순위
-                  {error && error["priority"] && (
-                    <Alert type="error">{error["priority"][0]}</Alert>
-                  )}
-                </Label>
+                <Label htmlFor="priority">추천 우선순위</Label>
                 <Input
                   id="priority"
                   name="priority"
@@ -296,6 +287,7 @@ export function ProductRegistrationForm({
                   step="1"
                   defaultValue="0"
                 />
+                {priorityError && <Alert type="error">{priorityError}</Alert>}
                 <p className="text-muted-foreground text-xs">
                   높은 숫자일수록 상단에 노출됩니다 (0-100)
                 </p>
@@ -315,12 +307,7 @@ export function ProductRegistrationForm({
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                <Label htmlFor="thumbnail-input">
-                  썸네일 이미지 *
-                  {error && error["thumbnail"] && (
-                    <Alert type="error">{error["thumbnail"][0]}</Alert>
-                  )}
-                </Label>
+                <Label htmlFor="thumbnail-input">썸네일 이미지 *</Label>
 
                 {thumbnail ? (
                   <div className="border-border relative aspect-video w-full overflow-hidden rounded-lg border">
@@ -374,6 +361,9 @@ export function ProductRegistrationForm({
                     }
                   }}
                 />
+                {thumbnailError && (
+                  <Alert type="error">{thumbnailError}</Alert>
+                )}
               </div>
             </CardContent>
           </Card>
