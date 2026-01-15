@@ -178,7 +178,6 @@ export function CheckoutForm({ query }: { query: string }) {
       return;
     }
     const item = JSON.parse(store) as CheckoutProductData;
-    console.log(item);
 
     // 폼 데이터 유효성 검사
     const BuyerData = {
