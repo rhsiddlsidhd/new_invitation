@@ -1,5 +1,4 @@
-import { Btn } from "@/components/atoms/Btn/Btn";
-import AuthButton from "@/components/molecules/authButton";
+import AuthButton from "@/components/molecules/(button)/AuthButton";
 
 import { Heart } from "lucide-react";
 import Link from "next/link";
@@ -16,7 +15,7 @@ const Header = async () => {
           <span className="text-foreground text-xl font-bold">WeddingCard</span>
         </Link>
 
-        <nav className="hidden items-center gap-6 md:flex">
+        {/* <nav className="hidden items-center gap-6 md:flex">
           <Link
             href="#features"
             className="text-muted-foreground hover:text-foreground text-sm transition-colors"
@@ -35,17 +34,10 @@ const Header = async () => {
           >
             가격
           </Link>
-        </nav>
+        </nav> */}
 
         <div className="flex items-center gap-2">
           <AuthButton />
-
-          <Btn
-            size="sm"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 hidden sm:inline-flex"
-          >
-            무료로 시작하기
-          </Btn>
         </div>
       </div>
     </header>
