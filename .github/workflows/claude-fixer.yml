@@ -1,0 +1,66 @@
+name: Claude Code Auto-Fixer
+
+on:
+  pull_request_review_comment:
+    types: [created]
+
+jobs:
+  auto-fix:
+    # '/fix' 키워드가 포함된 경우에만 실행 (작성자가 봇인 경우 제외)
+    if: contains(github.event.comment.body, '/fix') && github.event.comment.user.type != 'Bot'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }} # PR 대상 브랜치 체크아웃
+          fetch-depth: 0
+
+      - name: Run Claude Fixer
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            당신은 PR 리뷰 피드백을 코딩에 직접 반영하는 시니어 개발자입니다.
+            다음 정보를 바탕으로 코드를 수정하고 브랜치에 반영하세요.
+
+            [사용자 요청 및 맥락]
+            1. 요청 코멘트: "${{ github.event.comment.body }}"
+            2. 수정 대상 파일: `${{ github.event.comment.path }}`
+            3. PR 번호: ${{ github.event.pull_request.number }}
+
+            [작업 지침]
+            1. **상태 분석**: 
+               - `gh pr view`를 통해 PR의 전체 리뷰 코멘트 목록을 확인하세요.
+               - 사용자가 "/fix 2번"처럼 번호를 지정했다면, 리뷰 목록 중 해당 번호의 내용만 수정하세요.
+               - 번호가 없다면(예: "/fix"), 현재 파일에 남겨진 모든 미해결 리뷰 사항을 수정하세요.
+
+            2. **코드 수정**:
+               - `${{ github.event.comment.path }}` 파일 내용을 읽고(`cat`), 요청받은 피드백에 맞춰 로직을 개선하세요.
+               - 기존 프로젝트의 코딩 스타일과 `CLAUDE.md`(있는 경우)의 지침을 엄격히 준수하세요.
+
+            3. **변경 사항 반영**:
+               - 수정이 완료되면 다음 명령어를 순서대로 실행하세요.
+                 * `git config --local user.email "github-actions[bot]@users.noreply.github.com"`
+                 * `git config --local user.name "github-actions[bot]"`
+                 * `git add .`
+                 * `git commit -m "[AI] Fix: 리뷰 반영 (${{ github.event.comment.id }})"`
+                 * `git push origin ${{ github.event.pull_request.head.ref }}`
+
+            4. **피드백 완료 보고**:
+               - 수정을 성공적으로 마쳤다면, `gh pr comment`를 사용하여 다음 내용을 댓글로 남기세요.
+                 * "✅ 반영된 항목: (예: 2번 접근성 개선)"
+                 * "📝 수정 파일: `${{ github.event.comment.path }}`"
+                 * "💡 확인 후 로컬에서 `git pull`을 진행해 주세요."
+
+            모든 단계는 Bash 도구를 사용하여 직접 수행하세요.
+
+          # 필수 권한 도구 설정
+          claude_args: '--allowed-tools "Bash(git:*),Bash(gh pr comment:*),Bash(gh pr view:*),Bash(cat:*),Bash(ls:*),Bash(sed:*)"'
