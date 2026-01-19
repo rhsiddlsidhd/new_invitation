@@ -22,6 +22,12 @@ const AddressField = ({
     }
   }, [address]);
 
+  useEffect(() => {
+    if (defaultValue) {
+      setWeddingAddress(defaultValue);
+    }
+  }, [defaultValue]);
+
   return (
     <div className="space-y-2">
       <Label htmlFor="address">주소 *</Label>

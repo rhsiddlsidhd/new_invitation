@@ -31,9 +31,7 @@ const InputField = ({
 
   // defaultValue 변경 시 state 업데이트 (data 로딩 후 반영)
   useEffect(() => {
-    if (defaultValue !== undefined) {
-      setInfo(defaultValue);
-    }
+    setInfo(defaultValue);
   }, [defaultValue]);
 
   return (

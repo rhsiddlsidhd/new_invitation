@@ -19,14 +19,14 @@ const SelectField = ({
   defaultValue,
   data,
 }: SelectFieldProps) => {
-  const [info, setInfo] = useState<string>(defaultValue ?? "");
+  const [info, setInfo] = useState<string | undefined>(defaultValue);
 
   return (
     <div className="space-y-2">
       <Label htmlFor={id}>{children}</Label>
       <Select
         name={name}
-        value={info}
+        value={info ?? ""}
         onValueChange={(value) => setInfo(value)}
       >
         <SelectTrigger id={id}>

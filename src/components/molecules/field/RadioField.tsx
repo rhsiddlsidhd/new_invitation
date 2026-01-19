@@ -14,17 +14,17 @@ export type RadioFieldOption<T = string> = {
   icon?: LucideIcon;
 };
 
-type RadioFieldProps = Omit<InputFieldBase, "children"> & {
-  options: RadioFieldOption[];
-  defaultValue?: string;
+type RadioFieldProps<T = string> = Omit<InputFieldBase, "children"> & {
+  options: RadioFieldOption<T>[];
+  defaultValue?: T;
 };
 
-const RadioField = ({
+const RadioField = <T extends string = string>({
   name,
   options,
-  defaultValue = "",
-}: RadioFieldProps) => {
-  const [info, setInfo] = useState<string>(defaultValue);
+  defaultValue = "" as T,
+}: RadioFieldProps<T>) => {
+  const [info, setInfo] = useState<T>(defaultValue);
 
   return (
     <RadioGroup
