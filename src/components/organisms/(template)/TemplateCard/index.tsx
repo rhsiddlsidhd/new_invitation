@@ -75,10 +75,6 @@ export function TemplateCard({ template }: { template: Product }) {
               {productCategoryLabel[template.category as Category]}
             </Badge>
           </div>
-          {/* <p className="text-primary text-lg font-bold">
-            {calculatePrice(template.price, template.discount).toLocaleString()}
-            원
-          </p> */}{" "}
           <div>
             {template.discount && template.discount.value > 0 ? (
               <>
@@ -115,20 +111,20 @@ export function TemplateCard({ template }: { template: Product }) {
           </div>
         </div>
 
-        <div className="flex w-full gap-2">
-          {/* <Link href={`/templates/${template._id}`} className="flex-1">
+        {/* <div className="flex w-full gap-2">
+          <Link href={`/templates/${template._id}`} className="flex-1">
             <Btn variant="outline" size="sm" className="w-full bg-transparent">
               <Eye className="mr-1 h-4 w-4" />
               샘플보기
             </Btn>
-          </Link> */}
-          {/* <Link href={`/templates/${template._id}`} className="flex-1">
+          </Link>
+          <Link href={`/templates/${template._id}`} className="flex-1">
             <Btn size="sm" className="w-full">
               <ShoppingCart className="mr-1 h-4 w-4" />
               제작하기
             </Btn>
-          </Link> */}
-        </div>
+          </Link>
+        </div> */}
       </CardFooter>
     </Card>
   );

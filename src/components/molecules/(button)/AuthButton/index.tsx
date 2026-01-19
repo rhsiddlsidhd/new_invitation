@@ -16,7 +16,13 @@ import {
 } from "@/components/atoms/DropdownMenu/DropdownMenu";
 import { useSignOut } from "@/hooks/useSignOut";
 import { useSignIn } from "@/hooks/useSignIn";
-import { UserIcon, LayoutDashboard, User, ShoppingBag, LogOut } from "lucide-react";
+import {
+  UserIcon,
+  LayoutDashboard,
+  User,
+  ShoppingBag,
+  LogOut,
+} from "lucide-react";
 
 const AuthButton = () => {
   const { isAuth, loading } = useAuth();
@@ -28,7 +34,7 @@ const AuthButton = () => {
     <>
       {!isAuth ? (
         <Btn variant="ghost" size="sm" onClick={handleSignIn}>
-          {loading ? <Spinner /> : "로그인"}
+          {loading ? <p className="text-black/50">로그인</p> : "로그인"}
         </Btn>
       ) : (
         <DropdownMenu>

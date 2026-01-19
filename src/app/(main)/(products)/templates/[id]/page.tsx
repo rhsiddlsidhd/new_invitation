@@ -10,8 +10,8 @@ export default async function TemplateDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+
   const product = await getProductService(id);
-  console.log({ product });
 
   if (!product) throw new Error("Product not found");
   const options = await getPremiumFeatureService(product.options);

@@ -26,6 +26,7 @@ const useAuth = () => {
       }
 
       try {
+        console.log("호출");
         await refreshAccessToken();
       } catch (e) {
         handleClientError(e);
