@@ -100,9 +100,7 @@ export const createClientErrorResponse = (
   // 1. 다양한 형태의 에러를 일관된 `error` 객체로 정규화합니다.
   if (e instanceof HTTPError) {
     error = { code: e.code, message: e.message, fieldErrors: e.fieldErrors };
-  } else if (
-    typeof e === "object" && e && "code" in e && "message" in e
-  ) {
+  } else if (typeof e === "object" && e && "code" in e && "message" in e) {
     // 이미 ErrorResponse['error'] 형태를 가진 객체일 경우
     error = e as ErrorResponse["error"];
   } else {
@@ -122,9 +120,10 @@ export const createClientErrorResponse = (
       return { message: error.message };
 
     case 401: // 인증 에러는 리다이렉션 등을 위해 void를 반환합니다.
-      console.error(
-        `401 Unauthorized: ${error.message}. Redirecting to login.`,
-      );
+      if (process.env.NODE_ENV === "development") {
+        console.error(`세션이 만료되었습니다. 다시 로그인해주세요.`);
+      }
+
       return;
 
     case 403:
