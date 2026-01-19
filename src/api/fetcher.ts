@@ -21,11 +21,11 @@ const processQueue = (error: any, token: string | null = null) => {
 };
 
 export async function refreshAccessToken(): Promise<string> {
+  console.time("fetcher time");
   try {
     const res = await fetch("/api/auth/refresh", { method: "POST" });
     if (!res.ok) {
-      console.error("Refresh token failed:", res.status, res.statusText);
-      throw new HTTPError("Failed to refresh token", res.status);
+      throw new HTTPError("Session expired, please log in again.", res.status);
     }
 
     const { data }: SuccessResponse<{ accessToken: string; role: string }> =
@@ -40,7 +40,6 @@ export async function refreshAccessToken(): Promise<string> {
     return accessToken;
   } catch (error) {
     // 리프레시 실패 시, 사용자를 로그아웃 처리
-    console.error("Failed to refresh access token:", error);
     useAuthTokenStore.getState().clearAuth();
     throw error;
   }
@@ -51,9 +50,11 @@ export async function fetcher<T>(
   config: { auth: boolean } = { auth: false },
   options?: RequestInit,
 ): Promise<T> {
+  console.log("fetcher호출", url);
+  console.time("fetcher time");
   try {
     const token = useAuthTokenStore.getState().token;
-    const { auth = false } = config || {}; // config가 undefined일 경우를 대비하여 기본값 처리
+    const { auth = false } = config;
 
     const headers = new Headers(options?.headers);
     if (auth && token) {
@@ -70,6 +71,7 @@ export async function fetcher<T>(
 
     if (res.ok) {
       const body: SuccessResponse<T> = await res.json();
+      console.timeEnd("fetcher time");
       return body.data;
     }
 
@@ -77,6 +79,7 @@ export async function fetcher<T>(
     const body: ErrorResponse = await res.json();
     const { message, code } = body.error;
 
+    // ===== !401 처리 =====
     if (res.status !== 401) {
       throw new HTTPError(message, code);
     }
@@ -97,35 +100,11 @@ export async function fetcher<T>(
           headers: retryHeaders,
         });
 
-        if (!retryRes.ok) {
-          // retry 실패 시 에러 상세 정보 로깅
-          console.error("Retry failed after token refresh:", {
-            url,
-            status: retryRes.status,
-            statusText: retryRes.statusText,
-          });
-
-          // retry 실패가 401인 경우에만 인증 상태 초기화
-          // (다른 에러는 API 자체의 문제일 수 있음)
-          if (retryRes.status === 401) {
-            useAuthTokenStore.getState().clearAuth();
-          }
-          throw new HTTPError("Retry failed", retryRes.status);
-        }
-
         const retryBody: SuccessResponse<T> = await retryRes.json();
+
         return retryBody.data;
       } catch (error) {
         processQueue(error, null);
-
-        // refresh 자체가 실패한 경우인지, retry가 실패한 경우인지 구분
-        if (
-          error instanceof HTTPError &&
-          error.message === "Failed to refresh token"
-        ) {
-          throw new HTTPError("Session expired, please log in again.", 401);
-        }
-
         throw error;
       } finally {
         isRefreshing = false;
@@ -150,12 +129,14 @@ export async function fetcher<T>(
           throw new HTTPError("Retry failed after refresh", res.status);
         }
         const body: SuccessResponse<T> = await res.json();
+
         return body.data;
       });
   } catch (error) {
     if (error instanceof HTTPError) {
       throw error;
     }
+
     throw new Error("An unexpected error occurred.");
   }
 }

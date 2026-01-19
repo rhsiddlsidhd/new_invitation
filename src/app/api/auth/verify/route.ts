@@ -21,7 +21,7 @@ export const POST = async (
     if (!payload.id) {
       throw new HTTPError("유효하지 않은 토큰입니다.", 401);
     }
-    console.log(payload.id);
+
     return apiSuccess({ valid: true });
   } catch (e) {
     return handleRouteError(e);

@@ -29,7 +29,7 @@ const AuthButton = () => {
       {!isAuth ? (
         <Btn variant="ghost" size="sm">
           <Link onClick={handleSignIn} href="#">
-            {loading ? <Spinner /> : "로그인"}
+            {loading ? <p className="text-black/50">로그인</p> : "로그인"}
           </Link>
         </Btn>
       ) : (
