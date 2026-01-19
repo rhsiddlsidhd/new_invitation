@@ -36,12 +36,10 @@ const BankAccountField = ({
 
   // defaultValue 변경 시 state 업데이트
   useEffect(() => {
-    if (defaultBankName || defaultAccountNumber) {
-      setInfo({
-        bankName: defaultBankName,
-        accountNumber: defaultAccountNumber,
-      });
-    }
+    setInfo({
+      bankName: defaultBankName,
+      accountNumber: defaultAccountNumber,
+    });
   }, [defaultBankName, defaultAccountNumber]);
 
   return (
