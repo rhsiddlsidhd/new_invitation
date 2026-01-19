@@ -4,6 +4,7 @@ import { fetcher } from "@/api/fetcher";
 import { Btn } from "@/components/atoms/Btn/Btn";
 
 import useAuth from "@/hooks/useAuth";
+import { cn } from "@/lib/utils";
 import { Heart } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState, useTransition } from "react";
@@ -19,7 +20,6 @@ const ProductLikeButton = ({
   const { userId } = useAuth();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-
   const [localLikes, setLocalLikes] = useState<string[]>(productLikes);
   const isLiked = userId ? localLikes.includes(userId) : false;
 
@@ -58,7 +58,7 @@ const ProductLikeButton = ({
       className="flex-1 bg-transparent"
       disabled={isPending}
     >
-      <Heart className={isLiked ? "fill-red-500 text-red-500" : ""} />
+      <Heart className={cn(isLiked && "fill-red-500 text-red-500")} />
       좋아요
     </Btn>
   );
