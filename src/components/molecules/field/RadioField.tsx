@@ -29,7 +29,7 @@ const RadioField = <T extends string = string>({
   return (
     <RadioGroup
       value={info}
-      onValueChange={(val) => setInfo(val)}
+      onValueChange={(val) => setInfo(val as T)}
       className={"space-y-2"}
       name={name}
     >
