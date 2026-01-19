@@ -124,11 +124,7 @@ export function BasicInfoSection() {
         </InputField>
 
         {/* Address */}
-        <AddressField
-          required
-          name="venue"
-          dafulteValue={data?.address}
-        />
+        <AddressField required name="venue" defaultValue={data?.address} />
 
         {/* Address Detail */}
         <InputField

@@ -1,6 +1,5 @@
 "use client";
 
-import Spinner from "@/components/atoms/Spinner/Spinner";
 import useAuth from "@/hooks/useAuth";
 import Link from "next/link";
 import React from "react";
