@@ -3,21 +3,21 @@ import { Input } from "@/components/atoms/Input/Input";
 import { Label } from "@/components/atoms/Label/Label";
 import React, { HTMLInputTypeAttribute, useState, useEffect } from "react";
 
-export interface LabeledInputBase {
+export interface InputFieldBase {
   id: string;
   name: string;
   children: React.ReactNode;
   defaultValue?: string;
 }
 
-export interface LabeledInputProps extends LabeledInputBase {
+export interface InputFieldProps extends InputFieldBase {
   type: HTMLInputTypeAttribute | undefined;
   placeholder?: string;
   error?: string;
   required?: boolean;
 }
 
-const LabeledInput = ({
+const InputField = ({
   id,
   name,
   children,
@@ -26,7 +26,7 @@ const LabeledInput = ({
   required = false,
   error,
   defaultValue = "",
-}: LabeledInputProps) => {
+}: InputFieldProps) => {
   const [info, setInfo] = useState(defaultValue);
 
   // defaultValue 변경 시 state 업데이트 (data 로딩 후 반영)
@@ -54,4 +54,4 @@ const LabeledInput = ({
   );
 };
 
-export default LabeledInput;
+export default InputField;

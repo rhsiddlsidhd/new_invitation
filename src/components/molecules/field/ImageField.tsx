@@ -1,6 +1,6 @@
 import { Upload, X } from "lucide-react";
 import React, { useState, useEffect } from "react";
-import { LabeledInputBase } from "./LabeledInput";
+import { InputFieldBase } from "./InputField";
 import Thumbnail from "@/components/atoms/Thumbnail";
 
 interface ImageItem {
@@ -11,19 +11,19 @@ interface ImageItem {
   originalUrl?: string;
 }
 
-type LabeledImage = Omit<LabeledInputBase, "children"> & {
+type ImageFieldProps = Omit<InputFieldBase, "children"> & {
   preview?: boolean;
   widthPx?: number;
   defaultImages?: string[];
 };
 
-const LabeledImage = ({
+const ImageField = ({
   id,
   name,
   preview = false,
   widthPx = 100,
   defaultImages = [],
-}: LabeledImage) => {
+}: ImageFieldProps) => {
   const [images, setImages] = useState<ImageItem[]>([]);
 
   // defaultImages를 ImageItem으로 변환하여 초기화
@@ -153,4 +153,4 @@ const LabeledImage = ({
   );
 };
 
-export default LabeledImage;
+export default ImageField;

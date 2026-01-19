@@ -15,7 +15,7 @@ import Alert from "@/components/atoms/Alert/Alert";
 import { Label } from "@/components/atoms/Label/Label";
 import { APIResponse } from "@/types/error";
 import { getFieldError, hasFieldErrors } from "@/utils/error";
-import LabeledInput from "@/components/molecules/(input-group)/LabeledInput";
+import InputField from "@/components/molecules/field/InputField";
 
 export function PremiumFeatureDialog({
   premiumFeature: feature,
@@ -47,7 +47,7 @@ export function PremiumFeatureDialog({
   return (
     <form action={action}>
       <div className="space-y-4 py-4">
-        <LabeledInput
+        <InputField
             id="code"
             name="code"
             type="text"
@@ -57,12 +57,12 @@ export function PremiumFeatureDialog({
             error={codeError}
           >
             기능 코드 *
-          </LabeledInput>
+          </InputField>
           <p className="text-muted-foreground text-xs">
             영문 대문자와 언더스코어만 사용 가능합니다.
           </p>
 
-        <LabeledInput
+        <InputField
             id="label"
             name="label"
             type="text"
@@ -72,7 +72,7 @@ export function PremiumFeatureDialog({
             error={labelError}
           >
             기능 이름 *
-          </LabeledInput>
+          </InputField>
 
         <div className="space-y-2">
           <Label htmlFor="description">

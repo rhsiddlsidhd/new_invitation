@@ -11,8 +11,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/atoms/Collapsible";
-import BankAccount from "@/components/molecules/(input-group)/BankAccount";
-import LabeledInput from "@/components/molecules/(input-group)/LabeledInput";
+import BankAccountField from "@/components/molecules/field/BankAccountField";
+import InputField from "@/components/molecules/field/InputField";
 import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
 import { ChevronDown } from "lucide-react";
 
@@ -56,7 +56,7 @@ export function ParentsInfoSection() {
                     {parent.title}
                   </h4>
                   <div className="grid gap-4 sm:grid-cols-2">
-                    <LabeledInput
+                    <InputField
                       placeholder="이름"
                       id={`groomParents.${parent.id}.name`}
                       name={`groom_parents_${parent.id}_name`}
@@ -64,8 +64,8 @@ export function ParentsInfoSection() {
                       defaultValue={data?.groom?.[parent.id]?.name}
                     >
                       이름
-                    </LabeledInput>
-                    <LabeledInput
+                    </InputField>
+                    <InputField
                       id={`groomParents.${parent.id}.phone`}
                       name={`groom_parents_${parent.id}_phone`}
                       type="tel"
@@ -73,9 +73,9 @@ export function ParentsInfoSection() {
                       defaultValue={data?.groom?.[parent.id]?.phone}
                     >
                       연락처
-                    </LabeledInput>
+                    </InputField>
                     <div className="col-span-2">
-                      <BankAccount
+                      <BankAccountField
                         id={`groom_parents_${parent.id}`}
                         defaultBankName={data?.groom?.[parent.id]?.bankName}
                         defaultAccountNumber={
@@ -108,7 +108,7 @@ export function ParentsInfoSection() {
                     {parent.title}
                   </h4>
                   <div className="grid gap-4 sm:grid-cols-2">
-                    <LabeledInput
+                    <InputField
                       placeholder="이름"
                       id={`brideParents.${parent.id}.name`}
                       name={`bride_parents_${parent.id}_name`}
@@ -116,8 +116,8 @@ export function ParentsInfoSection() {
                       defaultValue={data?.bride?.[parent.id]?.name}
                     >
                       이름
-                    </LabeledInput>
-                    <LabeledInput
+                    </InputField>
+                    <InputField
                       id={`brideParents.${parent.id}.phone`}
                       name={`bride_parents_${parent.id}_phone`}
                       type="tel"
@@ -125,9 +125,9 @@ export function ParentsInfoSection() {
                       defaultValue={data?.bride?.[parent.id]?.phone}
                     >
                       연락처
-                    </LabeledInput>
+                    </InputField>
                     <div className="col-span-2">
-                      <BankAccount
+                      <BankAccountField
                         id={`bride_parents_${parent.id}`}
                         defaultBankName={data?.bride?.[parent.id]?.bankName}
                         defaultAccountNumber={

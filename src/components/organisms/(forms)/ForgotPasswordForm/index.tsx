@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 import { Card } from "@/components/atoms/Card/Card";
 import { Btn } from "@/components/atoms/Btn/Btn";
-import LabeledInput from "@/components/molecules/(input-group)/LabeledInput";
+import InputField from "@/components/molecules/field/InputField";
 
 import { requestPasswordReset } from "@/actions/requestPasswordReset";
 import { getFieldError, hasFieldErrors } from "@/utils/error";
@@ -97,7 +97,7 @@ export function ForgotPasswordForm() {
       </div>
 
       <form action={action} className="space-y-4">
-        <LabeledInput
+        <InputField
           id="email"
           type="email"
           name="email"
@@ -106,7 +106,7 @@ export function ForgotPasswordForm() {
           error={emailError}
         >
           이메일
-        </LabeledInput>
+        </InputField>
 
         <p className="text-muted-foreground text-sm">
           입력하신 이메일로 비밀번호 재설정 링크를 보내드립니다

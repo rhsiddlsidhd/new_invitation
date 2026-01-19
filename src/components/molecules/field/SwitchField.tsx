@@ -1,19 +1,20 @@
 import { Switch } from "@/components/atoms/Switch";
 import { Label } from "@radix-ui/react-label";
 import React, { useState } from "react";
-import { LabeledInputBase } from "./LabeledInput";
-type LabeldSwitch = Omit<LabeledInputBase, "defaultValue"> & {
+import { InputFieldBase } from "./InputField";
+
+type SwitchFieldProps = Omit<InputFieldBase, "defaultValue"> & {
   message?: string;
   defaultValue?: boolean;
 };
 
-const LabeledSwitch = ({
+const SwitchField = ({
   id,
   name,
   children,
   message,
   defaultValue,
-}: LabeldSwitch) => {
+}: SwitchFieldProps) => {
   const [info, setInfo] = useState<boolean>(defaultValue ?? false);
 
   return (
@@ -34,4 +35,4 @@ const LabeledSwitch = ({
   );
 };
 
-export default LabeledSwitch;
+export default SwitchField;

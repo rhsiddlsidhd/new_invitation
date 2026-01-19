@@ -7,12 +7,12 @@ import {
 import { PayMethod } from "@/models/payment";
 import { ArrowRightLeft, CreditCard, Landmark, Phone } from "lucide-react";
 import React from "react";
-import LabeledRadioGroup, {
-  RadioGroupOption,
-} from "@/components/molecules/(input-group)/LabeledRadioGroup";
+import RadioField, {
+  RadioFieldOption,
+} from "@/components/molecules/field/RadioField";
 import Alert from "@/components/atoms/Alert/Alert";
 
-const PAYMENT_METHODS: RadioGroupOption<PayMethod>[] = [
+const PAYMENT_METHODS: RadioFieldOption<PayMethod>[] = [
   {
     id: "card",
     value: "CARD",
@@ -55,7 +55,7 @@ const PaymentMethodSelector = ({ error }: { error?: string }) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <LabeledRadioGroup
+        <RadioField
           options={PAYMENT_METHODS}
           id="PaymentMethod"
           name="payMethod"

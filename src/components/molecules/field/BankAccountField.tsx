@@ -16,17 +16,17 @@ interface BankAccountInfo {
   accountNumber: string;
 }
 
-interface BankAccountProps {
+interface BankAccountFieldProps {
   id: string;
   defaultBankName?: string;
   defaultAccountNumber?: string;
 }
 
-const BankAccount = ({
+const BankAccountField = ({
   id,
   defaultBankName = "",
   defaultAccountNumber = "",
-}: BankAccountProps) => {
+}: BankAccountFieldProps) => {
   const [info, setInfo] = useState<BankAccountInfo>({
     bankName: defaultBankName,
     accountNumber: defaultAccountNumber,
@@ -87,4 +87,4 @@ const BankAccount = ({
   );
 };
 
-export default BankAccount;
+export default BankAccountField;

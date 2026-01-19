@@ -9,7 +9,7 @@ import {
 } from "@/components/atoms/Card/Card";
 import { Input } from "@/components/atoms/Input/Input";
 import { Label } from "@/components/atoms/Label/Label";
-import LabeledInput from "@/components/molecules/(input-group)/LabeledInput";
+import InputField from "@/components/molecules/field/InputField";
 import clsx from "clsx";
 import { Save } from "lucide-react";
 import React, { useState } from "react";
@@ -74,9 +74,9 @@ const BasicInfoForm = ({
           </div>
 
           {basicInfoToggle ? (
-            <LabeledInput id="name" name="name" type="text" defaultValue={name}>
+            <InputField id="name" name="name" type="text" defaultValue={name}>
               이름
-            </LabeledInput>
+            </InputField>
           ) : (
             <div>
               <Label htmlFor="name">이름</Label>
@@ -92,14 +92,14 @@ const BasicInfoForm = ({
           )}
 
           {basicInfoToggle ? (
-            <LabeledInput
+            <InputField
               id="phone"
               name="phone"
               type="text"
               defaultValue={phone}
             >
               전화번호
-            </LabeledInput>
+            </InputField>
           ) : (
             <div>
               <Label htmlFor="phone">전화번호</Label>
@@ -115,9 +115,9 @@ const BasicInfoForm = ({
           )}
 
           {basicInfoToggle && (
-            <LabeledInput id="password" name="password" type="password">
+            <InputField id="password" name="password" type="password">
               비밀번호
-            </LabeledInput>
+            </InputField>
           )}
         </CardContent>
       </Card>

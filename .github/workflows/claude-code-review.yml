@@ -3,26 +3,18 @@ name: Claude Code Review
 on:
   pull_request:
     types: [opened, synchronize]
-    # Optional: Only run on specific file changes
     paths:
       - "src/**/*.ts"
       - "src/**/*.tsx"
       - "src/**/*.js"
-      # - "src/**/*.jsx"
 
 jobs:
   claude-review:
-    # Optional: Filter by PR author
-    # if: |
-    #   github.event.pull_request.user.login == 'external-contributor' ||
-    #   github.event.pull_request.user.login == 'new-developer' ||
-    #   github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: read
-      issues: read
+      pull-requests: write
+      issues: write
       id-token: write
 
     steps:
@@ -37,38 +29,24 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
-            REPO: ${{ github.repository }}
-            PR NUMBER: ${{ github.event.pull_request.number }}
+            당신은 성능 최적화와 코드 품질을 엄격하게 관리하는 시니어 개발자입니다.
 
-            (
-            Please review this pull request and provide feedback on:
-            - Code quality and best practices
-            - Potential bugs or issues
-            - Performance considerations
-            - Security concerns
-            - Test coverage
+            🎯 [분석 범위 및 중복 방지]
+            1. `gh pr view --comments`를 실행하여 기존 리뷰를 확인하고, 중복된 지적은 절대 하지 마세요.
+            2. `gh pr diff -- . ':(exclude)*.json' ':(exclude)*.lock' ':(exclude)*.md' ':(exclude)public/*'` 명령어를 사용하여 로직과 무관한 파일은 분석에서 제외하세요.
+            3. `src/` 디렉토리 내의 코드 변경사항에만 집중하여 리뷰하세요.
 
-             📊 CHANGE SUMMARY (REQUIRED):
-            - Total number of files changed
-            - Total lines added and removed
-            - Number of components created
-            - Number of components deleted
-            - Number of components modified
+            🔍 [주요 리뷰 항목]
+            1. **가독성 및 네이밍**: 변수/함수명이 의도를 명확히 전달하며 프로젝트 컨벤션을 따르는가?
+            2. **TypeScript 정의**: `any` 사용을 지양하고, 타입을 엄격하게 정의했는가?
+            3. **비동기 및 안정성**: `async/await` 사용 시 적절한 `try-catch`와 에러 핸들링이 포함되었는가?
+            4. **일관성 및 컨벤션**: `CLAUDE.md` 가이드와 코딩 스타일을 준수하는가?
+            5. **아키텍처 및 확장성**: 컴포넌트 분리가 적절하며 비즈니스 로직이 UI와 잘 분리되었는가?
+            6. **UX 및 성능**: '초 단위 지연'을 유발할 수 있는 불필요한 리렌더링이나 비효율적 연산이 있는가?
 
-             🧩 COMPONENT RULES:
-            - Treat React components, pages, layouts, and hooks as "components"
-            - A component is considered "created" if a new file exporting a component is added
-            - A component is considered "deleted" if such a file is removed
-            - A component is considered "modified" if its implementation changes meaningfully
+            💬 [피드백 규칙]
+            - 발견된 이슈가 0개라면 코멘트를 남기지 마세요.
+            - "수정이 필요한 이유"와 "개선된 코드 예시"를 한국어로 작성하세요.
+            - `gh pr comment`를 사용하여 최종 리뷰를 남기세요.
 
-            ⚠️ IMPORTANT:
-            - Write **all feedback in Korean (한국어)**.
-            - Use clear, concise, and professional Korean suitable for a code review.
-
-            Use the repository's CLAUDE.md for guidance on style and conventions. Be constructive and helpful in your feedback.
-
-            Use `gh pr comment` with your Bash tool to leave your review as a comment on the PR.
-
-          # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
-          # or https://code.claude.com/docs/en/cli-reference for available options
-          claude_args: '--allowed-tools "Bash(gh issue view:*),Bash(gh search:*),Bash(gh issue list:*),Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr list:*)"'
+          claude_args: '--allowed-tools "Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"'

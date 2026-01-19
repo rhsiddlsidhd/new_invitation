@@ -7,17 +7,18 @@ import {
   SelectValue,
 } from "@/components/atoms/Select";
 import React, { useState } from "react";
-import { LabeledInputBase } from "./LabeledInput";
-type LabeledSelect = LabeledInputBase & { placeholder: string; data: string[] };
+import { InputFieldBase } from "./InputField";
 
-const LabeledSelect = ({
+type SelectFieldProps = InputFieldBase & { placeholder: string; data: string[] };
+
+const SelectField = ({
   id,
   name,
   children,
   placeholder,
   defaultValue,
   data,
-}: LabeledSelect) => {
+}: SelectFieldProps) => {
   const [info, setInfo] = useState<string>(defaultValue ?? "");
 
   return (
@@ -43,4 +44,4 @@ const LabeledSelect = ({
   );
 };
 
-export default LabeledSelect;
+export default SelectField;
