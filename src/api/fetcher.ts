@@ -21,7 +21,6 @@ const processQueue = (error: any, token: string | null = null) => {
 };
 
 export async function refreshAccessToken(): Promise<string> {
-  console.time("fetcher time");
   try {
     const res = await fetch("/api/auth/refresh", { method: "POST" });
     if (!res.ok) {
@@ -50,8 +49,6 @@ export async function fetcher<T>(
   config: { auth: boolean } = { auth: false },
   options?: RequestInit,
 ): Promise<T> {
-  console.log("fetcher호출", url);
-  console.time("fetcher time");
   try {
     const token = useAuthTokenStore.getState().token;
     const { auth = false } = config;
@@ -71,7 +68,7 @@ export async function fetcher<T>(
 
     if (res.ok) {
       const body: SuccessResponse<T> = await res.json();
-      console.timeEnd("fetcher time");
+
       return body.data;
     }
 
@@ -99,6 +96,11 @@ export async function fetcher<T>(
           ...finalOptions,
           headers: retryHeaders,
         });
+
+        if (!retryRes.ok) {
+          const errorBody: ErrorResponse = await retryRes.json();
+          throw new HTTPError(errorBody.error.message, errorBody.error.code);
+        }
 
         const retryBody: SuccessResponse<T> = await retryRes.json();
 

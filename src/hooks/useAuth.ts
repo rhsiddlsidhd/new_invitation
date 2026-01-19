@@ -15,9 +15,14 @@ const useAuth = () => {
 
   useEffect(() => {
     const verify = async () => {
-      try {
-        if (token) return;
+      const currentToken = useAuthTokenStore.getState().token;
 
+      if (currentToken) {
+        setLoading(false);
+        return;
+      }
+
+      try {
         await refreshAccessToken();
       } catch (e) {
         handleClientError(e);
@@ -25,9 +30,8 @@ const useAuth = () => {
         setLoading(false);
       }
     };
-
     verify();
-  }, [token]);
+  }, []);
 
   return { isAuth, loading, userId };
 };

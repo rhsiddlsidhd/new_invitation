@@ -123,7 +123,7 @@ export const createClientErrorResponse = (
       if (process.env.NODE_ENV === "development") {
         console.error(`세션이 만료되었습니다. 다시 로그인해주세요.`);
       }
-      console.timeEnd("fetcher time");
+
       return;
 
     case 403:
