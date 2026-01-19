@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/Card/Card";
-import LabeledInput from "@/components/molecules/(input-group)/LabeledInput";
+import InputField from "@/components/molecules/field/InputField";
 import clsx from "clsx";
 import { Save } from "lucide-react";
 import React, { useState } from "react";
@@ -79,7 +79,7 @@ const ChangePasswordForm = () => {
         {passwordToggle && (
           <CardContent className="space-y-4">
             {passwordFields.map((field) => (
-              <LabeledInput
+              <InputField
                 key={field.id}
                 id={field.id}
                 name={field.name}
@@ -87,7 +87,7 @@ const ChangePasswordForm = () => {
                 placeholder={field.placeholder}
               >
                 {field.title}
-              </LabeledInput>
+              </InputField>
             ))}
           </CardContent>
         )}

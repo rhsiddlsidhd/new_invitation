@@ -7,25 +7,26 @@ import {
   SelectValue,
 } from "@/components/atoms/Select";
 import React, { useState } from "react";
-import { LabeledInputBase } from "./LabeledInput";
-type LabeledSelect = LabeledInputBase & { placeholder: string; data: string[] };
+import { InputFieldBase } from "./InputField";
 
-const LabeledSelect = ({
+type SelectFieldProps = InputFieldBase & { placeholder: string; data: string[] };
+
+const SelectField = ({
   id,
   name,
   children,
   placeholder,
   defaultValue,
   data,
-}: LabeledSelect) => {
-  const [info, setInfo] = useState<string>(defaultValue ?? "");
+}: SelectFieldProps) => {
+  const [info, setInfo] = useState<string | undefined>(defaultValue);
 
   return (
     <div className="space-y-2">
       <Label htmlFor={id}>{children}</Label>
       <Select
         name={name}
-        value={info}
+        value={info ?? ""}
         onValueChange={(value) => setInfo(value)}
       >
         <SelectTrigger id={id}>
@@ -43,4 +44,4 @@ const LabeledSelect = ({
   );
 };
 
-export default LabeledSelect;
+export default SelectField;

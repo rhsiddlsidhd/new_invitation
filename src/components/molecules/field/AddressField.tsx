@@ -3,24 +3,30 @@ import { Label } from "@/components/atoms/Label/Label";
 import useDaumPopup from "@/hooks/useDaumPopup";
 import React, { useEffect, useState } from "react";
 
-const AddressSearchInput = ({
+const AddressField = ({
   error,
   required = false,
   name,
-  dafulteValue,
+  defaultValue,
 }: {
   name: string;
   error?: string;
   required?: boolean;
-  dafulteValue?: string;
+  defaultValue?: string;
 }) => {
   const { handleDaumAddressPopup, address } = useDaumPopup();
-  const [weddingAddress, setWeddingAddress] = useState(dafulteValue ?? "");
+  const [weddingAddress, setWeddingAddress] = useState(defaultValue ?? "");
   useEffect(() => {
     if (address) {
       setWeddingAddress(address);
     }
   }, [address]);
+
+  useEffect(() => {
+    if (defaultValue) {
+      setWeddingAddress(defaultValue);
+    }
+  }, [defaultValue]);
 
   return (
     <div className="space-y-2">
@@ -42,4 +48,4 @@ const AddressSearchInput = ({
   );
 };
 
-export default AddressSearchInput;
+export default AddressField;

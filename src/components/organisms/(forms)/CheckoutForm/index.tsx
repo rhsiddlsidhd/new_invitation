@@ -17,7 +17,7 @@ import {
 import { Checkbox } from "@/components/atoms/CheckBox/CheckBox";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import { Label } from "@/components/atoms/Label/Label";
-import LabeledInput from "@/components/molecules/(input-group)/LabeledInput";
+import InputField from "@/components/molecules/field/InputField";
 import PaymentMethodSelector from "./PaymentMethodSelector";
 import { toast } from "sonner";
 import { CheckoutProductData } from "@/types/checkout";
@@ -238,7 +238,7 @@ export function CheckoutForm({ query }: { query: string }) {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
-              <LabeledInput
+              <InputField
                 id="name"
                 name="buyerName"
                 type="text"
@@ -247,9 +247,9 @@ export function CheckoutForm({ query }: { query: string }) {
                 error={errors && errors.buyerName && errors.buyerName[0]}
               >
                 이름 *
-              </LabeledInput>
+              </InputField>
 
-              <LabeledInput
+              <InputField
                 id="phone"
                 name="buyerPhone"
                 type="tel"
@@ -258,10 +258,10 @@ export function CheckoutForm({ query }: { query: string }) {
                 error={errors && errors.buyerPhone && errors.buyerPhone[0]}
               >
                 연락처 *
-              </LabeledInput>
+              </InputField>
             </div>
             <div>
-              <LabeledInput
+              <InputField
                 id="email"
                 name="buyerEmail"
                 type="email"
@@ -270,7 +270,7 @@ export function CheckoutForm({ query }: { query: string }) {
                 error={errors && errors.buyerEmail && errors.buyerEmail[0]}
               >
                 이메일 *
-              </LabeledInput>
+              </InputField>
             </div>
           </CardContent>
         </Card>

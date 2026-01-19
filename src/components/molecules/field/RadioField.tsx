@@ -4,9 +4,9 @@ import { Label } from "@/components/atoms/Label/Label";
 import { RadioGroup, RadioGroupItem } from "@/components/atoms/RadioGroup";
 import React, { useState } from "react";
 import { LucideIcon } from "lucide-react";
-import { LabeledInputBase } from "./LabeledInput";
+import { InputFieldBase } from "./InputField";
 
-export type RadioGroupOption<T = string> = {
+export type RadioFieldOption<T = string> = {
   id: string;
   value: T;
   title: string;
@@ -14,22 +14,22 @@ export type RadioGroupOption<T = string> = {
   icon?: LucideIcon;
 };
 
-type LabeledRadioGroup = Omit<LabeledInputBase, "children"> & {
-  options: RadioGroupOption[];
-  defaultValue?: string;
+type RadioFieldProps<T = string> = Omit<InputFieldBase, "children"> & {
+  options: RadioFieldOption<T>[];
+  defaultValue?: T;
 };
 
-const LabeledRadioGroup = ({
+const RadioField = <T extends string = string>({
   name,
   options,
-  defaultValue = "",
-}: LabeledRadioGroup) => {
-  const [info, setInfo] = useState<string>(defaultValue);
+  defaultValue = "" as T,
+}: RadioFieldProps<T>) => {
+  const [info, setInfo] = useState<T>(defaultValue);
 
   return (
     <RadioGroup
       value={info}
-      onValueChange={(val) => setInfo(val)}
+      onValueChange={(val) => setInfo(val as T)}
       className={"space-y-2"}
       name={name}
     >
@@ -57,4 +57,4 @@ const LabeledRadioGroup = ({
   );
 };
 
-export default LabeledRadioGroup;
+export default RadioField;

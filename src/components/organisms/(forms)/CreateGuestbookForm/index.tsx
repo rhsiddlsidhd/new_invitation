@@ -9,8 +9,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/atoms/Dialog/Dialog";
-import LabeledInput from "@/components/molecules/(input-group)/LabeledInput";
-import LabeledSwitch from "@/components/molecules/(input-group)/LabeledSwitch";
+import InputField from "@/components/molecules/field/InputField";
+import SwitchField from "@/components/molecules/field/SwitchField";
 import { createGuestbook } from "@/actions/createGuestbook";
 import { cn } from "@/lib/utils";
 import { APIResponse } from "@/types/error";
@@ -65,7 +65,7 @@ const CreateGuestbookForm = ({ payload }: { payload: unknown }) => {
 
       <input type="hidden" name="coupleInfoId" value={id} />
 
-      <LabeledInput
+      <InputField
         name="author"
         placeholder="이름을 입력하세요."
         id="author"
@@ -74,9 +74,9 @@ const CreateGuestbookForm = ({ payload }: { payload: unknown }) => {
         error={authorError}
       >
         이름
-      </LabeledInput>
+      </InputField>
 
-      <LabeledInput
+      <InputField
         type="password"
         name="password"
         id="password"
@@ -84,7 +84,7 @@ const CreateGuestbookForm = ({ payload }: { payload: unknown }) => {
         error={passwordError}
       >
         비밀번호
-      </LabeledInput>
+      </InputField>
 
       <div className="space-y-2">
         <label htmlFor="message" className="text-sm font-medium">
@@ -104,9 +104,9 @@ const CreateGuestbookForm = ({ payload }: { payload: unknown }) => {
         />
       </div>
 
-      <LabeledSwitch id="isPrivate" name="isPrivate">
+      <SwitchField id="isPrivate" name="isPrivate">
         비밀글
-      </LabeledSwitch>
+      </SwitchField>
 
       <DialogFooter>
         <DialogClose asChild>

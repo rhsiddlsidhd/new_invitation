@@ -13,7 +13,7 @@ import {
 import { Label } from "@/components/atoms/Label/Label";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import { Input } from "@/components/atoms/Input/Input";
-import LabeledImage from "@/components/molecules/(input-group)/LabeledImage";
+import ImageField from "@/components/molecules/field/ImageField";
 import { useState, useEffect } from "react";
 import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
 
@@ -76,7 +76,7 @@ export function ImagesSection() {
             <p className="text-muted-foreground mt-1 text-sm">
               청첩장에 표시될 메인 이미지를 업로드하세요. (최대 10장)
             </p>
-            <LabeledImage
+            <ImageField
               id="thumbnail-upload"
               name="thumbnail-upload"
               preview={true}
@@ -139,7 +139,7 @@ export function ImagesSection() {
                 </div>
 
                 <div className="space-y-3">
-                  <LabeledImage
+                  <ImageField
                     id={`gallery-upload-${category.id}`}
                     name={`gallery-upload-${category.id}`}
                     preview={true}

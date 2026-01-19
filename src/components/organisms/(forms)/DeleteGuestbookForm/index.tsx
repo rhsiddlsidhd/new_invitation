@@ -11,7 +11,7 @@ import {
   DialogTitle,
 } from "@/components/atoms/Dialog/Dialog";
 
-import LabeledInput from "@/components/molecules/(input-group)/LabeledInput";
+import InputField from "@/components/molecules/field/InputField";
 import { APIResponse } from "@/types/error";
 
 import { useParams } from "next/navigation";
@@ -56,9 +56,9 @@ const DeleteGuestbookForm = ({ payload }: { payload: string }) => {
         </DialogDescription>
       </DialogHeader>
 
-      <LabeledInput id="password" name="password" type="password">
+      <InputField id="password" name="password" type="password">
         비밀번호
-      </LabeledInput>
+      </InputField>
       {passwordError && <Alert type="error">{passwordError}</Alert>}
 
       <DialogFooter>

@@ -1,6 +1,6 @@
 import { Upload, X } from "lucide-react";
-import React, { useState, useEffect } from "react";
-import { LabeledInputBase } from "./LabeledInput";
+import React, { useState, useEffect, useRef } from "react";
+import { InputFieldBase } from "./InputField";
 import Thumbnail from "@/components/atoms/Thumbnail";
 
 interface ImageItem {
@@ -11,19 +11,20 @@ interface ImageItem {
   originalUrl?: string;
 }
 
-type LabeledImage = Omit<LabeledInputBase, "children"> & {
+type ImageFieldProps = Omit<InputFieldBase, "children"> & {
   preview?: boolean;
   widthPx?: number;
   defaultImages?: string[];
 };
 
-const LabeledImage = ({
+const ImageField = ({
   id,
   name,
   preview = false,
   widthPx = 100,
   defaultImages = [],
-}: LabeledImage) => {
+}: ImageFieldProps) => {
+  const inputRef = useRef<HTMLInputElement>(null);
   const [images, setImages] = useState<ImageItem[]>([]);
 
   // defaultImages를 ImageItem으로 변환하여 초기화
@@ -63,9 +64,17 @@ const LabeledImage = ({
 
   // 헬퍼 함수: File을 base64로 변환
   const readFileAsDataURL = (file: File): Promise<string> => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = (e) => resolve(e.target?.result as string);
+      reader.onload = (e) => {
+        const result = e.target?.result;
+        if (typeof result === 'string') {
+          resolve(result);
+        } else {
+          reject(new Error('Failed to read file as data URL'));
+        }
+      };
+      reader.onerror = () => reject(new Error('FileReader error'));
       reader.readAsDataURL(file);
     });
   };
@@ -76,7 +85,7 @@ const LabeledImage = ({
 
   // images 변경 시 input.files 동기화 (새 파일만)
   useEffect(() => {
-    const input = document.getElementById(id) as HTMLInputElement;
+    const input = inputRef.current;
     if (!input) return;
 
     const newFiles = images
@@ -86,7 +95,7 @@ const LabeledImage = ({
     const dataTransfer = new DataTransfer();
     newFiles.forEach((file) => dataTransfer.items.add(file));
     input.files = dataTransfer.files;
-  }, [images, id]);
+  }, [images]);
 
   // 기존 이미지 URL 추출 (hidden input용)
   const existingUrls = images
@@ -115,6 +124,7 @@ const LabeledImage = ({
           PNG, JPG, WEBP (최대 5MB)
         </p>
         <input
+          ref={inputRef}
           id={id}
           name={name}
           type="file"
@@ -153,4 +163,5 @@ const LabeledImage = ({
   );
 };
 
-export default LabeledImage;
+export default ImageField;
+

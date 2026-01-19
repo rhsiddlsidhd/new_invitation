@@ -20,10 +20,10 @@ import { Calendar } from "@/components/atoms/Calendar";
 import { useEffect, useState } from "react";
 import { ko } from "date-fns/locale";
 
-import LabeledInput from "@/components/molecules/(input-group)/LabeledInput";
-import AddressSearchInput from "@/components/molecules/(input-group)/AddressSearchInput";
-import LabeledSwitch from "@/components/molecules/(input-group)/LabeledSwitch";
-import LabeledSelect from "@/components/molecules/(input-group)/LabeledSelect";
+import InputField from "@/components/molecules/field/InputField";
+import AddressField from "@/components/molecules/field/AddressField";
+import SwitchField from "@/components/molecules/field/SwitchField";
+import SelectField from "@/components/molecules/field/SelectField";
 import { Input } from "@/components/atoms/Input/Input";
 import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
 
@@ -94,7 +94,7 @@ export function BasicInfoSection() {
             </Popover>
           </div>
 
-          <LabeledInput
+          <InputField
             id="weddingTime"
             name="wedding_time"
             type="time"
@@ -107,12 +107,12 @@ export function BasicInfoSection() {
             required
           >
             결혼식 시간 *
-          </LabeledInput>
+          </InputField>
         </div>
 
         {/* Venue Name */}
         <div className="space-y-2"></div>
-        <LabeledInput
+        <InputField
           id="venueName"
           name="venue_name"
           type="text"
@@ -121,17 +121,13 @@ export function BasicInfoSection() {
           required
         >
           예식장명 *
-        </LabeledInput>
+        </InputField>
 
         {/* Address */}
-        <AddressSearchInput
-          required
-          name="venue"
-          dafulteValue={data?.address}
-        />
+        <AddressField required name="venue" defaultValue={data?.address} />
 
         {/* Address Detail */}
-        <LabeledInput
+        <InputField
           id="venueAddressDetail"
           name="venue_address_detail"
           type="text"
@@ -140,10 +136,10 @@ export function BasicInfoSection() {
           required
         >
           상세 주소 *
-        </LabeledInput>
+        </InputField>
 
         {/* NEW SUBWAY STATION DROPDOWN */}
-        <LabeledSelect
+        <SelectField
           id="subwayStation"
           name="subway_station"
           placeholder="지하철역 선택"
@@ -151,17 +147,17 @@ export function BasicInfoSection() {
           data={MOCSUBWAYSTATIONS}
         >
           인근 지하철 역
-        </LabeledSelect>
+        </SelectField>
 
         {/* Guestbook Toggle */}
-        <LabeledSwitch
+        <SwitchField
           id={"guestbookEnabled"}
           name={"guestbook_enabled"}
           message={"하객들이 축하 메시지를 남길 수 있습니다."}
           defaultValue={data?.guestbookEnabled}
         >
           방명록 사용
-        </LabeledSwitch>
+        </SwitchField>
       </CardContent>
     </Card>
   );

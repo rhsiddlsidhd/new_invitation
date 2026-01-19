@@ -13,7 +13,7 @@ import { Save, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ICoupleInfo } from "@/models/coupleInfo.model";
 import { format } from "date-fns";
-import LabeledInput from "@/components/molecules/(input-group)/LabeledInput";
+import InputField from "@/components/molecules/field/InputField";
 
 interface EditCoupleInfoFormProps {
   initialData: ICoupleInfo;
@@ -65,7 +65,7 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
-              <LabeledInput
+              <InputField
                 id="wedding_date"
                 name="wedding_date"
                 type="date"
@@ -73,8 +73,8 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
                 required
               >
                 결혼식 날짜
-              </LabeledInput>
-              <LabeledInput
+              </InputField>
+              <InputField
                 id="wedding_time"
                 name="wedding_time"
                 type="time"
@@ -82,10 +82,10 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
                 required
               >
                 결혼식 시간
-              </LabeledInput>
+              </InputField>
             </div>
 
-            <LabeledInput
+            <InputField
               id="venue"
               name="venue"
               type="text"
@@ -94,9 +94,9 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
               required
             >
               예식장 이름
-            </LabeledInput>
+            </InputField>
 
-            <LabeledInput
+            <InputField
               id="address"
               name="address"
               type="text"
@@ -105,9 +105,9 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
               required
             >
               예식장 주소
-            </LabeledInput>
+            </InputField>
 
-            <LabeledInput
+            <InputField
               id="subway_station"
               name="subway_station"
               type="text"
@@ -115,7 +115,7 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
               placeholder="강남역"
             >
               가까운 지하철역 (선택)
-            </LabeledInput>
+            </InputField>
 
             <div className="space-y-2">
               <Label htmlFor="message">초대 메시지 (선택)</Label>
@@ -136,7 +136,7 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
             <CardTitle>신랑 정보</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <LabeledInput
+            <InputField
               id="groom_name"
               name="groom_name"
               type="text"
@@ -144,8 +144,8 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
               required
             >
               신랑 이름
-            </LabeledInput>
-            <LabeledInput
+            </InputField>
+            <InputField
               id="groom_phone"
               name="groom_phone"
               type="tel"
@@ -154,9 +154,9 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
               required
             >
               신랑 연락처
-            </LabeledInput>
+            </InputField>
             <div className="grid gap-4 sm:grid-cols-2">
-              <LabeledInput
+              <InputField
                 id="groom_bank_name"
                 name="groom_bank_name"
                 type="text"
@@ -164,8 +164,8 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
                 placeholder="○○은행"
               >
                 신랑 은행명 (선택)
-              </LabeledInput>
-              <LabeledInput
+              </InputField>
+              <InputField
                 id="groom_account_number"
                 name="groom_account_number"
                 type="text"
@@ -173,7 +173,7 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
                 placeholder="123-456-789"
               >
                 신랑 계좌번호 (선택)
-              </LabeledInput>
+              </InputField>
             </div>
           </CardContent>
         </Card>
@@ -184,7 +184,7 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
             <CardTitle>신부 정보</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <LabeledInput
+            <InputField
               id="bride_name"
               name="bride_name"
               type="text"
@@ -192,8 +192,8 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
               required
             >
               신부 이름
-            </LabeledInput>
-            <LabeledInput
+            </InputField>
+            <InputField
               id="bride_phone"
               name="bride_phone"
               type="tel"
@@ -202,9 +202,9 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
               required
             >
               신부 연락처
-            </LabeledInput>
+            </InputField>
             <div className="grid gap-4 sm:grid-cols-2">
-              <LabeledInput
+              <InputField
                 id="bride_bank_name"
                 name="bride_bank_name"
                 type="text"
@@ -212,8 +212,8 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
                 placeholder="○○은행"
               >
                 신부 은행명 (선택)
-              </LabeledInput>
-              <LabeledInput
+              </InputField>
+              <InputField
                 id="bride_account_number"
                 name="bride_account_number"
                 type="text"
@@ -221,7 +221,7 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
                 placeholder="123-456-789"
               >
                 신부 계좌번호 (선택)
-              </LabeledInput>
+              </InputField>
             </div>
           </CardContent>
         </Card>
