@@ -7,8 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/Card/Card";
-import { Input } from "@/components/atoms/Input/Input";
-import { Label } from "@/components/atoms/Label/Label";
 import InputField from "@/components/molecules/field/InputField";
 import clsx from "clsx";
 import { Save } from "lucide-react";
@@ -28,7 +26,7 @@ const BasicInfoForm = ({
     <form className="space-y-6">
       {/* 기본 정보 섹션 */}
       <Card>
-        <CardHeader className="flex items-start justify-between">
+        <CardHeader className="flex flex-row items-start justify-between">
           <div>
             <CardTitle>기본 정보</CardTitle>
             <CardDescription>
@@ -57,62 +55,44 @@ const BasicInfoForm = ({
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">이메일</Label>
-            <Input
+          <div>
+            <InputField
               id="email"
               name="email"
               type="email"
-              value={email}
+              defaultValue={email}
               readOnly
               className="bg-muted"
-            />
+            >
+              이메일
+            </InputField>
 
-            <p className="text-muted-foreground text-xs">
+            <p className="text-muted-foreground pt-2 text-xs">
               이메일은 변경할 수 없습니다
             </p>
           </div>
 
-          {basicInfoToggle ? (
-            <InputField id="name" name="name" type="text" defaultValue={name}>
-              이름
-            </InputField>
-          ) : (
-            <div>
-              <Label htmlFor="name">이름</Label>
-              <Input
-                id="name"
-                name="name"
-                value={name}
-                type="text"
-                readOnly
-                className="bg-muted"
-              />
-            </div>
-          )}
+          <InputField
+            id="name"
+            name="name"
+            type="text"
+            defaultValue={name}
+            readOnly={!basicInfoToggle}
+            className={!basicInfoToggle ? "bg-muted" : ""}
+          >
+            이름
+          </InputField>
 
-          {basicInfoToggle ? (
-            <InputField
-              id="phone"
-              name="phone"
-              type="text"
-              defaultValue={phone}
-            >
-              전화번호
-            </InputField>
-          ) : (
-            <div>
-              <Label htmlFor="phone">전화번호</Label>
-              <Input
-                id="phone"
-                name="phone"
-                type="tel"
-                value={phone}
-                readOnly
-                className="bg-muted"
-              />
-            </div>
-          )}
+          <InputField
+            id="phone"
+            name="phone"
+            type="tel"
+            defaultValue={phone}
+            readOnly={!basicInfoToggle}
+            className={!basicInfoToggle ? "bg-muted" : ""}
+          >
+            전화번호
+          </InputField>
 
           {basicInfoToggle && (
             <InputField id="password" name="password" type="password">

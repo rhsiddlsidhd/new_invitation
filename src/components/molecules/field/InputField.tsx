@@ -1,6 +1,7 @@
 import Alert from "@/components/atoms/Alert/Alert";
 import { Input } from "@/components/atoms/Input/Input";
 import { Label } from "@/components/atoms/Label/Label";
+import { cn } from "@/lib/utils";
 import React, { HTMLInputTypeAttribute, useState, useEffect } from "react";
 
 export interface InputFieldBase {
@@ -15,6 +16,8 @@ export interface InputFieldProps extends InputFieldBase {
   placeholder?: string;
   error?: string;
   required?: boolean;
+  readOnly?: boolean;
+  className?: string;
 }
 
 const InputField = ({
@@ -26,6 +29,8 @@ const InputField = ({
   required = false,
   error,
   defaultValue = "",
+  readOnly,
+  className,
 }: InputFieldProps) => {
   const [info, setInfo] = useState(defaultValue);
 
@@ -45,7 +50,8 @@ const InputField = ({
         placeholder={placeholder}
         required={required}
         onChange={(e) => setInfo(e.target.value)}
-        className={error ? "border-destructive" : ""}
+        readOnly={readOnly}
+        className={cn(error ? "border-destructive" : "", className)}
       />
       {error && <Alert type="error">{error}</Alert>}
     </div>
