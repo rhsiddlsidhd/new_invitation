@@ -31,6 +31,12 @@ export async function refreshAccessToken(): Promise<string> {
       await res.json();
     const { accessToken, role } = data;
 
+    // role 유효성 검증
+    const validRoles: UserRole[] = ["ADMIN", "USER"];
+    if (!validRoles.includes(role as UserRole)) {
+      throw new HTTPError("Invalid role received from server", 500);
+    }
+
     // Zustand 스토어 업데이트
     useAuthStore
       .getState()
