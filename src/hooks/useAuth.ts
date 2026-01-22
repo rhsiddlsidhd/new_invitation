@@ -1,13 +1,13 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import useAuthTokenStore from "../store/authTokenStore";
+import useAuthStore from "../store/auth.store";
 import { refreshAccessToken } from "@/api/fetcher";
 import { handleClientError } from "@/api/error";
 import { decodeJwt } from "jose";
 
 const useAuth = () => {
-  const isAuth = useAuthTokenStore((state) => state.isAuth);
-  const token = useAuthTokenStore((state) => state.token);
+  const isAuth = useAuthStore((state) => state.isAuth);
+  const token = useAuthStore((state) => state.token);
 
   const [loading, setLoading] = useState(true);
 
@@ -18,7 +18,7 @@ const useAuth = () => {
 
   useEffect(() => {
     const verify = async () => {
-      const currentToken = useAuthTokenStore.getState().token;
+      const currentToken = useAuthStore.getState().token;
 
       if (currentToken) {
         setLoading(false);
