@@ -1,10 +1,10 @@
 "use client";
 
 import { logoutUser } from "@/actions/logoutUser";
-import useAuthTokenStore from "@/store/authTokenStore";
+import useAuthStore from "@/store/auth.store";
 
 export const useSignOut = () => {
-  const clearAuth = useAuthTokenStore((state) => state.clearAuth);
+  const clearAuth = useAuthStore((state) => state.clearAuth);
   const handleSignOut = async () => {
     await logoutUser();
     clearAuth();
