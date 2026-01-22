@@ -11,10 +11,15 @@ const useAuth = () => {
 
   const [loading, setLoading] = useState(true);
 
-  const userId = useMemo(
-    () => (token ? (decodeJwt(token).id as string) : null),
-    [token],
-  );
+  const userId = useMemo(() => {
+    if (!token) return null;
+    try {
+      const payload = decodeJwt(token);
+      return payload.id;
+    } catch {
+      return null;
+    }
+  }, [token]);
 
   useEffect(() => {
     const verify = async () => {
