@@ -1,23 +1,39 @@
 "use client";
+import React, { useCallback, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { ShoppingCart, X } from "lucide-react";
+
 import { Badge } from "@/components/atoms/Badge/Badge";
+import { Btn } from "@/components/atoms/Btn/Btn";
 import StatusSelect from "@/components/molecules/StatusSelect";
-import { SelectFeatureDto } from "@/schemas/order.schema";
+import { useOrderStore } from "@/store/order.store";
+import { Product } from "@/services/product.service";
 import { PremiumFeature } from "@/services/premiumFeature.service";
-import { formatPriceWithComma } from "@/utils/price";
-import { X } from "lucide-react";
-import React, { useCallback, useMemo } from "react";
+import { CheckoutProductData } from "@/types/checkout";
+import { SelectFeatureDto } from "@/schemas/order.schema";
+import { calculatePrice, formatPriceWithComma } from "@/utils/price";
 
 const ProductOptions = ({
+  product,
   options,
-  discountedPrice,
-  setSelectedOptionIds,
-  selectedOptionIds,
 }: {
+  product: Product;
   options: PremiumFeature[];
-  discountedPrice: number;
-  setSelectedOptionIds: React.Dispatch<React.SetStateAction<string[]>>;
-  selectedOptionIds: string[];
 }) => {
+  const router = useRouter();
+  const setOrder = useOrderStore((state) => state.setOrder);
+  const [selectedOptionIds, setSelectedOptionIds] = useState<string[]>([]);
+
+  const optionsMap = useMemo(() => {
+    const map = new Map<string, PremiumFeature>();
+    options.forEach((option) => map.set(option._id.toString(), option));
+    return map;
+  }, [options]);
+
+  const discountedPrice = useMemo(() => {
+    return calculatePrice(product.price, product.discount);
+  }, [product.price, product.discount]);
+
   const handleSelectOption = useCallback(
     (value: string) => {
       if (selectedOptionIds.includes(value)) {
@@ -26,7 +42,7 @@ const ProductOptions = ({
       }
       setSelectedOptionIds((prev) => [...prev, value]);
     },
-    [selectedOptionIds, setSelectedOptionIds],
+    [selectedOptionIds], // selectedOptionIds가 변경될 때마다 함수 재생성
   );
 
   const _options = useMemo(() => {
@@ -35,39 +51,74 @@ const ProductOptions = ({
         option.additionalPrice,
       )}원)`,
       value: option._id.toString(),
-      originalFeature: option, // Store original feature for price, code, label
+      originalFeature: option,
     }));
   }, [options]);
 
-  const handleDeselectOption = useCallback(
-    (value: string) => {
-      setSelectedOptionIds((prev) => prev.filter((id) => id !== value));
-    },
-    [setSelectedOptionIds],
-  );
+  const handleDeselectOption = useCallback((value: string) => {
+    setSelectedOptionIds((prev) => prev.filter((id) => id !== value));
+  }, []); // setSelectedOptionIds는 stable하므로 의존성 배열에 넣지 않아도 됨
 
-  const selectedOptionsDetails: SelectFeatureDto[] = useMemo(() => {
-    return selectedOptionIds.map((id) => {
-      const selectedOpt = options.find((opt) => opt._id.toString() === id);
-      if (!selectedOpt) {
-        throw new Error(`Selected option with ID ${id} not found.`);
+  const { selectedOptionsDetails, totalPrice } = useMemo(() => {
+    let currentSelectedOptionPrice = 0;
+    const currentSelectedOptionsDetails: SelectFeatureDto[] = [];
+
+    selectedOptionIds.forEach((id) => {
+      const selectedOpt = optionsMap.get(id);
+      if (selectedOpt) {
+        currentSelectedOptionsDetails.push({
+          featureId: selectedOpt._id.toString(),
+          code: selectedOpt.code,
+          label: selectedOpt.label,
+          price: selectedOpt.additionalPrice,
+        });
+        currentSelectedOptionPrice += selectedOpt.additionalPrice;
+      } else {
+        // 이 에러는 optionsMap에 없는 ID가 selectedOptionIds에 포함된 경우 발생
+        // 실제 운영 환경에서는 발생하지 않도록 UI에서 선택 가능한 옵션만 ID에 추가해야 함
+        console.warn(`Selected option with ID ${id} not found in optionsMap.`);
       }
-      return {
-        featureId: selectedOpt._id.toString(),
-        code: selectedOpt.code,
-        label: selectedOpt.label,
-        price: selectedOpt.additionalPrice,
-      };
     });
-  }, [selectedOptionIds, options]);
 
-  const selectedOptionPrice = useMemo(() => {
-    return selectedOptionsDetails.reduce((sum, opt) => sum + opt.price, 0);
-  }, [selectedOptionsDetails]);
+    const currentTotalPrice = discountedPrice + currentSelectedOptionPrice;
 
-  const totalPrice = useMemo(() => {
-    return discountedPrice + selectedOptionPrice;
-  }, [discountedPrice, selectedOptionPrice]);
+    return {
+      selectedOptionsDetails: currentSelectedOptionsDetails,
+      selectedOptionPrice: currentSelectedOptionPrice,
+      totalPrice: currentTotalPrice,
+    };
+  }, [selectedOptionIds, optionsMap, discountedPrice]);
+
+  const handlePurchase = useCallback(() => {
+    const quantity = 1;
+
+    const checkoutData: CheckoutProductData = {
+      _id: product._id.toString(),
+      title: product.title,
+      originalPrice: product.price,
+      discountedPrice,
+      discount: { type: product.discount.type, value: product.discount.value },
+      thumbnail: product.thumbnail,
+      selectedFeatures: selectedOptionsDetails,
+      quantity: quantity,
+      productTotalPrice: totalPrice * quantity,
+    };
+
+    try {
+      setOrder(checkoutData);
+      router.push("/couple-info");
+    } catch (error) {
+      console.error("Failed to save to order store:", error);
+      alert("상품 정보를 저장하는 데 실패했습니다. 다시 시도해 주세요.");
+    }
+  }, [
+    product,
+    discountedPrice,
+    selectedOptionsDetails,
+    totalPrice,
+    router,
+    setOrder,
+  ]);
 
   return (
     <div>
@@ -83,7 +134,7 @@ const ProductOptions = ({
           {selectedOptionIds.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {selectedOptionIds.map((id) => {
-                const option = _options.find((opt) => opt.value === id);
+                const option = optionsMap.get(id); // optionsMap 사용
                 if (!option) return null;
                 return (
                   <Badge
@@ -112,6 +163,12 @@ const ProductOptions = ({
         <span className="text-destructive text-xl font-bold">
           {formatPriceWithComma(totalPrice)}원
         </span>
+      </div>
+      <div>
+        <Btn size="lg" className="w-full" onClick={handlePurchase}>
+          <ShoppingCart className="mr-2 h-5 w-5" />
+          구매하기
+        </Btn>
       </div>
     </div>
   );

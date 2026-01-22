@@ -19,9 +19,8 @@ export default async function TemplateDetailPage({
   return (
     <main className="bg-background min-h-screen">
       <div className="container mx-auto px-4 pt-24 pb-16">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-4xl">
           <TemplateSummary product={product} options={options} />
-
           <TemplateFeatures options={options} />
         </div>
       </div>

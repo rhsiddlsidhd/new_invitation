@@ -18,7 +18,7 @@ export const POST = async (
       throw new HTTPError("접근 권한이 없습니다. 로그인 후 이용해주세요.", 401);
     }
     const accessToken = authHeader.substring(7);
-
+    console.log("POST", accessToken);
     const res = await decrypt({ token: accessToken, type: "ACCESS" });
 
     if (!res.payload.id)

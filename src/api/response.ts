@@ -74,8 +74,6 @@ export const createApiErrorResponse = (
     );
   }
 
-  console.error(e);
-
   return NextResponse.json(
     {
       success: false,

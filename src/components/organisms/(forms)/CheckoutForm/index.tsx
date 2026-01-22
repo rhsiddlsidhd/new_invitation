@@ -2,7 +2,7 @@
 
 import type React from "react";
 import PortOne, { PaymentResponse } from "@portone/browser-sdk/v2";
-import { startTransition, useActionState, useEffect, useState } from "react";
+import { startTransition, useEffect, useState, useActionState } from "react";
 import { PayMethod, PayStatus } from "@/models/payment";
 
 import { Save } from "lucide-react";
@@ -20,7 +20,6 @@ import { Label } from "@/components/atoms/Label/Label";
 import InputField from "@/components/molecules/field/InputField";
 import PaymentMethodSelector from "./PaymentMethodSelector";
 import { toast } from "sonner";
-import { CheckoutProductData } from "@/types/checkout";
 import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
 import { createOrderAction } from "@/actions/createOrderAction";
 import { useRouter } from "next/navigation";
@@ -28,13 +27,16 @@ import { fetcher } from "@/api/fetcher";
 import Spinner from "@/components/atoms/Spinner/Spinner";
 import { BuyerInfo, BuyerInfoSchema } from "@/schemas/order.schema";
 import { APIResponse } from "@/types/error";
+import { useOrderStore } from "@/store/order.store"; // useOrderStore 임포트
 
 const storeId = process.env.NEXT_PUBLIC_POST_ONE_STORE_ID;
-
 const channelKey = process.env.NEXT_PUBLIC_POST_ONE_CHANNELKEY;
 
 export function CheckoutForm({ query }: { query: string }) {
   const router = useRouter();
+  const order = useOrderStore((state) => state.order); // useOrderStore에서 order 데이터 가져오기
+  const clearOrder = useOrderStore((state) => state.clearOrder); // clearOrder 액션 가져오기
+
   const [state, action, pending] = useActionState<
     APIResponse<{
       merchantUid: string;
@@ -57,6 +59,14 @@ export function CheckoutForm({ query }: { query: string }) {
   const [paymentStatus, setPaymentStatus] = useState<PayStatus | "IDLE">(
     "IDLE",
   );
+
+  // 주문 정보가 없을 때 리디렉션
+  useEffect(() => {
+    if (typeof window !== "undefined" && !order) {
+      toast.error("주문 정보를 찾을 수 없습니다. 상품 페이지로 이동합니다.");
+      router.replace("/products");
+    }
+  }, [order, router]);
 
   const completeResponse = async (payment: PaymentResponse | undefined) => {
     if (!payment?.paymentId) {
@@ -141,8 +151,7 @@ export function CheckoutForm({ query }: { query: string }) {
           await completeResponse(payment);
           setPaymentStatus("PAID");
 
-          // sessionStorage 정리
-          sessionStorage.removeItem("checkoutItems");
+          clearOrder();
 
           // 결제 완료 페이지로 이동
           toast.success("결제가 완료되었습니다!");
@@ -162,7 +171,7 @@ export function CheckoutForm({ query }: { query: string }) {
     if (state && state.success) {
       handlePortOne();
     }
-  }, [state, router]);
+  }, [state, router, clearOrder]); // clearOrder를 의존성 배열에 추가
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -171,13 +180,12 @@ export function CheckoutForm({ query }: { query: string }) {
 
     const formData = new FormData(e.currentTarget as HTMLFormElement);
 
-    // 세션 스토리지에서 상품 정보 가져오기
-    const store = sessionStorage.getItem("checkoutItems");
-    if (!store) {
+    // useOrderStore에서 상품 정보 가져오기
+    if (!order) {
       toast.error("주문 정보를 찾을 수 없습니다. 다시 시도해주세요.");
+      router.replace("/products"); // 주문 정보가 없으면 상품 페이지로 이동
       return;
     }
-    const item = JSON.parse(store) as CheckoutProductData;
 
     // 폼 데이터 유효성 검사
     const BuyerData = {
@@ -201,7 +209,7 @@ export function CheckoutForm({ query }: { query: string }) {
       selectedFeatures,
       thumbnail,
       title,
-    } = item;
+    } = order; // item 대신 order 사용
     formData.append("productId", _id);
     formData.append("productTitle", title);
     formData.append("productThumbnail", thumbnail);

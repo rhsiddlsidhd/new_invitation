@@ -21,6 +21,7 @@ const processQueue = (error: any, token: string | null = null) => {
 };
 
 export async function refreshAccessToken(): Promise<string> {
+  console.log("refreshAccessToken");
   try {
     const res = await fetch("/api/auth/refresh", { method: "POST" });
     if (!res.ok) {
@@ -51,11 +52,11 @@ export async function fetcher<T>(
 ): Promise<T> {
   try {
     const token = useAuthTokenStore.getState().token;
+
     const { auth = false } = config;
 
     const headers = new Headers(options?.headers);
     if (auth && token) {
-      // 변경된 auth 변수 사용
       headers.set("Authorization", `Bearer ${token}`);
     }
 

@@ -25,7 +25,6 @@ const StatusSelect = ({
 }) => {
   return (
     <Select value={value} onValueChange={onValueChange} disabled={disabled}>
-      {/* w-27.5 */}
       <SelectTrigger className={className}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
