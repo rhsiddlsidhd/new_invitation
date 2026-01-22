@@ -8,7 +8,7 @@ type AuthState = {
 };
 
 type AuthAction = {
-  setToken: (payload: { token: string | null; role: UserRole }) => void;
+  setToken: (payload: { token: string; role: UserRole }) => void;
   clearAuth: () => void;
 };
 
