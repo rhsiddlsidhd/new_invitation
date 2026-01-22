@@ -12,7 +12,7 @@ type AuthAction = {
   clearAuth: () => void;
 };
 
-const useAuthTokenStore = create<AuthState & AuthAction>((set) => ({
+const useAuthStore = create<AuthState & AuthAction>((set) => ({
   token: null,
   isAuth: false,
   role: "GUEST",
@@ -30,4 +30,4 @@ const useAuthTokenStore = create<AuthState & AuthAction>((set) => ({
     })),
 }));
 
-export default useAuthTokenStore;
+export default useAuthStore;
