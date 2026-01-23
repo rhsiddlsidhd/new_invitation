@@ -2,13 +2,18 @@ import { UserRole } from "@/models/user.model";
 import { create } from "zustand";
 
 type AuthState = {
-  token: null | string;
+  token: string | null;
   isAuth: boolean;
   role: UserRole | "GUEST";
+  userId: string | null;
 };
 
 type AuthAction = {
-  setToken: (payload: { token: string; role: UserRole }) => void;
+  setToken: (payload: {
+    token: string;
+    role: UserRole;
+    userId: string;
+  }) => void;
   clearAuth: () => void;
 };
 
@@ -16,17 +21,20 @@ const useAuthStore = create<AuthState & AuthAction>((set) => ({
   token: null,
   isAuth: false,
   role: "GUEST",
-  setToken: ({ token, role }) =>
+  userId: null,
+  setToken: ({ token, role, userId }) =>
     set(() => ({
       token,
       isAuth: !!token,
       role: token ? role : "GUEST",
+      userId,
     })),
   clearAuth: () =>
     set(() => ({
       token: null,
       isAuth: false,
       role: "GUEST",
+      userId: null,
     })),
 }));
 

@@ -164,7 +164,7 @@ export function CheckoutForm({ query }: { query: string }) {
     if (state && state.success) {
       handlePortOne();
     }
-  }, [state, router, clearOrder]); // clearOrder를 의존성 배열에 추가
+  }, [state, router, clearOrder]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -219,7 +219,7 @@ export function CheckoutForm({ query }: { query: string }) {
 
   if (loading) {
     return (
-      <div className="flex min-h-[400px] items-center justify-center">
+      <div className="flex min-h-100 items-center justify-center">
         <Spinner />
       </div>
     );

@@ -2,11 +2,10 @@
 import { handleClientError } from "@/api/error";
 import { fetcher } from "@/api/fetcher";
 import { Badge } from "@/components/atoms/Badge/Badge";
-
-import useAuth from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
+import useAuthStore from "@/store/auth.store";
 import { Heart } from "lucide-react";
-import React, { useState, useTransition } from "react";
+import React, { useState } from "react";
 import { toast } from "sonner";
 
 const ProductLikeButton = ({
@@ -16,8 +15,7 @@ const ProductLikeButton = ({
   productId: string;
   productLikes: string[];
 }) => {
-  const { userId } = useAuth();
-  const [isPending, startTransition] = useTransition();
+  const userId = useAuthStore((state) => state.userId);
   const [localLikes, setLocalLikes] = useState<string[]>(productLikes);
   const isLiked = userId ? localLikes.includes(userId) : false;
 
@@ -31,32 +29,30 @@ const ProductLikeButton = ({
       isLiked ? prev.filter((id) => id !== userId) : [...prev, userId],
     );
 
-    startTransition(() => {
-      fetcher(
-        `/api/products/${productId}/like`,
-        { auth: true },
-        {
-          method: "POST",
-        },
-      ).catch((error) => {
-        // 실패 시 이전 상태로 롤백
+    // startTransition 밖에서 비동기 작업 수행
+    fetcher(
+      `/api/products/${productId}/like`,
+      { auth: true },
+      { method: "POST" },
+    )
+      .then(() => {
+        // 성공 시 추가 작업이 필요하면 여기서 수행
+      })
+      .catch((error) => {
+        // 실패 시 롤백
         setLocalLikes(previousLikes);
         const result = handleClientError(error);
         if (result && "message" in result) {
           toast.error(result.message);
         }
       });
-    });
   };
 
   return (
     <Badge
-      onClick={isPending ? undefined : updateProductLike}
+      onClick={updateProductLike}
       variant="outline"
-      className={cn(
-        "aspect-square",
-        isPending && "pointer-events-none cursor-not-allowed opacity-50",
-      )}
+      className={cn("aspect-square")}
     >
       <Heart className={cn(isLiked && "fill-red-500 text-red-500")} />
     </Badge>
