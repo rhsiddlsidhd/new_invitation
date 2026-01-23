@@ -1,6 +1,7 @@
 import User, { UserRole } from "@/models/user.model";
 import { dbConnect } from "@/utils/mongodb";
-
+import { getCookie } from "@/lib/cookies/get";
+import { decrypt, encrypt } from "@/lib/token";
 import mongoose from "mongoose";
 
 export type LeanUser = {
@@ -38,3 +39,45 @@ export const getUser = async (query: UserQuery): Promise<LeanUser | null> => {
 
   return user;
 };
+
+export type AuthData = {
+  accessToken: string;
+  role: UserRole;
+  userId: string;
+} | null;
+
+export async function getAuth(): Promise<AuthData> {
+  try {
+    const cookie = await getCookie("token");
+    const refreshToken = cookie?.value;
+
+    if (!refreshToken) {
+      return null;
+    }
+
+    const { payload } = await decrypt({ token: refreshToken, type: "REFRESH" });
+
+    if (!payload.id) {
+      return null;
+    }
+
+    const user = await getUser({ id: payload.id });
+
+    if (!user) {
+      return null;
+    }
+
+    const accessToken = await encrypt({
+      id: user._id.toString(),
+      type: "ACCESS",
+    });
+
+    return {
+      accessToken,
+      role: user.role,
+      userId: user._id.toString(),
+    };
+  } catch {
+    return null;
+  }
+}
