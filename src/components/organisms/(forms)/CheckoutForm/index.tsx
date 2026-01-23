@@ -27,15 +27,16 @@ import { fetcher } from "@/api/fetcher";
 import Spinner from "@/components/atoms/Spinner/Spinner";
 import { BuyerInfo, BuyerInfoSchema } from "@/schemas/order.schema";
 import { APIResponse } from "@/types/error";
-import { useOrderStore } from "@/store/order.store"; // useOrderStore 임포트
+import { useCheckoutData } from "@/hooks/useCheckoutData";
+import { useOrderStore } from "@/store/order.store";
 
 const storeId = process.env.NEXT_PUBLIC_POST_ONE_STORE_ID;
 const channelKey = process.env.NEXT_PUBLIC_POST_ONE_CHANNELKEY;
 
 export function CheckoutForm({ query }: { query: string }) {
   const router = useRouter();
-  const order = useOrderStore((state) => state.order); // useOrderStore에서 order 데이터 가져오기
-  const clearOrder = useOrderStore((state) => state.clearOrder); // clearOrder 액션 가져오기
+  const { data: order, loading } = useCheckoutData();
+  const clearOrder = useOrderStore((state) => state.clearOrder);
 
   const [state, action, pending] = useActionState<
     APIResponse<{
@@ -59,14 +60,6 @@ export function CheckoutForm({ query }: { query: string }) {
   const [paymentStatus, setPaymentStatus] = useState<PayStatus | "IDLE">(
     "IDLE",
   );
-
-  // 주문 정보가 없을 때 리디렉션
-  useEffect(() => {
-    if (typeof window !== "undefined" && !order) {
-      toast.error("주문 정보를 찾을 수 없습니다. 상품 페이지로 이동합니다.");
-      router.replace("/products");
-    }
-  }, [order, router]);
 
   const completeResponse = async (payment: PaymentResponse | undefined) => {
     if (!payment?.paymentId) {
@@ -223,6 +216,14 @@ export function CheckoutForm({ query }: { query: string }) {
 
     startTransition(() => action(formData));
   };
+
+  if (loading) {
+    return (
+      <div className="flex min-h-[400px] items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="relative">

@@ -23,7 +23,7 @@ export const useOrderStore = create<OrderState>()(
     {
       name: "order-storage",
       storage: createJSONStorage(() => sessionStorage),
-      partialize: (state) => ({ order: state.order }),
+      partialize: (state): Pick<OrderState, "order"> => ({ order: state.order }),
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true);
       },
