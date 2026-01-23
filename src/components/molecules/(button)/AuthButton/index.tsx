@@ -31,12 +31,13 @@ const AuthButton = ({ authData }: AuthButtonProps) => {
   const { handleSignOut } = useSignOut();
   const { handleSignIn } = useSignIn();
   const setToken = useAuthStore((state) => state.setToken);
+  const role = useAuthStore((state) => state.role);
 
   // 서버에서 받은 인증 정보를 store에 저장
   useEffect(() => {
     if (authData) {
       setToken({
-        token: authData.accessToken,
+        token: authData.token,
         role: authData.role,
         userId: authData.userId,
       });
@@ -44,7 +45,6 @@ const AuthButton = ({ authData }: AuthButtonProps) => {
   }, [authData, setToken]);
 
   const isAuth = !!authData;
-  const userRole = authData.role;
 
   return (
     <>
@@ -60,7 +60,7 @@ const AuthButton = ({ authData }: AuthButtonProps) => {
             </Btn>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            {userRole === "ADMIN" && (
+            {role === "ADMIN" && (
               <DropdownMenuItem asChild>
                 <Link href="/admin/dashboard">
                   <LayoutDashboard />

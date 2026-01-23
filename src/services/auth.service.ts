@@ -3,6 +3,7 @@ import { dbConnect } from "@/utils/mongodb";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt, encrypt } from "@/lib/token";
 import mongoose from "mongoose";
+import { AuthState } from "@/store/auth.store";
 
 export type LeanUser = {
   email: string;
@@ -40,12 +41,11 @@ export const getUser = async (query: UserQuery): Promise<LeanUser | null> => {
   return user;
 };
 
-export type AuthData = {
-  accessToken: string;
-  role: UserRole;
-  userId: string;
-} | null;
-
+export type AuthData =
+  | (Omit<AuthState, "isAuth" | "role"> & {
+      role: UserRole;
+    })
+  | null;
 export async function getAuth(): Promise<AuthData> {
   try {
     const cookie = await getCookie("token");
@@ -73,7 +73,7 @@ export async function getAuth(): Promise<AuthData> {
     });
 
     return {
-      accessToken,
+      token: accessToken,
       role: user.role,
       userId: user._id.toString(),
     };

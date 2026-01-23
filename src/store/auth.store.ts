@@ -1,7 +1,7 @@
 import { UserRole } from "@/models/user.model";
 import { create } from "zustand";
 
-type AuthState = {
+export type AuthState = {
   token: string | null;
   isAuth: boolean;
   role: UserRole | "GUEST";
