@@ -1,4 +1,4 @@
-import useAuthTokenStore from "@/store/authTokenStore";
+import useAuthStore from "@/store/auth.store";
 import { ErrorResponse, SuccessResponse } from "./response";
 import { HTTPError } from "@/types/error";
 import { UserRole } from "@/models/user.model";
@@ -31,15 +31,21 @@ export async function refreshAccessToken(): Promise<string> {
       await res.json();
     const { accessToken, role } = data;
 
+    // role 유효성 검증
+    const validRoles: UserRole[] = ["ADMIN", "USER"];
+    if (!validRoles.includes(role as UserRole)) {
+      throw new HTTPError("Invalid role received from server", 500);
+    }
+
     // Zustand 스토어 업데이트
-    useAuthTokenStore
+    useAuthStore
       .getState()
       .setToken({ token: accessToken, role: role as UserRole });
 
     return accessToken;
   } catch (error) {
     // 리프레시 실패 시, 사용자를 로그아웃 처리
-    useAuthTokenStore.getState().clearAuth();
+    useAuthStore.getState().clearAuth();
     throw error;
   }
 }
@@ -50,8 +56,7 @@ export async function fetcher<T>(
   options?: RequestInit,
 ): Promise<T> {
   try {
-    const token = useAuthTokenStore.getState().token;
-
+    const token = useAuthStore.getState().token;
     const { auth = false } = config;
 
     const headers = new Headers(options?.headers);

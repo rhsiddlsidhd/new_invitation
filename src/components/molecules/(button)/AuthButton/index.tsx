@@ -3,7 +3,7 @@
 import useAuth from "@/hooks/useAuth";
 import Link from "next/link";
 import React from "react";
-import useAuthTokenStore from "@/store/authTokenStore";
+import useAuthStore from "@/store/auth.store";
 
 import { Btn } from "@/components/atoms/Btn/Btn";
 import {
@@ -27,7 +27,7 @@ const AuthButton = () => {
   const { isAuth, loading } = useAuth();
   const { handleSignOut } = useSignOut();
   const { handleSignIn } = useSignIn();
-  const userRole = useAuthTokenStore((state) => state.role);
+  const userRole = useAuthStore((state) => state.role);
 
   return (
     <>

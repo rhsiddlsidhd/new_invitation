@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Mail, Lock, Globe } from "lucide-react";
 
 import { useRouter } from "next/navigation";
-import useAuthStore from "@/store/authTokenStore";
+import useAuthStore from "@/store/auth.store";
 
 import { Btn } from "@/components/atoms/Btn/Btn";
 
