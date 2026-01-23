@@ -57,7 +57,7 @@ const ProductOptions = ({
 
   const handleDeselectOption = useCallback((value: string) => {
     setSelectedOptionIds((prev) => prev.filter((id) => id !== value));
-  }, []); // setSelectedOptionIds는 stable하므로 의존성 배열에 넣지 않아도 됨
+  }, []);
 
   const { selectedOptionsDetails, totalPrice } = useMemo(() => {
     let currentSelectedOptionPrice = 0;
@@ -73,10 +73,6 @@ const ProductOptions = ({
           price: selectedOpt.additionalPrice,
         });
         currentSelectedOptionPrice += selectedOpt.additionalPrice;
-      } else {
-        // 이 에러는 optionsMap에 없는 ID가 selectedOptionIds에 포함된 경우 발생
-        // 실제 운영 환경에서는 발생하지 않도록 UI에서 선택 가능한 옵션만 ID에 추가해야 함
-        console.warn(`Selected option with ID ${id} not found in optionsMap.`);
       }
     });
 
@@ -100,17 +96,12 @@ const ProductOptions = ({
       discount: { type: product.discount.type, value: product.discount.value },
       thumbnail: product.thumbnail,
       selectedFeatures: selectedOptionsDetails,
-      quantity: quantity,
+      quantity,
       productTotalPrice: totalPrice * quantity,
     };
 
-    try {
-      setOrder(checkoutData);
-      router.push("/couple-info");
-    } catch (error) {
-      console.error("Failed to save to order store:", error);
-      toast.error("상품 정보를 저장하는 데 실패했습니다. 다시 시도해 주세요.");
-    }
+    setOrder(checkoutData);
+    router.push("/couple-info");
   }, [
     product,
     discountedPrice,

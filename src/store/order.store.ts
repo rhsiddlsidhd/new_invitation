@@ -6,18 +6,27 @@ interface OrderState {
   order: CheckoutProductData | null;
   setOrder: (orderData: CheckoutProductData) => void;
   clearOrder: () => void;
+  _hasHydrated: boolean;
+  setHasHydrated: (state: boolean) => void;
 }
 
-export const useOrderStore = create(
-  persist<OrderState>(
+// 1. create<OrderState>() 위치에 제네릭 명시
+export const useOrderStore = create<OrderState>()(
+  persist(
     (set) => ({
       order: null,
       setOrder: (orderData) => set({ order: orderData }),
       clearOrder: () => set({ order: null }),
+      _hasHydrated: false,
+      setHasHydrated: (state) => set({ _hasHydrated: state }),
     }),
     {
-      name: "order-storage", // key in sessionStorage
-      storage: createJSONStorage(() => sessionStorage), // specify sessionStorage
+      name: "order-storage",
+      storage: createJSONStorage(() => sessionStorage),
+      partialize: (state) => ({ order: state.order }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     },
   ),
 );
