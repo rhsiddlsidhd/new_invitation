@@ -17,7 +17,12 @@ export async function decrypt(
       algorithms: ["HS256"],
     });
   } catch (error) {
-    if (error.code === "ERR_JWT_EXPIRED") {
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      error.code === "ERR_JWT_EXPIRED"
+    ) {
       throw new HTTPError("ERR_JWT_EXPIRED", 401);
     }
     throw error;

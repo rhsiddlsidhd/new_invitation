@@ -1,6 +1,6 @@
 "use client";
-import Link from "next/link";
-import { Eye, ShoppingCart, Share2 } from "lucide-react";
+
+import { Eye, Share2 } from "lucide-react";
 import { useMemo } from "react";
 import { Badge } from "@/components/atoms/Badge/Badge";
 import { Btn } from "@/components/atoms/Btn/Btn";

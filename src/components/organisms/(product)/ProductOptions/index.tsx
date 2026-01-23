@@ -2,6 +2,7 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ShoppingCart, X } from "lucide-react";
+import { toast } from "sonner";
 
 import { Badge } from "@/components/atoms/Badge/Badge";
 import { Btn } from "@/components/atoms/Btn/Btn";
@@ -34,16 +35,15 @@ const ProductOptions = ({
     return calculatePrice(product.price, product.discount);
   }, [product.price, product.discount]);
 
-  const handleSelectOption = useCallback(
-    (value: string) => {
-      if (selectedOptionIds.includes(value)) {
-        alert("이미 선택한 옵션입니다.");
-        return;
+  const handleSelectOption = useCallback((value: string) => {
+    setSelectedOptionIds((prev) => {
+      if (prev.includes(value)) {
+        toast.warning("이미 선택한 옵션입니다.");
+        return prev;
       }
-      setSelectedOptionIds((prev) => [...prev, value]);
-    },
-    [selectedOptionIds], // selectedOptionIds가 변경될 때마다 함수 재생성
-  );
+      return [...prev, value];
+    });
+  }, []);
 
   const _options = useMemo(() => {
     return options.map((option) => ({
@@ -109,7 +109,7 @@ const ProductOptions = ({
       router.push("/couple-info");
     } catch (error) {
       console.error("Failed to save to order store:", error);
-      alert("상품 정보를 저장하는 데 실패했습니다. 다시 시도해 주세요.");
+      toast.error("상품 정보를 저장하는 데 실패했습니다. 다시 시도해 주세요.");
     }
   }, [
     product,
@@ -144,8 +144,10 @@ const ProductOptions = ({
                   >
                     {option.label}
                     <button
+                      type="button"
                       onClick={() => handleDeselectOption(id)}
-                      className="hover:bg-background/20 rounded-full"
+                      className="hover:bg-background/20 rounded-full p-0.5"
+                      aria-label={`${option.label} 옵션 제거`}
                     >
                       <X className="h-3 w-3" />
                     </button>

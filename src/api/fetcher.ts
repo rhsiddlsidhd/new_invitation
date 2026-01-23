@@ -21,7 +21,6 @@ const processQueue = (error: any, token: string | null = null) => {
 };
 
 export async function refreshAccessToken(): Promise<string> {
-  console.log("refreshAccessToken");
   try {
     const res = await fetch("/api/auth/refresh", { method: "POST" });
     if (!res.ok) {

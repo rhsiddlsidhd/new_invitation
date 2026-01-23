@@ -6,8 +6,7 @@ import { Badge } from "@/components/atoms/Badge/Badge";
 import useAuth from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import { Heart } from "lucide-react";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState, useTransition } from "react";
+import React, { useState, useTransition } from "react";
 import { toast } from "sonner";
 
 const ProductLikeButton = ({
@@ -22,35 +21,33 @@ const ProductLikeButton = ({
   const [localLikes, setLocalLikes] = useState<string[]>(productLikes);
   const isLiked = userId ? localLikes.includes(userId) : false;
 
-  const updateProductLike = async () => {
+  const updateProductLike = () => {
     if (!userId) return;
 
+    const previousLikes = localLikes;
+
+    // Optimistic update
     setLocalLikes((prev) =>
       isLiked ? prev.filter((id) => id !== userId) : [...prev, userId],
     );
 
-    startTransition(async () => {
-      try {
-        await fetcher(
-          `/api/products/${productId}/like`,
-          { auth: true },
-          {
-            method: "POST",
-          },
-        );
-      } catch (error) {
-        setLocalLikes(productLikes);
+    startTransition(() => {
+      fetcher(
+        `/api/products/${productId}/like`,
+        { auth: true },
+        {
+          method: "POST",
+        },
+      ).catch((error) => {
+        // 실패 시 이전 상태로 롤백
+        setLocalLikes(previousLikes);
         const result = handleClientError(error);
         if (result && "message" in result) {
           toast.error(result.message);
         }
-      }
+      });
     });
   };
-
-  useEffect(() => {
-    console.log("localLikes", localLikes);
-  }, [localLikes]);
 
   return (
     <Badge
