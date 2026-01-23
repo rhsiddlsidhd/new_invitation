@@ -24,7 +24,7 @@ import { getFieldError, hasFieldErrors } from "@/utils/error";
 export function LoginForm() {
   const router = useRouter();
   const [state, action, pending] = useActionState<
-    APIResponse<{ token: string; role: UserRole }>,
+    APIResponse<{ token: string; role: UserRole; userId: string }>,
     FormData
   >(loginUser, null);
   const setToken = useAuthStore((state) => state.setToken);
@@ -32,7 +32,11 @@ export function LoginForm() {
   useEffect(() => {
     if (!state) return;
     if (state.success === true) {
-      setToken({ token: state.data.token, role: state.data.role });
+      setToken({
+        token: state.data.token,
+        role: state.data.role,
+        userId: state.data.userId,
+      });
       return router.push("/");
     } else {
       if (!hasFieldErrors(state.error)) {
