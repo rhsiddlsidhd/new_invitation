@@ -1,13 +1,11 @@
 "use client";
 import { handleClientError } from "@/api/error";
 import { fetcher } from "@/api/fetcher";
-import { Btn } from "@/components/atoms/Btn/Btn";
-
-import useAuth from "@/hooks/useAuth";
+import { Badge } from "@/components/atoms/Badge/Badge";
 import { cn } from "@/lib/utils";
+import useAuthStore from "@/store/auth.store";
 import { Heart } from "lucide-react";
-import { useRouter } from "next/navigation";
-import React, { useState, useTransition } from "react";
+import React, { useState } from "react";
 import { toast } from "sonner";
 
 const ProductLikeButton = ({
@@ -17,50 +15,47 @@ const ProductLikeButton = ({
   productId: string;
   productLikes: string[];
 }) => {
-  const { userId } = useAuth();
-  const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const userId = useAuthStore((state) => state.userId);
   const [localLikes, setLocalLikes] = useState<string[]>(productLikes);
   const isLiked = userId ? localLikes.includes(userId) : false;
 
-  const updateProductLike = async () => {
+  const updateProductLike = () => {
     if (!userId) return;
 
+    const previousLikes = localLikes;
+
+    // Optimistic update
     setLocalLikes((prev) =>
       isLiked ? prev.filter((id) => id !== userId) : [...prev, userId],
     );
 
-    try {
-      await fetcher(
-        `/api/products/${productId}/like`,
-        { auth: true },
-        {
-          method: "POST",
-        },
-      );
-      startTransition(() => {
-        router.refresh();
+    // startTransition 밖에서 비동기 작업 수행
+    fetcher(
+      `/api/products/${productId}/like`,
+      { auth: true },
+      { method: "POST" },
+    )
+      .then(() => {
+        // 성공 시 추가 작업이 필요하면 여기서 수행
+      })
+      .catch((error) => {
+        // 실패 시 롤백
+        setLocalLikes(previousLikes);
+        const result = handleClientError(error);
+        if (result && "message" in result) {
+          toast.error(result.message);
+        }
       });
-    } catch (error) {
-      setLocalLikes(productLikes);
-      const result = handleClientError(error);
-      if (result && "message" in result) {
-        toast.error(result.message);
-      }
-    }
   };
 
   return (
-    <Btn
+    <Badge
       onClick={updateProductLike}
       variant="outline"
-      size="lg"
-      className="flex-1 bg-transparent"
-      disabled={isPending}
+      className={cn("aspect-square")}
     >
       <Heart className={cn(isLiked && "fill-red-500 text-red-500")} />
-      좋아요
-    </Btn>
+    </Badge>
   );
 };
 

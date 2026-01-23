@@ -1,21 +1,22 @@
 "use client";
-import Link from "next/link";
-import { Eye, ShoppingCart, Share2 } from "lucide-react";
-import { useCallback, useMemo, useState } from "react";
+
+import { Eye, Share2 } from "lucide-react";
+import { useMemo } from "react";
 import { Badge } from "@/components/atoms/Badge/Badge";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import { Product } from "@/services/product.service";
-import Thumbnail from "@/components/atoms/Thumbnail";
-import { useIsMobile } from "@/hooks/use-mobile";
+
 import { categoryLabels, isProductCategory } from "@/utils/category";
 
 import { calculatePrice } from "@/utils/price";
 import { PremiumFeature } from "@/services/premiumFeature.service";
 import ProductLikeButton from "@/components/molecules/(button)/ProductLikeButton";
-import { CheckoutProductData } from "@/types/checkout";
 import ProductOptions from "../../(product)/ProductOptions";
 import { useRouter } from "next/navigation";
-import { SelectFeatureDto } from "@/schemas/order.schema";
+import LoaderThumbnail from "@/components/atoms/LoaderThumbnail";
+
+const PREVIEW_ID = process.env.NEXT_PUBLIC_PREVIEW_COUPLEINFO_ID;
+if (!PREVIEW_ID) throw new Error("PREVIEW_ID is not defined");
 
 export function TemplateSummary({
   product,
@@ -24,86 +25,20 @@ export function TemplateSummary({
   product: Product;
   options: PremiumFeature[];
 }) {
-  const [selectedOptionIds, setSelectedOptionIds] = useState<string[]>([]);
-  const isMobile = useIsMobile();
   const router = useRouter();
   const discountedPrice = useMemo(() => {
     return calculatePrice(product.price, product.discount);
   }, [product.price, product.discount]);
-
-  const selectedFeatures: SelectFeatureDto[] = useMemo(() => {
-    return selectedOptionIds.map((id) => {
-      const selectedOpt = options.find((opt) => opt._id.toString() === id);
-      if (!selectedOpt) {
-        throw new Error(`Selected option with ID ${id} not found.`);
-      }
-
-      return {
-        featureId: selectedOpt._id.toString(),
-        code: selectedOpt.code,
-        label: selectedOpt.label,
-        price: selectedOpt.additionalPrice,
-      };
-    });
-  }, [selectedOptionIds, options]);
-
-  const selectedFeaturesPrice = useMemo(() => {
-    return selectedFeatures.reduce((sum, opt) => sum + opt.price, 0);
-  }, [selectedFeatures]);
-
-  const finalProductPrice = useMemo(() => {
-    return discountedPrice + selectedFeaturesPrice;
-  }, [discountedPrice, selectedFeaturesPrice]);
-
-  const handlePurchase = useCallback(() => {
-    const quantity = 1;
-    /**
-     * sessionStoarge 전달해야 하는 값
-     * originalPrice 원가
-     * discountedPrice 할인가
-     */
-    const checkoutData: CheckoutProductData = {
-      _id: product._id.toString(),
-      title: product.title,
-      // 상품 원가
-      originalPrice: product.price,
-      // 상품 할인가
-      discountedPrice,
-      discount: { type: product.discount.type, value: product.discount.value },
-      thumbnail: product.thumbnail,
-      selectedFeatures,
-      quantity: quantity,
-      productTotalPrice: finalProductPrice * quantity,
-    };
-
-    try {
-      sessionStorage.setItem("checkoutItems", JSON.stringify(checkoutData));
-      router.push("/couple-info");
-    } catch (error) {
-      console.error("Failed to save to sessionStorage:", error);
-      alert("상품 정보를 저장하는 데 실패했습니다. 다시 시도해 주세요.");
-    }
-  }, [
-    product.price,
-    product._id,
-    product.title,
-    product.thumbnail,
-    product.discount,
-    discountedPrice,
-    selectedFeatures,
-    finalProductPrice,
-    router,
-  ]);
 
   return (
     <div className="mb-16">
       <div className="grid items-start gap-8 lg:grid-cols-2 lg:gap-12">
         {/* Left side - Thumbnail */}
 
-        <div className="bg-muted border-border relative aspect-square overflow-hidden rounded-2xl border shadow-lg">
-          <Thumbnail
+        <div className="group bg-muted border-border relative aspect-square overflow-hidden rounded-2xl border shadow-lg">
+          <LoaderThumbnail
             src={product.thumbnail}
-            widthPx={!isMobile ? 940 : 940 / 2}
+            alt={`${product.title} 모바일 청첩장 썸네일`}
           />
           <div className="absolute top-4 right-4 flex gap-2">
             {product.feature && (
@@ -115,16 +50,39 @@ export function TemplateSummary({
               </Badge>
             )}
           </div>
+          <div className="absolute inset-0 flex items-center justify-center gap-2 bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <Btn
+              size="sm"
+              variant="secondary"
+              onClick={(e) => {
+                e.stopPropagation();
+                router.push(`/preview/${product._id}?u=${PREVIEW_ID}`);
+              }}
+              className="cursor-pointer"
+            >
+              <Eye className="mr-1 h-4 w-4" />
+              샘플보기
+            </Btn>
+          </div>
         </div>
 
         {/* Right side - Product Info */}
         <div className="space-y-6">
           <div>
-            <div className="mb-3 flex items-center gap-2">
+            <div className="mb-3 flex items-center justify-between gap-2">
               <Badge variant="outline">
                 {isProductCategory(product.category) &&
                   categoryLabels[product.category]}
               </Badge>
+              <div className="grid grid-cols-2 gap-2">
+                <ProductLikeButton
+                  productLikes={product.likes}
+                  productId={product._id}
+                />
+                <Badge variant="outline" className="aspect-square">
+                  <Share2 />
+                </Badge>
+              </div>
             </div>
             <h1 className="text-foreground mb-3 text-lg font-bold text-balance">
               {product.title}
@@ -158,51 +116,15 @@ export function TemplateSummary({
                 </div>
               </>
             ) : (
-              <>
-                {/* 할인이 없을 때: 깔끔하게 본 가격만 표시 */}
-                <div className="text-primary text-lg font-bold">
-                  {product.price.toLocaleString()}원
-                  <input type="hidden" defaultValue={product.price} />
-                </div>
-              </>
+              <div className="text-primary text-lg font-bold">
+                {product.price.toLocaleString()}원
+                <input type="hidden" defaultValue={product.price} />
+              </div>
             )}
           </div>
 
           {/* Options */}
-          <ProductOptions
-            options={options}
-            discountedPrice={discountedPrice}
-            setSelectedOptionIds={setSelectedOptionIds}
-            selectedOptionIds={selectedOptionIds}
-          />
-
-          {/* Action Buttons */}
-          <div className="grid grid-cols-2 gap-2 max-sm:grid-cols-1">
-            <Link href={`/templates/${product._id}/preview`} className="block">
-              <Btn
-                variant="outline"
-                size="lg"
-                className="w-full bg-transparent"
-              >
-                <Eye className="mr-2 h-5 w-5" />
-                미리보기
-              </Btn>
-            </Link>
-
-            <Btn size="lg" className="w-full" onClick={handlePurchase}>
-              <ShoppingCart className="mr-2 h-5 w-5" />
-              구매하기
-            </Btn>
-
-            <ProductLikeButton
-              productLikes={product.likes}
-              productId={product._id}
-            />
-            <Btn variant="outline" size="lg" className="flex-1 bg-transparent">
-              <Share2 className="mr-2 h-4 w-4" />
-              공유하기
-            </Btn>
-          </div>
+          <ProductOptions product={product} options={options} />
 
           {/* Additional Info */}
           <div className="bg-muted space-y-3 rounded-xl p-6">

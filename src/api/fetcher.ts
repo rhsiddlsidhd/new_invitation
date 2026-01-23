@@ -27,9 +27,14 @@ export async function refreshAccessToken(): Promise<string> {
       throw new HTTPError("Session expired, please log in again.", res.status);
     }
 
-    const { data }: SuccessResponse<{ accessToken: string; role: string }> =
-      await res.json();
-    const { accessToken, role } = data;
+    const {
+      data,
+    }: SuccessResponse<{
+      accessToken: string;
+      role: string;
+      userId: string;
+    }> = await res.json();
+    const { accessToken, role, userId } = data;
 
     // role 유효성 검증
     const validRoles: UserRole[] = ["ADMIN", "USER"];
@@ -38,9 +43,11 @@ export async function refreshAccessToken(): Promise<string> {
     }
 
     // Zustand 스토어 업데이트
-    useAuthStore
-      .getState()
-      .setToken({ token: accessToken, role: role as UserRole });
+    useAuthStore.getState().setToken({
+      token: accessToken,
+      role: role as UserRole,
+      userId,
+    });
 
     return accessToken;
   } catch (error) {
@@ -61,7 +68,6 @@ export async function fetcher<T>(
 
     const headers = new Headers(options?.headers);
     if (auth && token) {
-      // 변경된 auth 변수 사용
       headers.set("Authorization", `Bearer ${token}`);
     }
 

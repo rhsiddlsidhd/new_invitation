@@ -8,7 +8,7 @@ import { UserRole } from "@/models/user.model";
 import { getUser } from "@/services/auth.service";
 
 export const POST = async (): Promise<
-  APIRouteResponse<{ accessToken: string; role: UserRole }>
+  APIRouteResponse<{ accessToken: string; role: UserRole; userId: string }>
 > => {
   // 리프레쉬 토큰 유효성 검사 이후 Access token 발행
   try {
@@ -32,7 +32,11 @@ export const POST = async (): Promise<
       type: "ACCESS",
     });
 
-    return apiSuccess({ accessToken, role: user.role });
+    return apiSuccess({
+      accessToken,
+      role: user.role,
+      userId: user._id.toString(),
+    });
   } catch (e) {
     // refresh token이 만료되거나 유효하지 않을 경우 쿠키 삭제
     await deleteCookie("token");

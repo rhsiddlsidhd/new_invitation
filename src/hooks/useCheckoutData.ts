@@ -1,33 +1,27 @@
-import { CheckoutProductData } from "@/types/checkout";
+import { useOrderStore } from "@/store/order.store";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export function useCheckoutData() {
   const router = useRouter();
-  const [data, setData] = useState<CheckoutProductData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const order = useOrderStore((state) => state.order);
+  const hasHydrated = useOrderStore((state) => state._hasHydrated);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    try {
-      const stored = sessionStorage.getItem("checkoutItems");
-      if (!stored) throw new Error("주문 정보가 없습니다.");
-
-      const items: CheckoutProductData = JSON.parse(stored);
-      if (!items) throw new Error("주문 항목이 비어있습니다.");
-
-      setData(items);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "알 수 없는 오류");
-      toast.error("주문 정보를 불러올 수 없습니다.");
+    // hydration 완료 후에만 order 유무 체크
+    if (hasHydrated && !order) {
+      const errorMessage = "주문 정보가 없습니다. 상품 페이지로 이동합니다.";
+      setError(errorMessage);
+      toast.error(errorMessage);
       router.replace("/products");
-    } finally {
-      setLoading(false);
     }
-  }, [router]);
+  }, [hasHydrated, order, router]);
 
-  return { data, loading, error };
+  return {
+    data: order,
+    loading: !hasHydrated,
+    error,
+  };
 }
