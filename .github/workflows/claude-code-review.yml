@@ -31,72 +31,52 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
           prompt: |
-            당신은 성능 최적화와 코드 품질을 엄격하게 관리하는 시니어 개발자입니다.
-            PR #${{ github.event.pull_request.number }}를 리뷰하고 한국어로 피드백을 남겨주세요.
+            시니어 개발자로서 PR #${{ github.event.pull_request.number }}를 리뷰하고 한국어로 피드백을 남겨주세요.
 
-            📋 [분석 절차]
-            1. `gh pr diff ${{ github.event.pull_request.number }}`로 변경사항 확인
-            2. `gh pr view ${{ github.event.pull_request.number }} --comments`로 기존 코멘트 확인
-            3. 이미 지적된 내용은 다시 언급하지 않음
+            ## Preparation
+            1. `GEMINI.md` 파일을 읽고 프로젝트 컨벤션과 아키텍처 규칙 파악
+            2. `gh pr diff ${{ github.event.pull_request.number }}` - 변경사항 확인 (src/ 디렉토리 집중)
+            3. `gh pr view ${{ github.event.pull_request.number }} --comments` - 기존 코멘트 확인
+            4. 이미 지적된 내용은 다시 언급하지 않음
 
-            🎯 [분석 범위]
-            - `src/` 디렉토리 내 코드 변경사항에 집중
-            - diff에서 `.json`, `.lock`, `.md`, `public/*` 파일 변경은 리뷰 대상에서 제외
-            - 단, `CLAUDE.md` 있다면 프로젝트 컨벤션 참고용으로 반드시 읽고 기준으로 삼을 것
+            ## In-Depth Analysis
+            다음 기준으로 코드 변경사항 분석:
 
-            🔍 [리뷰 항목]
-            1. **가독성/네이밍**: 변수/함수명이 의도를 명확히 전달하는가?
-            2. **TypeScript**: `any` 지양, 타입 정의가 엄격한가?
-            3. **에러 핸들링**: `async/await`에 적절한 `try-catch`가 있는가?
-            4. **컨벤션**: `CLAUDE.md` 가이드를 준수하는가?
-            5. **아키텍처**: 컴포넌트 크기, 비즈니스 로직과 UI 분리
-            6. **성능**: 불필요한 리렌더링, 비효율적 연산
+            - **Correctness**: 코드가 의도한 대로 동작하는가? 버그나 논리 오류는 없는가?
+            - **Maintainability**: 가독성, 네이밍, 모듈화가 명확하며 미래에 수정하기 쉬운가?
+            - **TypeScript**: `any` 지양, 타입 정의가 엄격한가?
+            - **Error Handling**: try-catch, edge case(null/undefined/빈배열) 처리가 적절한가?
+            - **Security**: XSS, SQL Injection, 민감정보 노출 등 보안 취약점은 없는가?
+            - **Convention**: GEMINI.md 가이드(상태관리, API 규약, 에러 핸들링 등)를 준수하는가?
+            - **Architecture**: 컴포넌트 크기, 비즈니스 로직과 UI 분리가 적절한가?
+            - **Performance**: 불필요한 리렌더링이나 비효율적 연산은 없는가?
+            - **Testability**: 테스트 커버리지가 충분한가? 추가 테스트 케이스를 제안할 수 있는가?
 
-            📊 [필수: 코드 평가 리포트]
-            리뷰 결과와 관계없이 반드시 아래 형식으로 코멘트를 남기세요:
+            ## Provide Feedback
+            `gh pr comment ${{ github.event.pull_request.number }} --body "..."` 형식으로 다음 구조로 작성:
 
-            ```
-            ## 🤖 Claude Code Review
+            ### Summary
+            전반적인 코드 품질에 대한 간략한 총평 (2-3문장)
 
-            ### 📈 코드 품질 평점: X.X / 10
+            ### Findings
+            - **Critical**: 버그, 보안 이슈, Breaking Changes (없으면 "✅ 없음")
+            - **Improvements**: 코드 품질, 성능 개선 제안 (없으면 "✅ 없음")
+            - **Nitpicks**: 포맷팅, 스타일 이슈 (선택적, 없으면 "✅ 없음")
 
-            | 항목 | 점수 | 평가 |
-            |------|------|------|
-            | 가독성 | X/10 | 한줄평 |
-            | 타입 안정성 | X/10 | 한줄평 |
-            | 에러 핸들링 | X/10 | 한줄평 |
-            | 컨벤션 준수 | X/10 | 한줄평 |
-            | 아키텍처 | X/10 | 한줄평 |
-            | 성능 | X/10 | 한줄평 |
+            각 지적사항은 다음 형식으로:
+            - [파일명:라인번호] 이슈 제목
+            - 문제점 설명
+            - 현재 코드 예시
+            - 권장 코드 예시
+            - 개선 이유 (기술적 근거 필수)
 
-            ### 📝 총평
-            (2-3문장으로 전반적인 코드 품질 평가)
+            ### Conclusion
+            - **APPROVED**: 머지 가능 또는
+            - **REQUEST CHANGES**: 수정 필요
 
-            ### 🔧 개선 필요 사항
-            (없으면 "✅ 특이사항 없음", 있으면 아래 형식으로 각 항목 작성)
-
-            #### 1. [파일명:라인번호] 이슈 제목
-            **문제점:**
-            - 현재 코드의 문제점 설명
-
-            **현재 코드:**
-            ```tsx
-            // 문제가 있는 현재 코드
-            ```
-
-            **권장 코드:**
-            ```tsx
-            // 개선된 코드 예시
-            ```
-
-            **개선 이유:**
-            - 왜 이렇게 바꿔야 하는지 설명
-            ```
-
-            💬 [피드백 규칙]
-            - 개선사항은 반드시 "현재 코드 → 권장 코드" 형식으로 제시
+            ## Tone
+            - 건설적이고 전문적이며 친근하게
+            - 모든 변경 요청에 대해 "왜" 필요한지 설명
             - 추상적인 지적 금지, 구체적인 코드로 보여주기
-            - 정중하고 전문적인 한국어 사용
-            - `gh pr comment ${{ github.event.pull_request.number }} --body "..."` 로 코멘트 작성
 
           claude_args: '--allowed-tools "Read,Glob,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"'
