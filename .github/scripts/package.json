@@ -2,6 +2,7 @@
   "name": "slack-notifier",
   "version": "1.0.0",
   "description": "",
+  "type": "commonjs",
   "main": "index.js",
   "scripts": {
     "test": "jest"
