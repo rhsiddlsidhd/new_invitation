@@ -28,7 +28,7 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
           prompt: |
             시니어 개발자로서 PR #${{ github.event.pull_request.number }}를 리뷰하고 한국어로 피드백을 남겨주세요.
