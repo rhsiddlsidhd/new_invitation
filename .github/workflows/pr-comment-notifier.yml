@@ -45,4 +45,5 @@ jobs:
         working-directory: .github/scripts
         env:
           GITHUB_PAYLOAD_JSON: ${{ toJSON(github.event) }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         run: node slack-notify.js
