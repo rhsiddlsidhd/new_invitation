@@ -55,7 +55,6 @@ export const dbConnect = async () => {
   }
 };
 
-// 연결 상태 확인 함수
 export const isConnected = () => {
   return mongoose.connection.readyState === 1;
 };
