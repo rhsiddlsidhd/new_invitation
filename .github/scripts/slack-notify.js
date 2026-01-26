@@ -26,6 +26,7 @@ const main = async () => {
   }
 
   // 3. '파서'를 사용하여 필요한 데이터를 추출합니다.
+  console.log(">>>>", payload);
   const parsedData = payloadParser(payload);
 
   // 4. 파싱된 데이터가 유효하지 않으면(예: PR 댓글이 아니면) 실행을 중단합니다.
