@@ -7,7 +7,6 @@ import {
   APIRouteResponse,
 } from "@/types/error";
 
-// Re-export types for convenience
 export type {
   HTTPError,
   SuccessResponse,
