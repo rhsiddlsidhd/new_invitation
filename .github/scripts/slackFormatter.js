@@ -27,12 +27,12 @@ function formatSlackMessage(parsedData) {
   const icon = parsedData.isAIComment ? "🤖" : "🗣️";
 
   // Test Case 1: 템플릿 리터럴을 사용하여 메시지 조립
-  const { commentAuthor, repoName, prNumber, commentUrl } = parsedData;
+  const { commentAuthor, prNumber, commentUrl, prAuthor } = parsedData;
 
-  const slackId = userSlackIDMapping[commentAuthor];
-  const mention = slackId ? `<@${slackId}>` : commentAuthor;
+  const prAuthorSlackId = userSlackIDMapping[prAuthor];
+  const prAuthorMention = prAuthorSlackId ? `<@${prAuthorSlackId}>` : prAuthor;
 
-  const message = `${icon} ${mention}님이 [${repoName}] PR #${prNumber}에 댓글을 남겼습니다.\n👉 자세히 보기: ${commentUrl}`;
+  const message = `${icon} ${commentAuthor}님이 ${prAuthorMention}의 PR #${prNumber}에 댓글을 남겼습니다.\n👉 자세히 보기: ${commentUrl}`;
 
   return message;
 }

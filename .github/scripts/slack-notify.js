@@ -5,7 +5,7 @@ const { sendSlackMessage } = require("./slackSender");
 
 // GitHub Action으로부터 전달받을 환경 변수들
 const payloadString = process.env.GITHUB_PAYLOAD_JSON;
-const channelID = "C0AATFXF89Y"; // 알림을 보낼 Slack 채널 ID
+const channelID = "C0AATFXF89Y";
 
 // 메인 워크플로우를 실행하는 비동기 함수
 const main = async () => {

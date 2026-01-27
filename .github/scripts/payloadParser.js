@@ -14,7 +14,6 @@ function payloadParser(payload) {
 
   // 무시할 봇이면 null 반환
   if (IGNORED_BOTS.includes(commentAuthor)) {
-    console.log(`Filtered out: ${commentAuthor}`);
     return null;
   }
   const commentUrl = payload.comment.html_url;
@@ -23,7 +22,6 @@ function payloadParser(payload) {
   const prAuthor = payload.issue.user.login;
   const repoName = payload.repository.full_name;
 
-  // 추출된 정보를 객체로 반환
   return {
     commentAuthor,
     commentUrl,

@@ -1,14 +1,3 @@
-/**
- * Centralized error handling module
- *
- * This module provides consistent error handlers for different contexts:
- * - Server Actions (handleActionError)
- * - API Routes (handleRouteError)
- * - Client Side (handleClientError)
- *
- * All handlers delegate to corresponding create functions in response.ts
- */
-
 export { type ErrorResponse } from "@/api/response";
 import {
   createErrorResponse,
