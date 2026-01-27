@@ -14,7 +14,6 @@ function payloadParser(payload) {
 
   // 무시할 봇이면 null 반환
   if (IGNORED_BOTS.includes(commentAuthor)) {
-    console.log(`Filtered out: ${commentAuthor}`);
     return null;
   }
   const commentUrl = payload.comment.html_url;
