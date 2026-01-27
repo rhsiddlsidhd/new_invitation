@@ -22,6 +22,7 @@ module.exports = {
     user: {
       // 댓글 작성자 정보
       login: "octocat-commenter", // 댓글 작성자의 GitHub 로그인 ID
+      type: "Bot",
     },
     body: "This is a test comment.", // 댓글 내용 (Markdown 형식)
     html_url:

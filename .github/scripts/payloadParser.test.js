@@ -15,7 +15,7 @@ describe("payloadParser 함수", () => {
       prTitle: "Update README.md",
       prAuthor: "octocat-pr-author",
       repoName: "octocat/Hello-World",
-      isAIComment: false, // 이 목데이터에서는 AI 봇이 아니므로 false
+      isAIComment: true,
     };
 
     // payloadParser 함수 (아직 구현되지 않음)를 실행

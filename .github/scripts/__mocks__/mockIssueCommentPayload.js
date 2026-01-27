@@ -14,6 +14,7 @@ module.exports = {
     id: 67890,
     user: {
       login: "octocat-commenter",
+      type: "User",
     },
     body: "This is a comment on a regular issue.",
     html_url:
