@@ -12,7 +12,6 @@ describe("payloadParser 함수", () => {
       commentUrl:
         "https://github.com/octocat/Hello-World/issues/1347#issuecomment-12345",
       prNumber: 1347,
-      prTitle: "Update README.md",
       prAuthor: "octocat-pr-author",
       repoName: "octocat/Hello-World",
       isAIComment: true,

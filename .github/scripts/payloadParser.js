@@ -17,21 +17,17 @@ function payloadParser(payload) {
     console.log(`Filtered out: ${commentAuthor}`);
     return null;
   }
-  const commentUrl = payload.comment?.html_url;
-  const prNumber = payload.issue?.number;
-  const prTitle = payload.issue.pull_request?.title;
-  const prAuthor = payload.issue?.user?.login;
-  const repoName = payload.repository?.full_name;
-
-  // AI 댓글 여부는 나중에 더 정교하게 판단할 수 있지만, 일단은 false로 가정합니다.
+  const commentUrl = payload.comment.html_url;
   const isAIComment = payload.comment.user.type === "Bot";
+  const prNumber = payload.issue.number;
+  const prAuthor = payload.issue.user.login;
+  const repoName = payload.repository.full_name;
 
   // 추출된 정보를 객체로 반환
   return {
     commentAuthor,
     commentUrl,
     prNumber,
-    prTitle,
     prAuthor,
     repoName,
     isAIComment,

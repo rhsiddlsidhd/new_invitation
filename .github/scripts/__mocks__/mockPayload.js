@@ -13,7 +13,6 @@ module.exports = {
       // PR 상세 정보 (이 필드가 있어야 PR에 대한 댓글임)
       url: "https://api.github.com/repos/octocat/Hello-World/pulls/1347", // PR의 API URL
       html_url: "https://github.com/octocat/Hello-World/pull/1347", // PR의 웹 URL (브라우저에서 열 수 있는 주소)
-      title: "Update README.md", // PR 제목
     },
   },
   comment: {
