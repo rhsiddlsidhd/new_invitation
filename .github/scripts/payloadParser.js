@@ -23,7 +23,6 @@ function payloadParser(payload) {
   const prAuthor = payload.issue.user.login;
   const repoName = payload.repository.full_name;
 
-  // 추출된 정보를 객체로 반환
   return {
     commentAuthor,
     commentUrl,
