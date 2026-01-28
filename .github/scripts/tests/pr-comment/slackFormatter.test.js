@@ -1,5 +1,5 @@
 // slackFormatter.test.js
-const { formatSlackMessage } = require("./slackFormatter");
+const { formatSlackMessage } = require("../../src/pr-comment/slackFormatter");
 
 describe("formatSlackMessage 함수", () => {
   // 테스트에 사용할 기본 목데이터
@@ -15,7 +15,7 @@ describe("formatSlackMessage 함수", () => {
   // Test Case 1: 사람이 작성한 댓글일 때
   test("사람이 작성한 댓글일 경우, 올바른 형식의 메시지를 반환해야 한다", () => {
     const expectedMessage =
-      "🗣️ human-user님이 [owner/repo] PR #123에 댓글을 남겼습니다.\n👉 자세히 보기: https://github.com/comment/1";
+      "🗣️ human-user님이 pr-creator의 PR #123에 댓글을 남겼습니다.\n👉 자세히 보기: https://github.com/comment/1";
 
     const actualMessage = formatSlackMessage(mockParsedData);
 
@@ -32,7 +32,7 @@ describe("formatSlackMessage 함수", () => {
     };
 
     const expectedMessage =
-      "🤖 ai-bot님이 [owner/repo] PR #123에 댓글을 남겼습니다.\n👉 자세히 보기: https://github.com/comment/1";
+      "🤖 ai-bot님이 pr-creator의 PR #123에 댓글을 남겼습니다.\n👉 자세히 보기: https://github.com/comment/1";
 
     const actualMessage = formatSlackMessage(aiCommentData);
 

@@ -3,7 +3,7 @@
 console.log("🚀 Starting Integration Test...");
 
 // 1. 테스트에 사용할 목(Mock) 페이로드 데이터를 가져옵니다.
-const mockPayload = require("./__mocks__/mockPayload.js");
+const mockPayload = require("./tests/pr-comment/__mocks__/mockPayload.js");
 
 // 2. GitHub Action이 넘겨주는 것처럼, 페이로드 객체를 JSON 문자열로 변환합니다.
 const payloadString = JSON.stringify(mockPayload);
@@ -19,7 +19,7 @@ process.env.GITHUB_PAYLOAD_JSON = payloadString;
 // 5. 모든 환경 변수가 설정된 후, 메인 워크플로우인 app.js를 실행합니다.
 try {
   console.log("-----------------------------------------");
-  require("./slack-notify.js");
+  require("./src/pr-comment/index.js");
   console.log("-----------------------------------------");
   console.log("✅ Integration Test Finished Successfully.");
 } catch (error) {

@@ -1,6 +1,6 @@
 // slackSender.test.js
 const { WebClient } = require("@slack/web-api");
-const { sendSlackMessage } = require("./slackSender");
+const { sendSlackMessage } = require("../../src/shared/slackSender");
 
 // 1. '@slack/web-api' 모듈 전체를 Jest의 Mocking 기능으로 대체합니다.
 jest.mock("@slack/web-api", () => ({

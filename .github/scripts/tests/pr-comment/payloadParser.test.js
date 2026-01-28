@@ -1,7 +1,7 @@
 // payloadParser.test.js
 const mockPayload = require("./__mocks__/mockPayload.js"); // 목데이터 로드
 const mockIssueCommentPayload = require("./__mocks__/mockIssueCommentPayload.js"); // 일반 이슈 목데이터 로드
-const { payloadParser } = require("./payloadParser"); // 테스트할 함수 로드 (이름 변경)
+const { payloadParser } = require("../../src/pr-comment/payloadParser"); // 테스트할 함수 로드 (이름 변경)
 
 describe("payloadParser 함수", () => {
   // Test Case 1: 올바른 PR 댓글 페이로드를 파싱할 때

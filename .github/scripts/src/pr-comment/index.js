@@ -1,7 +1,7 @@
 // 1. 필요한 모든 모듈(부품)을 가져옵니다.
 const { payloadParser } = require("./payloadParser");
 const { formatSlackMessage } = require("./slackFormatter");
-const { sendSlackMessage } = require("./slackSender");
+const { sendSlackMessage } = require("../shared/slackSender");
 
 // GitHub Action으로부터 전달받을 환경 변수들
 const payloadString = process.env.GITHUB_PAYLOAD_JSON;
