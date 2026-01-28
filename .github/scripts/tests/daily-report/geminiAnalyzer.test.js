@@ -1,30 +1,21 @@
 // geminiAnalyzer.test.js
 const { analyzeWithGemini } = require("../../src/daily-report/geminiAnalyzer");
 
-// Google Generative AI 모킹
-jest.mock("@google/generative-ai", () => ({
-  GoogleGenerativeAI: jest.fn().mockImplementation(() => ({
-    getGenerativeModel: jest.fn().mockReturnValue({
-      generateContent: jest.fn(),
-    }),
+// Mock the new @google/genai library
+const mockGenerateContent = jest.fn();
+jest.mock("@google/genai", () => ({
+  GoogleGenAI: jest.fn().mockImplementation(() => ({
+    models: {
+      generateContent: mockGenerateContent,
+    },
   })),
 }));
 
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-
 describe("geminiAnalyzer", () => {
-  let mockGenerateContent;
-
   beforeEach(() => {
-    jest.clearAllMocks();
+    // Clear mocks before each test
+    mockGenerateContent.mockClear();
     process.env.GEMINI_API_KEY = "test-api-key";
-
-    mockGenerateContent = jest.fn();
-    GoogleGenerativeAI.mockImplementation(() => ({
-      getGenerativeModel: jest.fn().mockReturnValue({
-        generateContent: mockGenerateContent,
-      }),
-    }));
   });
 
   afterEach(() => {
@@ -33,31 +24,24 @@ describe("geminiAnalyzer", () => {
 
   test("활동이 없을 경우 '활동 없음' 메시지를 반환해야 한다", async () => {
     const activityData = { commits: [], prs: [] };
-
     const result = await analyzeWithGemini(activityData);
-
     expect(result.summary).toBe("오늘은 GitHub 활동이 없습니다.");
     expect(mockGenerateContent).not.toHaveBeenCalled();
   });
 
   test("API 키가 없으면 null을 반환해야 한다", async () => {
     delete process.env.GEMINI_API_KEY;
-
     const activityData = {
       commits: [{ sha: "abc1234", message: "test", author: "dev" }],
       prs: [],
     };
-
     const result = await analyzeWithGemini(activityData);
-
     expect(result).toBeNull();
   });
 
   test("커밋과 PR 데이터가 있으면 Gemini API를 호출해야 한다", async () => {
     const mockResponse = {
-      response: {
-        text: () => "📝 오늘의 작업 요약: 새로운 기능이 추가되었습니다.",
-      },
+      text: () => "📝 오늘의 작업 요약: 새로운 기능이 추가되었습니다.",
     };
     mockGenerateContent.mockResolvedValue(mockResponse);
 
@@ -82,7 +66,11 @@ describe("geminiAnalyzer", () => {
 
     const result = await analyzeWithGemini(activityData);
 
-    expect(mockGenerateContent).toHaveBeenCalled();
+    expect(mockGenerateContent).toHaveBeenCalledTimes(1);
+    expect(mockGenerateContent).toHaveBeenCalledWith({
+      model: "gemini-2.5-flash",
+      contents: expect.any(String),
+    });
     expect(result.summary).toBe(
       "📝 오늘의 작업 요약: 새로운 기능이 추가되었습니다."
     );

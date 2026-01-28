@@ -6,8 +6,10 @@ const { sendSlackMessage } = require("../shared/slackSender");
 
 // 설정
 const SLACK_CHANNEL_ID = "C0ABB2C1USH";
-const REPO_OWNER = process.env.REPO_OWNER || "rhsiddlsidhd";
-const REPO_NAME = process.env.REPO_NAME || "new_invitation";
+// const REPO_OWNER = process.env.REPO_OWNER || "rhsiddlsidhd";
+const REPO_OWNER = process.env.REPO_OWNER;
+// const REPO_NAME = process.env.REPO_NAME || "new_invitation";
+const REPO_NAME = process.env.REPO_NAME;
 
 async function main() {
   console.log("🚀 Starting Daily Report Generation...");

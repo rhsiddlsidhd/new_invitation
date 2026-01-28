@@ -1,5 +1,5 @@
 // geminiAnalyzer.js
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { GoogleGenAI } = require("@google/genai");
 
 /**
  * Gemini API를 사용하여 오늘의 활동을 분석합니다.
@@ -26,12 +26,13 @@ async function analyzeWithGemini(activityData) {
   const prompt = buildPrompt(commits, prs);
 
   try {
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    const ai = new GoogleGenAI({apiKey: apiKey}); // New client initialization
+    const result = await ai.models.generateContent({ // New API call structure
+      model: "gemini-2.5-flash", // Corrected model name from original error
+      contents: prompt, // As per migration guide, can be a string
+    });
+    
+    const text = result.text(); // Corrected response handling
 
     return {
       summary: text,
@@ -57,7 +58,7 @@ function buildPrompt(commits, prs) {
   const prList = prs
     .map(
       (pr) =>
-        `- PR #${pr.number}: ${pr.title} [${pr.state}${pr.merged ? ", merged" : ""}]\n  설명: ${pr.body.substring(0, 200)}${pr.body.length > 200 ? "..." : ""}`
+        `- PR #${pr.number}: ${pr.title} [${pr.state}${pr.merged ? ", merged" : ""}]\n  설명: ${pr.body.substring(0, 200)}${pr.body.length > 200 ? "..." : ""}`,
     )
     .join("\n");
 
