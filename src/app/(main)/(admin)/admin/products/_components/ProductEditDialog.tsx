@@ -22,7 +22,7 @@ import { Checkbox } from "@/components/atoms/CheckBox/CheckBox";
 import { Label } from "@/components/atoms/Label/Label";
 import usePremiumFeature from "@/hooks/usePremiumFeatures";
 import Spinner from "@/components/atoms/Spinner/Spinner";
-import Thumbnail from "@/components/atoms/Thumbnail";
+import LoaderThumbnail from "@/components/atoms/LoaderThumbnail";
 import { getCategoryOptions } from "@/utils/category";
 import { toast } from "sonner";
 import { useAdminModalStore } from "@/store/admin.modal.store";
@@ -117,9 +117,9 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
             )}
           </Label>
           <div className="border-border group relative aspect-video w-full overflow-hidden rounded-lg border">
-            <Thumbnail
+            <LoaderThumbnail
               src={thumbnail || "/placeholder.svg"}
-              widthPx={490}
+              sizes="490px"
               alt={`${product.title} 이미지`}
             />
             <label

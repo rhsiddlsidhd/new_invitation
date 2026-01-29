@@ -26,9 +26,11 @@ const cloudinaryLoader = ({ src, width, quality }: ImageLoaderProps) => {
 const LoaderThumbnail = ({
   src,
   alt,
+  sizes,
 }: {
   src: string | StaticImageData;
   alt?: string;
+  sizes?: string;
 }) => {
   if (!src) return null;
 
@@ -36,7 +38,7 @@ const LoaderThumbnail = ({
     <Image
       loader={cloudinaryLoader}
       src={src}
-      // sizes="(max-width: 508px) 100vw, 508px"
+      sizes={sizes}
       fill
       alt={alt ? alt : "이미지"}
       className="object-cover"
