@@ -1,4 +1,5 @@
-name: Claude Code Review
+name: Claude Code Review # Trigger CI to refresh GitHub App permissions
+
 
 on:
   pull_request:
