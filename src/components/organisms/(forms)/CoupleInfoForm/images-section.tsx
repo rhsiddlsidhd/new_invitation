@@ -80,7 +80,6 @@ export function ImagesSection() {
               id="thumbnail-upload"
               name="thumbnail-upload"
               preview={true}
-              widthPx={259}
               defaultImages={data?.thumbnailImages}
             />
           </div>
@@ -143,7 +142,6 @@ export function ImagesSection() {
                     id={`gallery-upload-${category.id}`}
                     name={`gallery-upload-${category.id}`}
                     preview={true}
-                    widthPx={259}
                     defaultImages={category.images}
                   />
                 </div>

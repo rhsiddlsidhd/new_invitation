@@ -2,7 +2,7 @@ import { Eye, Heart, ShoppingCart } from "lucide-react";
 import { Badge } from "@/components/atoms/Badge/Badge";
 
 import { Product } from "@/services/product.service";
-import Thumbnail from "@/components/atoms/Thumbnail";
+import LoaderThumbnail from "@/components/atoms/LoaderThumbnail";
 import ProductTableRowAction from "@/components/organisms/(admin)/ProductTableRowAction.tsx";
 import ProductTableRowSelect from "@/components/organisms/(admin)/ProductTableRowSelect";
 
@@ -15,9 +15,9 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
     <tr className="hover:bg-muted/50 transition-colors">
       <td className="px-4 py-3">
         <div className="relative h-16 w-16 overflow-hidden rounded">
-          <Thumbnail
+          <LoaderThumbnail
             src={product.thumbnail}
-            widthPx={128}
+            sizes="128px"
             alt={`${product.title} 이미지`}
           />
         </div>

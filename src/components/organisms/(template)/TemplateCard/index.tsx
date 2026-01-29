@@ -5,7 +5,7 @@ import { Card, CardContent, CardFooter } from "@/components/atoms/Card/Card";
 import { Badge } from "@/components/atoms/Badge/Badge";
 import { Btn } from "@/components/atoms/Btn/Btn";
 import { Product } from "@/services/product.service";
-import Thumbnail from "@/components/atoms/Thumbnail";
+import LoaderThumbnail from "@/components/atoms/LoaderThumbnail";
 import { calculatePrice } from "@/utils/price";
 import { useRouter } from "next/navigation";
 
@@ -30,9 +30,9 @@ export function TemplateCard({ template }: { template: Product }) {
     >
       <CardContent className="p-0">
         <div className="bg-muted relative aspect-3/4 overflow-hidden">
-          <Thumbnail
+          <LoaderThumbnail
             src={template.thumbnail}
-            widthPx={600}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
             alt={`${template.title} 썸네일`}
           />
           <div className="absolute top-3 right-3 flex gap-2">

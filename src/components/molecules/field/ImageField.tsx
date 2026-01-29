@@ -1,7 +1,7 @@
 import { Upload, X } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { InputFieldBase } from "./InputField";
-import Thumbnail from "@/components/atoms/Thumbnail";
+import LoaderThumbnail from "@/components/atoms/LoaderThumbnail";
 
 interface ImageItem {
   type: "existing" | "new";
@@ -13,7 +13,7 @@ interface ImageItem {
 
 type ImageFieldProps = Omit<InputFieldBase, "children"> & {
   preview?: boolean;
-  widthPx?: number;
+  sizes?: string;
   defaultImages?: string[];
 };
 
@@ -21,7 +21,7 @@ const ImageField = ({
   id,
   name,
   preview = false,
-  widthPx = 100,
+  sizes = "100px",
   defaultImages = [],
 }: ImageFieldProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -68,13 +68,13 @@ const ImageField = ({
       const reader = new FileReader();
       reader.onload = (e) => {
         const result = e.target?.result;
-        if (typeof result === 'string') {
+        if (typeof result === "string") {
           resolve(result);
         } else {
-          reject(new Error('Failed to read file as data URL'));
+          reject(new Error("Failed to read file as data URL"));
         }
       };
-      reader.onerror = () => reject(new Error('FileReader error'));
+      reader.onerror = () => reject(new Error("FileReader error"));
       reader.readAsDataURL(file);
     });
   };
@@ -143,10 +143,10 @@ const ImageField = ({
               key={image.id}
               className="border-border group relative aspect-square overflow-hidden rounded-lg border"
             >
-              <Thumbnail
+              <LoaderThumbnail
                 src={image.preview}
                 alt={`Image ${image.id}`}
-                widthPx={widthPx}
+                sizes={sizes}
               />
               <button
                 type="button"
@@ -164,4 +164,3 @@ const ImageField = ({
 };
 
 export default ImageField;
-

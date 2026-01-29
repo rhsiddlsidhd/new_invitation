@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/Card/Card";
-import Thumbnail from "@/components/atoms/Thumbnail";
+import LoaderThumbnail from "@/components/atoms/LoaderThumbnail";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
 import { getOrdersByUserId } from "@/services/order.service";
@@ -96,10 +96,10 @@ const Page = async () => {
                         </div>
                         <div className="flex items-start gap-4">
                           <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg">
-                            <Thumbnail
+                            <LoaderThumbnail
                               src={product.thumbnail ?? "#"}
                               alt={product.title}
-                              widthPx={128}
+                              sizes="128px"
                             />
                           </div>
 
