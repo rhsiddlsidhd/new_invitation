@@ -44,12 +44,7 @@ jobs:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - name: Verify GitHub App Permissions
-        run: |
-          echo "Verifying GitHub App has required permissions..."
-          gh api repos/${{ github.repository }}/installation --jq '.permissions.pull_requests' | grep -q 'write' || (echo "Error: GitHub App needs Pull Requests write permission" && exit 1)
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+
 
       - name: Run Claude Code Review
         id: claude-review
