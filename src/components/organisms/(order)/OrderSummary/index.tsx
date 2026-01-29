@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@/components/atoms/Card/Card";
 import { formatPriceWithComma } from "@/utils/price";
-import Thumbnail from "@/components/atoms/Thumbnail";
+import LoaderThumbnail from "@/components/atoms/LoaderThumbnail";
 import { DELIVERY_FEE } from "@/contants/price";
 
 import { useCheckoutData } from "@/hooks/useCheckoutData";
@@ -71,7 +71,7 @@ export const OrderSummary = () => {
           {/* Product */}
           <div className="flex gap-4">
             <div className="bg-muted relative h-24 w-20 shrink-0 overflow-hidden rounded-lg">
-              <Thumbnail src={order.thumbnail} widthPx={80} />
+              <LoaderThumbnail src={order.thumbnail} sizes="80px" />
             </div>
             <div className="min-w-0 flex-1">
               <h3 className="text-foreground mb-1 truncate font-medium">
