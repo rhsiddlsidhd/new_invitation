@@ -1,12 +1,26 @@
-name: Claude Code Review
+name: Claude Code Review # Trigger CI to refresh GitHub App permissions again
+
+
 
 on:
   pull_request:
     types: [opened, synchronize]
     paths:
-      - "src/**/*.ts"
-      - "src/**/*.tsx"
-      - "src/**/*.js"
+      # 1. 포함할 경로들
+      - 'src/**'
+      - 'next.config.ts'
+      - 'tsconfig.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/**'
+
+      # 2. 위 경로 중에서 제외할 경로들
+      # 반드시 포함할 경로 뒤에 와야 합니다.
+      - '!**/*.md'
+      - '!src/**/*.test.ts'
+      - '!src/**/*.test.tsx'
+      - '!src/**/*.spec.ts'
+      - '!src/**/*.spec.tsx'
 
 jobs:
   claude-review:
@@ -23,20 +37,21 @@ jobs:
         with:
           fetch-depth: 0
 
-      # - name: Generate GitHub App Token
-      #   id: app-token
-      #   uses: actions/create-github-app-token@v1
-      #   with:
-      #     app-id: ${{ secrets.APP_ID }}
-      #     private-key: ${{ secrets.APP_PRIVATE_KEY }}
+      - name: Generate GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+
 
       - name: Run Claude Code Review
         id: claude-review
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          # github_token: ${{ steps.app-token.outputs.token }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ steps.app-token.outputs.token }}
 
           prompt: |
             시니어 개발자로서 PR #${{ github.event.pull_request.number }}를 리뷰하고 한국어로 피드백을 남겨주세요.
