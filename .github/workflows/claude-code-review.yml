@@ -22,6 +22,11 @@ on:
 
 jobs:
   claude-review-caller:
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+      id-token: write
     uses: rhsiddlsidhd/central-ops/.github/workflows/on-pull-request-claude-code-review.yml@main
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
