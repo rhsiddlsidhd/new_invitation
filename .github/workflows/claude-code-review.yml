@@ -23,6 +23,7 @@ on:
 jobs:
   claude-review-caller:
     permissions:
+      contents: read
       issues: write
       pull-requests: write
       id-token: write
