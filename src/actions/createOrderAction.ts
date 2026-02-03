@@ -31,7 +31,6 @@ export async function createOrderAction(
   }>
 > {
   try {
-    // 쿠키에서 Refresh Token 가져와서 사용자 검증
     const cookie = await getCookie("token");
     const refreshToken = cookie?.value;
 
