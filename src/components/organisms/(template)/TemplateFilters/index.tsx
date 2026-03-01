@@ -6,7 +6,7 @@ import AutoCompleteList from "@/components/molecules/(search)/AutoCompleteList";
 
 import { Command, CommandInput } from "@/components/atoms/Command/Command";
 import { Btn } from "@/components/atoms/Btn/Btn";
-import useSugessteTemplate from "@/hooks/useSugessteTemplate";
+import useSuggestTemplate from "@/hooks/useSuggestTemplate";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -38,7 +38,7 @@ export function TemplateFilters({ data }: { data: Product[] }) {
   const [state, dispatch] = useTemplateFilter();
   const { premiumFeatures } = usePremiumFeature();
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
-  const { suggestions } = useSugessteTemplate({
+  const { suggestions } = useSuggestTemplate({
     data,
     keyword: state.keyword.trim(),
   });

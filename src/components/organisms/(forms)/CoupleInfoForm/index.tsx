@@ -9,7 +9,7 @@ import { createCoupleInfoAction } from "@/actions/createCoupleInfoAction";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import BottomActionBar from "../../BottomActionBar";
-import { updateCouleInfoAction } from "@/actions/updateCouleInfoAction";
+import { updateCoupleInfoAction } from "@/actions/updateCoupleInfoAction";
 import { toast } from "sonner";
 import { useImageUpload } from "./hooks/useImageUpload";
 
@@ -19,7 +19,7 @@ export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
   const coupleInfoId = searchParams.get("q");
 
   const currentAction =
-    type === "edit" ? updateCouleInfoAction : createCoupleInfoAction;
+    type === "edit" ? updateCoupleInfoAction : createCoupleInfoAction;
   const [state, action] = useActionState(currentAction, null);
 
   const { processFormSubmit, uploadProgress, isUploading } = useImageUpload();

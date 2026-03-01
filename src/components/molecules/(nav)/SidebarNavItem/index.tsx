@@ -1,5 +1,5 @@
 "use client";
-import { ALL_NAVIGATE_ITEMS, SubmenuParentTitle } from "@/contants/sidebar";
+import { ALL_NAVIGATE_ITEMS, SubmenuParentTitle } from "@/constants/sidebar";
 import { cn } from "@/lib/utils";
 import { isSubmenuParentTitle } from "@/utils/sidebar";
 import { ChevronDown } from "lucide-react";

@@ -1,6 +1,6 @@
 "use client";
 import { Btn } from "@/components/atoms/Btn/Btn";
-import { navigationButtons } from "@/contants/navigation";
+import { navigationButtons } from "@/constants/navigation";
 
 import { GeoState } from "@/utils/openApp";
 import Image from "next/image";

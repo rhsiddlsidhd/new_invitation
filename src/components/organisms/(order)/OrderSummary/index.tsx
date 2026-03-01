@@ -8,7 +8,7 @@ import {
 } from "@/components/atoms/Card/Card";
 import { formatPriceWithComma } from "@/utils/price";
 import LoaderThumbnail from "@/components/atoms/LoaderThumbnail";
-import { DELIVERY_FEE } from "@/contants/price";
+import { DELIVERY_FEE } from "@/constants/price";
 
 import { useCheckoutData } from "@/hooks/useCheckoutData";
 import { SelectFeatureDto } from "@/schemas/order.schema";

@@ -1,4 +1,4 @@
-import { PAY_METHOD } from "@/contants/payment";
+import { PAY_METHOD } from "@/constants/payment";
 import mongoose, { Document, Model, Schema } from "mongoose";
 
 // --- Enums --- TRANS 실시간 계좌이체 VBANK 가상 계좌

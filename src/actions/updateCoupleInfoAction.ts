@@ -9,7 +9,7 @@ import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
 import { coupleInfoSchema } from "@/schemas/coupleInfo.schema";
 import { updateCoupleInfoService } from "@/services/coupleInfo.service";
 
-export const updateCouleInfoAction = async (
+export const updateCoupleInfoAction = async (
   _prev: null,
   formData: FormData,
 ): Promise<APIResponse<{ message: string; _id: string }>> => {

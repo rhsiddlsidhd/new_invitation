@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { Product } from "@/services/product.service";
 import { getChosung, isChosungOnly } from "@/utils/hangul";
 
-const useSugessteTemplate = ({
+const useSuggestTemplate = ({
   data,
   keyword,
 }: {
@@ -33,4 +33,4 @@ const useSugessteTemplate = ({
   return { suggestions };
 };
 
-export default useSugessteTemplate;
+export default useSuggestTemplate;
