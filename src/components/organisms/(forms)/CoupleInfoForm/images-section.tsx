@@ -9,10 +9,10 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/atoms/Card/Card";
-import { Label } from "@/components/atoms/Label/Label";
-import { Btn } from "@/components/atoms/Btn/Btn";
-import { Input } from "@/components/atoms/Input/Input";
+} from "@/components/atoms/card";
+import { Label } from "@/components/atoms/label";
+import { Button } from "@/components/atoms/button";
+import { Input } from "@/components/atoms/input";
 import ImageField from "@/components/molecules/field/ImageField";
 import { useState, useEffect } from "react";
 import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
@@ -80,7 +80,6 @@ export function ImagesSection() {
               id="thumbnail-upload"
               name="thumbnail-upload"
               preview={true}
-              widthPx={259}
               defaultImages={data?.thumbnailImages}
             />
           </div>
@@ -94,7 +93,7 @@ export function ImagesSection() {
                 카테고리별로 이미지를 분류하여 업로드하세요.
               </p>
             </div>
-            <Btn
+            <Button
               type="button"
               variant="outline"
               size="sm"
@@ -102,7 +101,7 @@ export function ImagesSection() {
             >
               <Plus className="mr-2 h-4 w-4" />
               카테고리 추가
-            </Btn>
+            </Button>
           </div>
 
           {/* Category List */}
@@ -128,14 +127,14 @@ export function ImagesSection() {
                       required
                     />
                   </div>
-                  <Btn
+                  <Button
                     type="button"
                     variant="ghost"
                     size="icon"
                     onClick={() => removeGalleryCategory(categoryIndex)}
                   >
                     <X className="h-4 w-4" />
-                  </Btn>
+                  </Button>
                 </div>
 
                 <div className="space-y-3">
@@ -143,7 +142,6 @@ export function ImagesSection() {
                     id={`gallery-upload-${category.id}`}
                     name={`gallery-upload-${category.id}`}
                     preview={true}
-                    widthPx={259}
                     defaultImages={category.images}
                   />
                 </div>
@@ -156,14 +154,14 @@ export function ImagesSection() {
               <p className="text-muted-foreground mb-4 text-sm">
                 아직 추가된 갤러리 카테고리가 없습니다.
               </p>
-              <Btn
+              <Button
                 type="button"
                 variant="outline"
                 size="sm"
                 onClick={addGalleryCategory}
               >
                 <Plus className="mr-2 h-4 w-4" />첫 번째 카테고리 추가
-              </Btn>
+              </Button>
             </div>
           )}
         </div>

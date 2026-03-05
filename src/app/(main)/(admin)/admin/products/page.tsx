@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Plus } from "lucide-react";
-import { Btn } from "@/components/atoms/Btn/Btn";
+import { Button } from "@/components/atoms/button";
 import { getAllProductsService } from "@/services/product.service";
 import { ProductTableRow } from "./_components/ProductTableRow";
 
@@ -29,10 +29,10 @@ export default async function ProductsPage() {
           </p>
         </div>
         <Link href="/admin/products/new">
-          <Btn size="lg">
+          <Button size="lg">
             <Plus className="mr-2 h-5 w-5" />
             상품 등록
-          </Btn>
+          </Button>
         </Link>
       </div>
 

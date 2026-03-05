@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Pause, Play } from "lucide-react";
-import { Btn } from "@/components/atoms/Btn/Btn";
+import { Button } from "@/components/atoms/button";
 
 interface BgmPlayerProps {
   bgmUrl?: string;
@@ -28,7 +28,7 @@ export function BgmPlayer({ bgmUrl }: BgmPlayerProps) {
     <>
       <audio ref={audioRef} src={bgmUrl} loop />
       <div className="fixed top-4 right-4 z-50 border-2 border-red-500">
-        <Btn
+        <Button
           variant="secondary"
           size="icon"
           className="bg-background/95 border-border h-12 w-12 rounded-full border shadow-lg backdrop-blur-sm transition-transform hover:scale-105"
@@ -40,7 +40,7 @@ export function BgmPlayer({ bgmUrl }: BgmPlayerProps) {
           ) : (
             <Play className="ml-0.5 h-5 w-5" />
           )}
-        </Btn>
+        </Button>
       </div>
     </>
   );

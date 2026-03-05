@@ -6,7 +6,7 @@ import {
 } from "@/store/guestbook.modal.store";
 import { AnimatePresence, motion } from "motion/react";
 import React, { useEffect, useMemo, useState } from "react";
-import { Dialog, DialogContent } from "@/components/atoms/Dialog/Dialog";
+import { Dialog, DialogContent } from "@/components/atoms/dialog";
 import ViewContact from "../(preview)/ViewContact";
 import { cn } from "@/lib/utils";
 import clsx from "clsx";

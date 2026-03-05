@@ -1,0 +1,37 @@
+import ProductCatalog from "@/components/organisms/(product)/products/ProductCatalog";
+import { getAllProductsService } from "@/services/product.service";
+import { ProductCategory, productCategoryLabels } from "@/utils/category";
+
+export default async function ProductsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>;
+}) {
+  const { category } = await searchParams;
+  const products = await getAllProductsService(category);
+  console.log("products", products);
+  const currentCategoryLabel =
+    category && category !== "all"
+      ? productCategoryLabels[category as ProductCategory]
+      : "전체 상품";
+
+  return (
+    <main className="bg-background min-h-screen">
+      {/* <Header /> */}
+      <div className="container mx-auto px-4 pt-24 pb-16">
+        <div className="mx-auto max-w-7xl">
+          {/* Page Header */}
+          <div className="mb-12 text-center">
+            <h1 className="text-foreground mb-4 text-4xl font-bold text-balance md:text-5xl">
+              {currentCategoryLabel}
+            </h1>
+            <p className="text-muted-foreground mx-auto max-w-2xl text-lg text-balance">
+              당신의 스타일에 맞는 완벽한 {currentCategoryLabel}을 찾아보세요
+            </p>
+          </div>
+          <ProductCatalog products={products} category={category || "all"} />
+        </div>
+      </div>
+    </main>
+  );
+}

@@ -1,9 +1,9 @@
-import { Btn } from "@/components/atoms/Btn/Btn";
-import { Card, CardContent } from "@/components/atoms/Card/Card";
+import { Button } from "@/components/atoms/button";
+import { Card, CardContent } from "@/components/atoms/card";
 import { Eye } from "lucide-react";
 import Link from "next/link";
 
-const templates = [
+const sampleProducts = [
   {
     name: "클래식 화이트",
     description: "깔끔하고 우아한 전통적인 스타일",
@@ -26,46 +26,46 @@ const templates = [
   },
 ];
 
-export function Templates() {
+export function LatestProducts() {
   return (
-    <section id="templates" className="bg-background py-24">
+    <section id="products" className="bg-background py-24">
       <div className="container mx-auto px-4">
         <div className="mb-16 text-center">
           <h2 className="text-foreground mb-4 text-4xl font-bold text-balance md:text-5xl">
-            {"다양한 템플릿"}
+            {"다양한 상품 디자인"}
           </h2>
           <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
-            {"당신의 스타일을 완벽하게 표현할 수 있는 프리미엄 템플릿"}
+            {"당신의 스타일을 완벽하게 표현할 수 있는 프리미엄 디자인 상품"}
           </p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {templates.map((template, index) => (
+          {sampleProducts.map((product, index) => (
             <Card
               key={index}
               className="border-border bg-card group overflow-hidden transition-all duration-300 hover:shadow-xl"
             >
               <div
-                className={`h-48 bg-gradient-to-br ${template.color} relative flex items-center justify-center overflow-hidden`}
+                className={`h-48 bg-gradient-to-br ${product.color} relative flex items-center justify-center overflow-hidden`}
               >
                 <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors group-hover:bg-black/20">
-                  <Btn
+                  <Button
                     variant="secondary"
                     size="sm"
                     className="opacity-0 transition-opacity group-hover:opacity-100"
                   >
                     <Eye className="mr-2 h-4 w-4" />
                     {"미리보기"}
-                  </Btn>
+                  </Button>
                 </div>
                 <div className="h-40 w-32 rounded-lg bg-white/60 shadow-lg backdrop-blur-sm" />
               </div>
               <CardContent className="p-4">
                 <h3 className="text-card-foreground mb-1 text-lg font-bold">
-                  {template.name}
+                  {product.name}
                 </h3>
                 <p className="text-muted-foreground text-sm">
-                  {template.description}
+                  {product.description}
                 </p>
               </CardContent>
             </Card>
@@ -73,14 +73,14 @@ export function Templates() {
         </div>
 
         <div className="mt-12 text-center">
-          <Btn
+          <Button
             asChild
             variant="outline"
             size="lg"
             className="border-border bg-transparent"
           >
-            <Link href="/templates">{"더 많은 템플릿 보기"}</Link>
-          </Btn>
+            <Link href="/products">{"더 많은 상품 보기"}</Link>
+          </Button>
         </div>
       </div>
     </section>

@@ -1,11 +1,11 @@
-import { Label } from "@/components/atoms/Label/Label";
+import { Label } from "@/components/atoms/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/atoms/Select";
+} from "@/components/atoms/select";
 import React, { useState } from "react";
 import { InputFieldBase } from "./InputField";
 

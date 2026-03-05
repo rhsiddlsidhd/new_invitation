@@ -1,4 +1,4 @@
-import { Switch } from "@/components/atoms/Switch";
+import { Switch } from "@/components/atoms/switch";
 import { Label } from "@radix-ui/react-label";
 import React, { useState } from "react";
 import { InputFieldBase } from "./InputField";

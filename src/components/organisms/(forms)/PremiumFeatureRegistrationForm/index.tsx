@@ -1,11 +1,11 @@
 "use client";
 
 import { createPremiumFeatureAction } from "@/actions/createPremiumFeatureAction";
-import Alert from "@/components/atoms/Alert/Alert";
-import { Btn } from "@/components/atoms/Btn/Btn";
-import { Input } from "@/components/atoms/Input/Input";
-import { Label } from "@/components/atoms/Label/Label";
-import { Textarea } from "@/components/atoms/Textarea";
+import Alert from "@/components/molecules/Alert";
+import { Button } from "@/components/atoms/button";
+import { Input } from "@/components/atoms/input";
+import { Label } from "@/components/atoms/label";
+import { Textarea } from "@/components/atoms/textarea";
 import { useActionState, useEffect } from "react";
 import { getFieldError } from "@/utils/error";
 import { APIResponse } from "@/types/error";
@@ -96,7 +96,7 @@ const PremiumFeatureRegistrationForm = () => {
       </div>
 
       <div className="flex justify-end gap-3 pt-4">
-        <Btn type="submit">등록{`${!pending ? "하기" : "중"}`}</Btn>
+        <Button type="submit">등록{`${!pending ? "하기" : "중"}`}</Button>
       </div>
     </form>
   );

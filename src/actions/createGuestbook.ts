@@ -28,7 +28,6 @@ export const createGuestbook = async (
     }
 
     const hashedPassword = await hashPassword(parsed.data.password);
-    // TODO: 데이터베이스에 방명록 저장
     await createGuestbookService({
       data: { ...parsed.data, password: hashedPassword },
     });

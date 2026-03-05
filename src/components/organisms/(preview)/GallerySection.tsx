@@ -4,8 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
-import { Btn } from "@/components/atoms/Btn/Btn";
-import { Dialog, DialogContent } from "@/components/atoms/Dialog/Dialog";
+import { Button } from "@/components/atoms/button";
+import { Dialog, DialogContent } from "@/components/atoms/dialog";
 import SectionBody from "@/components/molecules/(preview)/SectionBody";
 import { GallerySectionProps } from "./gallerySection.mapper";
 
@@ -39,14 +39,14 @@ export function GallerySection({ categories }: GallerySectionProps) {
       {/* Category Tabs */}
       <div className="mb-8 flex flex-wrap justify-center gap-2">
         {categories.map((category) => (
-          <Btn
+          <Button
             key={category.id}
             variant={selectedCategory === category.id ? "default" : "outline"}
             onClick={() => setSelectedCategory(category.id)}
             className="text-sm whitespace-nowrap"
           >
             {category.categoryName}
-          </Btn>
+          </Button>
         ))}
       </div>
 
@@ -80,32 +80,32 @@ export function GallerySection({ categories }: GallerySectionProps) {
             />
 
             {/* Navigation */}
-            <Btn
+            <Button
               variant="ghost"
               size="icon"
               className="absolute top-1/2 left-2 -translate-y-1/2 bg-black/50 text-white hover:bg-black/70"
               onClick={prevImage}
             >
               <ChevronLeft className="h-6 w-6" />
-            </Btn>
-            <Btn
+            </Button>
+            <Button
               variant="ghost"
               size="icon"
               className="absolute top-1/2 right-2 -translate-y-1/2 bg-black/50 text-white hover:bg-black/70"
               onClick={nextImage}
             >
               <ChevronRight className="h-6 w-6" />
-            </Btn>
+            </Button>
 
             {/* Close Button */}
-            <Btn
+            <Button
               variant="ghost"
               size="icon"
               className="absolute top-2 right-2 bg-black/50 text-white hover:bg-black/70"
               onClick={() => setLightboxOpen(false)}
             >
               <X className="h-6 w-6" />
-            </Btn>
+            </Button>
 
             {/* Counter */}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/50 px-4 py-2 text-sm text-white">

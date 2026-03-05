@@ -1,10 +1,10 @@
 import { Calendar, MapPin } from "lucide-react";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
-import LoaderThumbnail from "@/components/atoms/LoaderThumbnail";
+import ProductThumbnail from "@/components/molecules/ProductThumbnail";
 import { HeroSectionProps } from "./heroSection.mapper";
 
-// LoaderThumbnail
+// ProductThumbnail
 /**
  * 이미지 Map 생성
  * keys= preview, createForm , updateForm ...
@@ -22,7 +22,7 @@ export function HeroSection({
     <section className="relative flex h-screen items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
-        <LoaderThumbnail
+        <ProductThumbnail
           src={thumbnailImage}
           alt="inivitation main Thumbnail"
         />

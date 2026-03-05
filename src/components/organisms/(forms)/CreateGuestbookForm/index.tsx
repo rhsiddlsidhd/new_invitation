@@ -1,14 +1,14 @@
 "use client";
 import React, { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Btn } from "@/components/atoms/Btn/Btn";
+import { Button } from "@/components/atoms/button";
 import {
   DialogClose,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/atoms/Dialog/Dialog";
+} from "@/components/atoms/dialog";
 import InputField from "@/components/molecules/field/InputField";
 import SwitchField from "@/components/molecules/field/SwitchField";
 import { createGuestbook } from "@/actions/createGuestbook";
@@ -110,11 +110,11 @@ const CreateGuestbookForm = ({ payload }: { payload: unknown }) => {
 
       <DialogFooter>
         <DialogClose asChild>
-          <Btn type="button" variant="secondary">
+          <Button type="button" variant="secondary">
             취소
-          </Btn>
+          </Button>
         </DialogClose>
-        <Btn type="submit">{pending ? "전송 중..." : "축하 글 전달하기"}</Btn>
+        <Button type="submit">{pending ? "전송 중..." : "축하 글 전달하기"}</Button>
       </DialogFooter>
     </form>
   );

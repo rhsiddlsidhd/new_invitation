@@ -1,6 +1,6 @@
-import { Badge } from "@/components/atoms/Badge/Badge";
-import { Card, CardContent } from "@/components/atoms/Card/Card";
-import PremiumFeatureCardAction from "@/components/organisms/(admin)/PremiumFeatureCardAction.tsx";
+import { Badge } from "@/components/atoms/badge";
+import { Card, CardContent } from "@/components/atoms/card";
+import PremiumFeatureCardAction from "@/components/organisms/(admin)/PremiumFeatureCardAction";
 import { getAllPremiumFeatureService } from "@/services/premiumFeature.service";
 
 export default async function PremiumFeaturesPage() {

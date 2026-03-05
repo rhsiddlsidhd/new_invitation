@@ -5,25 +5,24 @@ import { useActionState, useEffect, useState } from "react";
 import { UploadCloud, X } from "lucide-react";
 import { updateProductAction } from "@/actions/updateProductAction";
 import type { Product } from "@/services/product.service";
-import Alert from "@/components/atoms/Alert/Alert";
-import { Input } from "@/components/atoms/Input/Input";
-import { Btn } from "@/components/atoms/Btn/Btn";
-import { Textarea } from "@/components/atoms/Textarea";
+import Alert from "@/components/molecules/Alert";
+import { Input } from "@/components/atoms/input";
+import { Button } from "@/components/atoms/button";
+import { Textarea } from "@/components/atoms/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/atoms/Select";
-import { Switch } from "@/components/atoms/Switch";
-import { Checkbox } from "@/components/atoms/CheckBox/CheckBox";
-
-import { Label } from "@/components/atoms/Label/Label";
+} from "@/components/atoms/select";
+import { Switch } from "@/components/atoms/switch";
+import { Checkbox } from "@/components/atoms/checkbox";
+import { Label } from "@/components/atoms/label";
 import usePremiumFeature from "@/hooks/usePremiumFeatures";
-import Spinner from "@/components/atoms/Spinner/Spinner";
-import Thumbnail from "@/components/atoms/Thumbnail";
-import { getCategoryOptions } from "@/utils/category";
+import Spinner from "@/components/molecules/Spinner";
+import ProductThumbnail from "@/components/molecules/ProductThumbnail";
+import { getCategoryOptions, getMoodOptions } from "@/utils/category";
 import { toast } from "sonner";
 import { useAdminModalStore } from "@/store/admin.modal.store";
 
@@ -89,10 +88,6 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
     );
   };
 
-  const error =
-    state && !state.success && "errors" in state.error && state.error.errors;
-
-  // 로딩 중일 때 스피너 표시
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
@@ -101,9 +96,11 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
     );
   }
 
+  const error =
+    state && !state.success && "errors" in state.error && state.error.errors;
+
   return (
     <form action={action} className="space-y-6">
-      {/* Hidden inputs for selected features */}
       {selectedFeatures.map((featureId) => (
         <input key={featureId} type="hidden" name="options" value={featureId} />
       ))}
@@ -117,9 +114,9 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
             )}
           </Label>
           <div className="border-border group relative aspect-video w-full overflow-hidden rounded-lg border">
-            <Thumbnail
+            <ProductThumbnail
               src={thumbnail || "/placeholder.svg"}
-              widthPx={490}
+              sizes="490px"
               alt={`${product.title} 이미지`}
             />
             <label
@@ -134,7 +131,7 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
               </div>
             </label>
             {thumbnailFile && (
-              <Btn
+              <Button
                 type="button"
                 variant="ghost"
                 size="icon"
@@ -143,13 +140,7 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
                 title="원래 이미지로 되돌리기"
               >
                 <X className="h-4 w-4" />
-              </Btn>
-            )}
-
-            {thumbnailFile && (
-              <p className="text-muted-foreground text-sm">
-                새 이미지가 선택되었습니다. 저장하려면 상품 수정을 클릭하세요.
-              </p>
+              </Button>
             )}
 
             <input
@@ -179,8 +170,7 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
           </div>
         </div>
 
-        {/* 상품명 */}
-        <div>
+        <div className="col-span-2">
           <Label htmlFor="edit-title">
             상품명 *
             {error && error["title"] && (
@@ -196,51 +186,69 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
           />
         </div>
 
-        {/* 카테고리 + 판매상태 */}
-        <div className="flex gap-2">
-          <div className="flex-1">
-            <Label htmlFor="edit-category">
-              카테고리 *
-              {error && error["category"] && (
-                <Alert type="error">{error["category"][0]}</Alert>
-              )}
-            </Label>
-            <Select name="category" defaultValue={product.category}>
-              <SelectTrigger>
-                <SelectValue placeholder="카테고리를 선택하세요" />
-              </SelectTrigger>
-              <SelectContent>
-                {getCategoryOptions().map((category) => (
-                  <SelectItem key={category.value} value={category.value}>
-                    {category.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex-1">
-            <Label htmlFor="edit-status">판매 상태 *</Label>
-            <Select
-              name="status"
-              value={status}
-              onValueChange={(value) =>
-                setStatus(value as "active" | "inactive" | "soldOut")
-              }
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="판매 상태를 선택하세요" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="active">판매중</SelectItem>
-                <SelectItem value="inactive">비활성</SelectItem>
-                <SelectItem value="soldOut">품절</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+        <div className="flex-1">
+          <Label htmlFor="edit-category">
+            카테고리(대분류) *
+            {error && error["category"] && (
+              <Alert type="error">{error["category"][0]}</Alert>
+            )}
+          </Label>
+          <Select name="category" defaultValue={product.category}>
+            <SelectTrigger>
+              <SelectValue placeholder="카테고리를 선택하세요" />
+            </SelectTrigger>
+            <SelectContent>
+              {getCategoryOptions().map((category) => (
+                <SelectItem key={category.value} value={category.value}>
+                  {category.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
-        {/* 상품설명 */}
-        <div>
+        <div className="flex-1">
+          <Label htmlFor="edit-mood">
+            스타일(소분류) *
+            {error && error["mood"] && (
+              <Alert type="error">{error["mood"][0]}</Alert>
+            )}
+          </Label>
+          <Select name="mood" defaultValue={product.mood}>
+            <SelectTrigger>
+              <SelectValue placeholder="스타일을 선택하세요" />
+            </SelectTrigger>
+            <SelectContent>
+              {getMoodOptions().map((mood) => (
+                <SelectItem key={mood.value} value={mood.value}>
+                  {mood.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="col-span-2">
+          <Label htmlFor="edit-status">판매 상태 *</Label>
+          <Select
+            name="status"
+            value={status}
+            onValueChange={(value) =>
+              setStatus(value as "active" | "inactive" | "soldOut")
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="판매 상태를 선택하세요" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="active">판매중</SelectItem>
+              <SelectItem value="inactive">비활성</SelectItem>
+              <SelectItem value="soldOut">품절</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="col-span-2">
           <Label htmlFor="edit-description">
             상품 설명 *
             {error && error["description"] && (
@@ -257,7 +265,6 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
           />
         </div>
 
-        {/* 추천 상품 */}
         <div className="border-border flex items-center justify-between rounded-lg border p-4">
           <div className="space-y-0.5">
             <Label htmlFor="edit-feature" className="text-base">
@@ -284,7 +291,6 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
           value={isPremium ? "true" : "false"}
         />
 
-        {/* 기본 가격 */}
         <div>
           <Label htmlFor="edit-price">
             기본 가격 *
@@ -310,7 +316,6 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
           </div>
         </div>
 
-        {/* 추천 우선순위 */}
         <div>
           <Label htmlFor="edit-priority">
             추천 우선순위
@@ -328,12 +333,8 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
             max="100"
             step="1"
           />
-          <p className="text-muted-foreground text-xs">
-            높은 숫자일수록 상단에 노출됩니다 (0-100)
-          </p>
         </div>
 
-        {/* 프리미엄 상품 (col-span-2) */}
         <div className="col-span-2 flex items-center justify-between rounded-lg border p-4">
           <div>
             <Label htmlFor="edit-isPremium" className="text-base">
@@ -353,8 +354,7 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
         {isPremium && (
           <div className="col-span-2 space-y-4 rounded-lg border border-dashed p-4">
             <h4 className="text-foreground font-medium">
-              프리미엄 기능 선택{" "}
-              {error && <Alert type="error">{error["options"]}</Alert>}
+              프리미엄 기능 선택
             </h4>
             <div className="grid grid-cols-2 gap-3">
               {premiumFeatures.map((feature) => (
@@ -380,12 +380,16 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
       </div>
 
       <div className="flex justify-end gap-4 border-t pt-4">
-        <Btn type="button" variant="outline">
+        <Button 
+          type="button" 
+          variant="outline"
+          onClick={closeModal}
+        >
           취소
-        </Btn>
-        <Btn type="submit" className="min-w-30" disabled={pending}>
+        </Button>
+        <Button type="submit" className="min-w-30" disabled={pending}>
           {pending ? "수정 중..." : "상품 수정"}
-        </Btn>
+        </Button>
       </div>
     </form>
   );

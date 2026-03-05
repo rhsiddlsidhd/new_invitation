@@ -5,12 +5,12 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/atoms/Card/Card";
+} from "@/components/atoms/card";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/atoms/Collapsible";
+} from "@/components/atoms/collapsible";
 import BankAccountField from "@/components/molecules/field/BankAccountField";
 import InputField from "@/components/molecules/field/InputField";
 import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";

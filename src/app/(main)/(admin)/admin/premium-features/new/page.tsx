@@ -5,23 +5,23 @@ import type React from "react";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import PremiumFeatureRegistrationForm from "@/components/organisms/(forms)/PremiumFeatureRegistrationForm";
-import { Btn } from "@/components/atoms/Btn/Btn";
+import { Button } from "@/components/atoms/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/atoms/Card/Card";
+} from "@/components/atoms/card";
 
 export default function NewPremiumFeaturePage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
         <Link href="/admin/premium-features">
-          <Btn variant="ghost" size="icon">
+          <Button variant="ghost" size="icon">
             <ArrowLeft className="h-5 w-5" />
-          </Btn>
+          </Button>
         </Link>
         <div>
           <h1 className="text-foreground mb-2 text-3xl font-bold">

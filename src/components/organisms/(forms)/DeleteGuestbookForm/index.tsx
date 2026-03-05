@@ -1,15 +1,15 @@
 "use client";
 
 import { deleteGuestbookAction } from "@/actions/deleteGuestBookAction";
-import Alert from "@/components/atoms/Alert/Alert";
-import { Btn } from "@/components/atoms/Btn/Btn";
+import Alert from "@/components/molecules/Alert";
+import { Button } from "@/components/atoms/button";
 import {
   DialogClose,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/atoms/Dialog/Dialog";
+} from "@/components/atoms/dialog";
 
 import InputField from "@/components/molecules/field/InputField";
 import { APIResponse } from "@/types/error";
@@ -63,11 +63,11 @@ const DeleteGuestbookForm = ({ payload }: { payload: string }) => {
 
       <DialogFooter>
         <DialogClose asChild>
-          <Btn type="button" variant="secondary">
+          <Button type="button" variant="secondary">
             취소
-          </Btn>
+          </Button>
         </DialogClose>
-        <Btn type="submit">{pending ? "삭제 중..." : "전송"}</Btn>
+        <Button type="submit">{pending ? "삭제 중..." : "전송"}</Button>
       </DialogFooter>
     </form>
   );

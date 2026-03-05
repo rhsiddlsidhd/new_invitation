@@ -1,7 +1,7 @@
 "use client";
 
-import { Btn } from "@/components/atoms/Btn/Btn";
-import { Card } from "@/components/atoms/Card/Card";
+import { Button } from "@/components/atoms/button";
+import { Card } from "@/components/atoms/card";
 import { AlertCircle, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -56,17 +56,17 @@ export default function AdminError({ error, reset }: ErrorProps) {
           )}
 
           <div className="flex flex-col gap-3">
-            <Btn onClick={reset} variant="default" size="lg">
+            <Button onClick={reset} variant="default" size="lg">
               다시 시도
-            </Btn>
-            <Btn
+            </Button>
+            <Button
               onClick={() => router.push("/admin")}
               variant="outline"
               size="lg"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
               관리자 대시보드로
-            </Btn>
+            </Button>
           </div>
         </div>
       </Card>

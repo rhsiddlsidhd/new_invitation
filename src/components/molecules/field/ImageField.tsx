@@ -1,7 +1,7 @@
 import { Upload, X } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { InputFieldBase } from "./InputField";
-import Thumbnail from "@/components/atoms/Thumbnail";
+import ProductThumbnail from "@/components/molecules/ProductThumbnail";
 
 interface ImageItem {
   type: "existing" | "new";
@@ -13,7 +13,7 @@ interface ImageItem {
 
 type ImageFieldProps = Omit<InputFieldBase, "children"> & {
   preview?: boolean;
-  widthPx?: number;
+  sizes?: string;
   defaultImages?: string[];
 };
 
@@ -21,13 +21,12 @@ const ImageField = ({
   id,
   name,
   preview = false,
-  widthPx = 100,
+  sizes = "100px",
   defaultImages = [],
 }: ImageFieldProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [images, setImages] = useState<ImageItem[]>([]);
 
-  // defaultImages를 ImageItem으로 변환하여 초기화
   useEffect(() => {
     if (defaultImages.length > 0) {
       const initialImages: ImageItem[] = defaultImages.map((url, index) => ({
@@ -46,7 +45,6 @@ const ImageField = ({
     const newFiles = Array.from(e.target.files || []);
     if (newFiles.length === 0) return;
 
-    // 각 파일을 ImageItem으로 변환
     const newImageItems: ImageItem[] = await Promise.all(
       newFiles.map(async (file: File) => {
         const preview = await readFileAsDataURL(file);
@@ -62,19 +60,18 @@ const ImageField = ({
     setImages((prev) => [...prev, ...newImageItems]);
   };
 
-  // 헬퍼 함수: File을 base64로 변환
   const readFileAsDataURL = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (e) => {
         const result = e.target?.result;
-        if (typeof result === 'string') {
+        if (typeof result === "string") {
           resolve(result);
         } else {
-          reject(new Error('Failed to read file as data URL'));
+          reject(new Error("Failed to read file as data URL"));
         }
       };
-      reader.onerror = () => reject(new Error('FileReader error'));
+      reader.onerror = () => reject(new Error("FileReader error"));
       reader.readAsDataURL(file);
     });
   };
@@ -83,7 +80,6 @@ const ImageField = ({
     setImages((prev) => prev.filter((img) => img.id !== imageId));
   };
 
-  // images 변경 시 input.files 동기화 (새 파일만)
   useEffect(() => {
     const input = inputRef.current;
     if (!input) return;
@@ -97,21 +93,18 @@ const ImageField = ({
     input.files = dataTransfer.files;
   }, [images]);
 
-  // 기존 이미지 URL 추출 (hidden input용)
   const existingUrls = images
     .filter((img) => img.type === "existing")
     .map((img) => img.originalUrl);
 
   return (
     <div className="space-y-4">
-      {/* Hidden Input: 기존 이미지 URL 전달 */}
       <input
         type="hidden"
         name={`${name}_existing`}
         value={JSON.stringify(existingUrls)}
       />
 
-      {/* Upload Button */}
       <label
         htmlFor={id}
         className="border-border hover:bg-accent/50 flex h-40 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed transition-colors"
@@ -135,7 +128,6 @@ const ImageField = ({
         />
       </label>
 
-      {/* Preview Grid */}
       {preview && images.length > 0 && (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
           {images.map((image) => (
@@ -143,10 +135,10 @@ const ImageField = ({
               key={image.id}
               className="border-border group relative aspect-square overflow-hidden rounded-lg border"
             >
-              <Thumbnail
+              <ProductThumbnail
                 src={image.preview}
                 alt={`Image ${image.id}`}
-                widthPx={widthPx}
+                sizes={sizes}
               />
               <button
                 type="button"
@@ -164,4 +156,3 @@ const ImageField = ({
 };
 
 export default ImageField;
-

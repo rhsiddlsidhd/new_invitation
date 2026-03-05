@@ -9,16 +9,16 @@ import { Mail, Lock, Globe } from "lucide-react";
 import { useRouter } from "next/navigation";
 import useAuthStore from "@/store/auth.store";
 
-import { Btn } from "@/components/atoms/Btn/Btn";
+import { Button } from "@/components/atoms/button";
 
-import { Input } from "@/components/atoms/Input/Input";
-import { Checkbox } from "@/components/atoms/CheckBox/CheckBox";
+import { Input } from "@/components/atoms/input";
+import { Checkbox } from "@/components/atoms/checkbox";
 import { loginUser } from "@/actions/loginUser";
-import { Label } from "@/components/atoms/Label/Label";
+import { Label } from "@/components/atoms/label";
 import { toast } from "sonner";
 import { APIResponse } from "@/types/error";
 import { UserRole } from "@/models/user.model";
-import Alert from "@/components/atoms/Alert/Alert";
+import Alert from "@/components/molecules/Alert";
 import { getFieldError, hasFieldErrors } from "@/utils/error";
 
 export function LoginForm() {
@@ -113,9 +113,9 @@ export function LoginForm() {
           </Link>
         </div>
 
-        <Btn type="submit" className="w-full" size="lg" disabled={pending}>
+        <Button type="submit" className="w-full" size="lg" disabled={pending}>
           {pending ? "로그인 중..." : "로그인"}
-        </Btn>
+        </Button>
       </form>
 
       <div className="relative">
@@ -127,7 +127,7 @@ export function LoginForm() {
         </div>
       </div>
 
-      <Btn
+      <Button
         type="button"
         variant="outline"
         className="w-full bg-transparent"
@@ -135,7 +135,7 @@ export function LoginForm() {
       >
         <Globe className="mr-2 h-5 w-5" />
         Google로 계속하기
-      </Btn>
+      </Button>
 
       <div className="space-y-2 text-center">
         <p className="text-muted-foreground text-sm">

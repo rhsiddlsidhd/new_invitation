@@ -1,6 +1,6 @@
 "use client";
 
-import { Btn } from "@/components/atoms/Btn/Btn";
+import { Button } from "@/components/atoms/button";
 import SectionBody from "@/components/molecules/(preview)/SectionBody";
 import { useGuestbookModalStore } from "@/store/guestbook.modal.store";
 import { PenLine, X } from "lucide-react";
@@ -79,7 +79,7 @@ const GuestBookSection = ({ id, data }: GuestBookSectionProps) => {
           </ul>
         </div>
 
-        <Btn
+        <Button
           variant="secondary"
           onClick={() => {
             setIsOpen({
@@ -92,7 +92,7 @@ const GuestBookSection = ({ id, data }: GuestBookSectionProps) => {
         >
           <PenLine className="h-5 w-5" />
           <span className="font-semibold">방명록 작성하기</span>
-        </Btn>
+        </Button>
       </div>
     </SectionBody>
   );

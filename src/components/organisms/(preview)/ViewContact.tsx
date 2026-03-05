@@ -4,9 +4,9 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/atoms/Dialog/Dialog";
+} from "@/components/atoms/dialog";
 import React from "react";
-import { Card } from "@/components/atoms/Card/Card";
+import { Card } from "@/components/atoms/card";
 import { CopyButton } from "@/components/molecules/CopyButton/CopyButton";
 import { PhoneIcon } from "lucide-react";
 

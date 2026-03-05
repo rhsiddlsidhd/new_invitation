@@ -2,12 +2,12 @@
 
 import SectionBody from "@/components/molecules/(preview)/SectionBody";
 import React, { useMemo, useState } from "react";
-import { Card } from "@/components/atoms/Card/Card";
+import { Card } from "@/components/atoms/card";
 import { CopyButton } from "@/components/molecules/CopyButton/CopyButton";
 
 import { cn } from "@/lib/utils";
 import { useBanks } from "@/hooks/useBanks";
-import { Tabs, TabsList, TabsTrigger } from "@/components/atoms/Tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/atoms/tabs";
 import {
   AccountInfo,
   AccountSectionMappedProps,

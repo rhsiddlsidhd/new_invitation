@@ -3,7 +3,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/atoms/Card/Card";
+} from "@/components/atoms/card";
 import { Package, DollarSign, ShoppingCart, Users } from "lucide-react";
 
 export default function AdminDashboard() {

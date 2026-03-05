@@ -3,14 +3,14 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/atoms/Card/Card";
+} from "@/components/atoms/card";
 import { PayMethod } from "@/models/payment";
 import { ArrowRightLeft, CreditCard, Landmark, Phone } from "lucide-react";
 import React from "react";
 import RadioField, {
   RadioFieldOption,
 } from "@/components/molecules/field/RadioField";
-import Alert from "@/components/atoms/Alert/Alert";
+import Alert from "@/components/molecules/Alert";
 
 const PAYMENT_METHODS: RadioFieldOption<PayMethod>[] = [
   {

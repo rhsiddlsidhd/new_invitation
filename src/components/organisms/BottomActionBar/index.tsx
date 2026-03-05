@@ -1,5 +1,5 @@
-import { Btn } from "@/components/atoms/Btn/Btn";
-import { Separator } from "@/components/atoms/Separator";
+import { Button } from "@/components/atoms/button";
+import { Separator } from "@/components/atoms/separator";
 import clsx from "clsx";
 import { Save } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
@@ -38,10 +38,10 @@ const BottomActionBar = () => {
       >
         <div className="container mx-auto px-4 py-4">
           <div className="mx-auto flex max-w-5xl gap-4">
-            <Btn type="submit" size="lg" className="flex-1 cursor-pointer">
+            <Button type="submit" size="lg" className="flex-1 cursor-pointer">
               <Save className="mr-2 h-5 w-5" />
               저장하기
-            </Btn>
+            </Button>
           </div>
         </div>
       </div>

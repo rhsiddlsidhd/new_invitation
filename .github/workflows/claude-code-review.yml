@@ -1,21 +1,34 @@
-name: Claude Code Review
+name: Claude Code Review # Trigger CI to refresh GitHub App permissions again
 
 on:
   pull_request:
     types: [opened, synchronize]
     paths:
-      - "src/**/*.ts"
-      - "src/**/*.tsx"
-      - "src/**/*.js"
+      # 1. 포함할 경로들
+      - "src/**"
+      - "next.config.ts"
+      - "tsconfig.json"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/**"
+
+      # 2. 위 경로 중에서 제외할 경로들
+      # 반드시 포함할 경로 뒤에 와야 합니다.
+      - "!**/*.md"
+      - "!src/**/*.test.ts"
+      - "!src/**/*.test.tsx"
+      - "!src/**/*.spec.ts"
+      - "!src/**/*.spec.tsx"
 
 jobs:
   claude-review:
-    runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: write
       issues: write
+      pull-requests: write
       id-token: write
+
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
@@ -42,13 +55,13 @@ jobs:
             🎯 [분석 범위]
             - `src/` 디렉토리 내 코드 변경사항에 집중
             - diff에서 `.json`, `.lock`, `.md`, `public/*` 파일 변경은 리뷰 대상에서 제외
-            - 단, `CLAUDE.md` 있다면 프로젝트 컨벤션 참고용으로 반드시 읽고 기준으로 삼을 것
+            - 단, `GEMINI.md` 있다면 프로젝트 컨벤션 참고용으로 반드시 읽고 기준으로 삼을 것
 
             🔍 [리뷰 항목]
             1. **가독성/네이밍**: 변수/함수명이 의도를 명확히 전달하는가?
             2. **TypeScript**: `any` 지양, 타입 정의가 엄격한가?
             3. **에러 핸들링**: `async/await`에 적절한 `try-catch`가 있는가?
-            4. **컨벤션**: `CLAUDE.md` 가이드를 준수하는가?
+            4. **컨벤션**: `GEMINI.md` 가이드를 준수하는가?
             5. **아키텍처**: 컴포넌트 크기, 비즈니스 로직과 UI 분리
             6. **성능**: 불필요한 리렌더링, 비효율적 연산
 

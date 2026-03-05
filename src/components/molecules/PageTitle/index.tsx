@@ -1,5 +1,5 @@
 "use client";
-import { PAGE_TITLE } from "@/contants/page";
+import { PAGE_TITLE } from "@/constants/page";
 import { isPageTitle } from "@/utils/page";
 import { usePathname } from "next/navigation";
 import React from "react";

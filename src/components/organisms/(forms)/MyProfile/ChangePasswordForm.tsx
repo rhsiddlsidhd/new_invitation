@@ -1,12 +1,12 @@
 "use client";
-import { Btn } from "@/components/atoms/Btn/Btn";
+import { Button } from "@/components/atoms/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/atoms/Card/Card";
+} from "@/components/atoms/card";
 import InputField from "@/components/molecules/field/InputField";
 import clsx from "clsx";
 import { Save } from "lucide-react";
@@ -57,7 +57,7 @@ const ChangePasswordForm = () => {
           </div>
 
           <div className="flex justify-end gap-2">
-            <Btn
+            <Button
               type="submit"
               className={clsx(
                 `${passwordToggle ? "cursor-pointer opacity-100" : "pointer-events-none opacity-0"}`,
@@ -65,15 +65,15 @@ const ChangePasswordForm = () => {
             >
               <Save className="mr-2 h-4 w-4" />
               저장하기
-            </Btn>
+            </Button>
 
-            <Btn
+            <Button
               type="button"
               variant="outline"
               onClick={() => setPasswordToggle(!passwordToggle)}
             >
               {passwordToggle ? "닫기" : "변경하기"}
-            </Btn>
+            </Button>
           </div>
         </CardHeader>
         {passwordToggle && (

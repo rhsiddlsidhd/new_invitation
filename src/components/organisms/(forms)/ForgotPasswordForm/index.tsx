@@ -7,8 +7,8 @@ import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 
-import { Card } from "@/components/atoms/Card/Card";
-import { Btn } from "@/components/atoms/Btn/Btn";
+import { Card } from "@/components/atoms/card";
+import { Button } from "@/components/atoms/button";
 import InputField from "@/components/molecules/field/InputField";
 
 import { requestPasswordReset } from "@/actions/requestPasswordReset";
@@ -62,9 +62,9 @@ export function ForgotPasswordForm() {
         </Card>
 
         <div className="space-y-3">
-          <Btn asChild className="w-full" size="lg">
+          <Button asChild className="w-full" size="lg">
             <Link href="/login">로그인으로 돌아가기</Link>
-          </Btn>
+          </Button>
           <form action={action}>
             <input
               type="hidden"
@@ -72,7 +72,7 @@ export function ForgotPasswordForm() {
               value={state.data.email}
               readOnly
             />
-            <Btn
+            <Button
               type="submit"
               variant="outline"
               className="w-full bg-transparent"
@@ -80,7 +80,7 @@ export function ForgotPasswordForm() {
               disabled={pending}
             >
               {pending ? "전송 중..." : "다시 보내기"}
-            </Btn>
+            </Button>
           </form>
         </div>
       </div>
@@ -112,9 +112,9 @@ export function ForgotPasswordForm() {
           입력하신 이메일로 비밀번호 재설정 링크를 보내드립니다
         </p>
 
-        <Btn type="submit" className="w-full" size="lg" disabled={pending}>
+        <Button type="submit" className="w-full" size="lg" disabled={pending}>
           {pending ? "전송 중..." : "재설정 링크 받기"}
-        </Btn>
+        </Button>
       </form>
 
       <div className="space-y-2 text-center">

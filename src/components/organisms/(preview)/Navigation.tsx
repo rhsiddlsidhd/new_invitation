@@ -1,6 +1,6 @@
 "use client";
-import { Btn } from "@/components/atoms/Btn/Btn";
-import { navigationButtons } from "@/contants/navigation";
+import { Button } from "@/components/atoms/button";
+import { navigationButtons } from "@/constants/navigation";
 
 import { GeoState } from "@/utils/openApp";
 import Image from "next/image";
@@ -77,13 +77,13 @@ const Navigation = ({ address }: { address: string }) => {
         원하시는 앱을 선택하시면 길안내가 시작됩니다.
       </p>
       <div className="flex flex-col gap-2">
-        {navigationButtons.map((btn, i) => {
+        {navigationButtons.map((nav, i) => {
           return (
-            <Btn
+            <Button
               variant="outline"
               key={i}
               onClick={() => {
-                btn.onClick({
+                nav.onClick({
                   address: address,
                   current: geoState.current,
                   target: geoState.target,
@@ -92,15 +92,15 @@ const Navigation = ({ address }: { address: string }) => {
             >
               <span className="relative inline-block aspect-square w-4 shrink-0">
                 <Image
-                  src={`/assets/provider/${btn.path}`}
+                  src={`/assets/provider/${nav.path}`}
                   fill
                   alt="provider image"
                   className="object-cover"
                   sizes="16px"
                 />
               </span>
-              <span className="shrink-0 grow-0">{btn.name}</span>
-            </Btn>
+              <span className="shrink-0 grow-0">{nav.name}</span>
+            </Button>
           );
         })}
       </div>

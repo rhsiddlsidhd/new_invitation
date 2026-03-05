@@ -1,21 +1,21 @@
 "use client";
 
-import { Btn } from "@/components/atoms/Btn/Btn";
+import { Button } from "@/components/atoms/button";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/atoms/Card/Card";
-import { Label } from "@/components/atoms/Label/Label";
+} from "@/components/atoms/card";
+import { Label } from "@/components/atoms/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/atoms/Popover";
+} from "@/components/atoms/popover";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
-import { Calendar } from "@/components/atoms/Calendar";
+import { Calendar } from "@/components/atoms/calendar";
 
 import { useEffect, useState } from "react";
 import { ko } from "date-fns/locale";
@@ -24,7 +24,7 @@ import InputField from "@/components/molecules/field/InputField";
 import AddressField from "@/components/molecules/field/AddressField";
 import SwitchField from "@/components/molecules/field/SwitchField";
 import SelectField from "@/components/molecules/field/SelectField";
-import { Input } from "@/components/atoms/Input/Input";
+import { Input } from "@/components/atoms/input";
 import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
 
 // 현재 지하철역 가져오기 API ERROR-331 에러 발생 원인 알 수 없음
@@ -70,7 +70,7 @@ export function BasicInfoSection() {
             )}
             <Popover>
               <PopoverTrigger asChild>
-                <Btn
+                <Button
                   variant="outline"
                   className={`w-full justify-start text-left font-normal ${!weddingDate && "text-muted-foreground"}`}
                 >
@@ -78,7 +78,7 @@ export function BasicInfoSection() {
                   {weddingDate
                     ? format(weddingDate, "PPP", { locale: ko })
                     : "날짜를 선택하세요"}
-                </Btn>
+                </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
                 <Calendar

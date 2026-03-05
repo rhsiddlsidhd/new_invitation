@@ -1,11 +1,11 @@
 import { CheckCircle2, AlertCircle, Home, FileText } from "lucide-react";
-import { Btn } from "@/components/atoms/Btn/Btn";
+import { Button } from "@/components/atoms/button";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/atoms/Card/Card";
+} from "@/components/atoms/card";
 
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -60,18 +60,18 @@ export default async function PaymentSuccessPage({
 
         {/* Action Buttons */}
         <div className="flex flex-col gap-3 sm:flex-row">
-          <Btn variant="outline" className="flex-1" asChild>
+          <Button variant="outline" className="flex-1" asChild>
             <Link href="/">
               <Home className="mr-2 h-4 w-4" />
               홈으로 이동
             </Link>
-          </Btn>
-          <Btn className="flex-1" asChild>
+          </Button>
+          <Button className="flex-1" asChild>
             <Link href="/my-orders">
               <FileText className="mr-2 h-4 w-4" />
               주문 내역 확인
             </Link>
-          </Btn>
+          </Button>
         </div>
 
         {/* Additional Info */}

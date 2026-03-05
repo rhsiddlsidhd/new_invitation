@@ -1,11 +1,11 @@
-import { Btn } from "@/components/atoms/Btn/Btn";
+import { Button } from "@/components/atoms/button";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/atoms/Card/Card";
-import Thumbnail from "@/components/atoms/Thumbnail";
+} from "@/components/atoms/card";
+import ProductThumbnail from "@/components/molecules/ProductThumbnail";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
 import { getOrdersByUserId } from "@/services/order.service";
@@ -25,7 +25,6 @@ const PAYMENT_STATUS: Record<OrderStatus, string> = {
   CANCELLED: "취소",
 };
 
-// Group orders by date
 const groupOrdersByDate = (orders: IOrder[]) => {
   const grouped: Record<string, IOrder[]> = {};
 
@@ -51,7 +50,6 @@ const Page = async () => {
   const orders = await getOrdersByUserId(payload.id);
 
   const groupedOrders = groupOrdersByDate(orders);
-  console.log("groupedOrders", groupedOrders);
   return (
     <div className="space-y-6">
       <div>
@@ -81,7 +79,6 @@ const Page = async () => {
                       key={order._id.toString()}
                       className="border-border flex items-start justify-between gap-6 rounded-lg border p-4"
                     >
-                      {/* Left Side - Details */}
                       <div className="flex min-w-0 flex-1 flex-col gap-4">
                         <div className="flex justify-between text-2xl font-bold">
                           <div className="flex items-center gap-4">
@@ -90,28 +87,25 @@ const Page = async () => {
                               {order.merchantUid}
                             </p>
                           </div>
-                          <Btn size="sm" variant="ghost">
+                          <Button size="sm" variant="ghost">
                             <EllipsisVertical className="h-4 w-4" />
-                          </Btn>
+                          </Button>
                         </div>
                         <div className="flex items-start gap-4">
                           <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg">
-                            <Thumbnail
+                            <ProductThumbnail
                               src={product.thumbnail ?? "#"}
                               alt={product.title}
-                              widthPx={128}
+                              sizes="128px"
                             />
                           </div>
 
                           <div className="min-w-0 flex-1 space-y-2">
-                            {/* Title and Status */}
                             <div className="flex items-start justify-between gap-2">
                               <h3 className="text-foreground text-base font-semibold">
                                 {product.title}
                               </h3>
                             </div>
-
-                            {/* Price */}
                             <div className="pt-2">
                               {hasDiscount && (
                                 <div className="mb-1 text-xs text-red-500">
@@ -130,27 +124,26 @@ const Page = async () => {
                         </div>
                       </div>
 
-                      {/* Right Side - Actions */}
                       <div className="flex shrink-0 flex-col gap-2">
-                        <Btn size="lg" variant="outline" asChild>
+                        <Button size="lg" variant="outline" asChild>
                           <Link
                             href={`/order/edit?q=${order.coupleInfoId.toString()}`}
                           >
                             <Edit className="mr-1 h-4 w-4" />
                             수정하기
                           </Link>
-                        </Btn>
+                        </Button>
                         {order.orderStatus === "CONFIRMED" && (
-                          <Btn size="lg" variant="outline">
+                          <Button size="lg" variant="outline">
                             <RefreshCw className="mr-1 h-4 w-4" />
                             환불신청
-                          </Btn>
+                          </Button>
                         )}
                         {order.orderStatus === "COMPLETED" && (
-                          <Btn size="lg" variant="default">
+                          <Button size="lg" variant="default">
                             <Star className="mr-1 h-4 w-4" />
                             리뷰
-                          </Btn>
+                          </Button>
                         )}
                       </div>
                     </div>
@@ -170,9 +163,9 @@ const Page = async () => {
             <p className="mt-2 text-sm text-gray-500">
               아직 주문한 상품이 없어요. 템플릿을 구경하고 첫 주문을 해보세요.
             </p>
-            <Btn asChild className="mt-6">
-              <Link href="/templates">템플릿 보러가기</Link>
-            </Btn>
+            <Button asChild className="mt-6">
+              <Link href="/products">템플릿 보러가기</Link>
+            </Button>
           </div>
         )}
       </div>
