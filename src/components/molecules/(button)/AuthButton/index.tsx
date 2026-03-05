@@ -4,14 +4,14 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 import useAuthStore from "@/store/auth.store";
 
-import { Btn } from "@/components/atoms/Btn/Btn";
+import { Button } from "@/components/atoms/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/atoms/DropdownMenu/DropdownMenu";
+} from "@/components/atoms/dropdown-menu";
 import { useSignOut } from "@/hooks/useSignOut";
 import { useSignIn } from "@/hooks/useSignIn";
 import {
@@ -49,15 +49,15 @@ const AuthButton = ({ authData }: AuthButtonProps) => {
   return (
     <>
       {!isAuth ? (
-        <Btn variant="ghost" size="sm" onClick={handleSignIn}>
+        <Button variant="ghost" size="sm" onClick={handleSignIn}>
           로그인
-        </Btn>
+        </Button>
       ) : (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Btn variant="ghost" size="icon">
+            <Button variant="ghost" size="icon">
               <UserIcon className="size-4" />
-            </Btn>
+            </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             {role === "ADMIN" && (

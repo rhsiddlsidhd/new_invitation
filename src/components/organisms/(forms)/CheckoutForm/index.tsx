@@ -12,11 +12,11 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/atoms/Card/Card";
+} from "@/components/atoms/card";
 
-import { Checkbox } from "@/components/atoms/CheckBox/CheckBox";
-import { Btn } from "@/components/atoms/Btn/Btn";
-import { Label } from "@/components/atoms/Label/Label";
+import { Checkbox } from "@/components/atoms/checkbox";
+import { Button } from "@/components/atoms/button";
+import { Label } from "@/components/atoms/label";
 import InputField from "@/components/molecules/field/InputField";
 import PaymentMethodSelector from "./PaymentMethodSelector";
 import { toast } from "sonner";
@@ -24,7 +24,7 @@ import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
 import { createOrderAction } from "@/actions/createOrderAction";
 import { useRouter } from "next/navigation";
 import { fetcher } from "@/api/fetcher";
-import Spinner from "@/components/atoms/Spinner/Spinner";
+import Spinner from "@/components/molecules/Spinner";
 import { BuyerInfo, BuyerInfoSchema } from "@/schemas/order.schema";
 import { APIResponse } from "@/types/error";
 import { useCheckoutData } from "@/hooks/useCheckoutData";
@@ -319,7 +319,7 @@ export function CheckoutForm({ query }: { query: string }) {
         <div className="bg-background/95 border-border fixed right-0 bottom-0 left-0 z-50 border-t backdrop-blur-sm">
           <div className="container mx-auto px-4 py-4">
             <div className="mx-auto flex max-w-5xl gap-4">
-              <Btn
+              <Button
                 type="submit"
                 size="lg"
                 className="flex-1"
@@ -335,7 +335,7 @@ export function CheckoutForm({ query }: { query: string }) {
                   : paymentStatus === "PENDING"
                     ? "결제 진행 중..."
                     : "결제하기"}
-              </Btn>
+              </Button>
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/atoms/Card/Card";
+import { Card, CardContent } from "@/components/atoms/card";
 import { Smartphone, Share2, Palette, Zap, Heart, Globe } from "lucide-react";
 import React from "react";
 
@@ -37,7 +37,7 @@ const features = [
 
 const Features = () => {
   return (
-    <section id="features" className="bg-muted/30 py-24">
+    <section id="features" className="bg-slate-50 py-24">
       <div className="container mx-auto px-4">
         <div className="mb-16 text-center">
           <h2 className="text-foreground mb-4 text-4xl font-bold text-balance md:text-5xl">

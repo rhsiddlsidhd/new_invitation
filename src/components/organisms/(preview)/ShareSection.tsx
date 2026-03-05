@@ -1,8 +1,8 @@
 "use client";
 
-import { Btn } from "@/components/atoms/Btn/Btn";
-import { Card, CardContent } from "@/components/atoms/Card/Card";
-import { Input } from "@/components/atoms/Input/Input";
+import { Button } from "@/components/atoms/button";
+import { Card, CardContent } from "@/components/atoms/card";
+import { Input } from "@/components/atoms/input";
 import { Share2, LinkIcon, MessageCircle, CheckCircle } from "lucide-react";
 import { useState } from "react";
 
@@ -46,23 +46,23 @@ export function ShareSection({ invitationId }: ShareSectionProps) {
         <Card>
           <CardContent className="space-y-4 p-6">
             <div className="grid grid-cols-3 gap-3">
-              <Btn
+              <Button
                 variant="outline"
                 onClick={shareKakao}
                 className="h-20 flex-col gap-2 bg-transparent"
               >
                 <MessageCircle className="h-6 w-6 text-yellow-500" />
                 <span className="text-xs">카카오톡</span>
-              </Btn>
-              <Btn
+              </Button>
+              <Button
                 variant="outline"
                 onClick={shareSMS}
                 className="h-20 flex-col gap-2 bg-transparent"
               >
                 <MessageCircle className="h-6 w-6 text-green-500" />
                 <span className="text-xs">문자</span>
-              </Btn>
-              <Btn
+              </Button>
+              <Button
                 variant="outline"
                 onClick={copyUrl}
                 className="h-20 flex-col gap-2 bg-transparent"
@@ -78,20 +78,20 @@ export function ShareSection({ invitationId }: ShareSectionProps) {
                     <span className="text-xs">URL 복사</span>
                   </>
                 )}
-              </Btn>
+              </Button>
             </div>
 
             <div className="border-border border-t pt-4">
               <p className="text-muted-foreground mb-2 text-xs">청첩장 URL</p>
               <div className="flex gap-2">
                 <Input value={invitationUrl} readOnly className="text-xs" />
-                <Btn variant="outline" size="sm" onClick={copyUrl}>
+                <Button variant="outline" size="sm" onClick={copyUrl}>
                   {copied ? (
                     <CheckCircle className="h-4 w-4" />
                   ) : (
                     <LinkIcon className="h-4 w-4" />
                   )}
-                </Btn>
+                </Button>
               </div>
             </div>
           </CardContent>

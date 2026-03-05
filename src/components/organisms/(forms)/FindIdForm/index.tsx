@@ -7,11 +7,11 @@ import { User, Phone, Mail } from "lucide-react";
 import { toast } from "sonner";
 
 import { findUserEmail } from "@/actions/findUserEmail";
-import { Card } from "@/components/atoms/Card/Card";
-import { Btn } from "@/components/atoms/Btn/Btn";
-import { Input } from "@/components/atoms/Input/Input";
-import { Label } from "@/components/atoms/Label/Label";
-import Alert from "@/components/atoms/Alert/Alert";
+import { Card } from "@/components/atoms/card";
+import { Button } from "@/components/atoms/button";
+import { Input } from "@/components/atoms/input";
+import { Label } from "@/components/atoms/label";
+import Alert from "@/components/molecules/Alert";
 import { getFieldError, hasFieldErrors } from "@/utils/error"; // Added hasFieldErrors
 import { APIResponse } from "@/types/error";
 
@@ -60,17 +60,17 @@ export function FindIdForm() {
         </Card>
 
         <div className="space-y-3">
-          <Btn asChild className="w-full" size="lg">
+          <Button asChild className="w-full" size="lg">
             <Link href="/login">로그인하기</Link>
-          </Btn>
-          <Btn
+          </Button>
+          <Button
             asChild
             variant="outline"
             className="w-full bg-transparent"
             size="lg"
           >
             <Link href="/find-pw">비밀번호 찾기</Link>
-          </Btn>
+          </Button>
         </div>
       </div>
     );
@@ -118,9 +118,9 @@ export function FindIdForm() {
           {phoneError && <Alert type="error">{phoneError}</Alert>}
         </div>
 
-        <Btn type="submit" className="w-full" size="lg">
+        <Button type="submit" className="w-full" size="lg">
           아이디 찾기 {pending ? "중" : ""}
-        </Btn>
+        </Button>
       </form>
 
       <div className="space-y-2 text-center">

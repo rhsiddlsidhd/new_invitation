@@ -1,10 +1,10 @@
-import { Btn } from "@/components/atoms/Btn/Btn";
+import { Button } from "@/components/atoms/button";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/atoms/Card/Card";
+} from "@/components/atoms/card";
 import { Check } from "lucide-react";
 
 const plans = [
@@ -51,7 +51,7 @@ const plans = [
 
 export function Pricing() {
   return (
-    <section id="pricing" className="bg-muted/30 py-24">
+    <section id="pricing" className="bg-white py-24">
       <div className="container mx-auto px-4">
         <div className="mb-16 text-center">
           <h2 className="text-foreground mb-4 text-4xl font-bold text-balance md:text-5xl">
@@ -102,7 +102,7 @@ export function Pricing() {
                     </li>
                   ))}
                 </ul>
-                <Btn
+                <Button
                   className={`w-full ${
                     plan.popular
                       ? "bg-primary text-primary-foreground hover:bg-primary/90"
@@ -110,7 +110,7 @@ export function Pricing() {
                   }`}
                 >
                   {plan.price === "무료" ? "무료로 시작하기" : "지금 시작하기"}
-                </Btn>
+                </Button>
               </CardContent>
             </Card>
           ))}

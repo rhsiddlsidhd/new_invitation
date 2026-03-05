@@ -29,7 +29,6 @@ const transformProduct = (product: LeanProduct): ProductJSON => {
 };
 
 // 상품생성
-
 export const createProductService = async (
   data: Omit<ProductDto, "thumbnail"> & {
     thumbnail: string;
@@ -38,17 +37,26 @@ export const createProductService = async (
   },
 ): Promise<boolean> => {
   await dbConnect();
-
-  const newProduct = await new ProductModel({
-    ...data,
-    status: data.status || "active",
-    options:
-      data.isPremium && data.options
-        ? data.options.map((value) => new mongoose.Types.ObjectId(value))
-        : [],
-  }).save();
-
-  return !!newProduct;
+  try {
+    const newProduct = await new ProductModel({
+      ...data,
+      status: data.status || "active",
+      options:
+        data.isPremium && data.options
+          ? data.options.map((value) => new mongoose.Types.ObjectId(value))
+          : [],
+    }).save();
+    
+    return !!newProduct;
+  } catch (error: any) {
+    console.error("Mongoose Save Error Detailed:", error.message);
+    if (error.errors) {
+      Object.keys(error.errors).forEach((key) => {
+        console.error(`Field [${key}]:`, error.errors[key].message);
+      });
+    }
+    return false;
+  }
 };
 
 // 단일 상품 조회
@@ -66,9 +74,17 @@ export const getProductService = async (
 };
 
 // 모든 상품 조회
-export const getAllProductsService = async (): Promise<ProductJSON[]> => {
+export const getAllProductsService = async (
+  category?: string,
+): Promise<ProductJSON[]> => {
   await dbConnect();
-  const products = await ProductModel.find({ deletedAt: null })
+
+  const query: any = { deletedAt: null };
+  if (category && category !== "all") {
+    query.category = category;
+  }
+
+  const products = await ProductModel.find(query)
     .sort({ createdAt: -1 })
     .lean();
 

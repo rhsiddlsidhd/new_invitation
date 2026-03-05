@@ -42,3 +42,22 @@ export const navigationButtons = [
       openApp.openKakaoMap({ current, target, address }),
   },
 ] as const;
+
+export const mainNavItems = [
+  {
+    label: "모바일 청첩장",
+    href: "/products?category=wedding",
+  },
+  {
+    label: "감사장",
+    href: "/products?category=thank-you",
+  },
+  {
+    label: "돌잔치",
+    href: "/products?category=first-birthday",
+  },
+  {
+    label: "고객후기",
+    href: "/reviews",
+  },
+] as const;

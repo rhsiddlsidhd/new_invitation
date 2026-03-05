@@ -1,10 +1,10 @@
 import { Eye, Heart, ShoppingCart } from "lucide-react";
-import { Badge } from "@/components/atoms/Badge/Badge";
-
+import { Badge } from "@/components/atoms/badge";
 import { Product } from "@/services/product.service";
-import LoaderThumbnail from "@/components/atoms/LoaderThumbnail";
-import ProductTableRowAction from "@/components/organisms/(admin)/ProductTableRowAction.tsx";
+import ProductThumbnail from "@/components/molecules/ProductThumbnail";
+import ProductTableRowAction from "@/components/organisms/(admin)/ProductTableRowAction";
 import ProductTableRowSelect from "@/components/organisms/(admin)/ProductTableRowSelect";
+import { productCategoryLabels, moodLabels, ProductCategory, Mood } from "@/utils/category";
 
 export interface ProductTableRowProps {
   product: Product;
@@ -15,7 +15,7 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
     <tr className="hover:bg-muted/50 transition-colors">
       <td className="px-4 py-3">
         <div className="relative h-16 w-16 overflow-hidden rounded">
-          <LoaderThumbnail
+          <ProductThumbnail
             src={product.thumbnail}
             sizes="128px"
             alt={`${product.title} 이미지`}
@@ -31,7 +31,14 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
         </div>
       </td>
       <td className="px-4 py-3">
-        <Badge variant="outline">{product.category}</Badge>
+        <div className="flex flex-col gap-1">
+          <Badge variant="outline" className="w-fit">
+            {productCategoryLabels[product.category as ProductCategory] || product.category}
+          </Badge>
+          <span className="text-muted-foreground text-xs px-1">
+            {moodLabels[product.mood as Mood] || product.mood}
+          </span>
+        </div>
       </td>
       <td className="px-4 py-3">
         <span className="font-semibold">

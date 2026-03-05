@@ -7,38 +7,35 @@ import Image from "next/image";
 import { UploadCloud, X } from "lucide-react";
 import { createProductAction } from "@/actions/createProductAction";
 import type { PremiumFeature } from "@/services/premiumFeature.service";
-import Alert from "@/components/atoms/Alert/Alert";
+import Alert from "@/components/molecules/Alert";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/atoms/Card/Card";
+} from "@/components/atoms/card";
 
-import { Input } from "@/components/atoms/Input/Input";
-import { Btn } from "@/components/atoms/Btn/Btn";
-import { Textarea } from "@/components/atoms/Textarea";
+import { Input } from "@/components/atoms/input";
+import { Button } from "@/components/atoms/button";
+import { Textarea } from "@/components/atoms/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/atoms/Select";
-import { Switch } from "@/components/atoms/Switch";
-import { Checkbox } from "@/components/atoms/CheckBox/CheckBox";
-import { Label } from "@/components/atoms/Label/Label";
-import { getCategoryOptions } from "@/utils/category";
+} from "@/components/atoms/select";
+import { Switch } from "@/components/atoms/switch";
+import { Checkbox } from "@/components/atoms/checkbox";
+import { Label } from "@/components/atoms/label";
+import { getCategoryOptions, getMoodOptions } from "@/utils/category";
 import { getFieldError } from "@/utils/error";
 import { APIResponse } from "@/types/error";
 
 interface ProductRegistrationFormProps {
   premiumFeatures: PremiumFeature[];
 }
-
-// feature: boolean; // 추천 상품 여부 (메인 노출용)
-// priority: number; // 관리자 정렬 우선순위 (높을수록 상단)
 
 export function ProductRegistrationForm({
   premiumFeatures,
@@ -60,6 +57,7 @@ export function ProductRegistrationForm({
     if (state && state.success) {
       alert(state.data.message);
       setThumbnail(null);
+      router.push("/admin/products");
     }
   }, [state, router]);
 
@@ -95,6 +93,7 @@ export function ProductRegistrationForm({
   const titleError = getFieldError(state, "title");
   const descriptionError = getFieldError(state, "description");
   const categoryError = getFieldError(state, "category");
+  const moodError = getFieldError(state, "mood");
   const priceError = getFieldError(state, "price");
   const priorityError = getFieldError(state, "priority");
   const thumbnailError = getFieldError(state, "thumbnail");
@@ -108,7 +107,7 @@ export function ProductRegistrationForm({
             <CardHeader>
               <CardTitle>기본 정보</CardTitle>
               <CardDescription>
-                상품의 이름, 설명, 카테고리를 입력합니다.
+                상품의 이름, 설명, 분류 정보를 입력합니다.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -135,21 +134,41 @@ export function ProductRegistrationForm({
                   <Alert type="error">{descriptionError}</Alert>
                 )}
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="category">카테고리 *</Label>
-                <Select name="category" required>
-                  <SelectTrigger>
-                    <SelectValue placeholder="카테고리를 선택하세요" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {getCategoryOptions().map((category) => (
-                      <SelectItem key={category.value} value={category.value}>
-                        {category.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {categoryError && <Alert type="error">{categoryError}</Alert>}
+
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="category">카테고리(대분류) *</Label>
+                  <Select name="category" required>
+                    <SelectTrigger>
+                      <SelectValue placeholder="카테고리를 선택하세요" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {getCategoryOptions().map((category) => (
+                        <SelectItem key={category.value} value={category.value}>
+                          {category.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {categoryError && <Alert type="error">{categoryError}</Alert>}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="mood">스타일(소분류) *</Label>
+                  <Select name="mood" required>
+                    <SelectTrigger>
+                      <SelectValue placeholder="스타일을 선택하세요" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {getMoodOptions().map((mood) => (
+                        <SelectItem key={mood.value} value={mood.value}>
+                          {mood.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {moodError && <Alert type="error">{moodError}</Alert>}
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -317,7 +336,7 @@ export function ProductRegistrationForm({
                       fill
                       className="object-cover"
                     />
-                    <Btn
+                    <Button
                       type="button"
                       variant="destructive"
                       size="icon"
@@ -325,7 +344,7 @@ export function ProductRegistrationForm({
                       className="absolute top-2 right-2 h-6 w-6"
                     >
                       <X className="h-4 w-4" />
-                    </Btn>
+                    </Button>
                   </div>
                 ) : (
                   <label
@@ -361,9 +380,7 @@ export function ProductRegistrationForm({
                     }
                   }}
                 />
-                {thumbnailError && (
-                  <Alert type="error">{thumbnailError}</Alert>
-                )}
+                {thumbnailError && <Alert type="error">{thumbnailError}</Alert>}
               </div>
             </CardContent>
           </Card>
@@ -376,16 +393,16 @@ export function ProductRegistrationForm({
       ))}
 
       <div className="flex justify-end gap-4 pt-4">
-        <Btn
+        <Button
           type="button"
           variant="outline"
           onClick={() => router.push("/admin/products")}
         >
           취소
-        </Btn>
-        <Btn type="submit" className="min-w-30" disabled={pending}>
+        </Button>
+        <Button type="submit" className="min-w-30" disabled={pending}>
           {pending ? "등록 중..." : "상품 등록"}
-        </Btn>
+        </Button>
       </div>
     </form>
   );

@@ -1,14 +1,14 @@
 "use client";
 
-import { Btn } from "@/components/atoms/Btn/Btn";
+import { Button } from "@/components/atoms/button";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/atoms/Card/Card";
-import { Label } from "@/components/atoms/Label/Label";
-import { Textarea } from "@/components/atoms/Textarea";
+} from "@/components/atoms/card";
+import { Label } from "@/components/atoms/label";
+import { Textarea } from "@/components/atoms/textarea";
 import { Save, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ICoupleInfo } from "@/models/coupleInfo.model";
@@ -40,7 +40,7 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
   return (
     <div className="container mx-auto max-w-5xl px-4 py-8">
       <div className="mb-8">
-        <Btn
+        <Button
           variant="ghost"
           size="sm"
           onClick={() => router.back()}
@@ -48,7 +48,7 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           돌아가기
-        </Btn>
+        </Button>
         <h1 className="text-foreground mb-2 text-3xl font-bold">
           정보 수정하기
         </h1>
@@ -230,7 +230,7 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
         <div className="bg-background/95 border-border fixed right-0 bottom-0 left-0 z-50 border-t backdrop-blur-sm">
           <div className="container mx-auto px-4 py-4">
             <div className="mx-auto flex max-w-5xl gap-4">
-              <Btn
+              <Button
                 type="button"
                 size="lg"
                 variant="outline"
@@ -238,11 +238,11 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
                 onClick={() => router.back()}
               >
                 취소
-              </Btn>
-              <Btn type="submit" size="lg" className="flex-1">
+              </Button>
+              <Button type="submit" size="lg" className="flex-1">
                 <Save className="mr-2 h-5 w-5" />
                 수정하기
-              </Btn>
+              </Button>
             </div>
           </div>
         </div>

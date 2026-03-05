@@ -4,7 +4,8 @@ export const productSchema = z
   .object({
     title: z.string().min(1, "상품명을 입력해주세요."),
     description: z.string().min(10, "상품 설명은 최소 10자 이상이어야 합니다."),
-    category: z.enum(["modern", "romantic", "vintage", "classic", "minimal"]),
+    category: z.enum(["wedding", "thank-you", "first-birthday"]),
+    mood: z.enum(["modern", "romantic", "vintage", "classic", "minimal"]),
     price: z.number().min(0, "가격은 0 이상이어야 합니다."),
     isPremium: z.boolean(),
     options: z.array(z.string()).optional(),
@@ -19,7 +20,7 @@ export const productSchema = z
   })
   .refine(
     (data) => {
-      if (data.isPremium && data.options.length === 0) {
+      if (data.isPremium && (!data.options || data.options.length === 0)) {
         return false;
       }
       return true;

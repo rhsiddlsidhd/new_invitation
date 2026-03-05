@@ -1,6 +1,6 @@
 "use client";
 
-import { Label } from "@/components/atoms/Label/Label";
+import { Label } from "@/components/atoms/label";
 import { RadioGroup, RadioGroupItem } from "@/components/atoms/RadioGroup";
 import React, { useState } from "react";
 import { LucideIcon } from "lucide-react";

@@ -4,7 +4,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/atoms/Select";
+} from "@/components/atoms/select";
 
 import React from "react";
 

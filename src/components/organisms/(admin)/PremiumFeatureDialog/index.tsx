@@ -1,18 +1,18 @@
 "use client";
 
-import { Btn } from "@/components/atoms/Btn/Btn";
-import { DialogFooter } from "@/components/atoms/Dialog/Dialog";
-import { Input } from "@/components/atoms/Input/Input";
+import { Button } from "@/components/atoms/button";
+import { DialogFooter } from "@/components/atoms/dialog";
+import { Input } from "@/components/atoms/input";
 
-import { Textarea } from "@/components/atoms/Textarea";
+import { Textarea } from "@/components/atoms/textarea";
 import type React from "react";
 
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 import { PremiumFeature } from "@/services/premiumFeature.service";
 import { updatePremiumFeatureAction } from "@/actions/updatePremiumFeatureAction";
-import Alert from "@/components/atoms/Alert/Alert";
-import { Label } from "@/components/atoms/Label/Label";
+import Alert from "@/components/molecules/Alert";
+import { Label } from "@/components/atoms/label";
 import { APIResponse } from "@/types/error";
 import { getFieldError, hasFieldErrors } from "@/utils/error";
 import InputField from "@/components/molecules/field/InputField";
@@ -123,12 +123,12 @@ export function PremiumFeatureDialog({
       </div>
 
       <DialogFooter>
-        <Btn type="button" variant="outline">
+        <Button type="button" variant="outline">
           취소
-        </Btn>
-        <Btn type="submit" disabled={pending}>
+        </Button>
+        <Button type="submit" disabled={pending}>
           {pending ? "수정 중..." : "수정"}
-        </Btn>
+        </Button>
       </DialogFooter>
     </form>
   );

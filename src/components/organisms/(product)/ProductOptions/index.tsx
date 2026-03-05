@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation";
 import { ShoppingCart, X } from "lucide-react";
 import { toast } from "sonner";
 
-import { Badge } from "@/components/atoms/Badge/Badge";
-import { Btn } from "@/components/atoms/Btn/Btn";
+import { Badge } from "@/components/atoms/badge";
+import { Button } from "@/components/atoms/button";
 import StatusSelect from "@/components/molecules/StatusSelect";
 import { useOrderStore } from "@/store/order.store";
 import { Product } from "@/services/product.service";
@@ -158,10 +158,10 @@ const ProductOptions = ({
         </span>
       </div>
       <div>
-        <Btn size="lg" className="w-full" onClick={handlePurchase}>
+        <Button size="lg" className="w-full" onClick={handlePurchase}>
           <ShoppingCart className="mr-2 h-5 w-5" />
           구매하기
-        </Btn>
+        </Button>
       </div>
     </div>
   );

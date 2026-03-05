@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
-import { Btn } from "@/components/atoms/Btn/Btn";
+import { Button } from "@/components/atoms/button";
 
 const keyBenefits = ["신용카드 없이 시작", "5분 만에 완성", "무제한 공유"];
 
@@ -14,6 +14,7 @@ const index = () => {
           src="/assets/images/output.webp"
           alt="Wedding Background"
           fill
+          sizes="100vw"
           className="object-cover"
           priority
         />
@@ -42,20 +43,20 @@ const index = () => {
         </p>
 
         <div className="animate-fade-in-up flex flex-col items-center justify-center gap-4 [animation-delay:300ms] sm:flex-row">
-          <Btn
+          <Button
             size="lg"
             className="bg-primary text-primary-foreground hover:bg-primary/90 group"
           >
             {"무료로 시작하기"}
             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Btn>
-          <Btn
+          </Button>
+          <Button
             size="lg"
             variant="outline"
             className="bg-background/80 border-border backdrop-blur-sm"
           >
             {"템플릿 둘러보기"}
-          </Btn>
+          </Button>
         </div>
 
         <div className="text-muted-foreground animate-fade-in-up mt-16 grid grid-cols-3 gap-8 text-sm [animation-delay:400ms] max-sm:grid-cols-1">

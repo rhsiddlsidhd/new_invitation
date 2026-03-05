@@ -2,12 +2,12 @@
 
 import { useState, type ComponentProps } from "react";
 import { Copy, CheckCircle } from "lucide-react";
-import { Btn, buttonVariants } from "@/components/atoms/Btn/Btn";
+import { Button, buttonVariants } from "@/components/atoms/button";
 import { cn } from "@/lib/utils";
 import { type VariantProps } from "class-variance-authority";
 import { toast } from "sonner";
 
-// Btn 컴포넌트의 props 타입을 기반으로 CopyButton의 props 타입을 정의합니다.
+// Button 컴포넌트의 props 타입을 기반으로 CopyButton의 props 타입을 정의합니다.
 export type CopyButtonProps = ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     textToCopy: string;
@@ -37,7 +37,7 @@ export function CopyButton({
   };
 
   return (
-    <Btn
+    <Button
       variant="ghost"
       size="sm"
       onClick={handleCopy}
@@ -50,6 +50,6 @@ export function CopyButton({
         <Copy className="h-4 w-4" />
       )}
       <span className="sr-only">Copy to clipboard</span>
-    </Btn>
+    </Button>
   );
 }

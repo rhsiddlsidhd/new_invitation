@@ -2,15 +2,15 @@
 
 import { updateUserPassword } from "@/actions/updateUserPassword";
 import { fetcher } from "@/api/fetcher";
-import { Btn } from "@/components/atoms/Btn/Btn";
-import { Input } from "@/components/atoms/Input/Input";
-import { Label } from "@/components/atoms/Label/Label";
+import { Button } from "@/components/atoms/button";
+import { Input } from "@/components/atoms/input";
+import { Label } from "@/components/atoms/label";
 
 import { Lock } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useActionState, useEffect } from "react";
-import Alert from "@/components/atoms/Alert/Alert";
+import Alert from "@/components/molecules/Alert";
 import { getFieldError, hasFieldErrors } from "@/utils/error";
 import { APIResponse } from "@/types/error";
 import { toast } from "sonner";
@@ -98,9 +98,9 @@ const UpdatePasswordForm = ({ token }: { token: string }) => {
           )}
         </div>
 
-        <Btn type="submit" className="w-full" size="lg">
+        <Button type="submit" className="w-full" size="lg">
           비밀번호 변경 {pending ? "중" : "완료"}
-        </Btn>
+        </Button>
       </form>
 
       <div className="space-y-2 text-center">

@@ -1,5 +1,5 @@
-import { Input } from "@/components/atoms/Input/Input";
-import { Label } from "@/components/atoms/Label/Label";
+import { Input } from "@/components/atoms/input";
+import { Label } from "@/components/atoms/label";
 import useDaumPopup from "@/hooks/useDaumPopup";
 import React, { useEffect, useState } from "react";
 

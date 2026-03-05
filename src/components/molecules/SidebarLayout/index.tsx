@@ -2,7 +2,7 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-} from "@/components/atoms/Sidebar";
+} from "@/components/atoms/sidebar";
 import { UserRole } from "@/models/user.model";
 
 const SidebarLayout = async ({

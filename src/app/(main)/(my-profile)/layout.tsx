@@ -1,4 +1,4 @@
-import { SidebarProvider } from "@/components/atoms/Sidebar";
+import { SidebarProvider } from "@/components/atoms/sidebar";
 import SidebarNavItem from "@/components/molecules/(nav)/SidebarNavItem";
 import SidebarLayout from "@/components/molecules/SidebarLayout";
 import SidebarToggle from "@/components/organisms/(sidebar)/SidebarToggle";

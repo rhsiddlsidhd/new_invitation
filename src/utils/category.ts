@@ -1,11 +1,11 @@
-export type Category =
+export type Mood =
   | "classic"
   | "modern"
   | "minimal"
   | "romantic"
   | "vintage";
 
-export const categoryLabels: Record<Category, string> = {
+export const moodLabels: Record<Mood, string> = {
   classic: "클래식",
   modern: "모던",
   minimal: "미니멀",
@@ -13,17 +13,36 @@ export const categoryLabels: Record<Category, string> = {
   vintage: "빈티지",
 };
 
-const categoryBaseOptions = Object.entries(categoryLabels).map(
-  ([value, label]) => ({ value: value as Category, label }),
-);
+export type ProductCategory = "wedding" | "thank-you" | "first-birthday";
 
-export const isProductCategory = (value: string): value is Category => {
-  return Object.keys(categoryLabels).includes(value);
+export const productCategoryLabels: Record<ProductCategory, string> = {
+  wedding: "모바일 청첩장",
+  "thank-you": "감사장",
+  "first-birthday": "돌잔치",
 };
 
-export const getCategoryOptions = (includeAll = false) => {
+const moodBaseOptions = Object.entries(moodLabels).map(
+  ([value, label]) => ({ value: value as Mood, label }),
+);
+
+export const isProductMood = (value: string): value is Mood => {
+  return Object.keys(moodLabels).includes(value);
+};
+
+export const isProductCategory = (value: string): value is ProductCategory => {
+  return Object.keys(productCategoryLabels).includes(value);
+};
+
+export const getMoodOptions = (includeAll = false) => {
   const allOption = includeAll
     ? [{ value: "all" as const, label: "전체" }]
     : [];
-  return [...allOption, ...categoryBaseOptions];
+  return [...allOption, ...moodBaseOptions];
+};
+
+export const getCategoryOptions = () => {
+  return Object.entries(productCategoryLabels).map(([value, label]) => ({
+    value: value as ProductCategory,
+    label,
+  }));
 };

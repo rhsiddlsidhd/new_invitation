@@ -1,7 +1,7 @@
 "use client";
 
-import { Btn } from "@/components/atoms/Btn/Btn";
-import { Card } from "@/components/atoms/Card/Card";
+import { Button } from "@/components/atoms/button";
+import { Card } from "@/components/atoms/card";
 import SectionBody from "@/components/molecules/(preview)/SectionBody";
 import { useGuestbookModalStore } from "@/store/guestbook.modal.store";
 
@@ -65,7 +65,7 @@ export function InvitationMessage({ parties }: InvitationMessageProps) {
             </div>
 
             {/* 연락하기 버튼 */}
-            <Btn
+            <Button
               onClick={() =>
                 setIsOpen({
                   isOpen: true,
@@ -77,7 +77,7 @@ export function InvitationMessage({ parties }: InvitationMessageProps) {
               className="hover:bg-secondary-foreground hover:text-secondary mt-4 cursor-pointer rounded-full border px-4 py-2 text-sm"
             >
               {`${party.title}측 연락하기`}
-            </Btn>
+            </Button>
           </Card>
         ))}
       </div>

@@ -3,17 +3,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@font-face {
-  font-family: "NotoSansKR";
-  src: url("/assets/font/NotoSansKR-VariableFont_wght.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "NotoSerif";
-  src: url("/assets/font/NotoSerif-VariableFont_wdth,wght.ttf")
-    format("truetype");
-}
-
 @theme {
   --font-NotoSansKR: "NotoSansKR";
   --font-NotoSerif: "NotoSerif";

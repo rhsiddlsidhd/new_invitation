@@ -15,6 +15,7 @@ const layout = async ({
                 src="/assets/images/output.webp"
                 alt="Wedding celebration"
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
               />
               <div className="from-background/80 absolute inset-0 bg-linear-to-t to-transparent" />

@@ -1,6 +1,6 @@
-import Alert from "@/components/atoms/Alert/Alert";
-import { Input } from "@/components/atoms/Input/Input";
-import { Label } from "@/components/atoms/Label/Label";
+import Alert from "@/components/molecules/Alert";
+import { Input } from "@/components/atoms/input";
+import { Label } from "@/components/atoms/label";
 import { cn } from "@/lib/utils";
 import React, { HTMLInputTypeAttribute, useState, useEffect } from "react";
 

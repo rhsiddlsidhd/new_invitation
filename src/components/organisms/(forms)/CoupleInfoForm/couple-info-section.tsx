@@ -5,7 +5,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/atoms/Card/Card";
+} from "@/components/atoms/card";
 
 import BankAccountField from "@/components/molecules/field/BankAccountField";
 import InputField from "@/components/molecules/field/InputField";

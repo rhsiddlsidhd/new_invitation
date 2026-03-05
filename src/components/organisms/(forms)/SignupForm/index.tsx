@@ -10,11 +10,11 @@ import { Mail, Lock, User, Phone, Globe } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { signupUser } from "@/actions/signupUser";
 
-import { Input } from "@/components/atoms/Input/Input";
-import { Checkbox } from "@/components/atoms/CheckBox/CheckBox";
-import { Btn } from "@/components/atoms/Btn/Btn";
-import { Label } from "@/components/atoms/Label/Label";
-import Alert from "@/components/atoms/Alert/Alert";
+import { Input } from "@/components/atoms/input";
+import { Checkbox } from "@/components/atoms/checkbox";
+import { Button } from "@/components/atoms/button";
+import { Label } from "@/components/atoms/label";
+import Alert from "@/components/molecules/Alert";
 import { getFieldError, hasFieldErrors } from "@/utils/error";
 import { toast } from "sonner";
 import { APIResponse } from "@/types/error";
@@ -177,14 +177,14 @@ export function SignupForm() {
           </div>
         </div>
 
-        <Btn
+        <Button
           type="submit"
           className="w-full"
           size="lg"
           disabled={!agreedToPrivacy || !agreedToTerms || pending}
         >
           회원가입
-        </Btn>
+        </Button>
       </form>
 
       <div className="relative">
@@ -196,7 +196,7 @@ export function SignupForm() {
         </div>
       </div>
 
-      <Btn
+      <Button
         type="button"
         variant="outline"
         className="w-full bg-transparent"
@@ -204,7 +204,7 @@ export function SignupForm() {
       >
         <Globe className="aspect-square w-4" />
         Google로 가입하기
-      </Btn>
+      </Button>
 
       <div className="text-center">
         <p className="text-muted-foreground text-sm">

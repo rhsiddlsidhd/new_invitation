@@ -5,9 +5,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/atoms/Card/Card";
+} from "@/components/atoms/card";
 import { formatPriceWithComma } from "@/utils/price";
-import LoaderThumbnail from "@/components/atoms/LoaderThumbnail";
+import ProductThumbnail from "@/components/molecules/ProductThumbnail";
 import { DELIVERY_FEE } from "@/constants/price";
 
 import { useCheckoutData } from "@/hooks/useCheckoutData";
@@ -25,8 +25,6 @@ export const OrderSummary = () => {
   }
 
   if (!data) {
-    // This state should ideally be prevented by the redirects above,
-    // but added for robustness.
     return (
       <main className="bg-background flex min-h-screen items-center justify-center">
         <p>상품 정보를 찾을 수 없습니다.</p>
@@ -46,14 +44,12 @@ export const OrderSummary = () => {
     quantity: data.quantity,
   };
 
-  // Calculate selected options total price
   const selectedOptionsTotal =
     order.selectedOptions?.reduce(
       (sum: number, option: SelectFeatureDto) => sum + option.price,
       0,
     ) || 0;
 
-  // Calculate discount amount for display
   const discountAmount = order.discount
     ? order.discount.type === "rate"
       ? order.originalPrice * order.discount.value
@@ -68,10 +64,9 @@ export const OrderSummary = () => {
           <CardTitle>주문 내역</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          {/* Product */}
           <div className="flex gap-4">
             <div className="bg-muted relative h-24 w-20 shrink-0 overflow-hidden rounded-lg">
-              <LoaderThumbnail src={order.thumbnail} sizes="80px" />
+              <ProductThumbnail src={order.thumbnail} sizes="80px" />
             </div>
             <div className="min-w-0 flex-1">
               <h3 className="text-foreground mb-1 truncate font-medium">
@@ -83,8 +78,7 @@ export const OrderSummary = () => {
               </p>
             </div>
           </div>
-
-          {/* Selected Options */}
+          {/* ... rest of content */}
           {order.selectedOptions && order.selectedOptions.length > 0 && (
             <div className="space-y-1">
               <p className="text-sm font-medium">선택 옵션:</p>
@@ -110,13 +104,11 @@ export const OrderSummary = () => {
             </div>
           )}
 
-          {/* Quantity */}
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">수량</span>
             <span className="text-foreground">{order.quantity}개</span>
           </div>
 
-          {/* Price Breakdown */}
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">상품 원가</span>
@@ -125,7 +117,6 @@ export const OrderSummary = () => {
               </span>
             </div>
 
-            {/* Discount */}
             {order.discount && discountAmount > 0 && (
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">
@@ -139,7 +130,6 @@ export const OrderSummary = () => {
               </div>
             )}
 
-            {/* Discounted Price */}
             {order.discount && discountAmount > 0 && (
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">할인 적용가</span>
@@ -157,14 +147,12 @@ export const OrderSummary = () => {
             </div>
           </div>
 
-          {/* Total */}
           <div className="flex items-center justify-between">
             <span className="text-foreground text-lg font-semibold">
               총 결제금액
             </span>
             <span className="text-primary text-2xl font-bold">
               {formatPriceWithComma(total)}원
-              {/* Display the final calculated price */}
             </span>
           </div>
         </CardContent>
