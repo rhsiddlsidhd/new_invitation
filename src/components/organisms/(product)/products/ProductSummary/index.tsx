@@ -99,7 +99,7 @@ export function ProductSummary({
                 {/* 할인이 있을 때: 할인율/금액 + 원가(취소선) */}
                 <div className="flex items-baseline gap-2">
                   <span className="text-primary text-sm font-bold">
-                    {product.discount.type === "rate"
+                    {product.discount.discountType === "rate"
                       ? `${Math.round(product.discount.value * 100)}%`
                       : `${product.discount.value.toLocaleString()}원 할인`}
                   </span>

@@ -93,7 +93,10 @@ const ProductOptions = ({
       title: product.title,
       originalPrice: product.price,
       discountedPrice,
-      discount: { type: product.discount.type, value: product.discount.value },
+      discount: {
+        discountType: product.discount.discountType,
+        value: product.discount.value,
+      },
       thumbnail: product.thumbnail,
       selectedFeatures: selectedOptionsDetails,
       quantity,

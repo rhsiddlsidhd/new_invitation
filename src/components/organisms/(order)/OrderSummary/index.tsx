@@ -51,7 +51,7 @@ export const OrderSummary = () => {
     ) || 0;
 
   const discountAmount = order.discount
-    ? order.discount.type === "rate"
+    ? order.discount.discountType === "rate"
       ? order.originalPrice * order.discount.value
       : order.discount.value
     : 0;
@@ -121,7 +121,7 @@ export const OrderSummary = () => {
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">
                   할인{" "}
-                  {order.discount.type === "rate" &&
+                  {order.discount.discountType === "rate" &&
                     `(${Math.round(order.discount.value * 100)}%)`}
                 </span>
                 <span className="text-red-500">

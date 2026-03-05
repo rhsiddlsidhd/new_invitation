@@ -20,12 +20,11 @@ import { mapCoupleInfoToThumbnails } from "@/components/organisms/(preview)/thum
 import { HeroSection } from "@/components/organisms/(preview)/HeroSection";
 import { mapCoupleInfoToInvitationProps } from "@/components/organisms/(preview)/invitationMessage.mapper";
 
-const COUPLEINFO_ID = process.env.NEXT_PUBLIC_PREVIEW_COUPLEINFO_ID;
+const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params;
 
-const Page = async () => {
-  if (!COUPLEINFO_ID) throw new Error("COUPLEINFO_ID is required");
-  const data = await getGuestbookService(COUPLEINFO_ID);
-  const coupleInfoData = await getCoupleInfoById(COUPLEINFO_ID);
+  const data = await getGuestbookService(id);
+  const coupleInfoData = await getCoupleInfoById(id);
 
   if (!coupleInfoData) throw new Error("CoupleInfoData not found");
 
@@ -33,7 +32,7 @@ const Page = async () => {
   const calendarProps = mapCoupleInfoToCalendarProps(coupleInfoData);
   const galleryProps = mapCoupleInfoToGalleryProps(coupleInfoData);
   const locationProps = mapCoupleInfoToLocationProps(coupleInfoData);
-  const guestbookProps = mapDataToGuestbookProps(COUPLEINFO_ID, data);
+  const guestbookProps = mapDataToGuestbookProps(id, data);
   const footerProps = mapCoupleInfoToFooterProps(coupleInfoData);
   const thumbnailProps = mapCoupleInfoToThumbnails(coupleInfoData);
   const invitationMessageProps = mapCoupleInfoToInvitationProps(coupleInfoData);

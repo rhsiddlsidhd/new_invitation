@@ -203,7 +203,7 @@ export function ProductFilters({ data }: { data: Product[] }) {
                   {
                     premiumFeatLabel[
                       value.code as keyof typeof premiumFeatLabel
-                    ] || value.name
+                    ] || value.label
                   }
                 </Badge>
               ))}

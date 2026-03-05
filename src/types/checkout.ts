@@ -11,7 +11,7 @@ export interface CheckoutProductData {
   discountedPrice: number;
   // 옵션을 포함한 최종 가격
   productTotalPrice: number; // 최종 가격
-  discount: { type: string; value: number };
+  discount: { discountType: string; value: number };
   thumbnail: string;
   selectedFeatures: SelectFeatureDto[]; // 선택된 기능들
   // selectedFeaturesPrice: number;

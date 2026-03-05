@@ -1,5 +1,5 @@
 import React from "react";
-import { AlertProps, AlertType } from "./type";
+import { AlertProps, AlertType } from "./Alert.type";
 
 const Alert = ({ type = "info", children, className }: AlertProps) => {
   const config: { [key in AlertType]: string } = {

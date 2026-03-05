@@ -77,13 +77,13 @@ const Navigation = ({ address }: { address: string }) => {
         원하시는 앱을 선택하시면 길안내가 시작됩니다.
       </p>
       <div className="flex flex-col gap-2">
-        {navigationButtons.map((Button, i) => {
+        {navigationButtons.map((nav, i) => {
           return (
             <Button
               variant="outline"
               key={i}
               onClick={() => {
-                Button.onClick({
+                nav.onClick({
                   address: address,
                   current: geoState.current,
                   target: geoState.target,
@@ -92,14 +92,14 @@ const Navigation = ({ address }: { address: string }) => {
             >
               <span className="relative inline-block aspect-square w-4 shrink-0">
                 <Image
-                  src={`/assets/provider/${Button.path}`}
+                  src={`/assets/provider/${nav.path}`}
                   fill
                   alt="provider image"
                   className="object-cover"
                   sizes="16px"
                 />
               </span>
-              <span className="shrink-0 grow-0">{Button.name}</span>
+              <span className="shrink-0 grow-0">{nav.name}</span>
             </Button>
           );
         })}

@@ -1,5 +1,5 @@
 import { Button } from "@/components/atoms/button";
-import { Separator } from "@/components/atoms/Separator";
+import { Separator } from "@/components/atoms/separator";
 import clsx from "clsx";
 import { Save } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
