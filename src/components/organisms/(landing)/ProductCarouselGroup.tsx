@@ -19,13 +19,13 @@ import { Product } from "@/services/product.service";
 import ProductThumbnail from "@/components/molecules/ProductThumbnail";
 import ProductLikeBadge from "@/components/molecules/ProductLikeBadge";
 
+import { fetcher } from "@/api/fetcher";
+
 interface ProductCarouselGroupProps {
   category: string;
   title: string;
   description: string;
 }
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export const ProductCarouselGroup = ({
   category,
@@ -33,13 +33,11 @@ export const ProductCarouselGroup = ({
   description,
 }: ProductCarouselGroupProps) => {
   const {
-    data: response,
+    data: products = [],
     error,
     isLoading,
-  } = useSWR(`/api/products?category=${category}`, fetcher);
+  } = useSWR<Product[]>(`/api/products?category=${category}`, fetcher);
 
-  const products: Product[] = response?.data || [];
-  console.log("products", products);
   if (isLoading || error || products.length === 0) {
     return null;
   }
