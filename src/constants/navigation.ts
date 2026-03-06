@@ -45,14 +45,17 @@ export const navigationButtons = [
 
 export const mainNavItems = [
   {
+    id: "invitation",
     label: "모바일 청첩장",
     href: "/products?category=invitation",
   },
   {
+    id: "business-card",
     label: "명함",
     href: "/products?category=business-card",
   },
   {
+    id: "reviews",
     label: "고객후기",
     href: "/reviews",
   },
