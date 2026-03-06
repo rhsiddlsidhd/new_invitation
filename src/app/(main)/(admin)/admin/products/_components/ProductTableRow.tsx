@@ -2,9 +2,9 @@ import { Eye, Heart, ShoppingCart } from "lucide-react";
 import { Badge } from "@/components/atoms/badge";
 import { Product } from "@/services/product.service";
 import ProductThumbnail from "@/components/molecules/ProductThumbnail";
-import ProductTableRowAction from "@/components/organisms/(admin)/ProductTableRowAction";
-import ProductTableRowSelect from "@/components/organisms/(admin)/ProductTableRowSelect";
-import { productCategoryLabels, moodLabels, ProductCategory, Mood } from "@/utils/category";
+import ProductTableRowAction from "@/components/organisms/ProductTableRowAction";
+import ProductTableRowSelect from "@/components/organisms/ProductTableRowSelect";
+import { productCategoryLabels, subCategoryLabels, ProductCategory, SubCategory } from "@/utils/category";
 
 export interface ProductTableRowProps {
   product: Product;
@@ -36,7 +36,7 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
             {productCategoryLabels[product.category as ProductCategory] || product.category}
           </Badge>
           <span className="text-muted-foreground text-xs px-1">
-            {moodLabels[product.mood as Mood] || product.mood}
+            {subCategoryLabels[product.subCategory as SubCategory] || product.subCategory}
           </span>
         </div>
       </td>

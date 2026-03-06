@@ -6,7 +6,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Button } from "@/components/atoms/button";
 import { Dialog, DialogContent } from "@/components/atoms/dialog";
-import SectionBody from "@/components/molecules/(preview)/SectionBody";
+import SectionBody from "@/components/molecules/SectionLayout";
 import { GallerySectionProps } from "./gallerySection.mapper";
 
 export function GallerySection({ categories }: GallerySectionProps) {

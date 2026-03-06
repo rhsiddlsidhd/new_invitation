@@ -1,6 +1,6 @@
 import { getAllPremiumFeatureService } from "@/services/premiumFeature.service";
 import { Button } from "@/components/atoms/button";
-import { ProductRegistrationForm } from "@/components/organisms/(forms)/ProductRegistrationForm";
+import { ProductRegistrationForm } from "@/components/organisms/ProductRegistrationForm";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 

@@ -39,7 +39,7 @@ export const createProductAction = async (
       title: formData.get("title") as string,
       description: formData.get("description") as string,
       category: formData.get("category") as string,
-      mood: formData.get("mood") as string,
+      subCategory: formData.get("subCategory") as string,
       price: Number(formData.get("price")) as number,
       isPremium: formData.get("isPremium") === "true",
       options: formData.getAll("options") as string[],
@@ -49,13 +49,12 @@ export const createProductAction = async (
     } as const;
 
     const parsed = validateAndFlatten(productSchema, data);
-    console.log("parsed", parsed);
+
     if (!parsed.success) {
       throw new HTTPError("입력값을 확인해주세요", 400, parsed.error);
     }
 
     const thumbnailUrl = await uploadProductImage(thumbnailFile, "thumbnail");
-    console.log("thumbnailUrl", thumbnailUrl);
 
     let previewUrl: string | undefined;
     if (previewFile && previewFile.size > 0) {

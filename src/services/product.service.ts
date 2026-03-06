@@ -128,7 +128,7 @@ export const deleteProductService = async (
 
   const deletedProduct = await ProductModel.findOneAndUpdate(
     { _id: productId, deletedAt: null },
-    { deletedAt: new Date() },
+    { status: "deleted", deletedAt: new Date() },
     { new: true },
   );
 

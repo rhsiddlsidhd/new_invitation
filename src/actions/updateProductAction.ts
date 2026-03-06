@@ -40,7 +40,7 @@ export const updateProductAction = async (
     const data = {
       title: formData.get("title"),
       category: formData.get("category"),
-      mood: formData.get("mood"),
+      subCategory: formData.get("subCategory"),
       status: formData.get("status"),
       description: formData.get("description"),
       feature: formData.get("feature") === "true",

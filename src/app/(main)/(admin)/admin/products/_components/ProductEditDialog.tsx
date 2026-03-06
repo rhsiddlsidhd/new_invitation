@@ -22,7 +22,7 @@ import { Label } from "@/components/atoms/label";
 import usePremiumFeature from "@/hooks/usePremiumFeatures";
 import Spinner from "@/components/molecules/Spinner";
 import ProductThumbnail from "@/components/molecules/ProductThumbnail";
-import { getCategoryOptions, getMoodOptions } from "@/utils/category";
+import { getCategoryOptions, getSubCategoryOptions, ProductCategory, SubCategory } from "@/utils/category";
 import { toast } from "sonner";
 import { useAdminModalStore } from "@/store/admin.modal.store";
 
@@ -45,6 +45,8 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
     product.options || [],
   );
   const [status, setStatus] = useState(product.status);
+  const [selectedCategory, setSelectedCategory] = useState<ProductCategory>(product.category as ProductCategory);
+  const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategory | "">(product.subCategory as SubCategory);
 
   useEffect(() => {
     if (state && state.success) {
@@ -193,7 +195,14 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
               <Alert type="error">{error["category"][0]}</Alert>
             )}
           </Label>
-          <Select name="category" defaultValue={product.category}>
+          <Select
+            name="category"
+            value={selectedCategory}
+            onValueChange={(value) => {
+              setSelectedCategory(value as ProductCategory);
+              setSelectedSubCategory("");
+            }}
+          >
             <SelectTrigger>
               <SelectValue placeholder="카테고리를 선택하세요" />
             </SelectTrigger>
@@ -208,20 +217,24 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
         </div>
 
         <div className="flex-1">
-          <Label htmlFor="edit-mood">
-            스타일(소분류) *
-            {error && error["mood"] && (
-              <Alert type="error">{error["mood"][0]}</Alert>
+          <Label htmlFor="edit-subCategory">
+            서브 카테고리 *
+            {error && error["subCategory"] && (
+              <Alert type="error">{error["subCategory"][0]}</Alert>
             )}
           </Label>
-          <Select name="mood" defaultValue={product.mood}>
+          <Select
+            name="subCategory"
+            value={selectedSubCategory}
+            onValueChange={(value) => setSelectedSubCategory(value as SubCategory)}
+          >
             <SelectTrigger>
-              <SelectValue placeholder="스타일을 선택하세요" />
+              <SelectValue placeholder="서브 카테고리를 선택하세요" />
             </SelectTrigger>
             <SelectContent>
-              {getMoodOptions().map((mood) => (
-                <SelectItem key={mood.value} value={mood.value}>
-                  {mood.label}
+              {getSubCategoryOptions(selectedCategory).map((sub) => (
+                <SelectItem key={sub.value} value={sub.value}>
+                  {sub.label}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -234,7 +247,7 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
             name="status"
             value={status}
             onValueChange={(value) =>
-              setStatus(value as "active" | "inactive" | "soldOut")
+              setStatus(value as "active" | "inactive" | "soldOut" | "deleted")
             }
           >
             <SelectTrigger>
@@ -244,6 +257,7 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
               <SelectItem value="active">판매중</SelectItem>
               <SelectItem value="inactive">비활성</SelectItem>
               <SelectItem value="soldOut">품절</SelectItem>
+              <SelectItem value="deleted">삭제</SelectItem>
             </SelectContent>
           </Select>
         </div>

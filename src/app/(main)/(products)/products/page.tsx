@@ -1,6 +1,6 @@
-import ProductCatalog from "@/components/organisms/(product)/products/ProductCatalog";
+import ProductCatalog from "@/components/organisms/ProductCatalog";
 import { getAllProductsService } from "@/services/product.service";
-import { ProductCategory, productCategoryLabels } from "@/utils/category";
+import { productCategoryLabels, isProductCategory } from "@/utils/category";
 
 export default async function ProductsPage({
   searchParams,
@@ -9,10 +9,10 @@ export default async function ProductsPage({
 }) {
   const { category } = await searchParams;
   const products = await getAllProductsService(category);
-  console.log("products", products);
+
   const currentCategoryLabel =
-    category && category !== "all"
-      ? productCategoryLabels[category as ProductCategory]
+    category && category !== "all" && isProductCategory(category)
+      ? productCategoryLabels[category]
       : "전체 상품";
 
   return (

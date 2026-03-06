@@ -6,11 +6,9 @@ import { getChosung } from "@/utils/hangul";
 
 const useVisibleProducts = ({
   state,
-  mood,
   data,
 }: {
   state: ProductFilterState;
-  mood: string;
   data: Product[];
 }) => {
   const keywordChosung = useMemo(
@@ -21,8 +19,10 @@ const useVisibleProducts = ({
   const visibleProducts = useMemo(() => {
     // 1. Filter
     const filtered = data.filter((item) => {
-      // Mood (Style) filter
-      const moodMatch = mood === "all" || item.mood === mood;
+      // SubCategory filter
+
+      const subCategoryMatch =
+        state.subCategory === "all" || item.subCategory === state.subCategory;
 
       // Keyword filter
       const keywordMatch = (() => {
@@ -64,7 +64,7 @@ const useVisibleProducts = ({
         );
       })();
 
-      return moodMatch && keywordMatch && priceMatch && premiumFeatMatch;
+      return subCategoryMatch && keywordMatch && priceMatch && premiumFeatMatch;
     });
 
     // 2. Sort
@@ -93,7 +93,7 @@ const useVisibleProducts = ({
 
     return sorted;
   }, [
-    mood,
+    state.subCategory,
     state.keyword,
     state.price,
     state.premiumFeat,

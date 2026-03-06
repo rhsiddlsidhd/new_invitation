@@ -4,7 +4,7 @@ import type React from "react";
 
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import PremiumFeatureRegistrationForm from "@/components/organisms/(forms)/PremiumFeatureRegistrationForm";
+import PremiumFeatureRegistrationForm from "@/components/organisms/PremiumFeatureRegistrationForm";
 import { Button } from "@/components/atoms/button";
 import {
   Card,
