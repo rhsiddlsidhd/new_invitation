@@ -30,10 +30,9 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
-    const formData = new FormData(form);
 
     // TODO: Implement update action
-    
+
     alert("수정 기능은 아직 구현 중입니다.");
   };
 

@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/atoms/dialog";
-import { PremiumFeatureDialog } from "../(admin)/PremiumFeatureDialog";
+import { PremiumFeatureDialog } from "./PremiumFeatureDialog";
 
 const modalPayload: Record<
   Exclude<AdminModalState["type"], null>,

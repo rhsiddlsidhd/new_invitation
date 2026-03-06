@@ -1,4 +1,4 @@
-import mongoose, { model, Schema, Model } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 import {
   ProductCategory,
   SubCategory,
@@ -11,17 +11,20 @@ export { SUB_CATEGORY_MAP };
 export type Status = "active" | "inactive" | "soldOut" | "deleted";
 
 // 할인 정보를 위한 서브 스키마 정의 (더 안전한 검증을 위해)
-const discountSchema = new Schema({
-  discountType: { 
-    type: String, 
-    enum: ["rate", "amount"], 
-    default: "rate" 
+const discountSchema = new Schema(
+  {
+    discountType: {
+      type: String,
+      enum: ["rate", "amount"],
+      default: "rate",
+    },
+    value: {
+      type: Number,
+      default: 0,
+    },
   },
-  value: {
-    type: Number,
-    default: 0,
-  }
-}, { _id: false });
+  { _id: false },
+);
 
 export interface ProductDB {
   authorId: string;
@@ -101,7 +104,7 @@ const productSchema = new Schema<ProductDocument>(
     salesCount: { type: Number, default: 0 },
     discount: {
       type: discountSchema,
-      default: () => ({ discountType: "rate", value: 0 })
+      default: () => ({ discountType: "rate", value: 0 }),
     },
     isPremium: { type: Boolean, required: true },
     status: {

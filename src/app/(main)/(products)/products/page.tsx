@@ -1,10 +1,6 @@
 import ProductCatalog from "@/components/organisms/ProductCatalog";
 import { getAllProductsService } from "@/services/product.service";
-import {
-  ProductCategory,
-  productCategoryLabels,
-  isProductCategory,
-} from "@/utils/category";
+import { productCategoryLabels, isProductCategory } from "@/utils/category";
 
 export default async function ProductsPage({
   searchParams,

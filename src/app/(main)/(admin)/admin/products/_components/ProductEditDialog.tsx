@@ -22,7 +22,7 @@ import { Label } from "@/components/atoms/label";
 import usePremiumFeature from "@/hooks/usePremiumFeatures";
 import Spinner from "@/components/molecules/Spinner";
 import ProductThumbnail from "@/components/molecules/ProductThumbnail";
-import { getCategoryOptions, getSubCategoryOptions, ProductCategory } from "@/utils/category";
+import { getCategoryOptions, getSubCategoryOptions, ProductCategory, SubCategory } from "@/utils/category";
 import { toast } from "sonner";
 import { useAdminModalStore } from "@/store/admin.modal.store";
 
@@ -46,7 +46,7 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
   );
   const [status, setStatus] = useState(product.status);
   const [selectedCategory, setSelectedCategory] = useState<ProductCategory>(product.category as ProductCategory);
-  const [selectedSubCategory, setSelectedSubCategory] = useState(product.subCategory);
+  const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategory | "">(product.subCategory as SubCategory);
 
   useEffect(() => {
     if (state && state.success) {
@@ -226,7 +226,7 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
           <Select
             name="subCategory"
             value={selectedSubCategory}
-            onValueChange={setSelectedSubCategory}
+            onValueChange={(value) => setSelectedSubCategory(value as SubCategory)}
           >
             <SelectTrigger>
               <SelectValue placeholder="서브 카테고리를 선택하세요" />

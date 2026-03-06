@@ -7,11 +7,11 @@ import {
 import { AnimatePresence, motion } from "motion/react";
 import React, { useEffect, useMemo, useState } from "react";
 import { Dialog, DialogContent } from "@/components/atoms/dialog";
-import ViewContact from "../(preview)/ViewContact";
+import ViewContact from "./(preview)/ViewContact";
 import { cn } from "@/lib/utils";
 import clsx from "clsx";
-import DeleteGuestbookForm from "../(forms)/DeleteGuestbookForm/index";
-import CreateGuestbookForm from "../(forms)/CreateGuestbookForm";
+import DeleteGuestbookForm from "./DeleteGuestbookForm";
+import CreateGuestbookForm from "./CreateGuestbookForm";
 
 const GUESTBOOK: Record<
   GuestbookModalType,

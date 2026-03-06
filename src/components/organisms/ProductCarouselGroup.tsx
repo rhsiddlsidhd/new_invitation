@@ -2,7 +2,7 @@
 
 import React from "react";
 import useSWR from "swr";
-import { Eye } from "lucide-react";
+
 import Link from "next/link";
 
 import {
@@ -12,13 +12,9 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/atoms/carousel";
-import { Card, CardContent } from "@/components/atoms/card";
-import { Button } from "@/components/atoms/button";
-import { Badge } from "@/components/atoms/badge";
-import { Product } from "@/services/product.service";
-import ProductThumbnail from "@/components/molecules/ProductThumbnail";
-import ProductLikeBadge from "@/components/molecules/ProductLikeBadge";
 
+import { Button } from "@/components/atoms/button";
+import { Product } from "@/services/product.service";
 import { fetcher } from "@/api/fetcher";
 import { ProductCard } from "./ProductCard";
 
