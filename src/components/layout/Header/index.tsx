@@ -28,7 +28,7 @@ const Header = async () => {
                 <span className="sr-only">메뉴 열기</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+            <SheetContent side="left" className="w-75 sm:w-100">
               <SheetHeader>
                 <SheetTitle className="flex items-center gap-2">
                   <div className="bg-primary flex h-8 w-8 items-center justify-center rounded-full">

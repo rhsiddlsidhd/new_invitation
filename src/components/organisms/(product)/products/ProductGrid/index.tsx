@@ -9,7 +9,6 @@ export function ProductGrid({ data }: { data: Product[] }) {
   const [state] = useProductFilter();
   const { visibleProducts } = useVisibleProducts({
     state,
-    mood: state.mood,
     data,
   });
   return (

@@ -1,8 +1,14 @@
 import mongoose, { model, Schema, Model } from "mongoose";
+import {
+  ProductCategory,
+  SubCategory,
+  SUB_CATEGORY_MAP,
+} from "@/utils/category";
 
-export type Status = "active" | "inactive" | "soldOut";
-export type Mood = "modern" | "romantic" | "vintage" | "classic" | "minimal";
-export type ProductCategory = "wedding" | "thank-you" | "first-birthday";
+export type { ProductCategory, SubCategory };
+export { SUB_CATEGORY_MAP };
+
+export type Status = "active" | "inactive" | "soldOut" | "deleted";
 
 // 할인 정보를 위한 서브 스키마 정의 (더 안전한 검증을 위해)
 const discountSchema = new Schema({
@@ -25,7 +31,7 @@ export interface ProductDB {
   previewUrl?: string;
   price: number;
   category: ProductCategory;
-  mood: Mood;
+  subCategory: SubCategory;
   isPremium: boolean;
   options?: mongoose.Types.ObjectId[];
   feature: boolean;
@@ -69,13 +75,20 @@ const productSchema = new Schema<ProductDocument>(
     price: { type: Number, required: true },
     category: {
       type: String,
-      enum: ["wedding", "thank-you", "first-birthday"],
+      enum: ["invitation", "business-card"],
       required: true,
     },
-    mood: {
+    subCategory: {
       type: String,
-      enum: ["modern", "romantic", "vintage", "classic", "minimal"],
       required: true,
+      validate: {
+        validator: function (this: ProductDocument, value: string) {
+          const allowed = SUB_CATEGORY_MAP[this.category];
+          return allowed?.includes(value as SubCategory) ?? false;
+        },
+        message: (props: { value: string }) =>
+          `'${props.value}'는 해당 카테고리에서 허용되지 않는 subCategory입니다.`,
+      },
     },
     feature: { type: Boolean, default: false },
     priority: { type: Number, default: 0 },
@@ -93,7 +106,7 @@ const productSchema = new Schema<ProductDocument>(
     isPremium: { type: Boolean, required: true },
     status: {
       type: String,
-      enum: ["active", "inactive", "soldOut"],
+      enum: ["active", "inactive", "soldOut", "deleted"],
       default: "active",
     },
     options: {

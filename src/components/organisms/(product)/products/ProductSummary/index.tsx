@@ -6,7 +6,7 @@ import { Badge } from "@/components/atoms/badge";
 import { Button } from "@/components/atoms/button";
 import { Product } from "@/services/product.service";
 
-import { productCategoryLabels, isProductCategory } from "@/utils/category";
+import { productCategoryLabels, subCategoryLabels, isProductCategory, SubCategory } from "@/utils/category";
 
 import { calculatePrice } from "@/utils/price";
 import { PremiumFeature } from "@/services/premiumFeature.service";
@@ -73,6 +73,9 @@ export function ProductSummary({
               <Badge variant="outline">
                 {isProductCategory(product.category) &&
                   productCategoryLabels[product.category]}
+              </Badge>
+              <Badge variant="outline">
+                {subCategoryLabels[product.subCategory as SubCategory] ?? product.subCategory}
               </Badge>
               <div className="grid grid-cols-2 gap-2">
                 <ProductLikeBadge

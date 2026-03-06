@@ -20,7 +20,7 @@ import { useState } from "react";
 import { useProductFilter } from "@/context/productFilter/reducer";
 import { ProductFilterState } from "@/context/productFilter/type";
 import { Product } from "@/services/product.service";
-import { getMoodOptions } from "@/utils/category";
+import { SubCategory, ProductCategory, getSubCategoryOptions, SUB_CATEGORY_MAP } from "@/utils/category";
 import usePremiumFeature from "@/hooks/usePremiumFeatures";
 
 const premiumFeatLabel: Record<string, string> = {
@@ -31,7 +31,7 @@ const premiumFeatLabel: Record<string, string> = {
   SAVE_GUESTBOOK: "📝 방명록 추억 저장",
 };
 
-export function ProductFilters({ data }: { data: Product[] }) {
+export function ProductFilters({ data, category }: { data: Product[]; category: string }) {
   const [state, dispatch] = useProductFilter();
   const { premiumFeatures } = usePremiumFeature();
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
@@ -106,12 +106,15 @@ export function ProductFilters({ data }: { data: Product[] }) {
       </p>
 
       <div className="flex flex-wrap gap-2">
-        {getMoodOptions(true).map((option) => (
+        {getSubCategoryOptions(
+          (SUB_CATEGORY_MAP[category as ProductCategory] ? category : "invitation") as ProductCategory,
+          true,
+        ).map((option) => (
           <Button
             key={option.value}
-            variant={state.mood === option.value ? "default" : "outline"}
+            variant={state.subCategory === option.value ? "default" : "outline"}
             onClick={() =>
-              dispatch({ type: "SELECT_MOOD", payload: option.value })
+              dispatch({ type: "SELECT_SUB_CATEGORY", payload: option.value as SubCategory | "all" })
             }
             size="sm"
           >
@@ -200,11 +203,9 @@ export function ProductFilters({ data }: { data: Product[] }) {
                     })
                   }
                 >
-                  {
-                    premiumFeatLabel[
-                      value.code as keyof typeof premiumFeatLabel
-                    ] || value.label
-                  }
+                  {premiumFeatLabel[
+                    value.code as keyof typeof premiumFeatLabel
+                  ] || value.label}
                 </Badge>
               ))}
             </div>

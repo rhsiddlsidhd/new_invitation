@@ -169,7 +169,6 @@ export function CheckoutForm({ query }: { query: string }) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({}); // 이전 에러 초기화
-    console.log("클릭");
 
     const formData = new FormData(e.currentTarget as HTMLFormElement);
 

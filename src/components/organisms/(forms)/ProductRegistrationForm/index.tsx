@@ -29,7 +29,7 @@ import {
 import { Switch } from "@/components/atoms/switch";
 import { Checkbox } from "@/components/atoms/checkbox";
 import { Label } from "@/components/atoms/label";
-import { getCategoryOptions, getMoodOptions } from "@/utils/category";
+import { getCategoryOptions, getSubCategoryOptions, ProductCategory } from "@/utils/category";
 import { getFieldError } from "@/utils/error";
 import { APIResponse } from "@/types/error";
 
@@ -46,6 +46,7 @@ export function ProductRegistrationForm({
     FormData
   >(createProductAction, null);
   const [isPremium, setIsPremium] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<ProductCategory>("invitation");
   const [isFeature, setIsFeature] = useState(false);
   const [thumbnail, setThumbnail] = useState<string | null>(null);
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
@@ -93,7 +94,7 @@ export function ProductRegistrationForm({
   const titleError = getFieldError(state, "title");
   const descriptionError = getFieldError(state, "description");
   const categoryError = getFieldError(state, "category");
-  const moodError = getFieldError(state, "mood");
+  const subCategoryError = getFieldError(state, "subCategory");
   const priceError = getFieldError(state, "price");
   const priorityError = getFieldError(state, "priority");
   const thumbnailError = getFieldError(state, "thumbnail");
@@ -138,7 +139,12 @@ export function ProductRegistrationForm({
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="category">카테고리(대분류) *</Label>
-                  <Select name="category" required>
+                  <Select
+                    name="category"
+                    value={selectedCategory}
+                    onValueChange={(value) => setSelectedCategory(value as ProductCategory)}
+                    required
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="카테고리를 선택하세요" />
                     </SelectTrigger>
@@ -154,20 +160,20 @@ export function ProductRegistrationForm({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="mood">스타일(소분류) *</Label>
-                  <Select name="mood" required>
+                  <Label htmlFor="subCategory">서브 카테고리 *</Label>
+                  <Select name="subCategory" required>
                     <SelectTrigger>
-                      <SelectValue placeholder="스타일을 선택하세요" />
+                      <SelectValue placeholder="서브 카테고리를 선택하세요" />
                     </SelectTrigger>
                     <SelectContent>
-                      {getMoodOptions().map((mood) => (
-                        <SelectItem key={mood.value} value={mood.value}>
-                          {mood.label}
+                      {getSubCategoryOptions(selectedCategory).map((sub) => (
+                        <SelectItem key={sub.value} value={sub.value}>
+                          {sub.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
-                  {moodError && <Alert type="error">{moodError}</Alert>}
+                  {subCategoryError && <Alert type="error">{subCategoryError}</Alert>}
                 </div>
               </div>
             </CardContent>

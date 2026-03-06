@@ -32,7 +32,7 @@ const Page = async ({
   // if (coupleInfo.userId.toString() !== payload.id) {
   //   throw new HTTPError("접근 권한이 없습니다.", 403);
   // }
-  // console.log(coupleInfo);
+
   return <CoupleInfoForm type={"edit"} />;
 };
 

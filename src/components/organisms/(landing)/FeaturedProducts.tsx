@@ -16,21 +16,15 @@ export const FeaturedProducts = () => {
 
         <div className="space-y-24">
           <ProductCarouselGroup
-            category="wedding"
-            title="모바일 청첩장"
-            description="우리의 소중한 날, 가장 아름다운 시작을 알리는 청첩장"
+            category="invitation"
+            title="초대장"
+            description="소중한 순간을 함께할 분들께 마음을 전하는 초대장"
           />
 
           <ProductCarouselGroup
-            category="first-birthday"
-            title="돌잔치 초대장"
-            description="우리아이의 첫 번째 생일, 사랑스러운 디자인으로 초대하세요"
-          />
-
-          <ProductCarouselGroup
-            category="thank-you"
-            title="모바일 감사장"
-            description="진심 어린 마음을 담아 전하는 정성스러운 인사"
+            category="business-card"
+            title="명함"
+            description="나를 가장 잘 표현하는 세련된 디지털 명함"
           />
         </div>
       </div>

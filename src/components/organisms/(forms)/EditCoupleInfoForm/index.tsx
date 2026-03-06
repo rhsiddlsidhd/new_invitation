@@ -33,7 +33,7 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
     const formData = new FormData(form);
 
     // TODO: Implement update action
-    console.log("Update data:", Object.fromEntries(formData));
+    
     alert("수정 기능은 아직 구현 중입니다.");
   };
 

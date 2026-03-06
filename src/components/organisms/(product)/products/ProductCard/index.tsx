@@ -8,7 +8,7 @@ import { Product } from "@/services/product.service";
 import ProductThumbnail from "@/components/molecules/ProductThumbnail";
 import { calculatePrice } from "@/utils/price";
 import { useRouter } from "next/navigation";
-import { Mood, moodLabels } from "@/utils/category";
+import { SubCategory, subCategoryLabels } from "@/utils/category";
 
 const PREVIEW_ID = process.env.NEXT_PUBLIC_PREVIEW_COUPLEINFO_ID;
 if (!PREVIEW_ID) throw new Error("PREVIEW_ID is not defined");
@@ -64,7 +64,7 @@ export function ProductCard({ product }: { product: Product }) {
               {product.title}
             </h3>
             <Badge variant="outline" className="shrink-0 text-xs">
-              {moodLabels[product.mood as Mood]}
+              {subCategoryLabels[product.subCategory as SubCategory] ?? product.subCategory}
             </Badge>
           </div>
           <div>
