@@ -29,7 +29,6 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.currentTarget;
 
     // TODO: Implement update action
 
