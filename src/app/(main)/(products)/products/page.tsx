@@ -1,4 +1,4 @@
-import ProductCatalog from "@/components/organisms/(product)/products/ProductCatalog";
+import ProductCatalog from "@/components/organisms/ProductCatalog";
 import { getAllProductsService } from "@/services/product.service";
 import {
   ProductCategory,

@@ -1,5 +1,5 @@
-import { ProductFeatures } from "@/components/organisms/(product)/products/ProductFeatures";
-import { ProductSummary } from "@/components/organisms/(product)/products/ProductSummary";
+import { ProductFeatures } from "@/components/organisms/ProductFeatures";
+import { ProductSummary } from "@/components/organisms/ProductSummary";
 import { getPremiumFeatureService } from "@/services/premiumFeature.service";
 import { getProductService } from "@/services/product.service";
 import React from "react";

@@ -1,5 +1,5 @@
-import BasicInfoForm from "@/components/organisms/(forms)/MyProfile/BasicInfoForm";
-import ChangePasswordForm from "@/components/organisms/(forms)/MyProfile/ChangePasswordForm";
+import BasicInfoForm from "@/components/organisms/BasicInfoForm";
+import ChangePasswordForm from "@/components/organisms/ChangePasswordForm";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
 import { getUser } from "@/services/auth.service";

@@ -1,7 +1,7 @@
 "use client";
 
-import { CopyButton } from "@/components/molecules/CopyButton/CopyButton";
-import SectionBody from "@/components/molecules/(preview)/SectionBody";
+import { CopyButton } from "@/components/molecules/CopyButton";
+import SectionBody from "@/components/molecules/SectionLayout";
 import KakaoMap from "@/components/molecules/KakaoMap";
 import Navigation from "@/components/organisms/(preview)/Navigation";
 import { LocationSectionProps } from "./locationSection.mapper";

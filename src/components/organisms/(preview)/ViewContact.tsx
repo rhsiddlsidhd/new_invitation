@@ -7,7 +7,7 @@ import {
 } from "@/components/atoms/dialog";
 import React from "react";
 import { Card } from "@/components/atoms/card";
-import { CopyButton } from "@/components/molecules/CopyButton/CopyButton";
+import { CopyButton } from "@/components/molecules/CopyButton";
 import { PhoneIcon } from "lucide-react";
 
 // Contact 타입을 컴포넌트 내에서 직접 정의하여 의존성 제거

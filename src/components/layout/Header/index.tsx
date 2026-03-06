@@ -1,4 +1,4 @@
-import AuthButton from "@/components/molecules/(button)/AuthButton";
+import AuthButton from "@/components/molecules/AuthButton";
 import { getAuth } from "@/services/auth.service";
 import { Heart, Menu } from "lucide-react";
 import Link from "next/link";

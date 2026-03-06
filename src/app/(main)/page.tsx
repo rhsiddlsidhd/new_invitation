@@ -1,9 +1,9 @@
-import { CTA } from "@/components/organisms/(landing)/CTA";
+import { CTA } from "@/components/organisms/CTA";
 import { Footer } from "@/components/layout/Footer";
-import { EcommerceHero } from "@/components/organisms/(landing)/EcommerceHero";
-import { CategoryNav } from "@/components/organisms/(landing)/CategoryNav";
-import { FeaturedProducts } from "@/components/organisms/(landing)/FeaturedProducts";
-import { LatestProducts } from "@/components/organisms/(landing)/Templates";
+import { EcommerceHero } from "@/components/organisms/EcommerceHero";
+import { CategoryNav } from "@/components/organisms/CategoryNav";
+import { FeaturedProducts } from "@/components/organisms/FeaturedProducts";
+import { LatestProducts } from "@/components/organisms/Templates";
 
 import React from "react";
 

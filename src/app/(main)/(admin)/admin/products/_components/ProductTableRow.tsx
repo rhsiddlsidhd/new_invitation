@@ -2,8 +2,8 @@ import { Eye, Heart, ShoppingCart } from "lucide-react";
 import { Badge } from "@/components/atoms/badge";
 import { Product } from "@/services/product.service";
 import ProductThumbnail from "@/components/molecules/ProductThumbnail";
-import ProductTableRowAction from "@/components/organisms/(admin)/ProductTableRowAction";
-import ProductTableRowSelect from "@/components/organisms/(admin)/ProductTableRowSelect";
+import ProductTableRowAction from "@/components/organisms/ProductTableRowAction";
+import ProductTableRowSelect from "@/components/organisms/ProductTableRowSelect";
 import { productCategoryLabels, subCategoryLabels, ProductCategory, SubCategory } from "@/utils/category";
 
 export interface ProductTableRowProps {

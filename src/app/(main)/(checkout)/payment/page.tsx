@@ -1,4 +1,4 @@
-import { CheckoutForm } from "@/components/organisms/(forms)/CheckoutForm";
+import { CheckoutForm } from "@/components/organisms/CheckoutForm";
 
 import React from "react";
 

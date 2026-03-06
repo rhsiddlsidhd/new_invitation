@@ -1,14 +1,14 @@
 import { SidebarProvider } from "@/components/atoms/sidebar";
 
-import SidebarHeader from "@/components/organisms/(sidebar)/SidebarToggle";
+import SidebarHeader from "@/components/organisms/SidebarToggle";
 import SidebarLayout from "@/components/molecules/SidebarLayout";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
 import { getUser } from "@/services/auth.service";
 import { redirect } from "next/navigation";
 import type React from "react";
-import SidebarNavItem from "@/components/molecules/(nav)/SidebarNavItem";
-import AdminModal from "@/components/organisms/(modal)/AdminModal";
+import SidebarNavItem from "@/components/molecules/SidebarNavItem";
+import AdminModal from "@/components/organisms/AdminModal";
 
 export default async function AdminLayout({
   children,

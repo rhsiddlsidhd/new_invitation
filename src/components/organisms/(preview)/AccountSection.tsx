@@ -1,9 +1,9 @@
 "use client";
 
-import SectionBody from "@/components/molecules/(preview)/SectionBody";
+import SectionBody from "@/components/molecules/SectionLayout";
 import React, { useMemo, useState } from "react";
 import { Card } from "@/components/atoms/card";
-import { CopyButton } from "@/components/molecules/CopyButton/CopyButton";
+import { CopyButton } from "@/components/molecules/CopyButton";
 
 import { cn } from "@/lib/utils";
 import { useBanks } from "@/hooks/useBanks";

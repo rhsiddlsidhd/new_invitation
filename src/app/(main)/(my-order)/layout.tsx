@@ -1,7 +1,7 @@
 import { SidebarProvider } from "@/components/atoms/sidebar";
-import SidebarNavItem from "@/components/molecules/(nav)/SidebarNavItem";
+import SidebarNavItem from "@/components/molecules/SidebarNavItem";
 import SidebarLayout from "@/components/molecules/SidebarLayout";
-import SidebarToggle from "@/components/organisms/(sidebar)/SidebarToggle";
+import SidebarToggle from "@/components/organisms/SidebarToggle";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
 import { getUser } from "@/services/auth.service";

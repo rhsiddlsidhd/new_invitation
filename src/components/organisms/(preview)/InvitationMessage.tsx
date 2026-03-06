@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/atoms/button";
 import { Card } from "@/components/atoms/card";
-import SectionBody from "@/components/molecules/(preview)/SectionBody";
+import SectionBody from "@/components/molecules/SectionLayout";
 import { useGuestbookModalStore } from "@/store/guestbook.modal.store";
 
 // 이 컴포넌트가 받을 데이터 구조를 정의합니다.

@@ -1,4 +1,4 @@
-import UpdatePasswordForm from "@/components/organisms/(forms)/UpdatePasswordForm";
+import UpdatePasswordForm from "@/components/organisms/UpdatePasswordForm";
 
 import { redirect } from "next/navigation";
 import React from "react";
