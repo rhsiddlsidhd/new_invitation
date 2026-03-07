@@ -1,9 +1,7 @@
 "use client";
 
 import { ChevronDown, Search, SlidersHorizontal } from "lucide-react";
-
 import AutoCompleteList from "@/components/molecules/AutoCompleteList";
-
 import { Command, CommandInput } from "@/components/atoms/command";
 import { Button } from "@/components/atoms/button";
 import useSuggestProducts from "@/hooks/useSuggestProducts";
@@ -20,18 +18,30 @@ import { useState } from "react";
 import { useProductFilter } from "@/context/productFilter/reducer";
 import { ProductFilterState } from "@/context/productFilter/type";
 import { Product } from "@/services/product.service";
-import { SubCategory, ProductCategory, getSubCategoryOptions, SUB_CATEGORY_MAP } from "@/utils/category";
+import {
+  SubCategory,
+  ProductCategory,
+  getSubCategoryOptions,
+  SUB_CATEGORY_MAP,
+} from "@/utils/category";
 import usePremiumFeature from "@/hooks/usePremiumFeatures";
 
-const premiumFeatLabel: Record<string, string> = {
-  VIDEO: "🎬 비디오 추가",
-  HORIZONTAL_SLIDE: "➡️ 가로 슬라이드 갤러리",
-  CUSTOM_FONT: "✍️ 나만의 폰트",
-  SAVE_MOBILE_INVITATION: "💌 영원히 간직하는 청첩장",
-  SAVE_GUESTBOOK: "📝 방명록 추억 저장",
-};
+import {
+  PRODUCT_SORT_OPTIONS,
+  PRODUCT_PRICE_OPTIONS,
+  PREMIUM_FEATURE_LABELS,
+  PRODUCT_SORT_KEYS,
+  PRODUCT_PRICE_KEYS,
+  ProductSortType,
+} from "@/constants/product";
 
-export function ProductFilters({ data, category }: { data: Product[]; category: string }) {
+export function ProductFilters({
+  data,
+  category,
+}: {
+  data: Product[];
+  category: string;
+}) {
   const [state, dispatch] = useProductFilter();
   const { premiumFeatures } = usePremiumFeature();
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
@@ -40,39 +50,8 @@ export function ProductFilters({ data, category }: { data: Product[]; category: 
     keyword: state.keyword.trim(),
   });
 
-  const prices: ProductFilterState["price"][] = [
-    "ALL",
-    "FREE",
-    "UNDER-10k",
-    "10k-30k",
-    "OVER-30k",
-  ];
-
-  const priceLabels: Record<ProductFilterState["price"], string> = {
-    ALL: "모두",
-    FREE: "무료",
-    "UNDER-10k": "1만원 이하",
-    "10k-30k": "1만원 이상 3만원 이하",
-    "OVER-30k": "3만원 이상",
-  };
-
-  const sortBy: ProductFilterState["sortBy"][] = [
-    "ALL",
-    "POPULAR",
-    "RECOMENDED",
-    "LATEST",
-    "PRICE_LOW",
-    "PRICE_HIGH",
-  ];
-
-  const sortBylabels: Record<ProductFilterState["sortBy"], string> = {
-    ALL: "모두",
-    POPULAR: "인기순",
-    LATEST: "최신순",
-    RECOMENDED: "추천순",
-    PRICE_LOW: "낮은 가격순",
-    PRICE_HIGH: "높은 가격순",
-  };
+  const prices = PRODUCT_PRICE_KEYS;
+  const sortBy = PRODUCT_SORT_KEYS;
 
   return (
     <div className="mb-8 space-y-4">
@@ -107,14 +86,19 @@ export function ProductFilters({ data, category }: { data: Product[]; category: 
 
       <div className="flex flex-wrap gap-2">
         {getSubCategoryOptions(
-          (SUB_CATEGORY_MAP[category as ProductCategory] ? category : "invitation") as ProductCategory,
+          (SUB_CATEGORY_MAP[category as ProductCategory]
+            ? category
+            : "invitation") as ProductCategory,
           true,
         ).map((option) => (
           <Button
             key={option.value}
             variant={state.subCategory === option.value ? "default" : "outline"}
             onClick={() =>
-              dispatch({ type: "SELECT_SUB_CATEGORY", payload: option.value as SubCategory | "all" })
+              dispatch({
+                type: "SELECT_SUB_CATEGORY",
+                payload: option.value as SubCategory | "all",
+              })
             }
             size="sm"
           >
@@ -131,7 +115,7 @@ export function ProductFilters({ data, category }: { data: Product[]; category: 
               className="min-w-35 justify-between bg-transparent"
             >
               <span className="flex items-center gap-2">
-                {sortBylabels[state.sortBy]}
+                {PRODUCT_SORT_OPTIONS[state.sortBy]}
               </span>
               <ChevronDown className="h-4 w-4 opacity-50" />
             </Button>
@@ -141,13 +125,13 @@ export function ProductFilters({ data, category }: { data: Product[]; category: 
               onValueChange={(value) =>
                 dispatch({
                   type: "SELECT_SORT_BY",
-                  payload: value as ProductFilterState["sortBy"],
+                  payload: value as ProductSortType,
                 })
               }
             >
               {sortBy.map((value) => (
                 <DropdownMenuRadioItem value={value} key={value}>
-                  {sortBylabels[value]}
+                  {PRODUCT_SORT_OPTIONS[value]}
                 </DropdownMenuRadioItem>
               ))}
             </DropdownMenuRadioGroup>
@@ -178,7 +162,7 @@ export function ProductFilters({ data, category }: { data: Product[]; category: 
                   }
                   className="cursor-pointer"
                 >
-                  {priceLabels[value]}
+                  {PRODUCT_PRICE_OPTIONS[value]}
                 </Badge>
               ))}
             </div>
@@ -203,8 +187,8 @@ export function ProductFilters({ data, category }: { data: Product[]; category: 
                     })
                   }
                 >
-                  {premiumFeatLabel[
-                    value.code as keyof typeof premiumFeatLabel
+                  {PREMIUM_FEATURE_LABELS[
+                    value.code as keyof typeof PREMIUM_FEATURE_LABELS
                   ] || value.label}
                 </Badge>
               ))}

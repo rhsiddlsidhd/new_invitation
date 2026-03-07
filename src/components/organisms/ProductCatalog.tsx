@@ -1,5 +1,4 @@
 "use client";
-
 import useSWR from "swr";
 import {
   initialFilterState,
@@ -20,10 +19,12 @@ const ProductCatalog = ({
 }) => {
   // 쿼리 파라미터가 포함된 useSWR 키 설정
   const { data } = useSWR<Product[]>(
-    `api/products?category=${category}`,
+    `/api/products?category=${category}`,
     fetcher,
     {
       fallbackData: products,
+      revalidateOnMount: false,
+      revalidateIfStale: false,
     },
   );
 
