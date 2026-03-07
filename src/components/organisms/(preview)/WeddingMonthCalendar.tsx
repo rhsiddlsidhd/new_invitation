@@ -2,7 +2,7 @@
 import React, { useMemo } from "react";
 
 import { format } from "date-fns";
-import SectionBody from "../../molecules/SectionLayout";
+import SectionBody from "../../layout/SectionLayout";
 import { ko } from "date-fns/locale";
 import clsx from "clsx";
 import DigitalWatch from "../../molecules/DigitalWatch";

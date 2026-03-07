@@ -31,8 +31,7 @@ export function ProductCard({ product }: { product: Product }) {
       onClick={() => router.push(`/products/${product._id}`)}
     >
       {/* Image — the card itself */}
-      <div className="relative aspect-[3/4] overflow-hidden rounded-2xl bg-neutral-100">
-
+      <div className="relative aspect-3/4 overflow-hidden rounded-2xl bg-neutral-100">
         {/* Thumbnail with zoom on hover */}
         <div className="absolute inset-0 transition-transform duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-[1.06]">
           <ProductThumbnail
@@ -49,7 +48,7 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
         {/* Top badges */}
-        <div className="absolute left-3 top-3 right-3 flex items-start justify-between">
+        <div className="absolute top-3 right-3 left-3 flex items-start justify-between">
           <div className="flex flex-col gap-1.5">
             {product.isPremium && (
               <span className="inline-flex items-center gap-1 rounded-full bg-amber-400/95 px-2.5 py-1 text-[10px] font-bold tracking-widest text-amber-950 uppercase shadow-sm">
@@ -76,7 +75,7 @@ export function ProductCard({ product }: { product: Product }) {
             {subCategoryLabels[product.subCategory as SubCategory] ??
               product.subCategory}
           </p>
-          <h3 className="text-sm font-semibold leading-snug text-white line-clamp-2">
+          <h3 className="line-clamp-2 text-sm leading-snug font-semibold text-white">
             {product.title}
           </h3>
           <div className="mt-2 flex items-center justify-between">
@@ -87,9 +86,7 @@ export function ProductCard({ product }: { product: Product }) {
                 </span>
               )}
               <span className="text-base font-bold text-white">
-                {finalPrice === 0
-                  ? "무료"
-                  : `${finalPrice.toLocaleString()}원`}
+                {finalPrice === 0 ? "무료" : `${finalPrice.toLocaleString()}원`}
               </span>
             </div>
             <span className="text-[11px] text-white/40">
@@ -99,7 +96,7 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
 
         {/* Hover CTA — slides up from bottom */}
-        <div className="absolute inset-x-0 bottom-0 flex justify-center pb-4 translate-y-full opacity-0 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:translate-y-0 group-hover:opacity-100">
+        <div className="absolute inset-x-0 bottom-0 flex translate-y-full justify-center pb-4 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:translate-y-0 group-hover:opacity-100">
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -111,7 +108,6 @@ export function ProductCard({ product }: { product: Product }) {
             샘플보기
           </button>
         </div>
-
       </div>
     </article>
   );

@@ -1,6 +1,6 @@
 import { SidebarProvider } from "@/components/atoms/sidebar";
 import SidebarNavItem from "@/components/molecules/SidebarNavItem";
-import SidebarLayout from "@/components/molecules/SidebarLayout";
+import SidebarLayout from "@/components/layout/SidebarLayout";
 import SidebarToggle from "@/components/organisms/SidebarToggle";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";

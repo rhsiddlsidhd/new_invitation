@@ -170,3 +170,47 @@
 .animate-wave-3 {
   animation: wave-3 8s linear infinite;
 }
+
+/* ── Not Found (404) page ── */
+@keyframes not-found-float {
+  0%, 100% { transform: translateY(0px) rotate(-1deg); }
+  50%       { transform: translateY(-14px) rotate(1deg); }
+}
+@keyframes not-found-fade-slide-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes not-found-ghost-pulse {
+  0%, 100% { opacity: 0.04; }
+  50%       { opacity: 0.08; }
+}
+@keyframes not-found-dot-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.not-found-float  { animation: not-found-float 6s ease-in-out infinite; }
+.not-found-ghost  { animation: not-found-ghost-pulse 5s ease-in-out infinite; }
+.not-found-dots   { animation: not-found-dot-fade-in 1.2s ease-out 0.2s both; }
+.not-found-fade-1 { animation: not-found-fade-slide-up 0.7s ease-out 0.10s both; }
+.not-found-fade-2 { animation: not-found-fade-slide-up 0.7s ease-out 0.25s both; }
+.not-found-fade-3 { animation: not-found-fade-slide-up 0.7s ease-out 0.40s both; }
+.not-found-fade-4 { animation: not-found-fade-slide-up 0.7s ease-out 0.60s both; }
+.not-found-fade-5 { animation: not-found-fade-slide-up 0.7s ease-out 0.75s both; }
+
+.not-found-btn {
+  position: relative;
+  overflow: hidden;
+  transition: color 0.35s ease;
+}
+.not-found-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--foreground);
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.not-found-btn:hover::before { transform: translateY(0); }
+.not-found-btn:hover          { color: var(--background); }
+.not-found-btn span           { position: relative; z-index: 1; }
