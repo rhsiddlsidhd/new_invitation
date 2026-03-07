@@ -2,6 +2,7 @@ import { ProductFeatures } from "@/components/organisms/ProductFeatures";
 import { ProductSummary } from "@/components/organisms/ProductSummary";
 import { getPremiumFeatureService } from "@/services/premiumFeature.service";
 import { getProductService } from "@/services/product.service";
+import { notFound } from "next/navigation";
 import React from "react";
 
 export default async function ProductDetailPage({
@@ -13,7 +14,7 @@ export default async function ProductDetailPage({
 
   const product = await getProductService(id);
 
-  if (!product) throw new Error("Product not found");
+  if (!product) notFound();
   const options = await getPremiumFeatureService(product.options);
 
   return (

@@ -80,7 +80,7 @@ export const getAllProductsService = async (
   await dbConnect();
 
   const query: any = { deletedAt: null };
-  if (category && category !== "all") {
+  if (category) {
     query.category = category;
   }
 

@@ -40,7 +40,7 @@ export function ProductFilters({
   category,
 }: {
   data: Product[];
-  category: string;
+  category: ProductCategory;
 }) {
   const [state, dispatch] = useProductFilter();
   const { premiumFeatures } = usePremiumFeature();
@@ -85,12 +85,7 @@ export function ProductFilters({
       </p>
 
       <div className="flex flex-wrap gap-2">
-        {getSubCategoryOptions(
-          (SUB_CATEGORY_MAP[category as ProductCategory]
-            ? category
-            : "invitation") as ProductCategory,
-          true,
-        ).map((option) => (
+        {getSubCategoryOptions(category, true).map((option) => (
           <Button
             key={option.value}
             variant={state.subCategory === option.value ? "default" : "outline"}
