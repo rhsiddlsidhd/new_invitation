@@ -15,7 +15,7 @@ const SidebarLayout = async ({
   children: React.ReactNode;
 }) => {
   return (
-    <Sidebar className="bg-card border-border fixed top-0 left-0 h-screen w-64 border-r pt-16">
+    <Sidebar className="bg-card border-border fixed top-0 left-0 z-50 h-screen w-64 border-r pt-16">
       {/* Main Navigation */}
       <SidebarContent className="flex-1 overflow-y-auto">
         {children}

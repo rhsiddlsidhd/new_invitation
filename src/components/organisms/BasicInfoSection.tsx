@@ -21,7 +21,7 @@ import { useEffect, useState } from "react";
 import { ko } from "date-fns/locale";
 
 import InputField from "@/components/molecules/InputField";
-import AddressField from "@/components/molecules/AddressField";
+import AddressField from "@/components/organisms/fields/AddressField";
 import SwitchField from "@/components/molecules/SwitchField";
 import SelectField from "@/components/molecules/SelectField";
 import { Input } from "@/components/atoms/input";

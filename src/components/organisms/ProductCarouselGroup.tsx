@@ -25,6 +25,7 @@ interface ProductCarouselGroupProps {
 }
 
 import { Skeleton } from "@/components/atoms/skeleton";
+import { TypographyH4, TypographyMuted } from "../atoms/typoqraphy";
 
 export const ProductCarouselGroup = ({
   category,
@@ -72,17 +73,15 @@ export const ProductCarouselGroup = ({
   }
 
   return (
-    <div className="mb-20 last:mb-0">
-      <div className="mb-8 flex flex-col items-center justify-between gap-4 md:flex-row md:items-end">
-        <div className="text-center md:text-left">
-          <h2 className="mb-2 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
-            {title}
-          </h2>
-          <p className="text-slate-600">{description}</p>
+    <div className="space-y-2">
+      <div className="space-y-2">
+        <div className="flex justify-between">
+          <TypographyH4 className="border-none">{title}</TypographyH4>
+          <Button variant="link" size="sm" asChild>
+            <Link href={`/products?category=${category}`}>더보기</Link>
+          </Button>
         </div>
-        <Button variant="ghost" className="text-slate-600" asChild>
-          <Link href={`/products?category=${category}`}>더보기</Link>
-        </Button>
+        <TypographyMuted className="ml-2">{description}</TypographyMuted>
       </div>
 
       <Carousel

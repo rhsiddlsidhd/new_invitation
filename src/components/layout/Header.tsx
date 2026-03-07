@@ -12,6 +12,7 @@ import {
   SheetTrigger,
 } from "@/components/atoms/sheet";
 import { Button } from "@/components/atoms/button";
+import { TypographyH1, TypographyInlineCode } from "../atoms/typoqraphy";
 
 const Header = async () => {
   const authData = await getAuth();
@@ -55,13 +56,8 @@ const Header = async () => {
         </div>
 
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <div className="bg-primary flex h-8 w-8 items-center justify-center rounded-full">
-            <Heart className="text-primary-foreground h-4 w-4 fill-current" />
-          </div>
-          <span className="text-foreground text-xl font-bold max-sm:hidden">
-            WeddingCard
-          </span>
+        <Link href="/">
+          <TypographyH1 className="m-0">Tie Knot</TypographyH1>
         </Link>
 
         {/* Desktop Navigation */}

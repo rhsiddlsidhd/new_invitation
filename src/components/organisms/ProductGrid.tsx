@@ -1,4 +1,4 @@
-import Grid from "@/components/molecules/Grid";
+import Grid from "@/components/layout/Grid";
 import { ProductCard } from "@/components/organisms/ProductCard";
 
 import useVisibleProducts from "@/hooks/useVisibleProducts";

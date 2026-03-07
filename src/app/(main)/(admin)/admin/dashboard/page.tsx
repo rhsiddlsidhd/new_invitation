@@ -4,6 +4,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/card";
+import Grid from "@/components/layout/Grid";
 import { Package, DollarSign, ShoppingCart, Users } from "lucide-react";
 
 export default function AdminDashboard() {
@@ -46,7 +47,7 @@ export default function AdminDashboard() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <Grid slot="admin-dashboard-stats">
         {stats.map((stat) => (
           <Card key={stat.title}>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -66,7 +67,7 @@ export default function AdminDashboard() {
             </CardContent>
           </Card>
         ))}
-      </div>
+      </Grid>
 
       <Card>
         <CardHeader>

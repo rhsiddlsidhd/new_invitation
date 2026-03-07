@@ -1,5 +1,6 @@
 import { Badge } from "@/components/atoms/badge";
 import { Card, CardContent } from "@/components/atoms/card";
+import Grid from "@/components/layout/Grid";
 import PremiumFeatureCardAction from "@/components/organisms/PremiumFeatureCardAction";
 import { getAllPremiumFeatureService } from "@/services/premiumFeature.service";
 
@@ -18,7 +19,7 @@ export default async function PremiumFeaturesPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <Grid slot="admin-premium-features">
         {features.map((feature) => (
           <Card key={feature.code}>
             <CardContent className="space-y-4 p-6">
@@ -54,7 +55,7 @@ export default async function PremiumFeaturesPage() {
             </CardContent>
           </Card>
         ))}
-      </div>
+      </Grid>
     </div>
   );
 }
