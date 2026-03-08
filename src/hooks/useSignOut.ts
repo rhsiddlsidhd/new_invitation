@@ -1,13 +1,14 @@
 "use client";
 
 import { logoutUser } from "@/actions/logoutUser";
-import useAuthStore from "@/store/auth.store";
 
+/**
+ * 로그아웃 처리를 수행하고 홈으로 리다이렉트하는 훅
+ */
 export const useSignOut = () => {
-  const clearAuth = useAuthStore((state) => state.clearAuth);
   const handleSignOut = async () => {
     await logoutUser();
-    clearAuth();
   };
+
   return { handleSignOut };
 };

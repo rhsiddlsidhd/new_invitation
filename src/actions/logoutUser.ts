@@ -1,15 +1,10 @@
 "use server";
 
 import { deleteCookie } from "@/lib/cookies/delete";
-
-import { success } from "@/api/response";
-import { handleActionError } from "@/api/error";
+import { redirect } from "next/navigation";
 
 export const logoutUser = async () => {
-  try {
-    await deleteCookie("token");
-    return success(null);
-  } catch (e) {
-    return handleActionError(e);
-  }
+  await deleteCookie("token");
+
+  redirect("/");
 };

@@ -1,9 +1,10 @@
-import AuthButton from "@/components/molecules/AuthButton";
+import UserAccountNav from "@/components/organisms/UserAccountNav";
+import LoginEntryButton from "@/components/organisms/LoginEntryButton";
 import { getAuth } from "@/services/auth.service";
 import { Heart, Menu } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import { mainNavItems } from "@/constants/navigation";
+import { MAIN_NAV_ITEMS } from "@/constants/navigation";
 import {
   Sheet,
   SheetContent,
@@ -12,10 +13,10 @@ import {
   SheetTrigger,
 } from "@/components/atoms/sheet";
 import { Button } from "@/components/atoms/button";
-import { TypographyH1, TypographyInlineCode } from "../atoms/typoqraphy";
+import { TypographyH1 } from "../atoms/typoqraphy";
 
 const Header = async () => {
-  const authData = await getAuth();
+  const authResult = await getAuth();
 
   return (
     <header className="bg-background/80 border-border sticky top-0 right-0 left-0 z-50 w-full border-b backdrop-blur-md">
@@ -41,7 +42,7 @@ const Header = async () => {
                 </SheetTitle>
               </SheetHeader>
               <nav className="mt-8 flex flex-col gap-4">
-                {mainNavItems.map((item) => (
+                {MAIN_NAV_ITEMS.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
@@ -62,7 +63,7 @@ const Header = async () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden items-center gap-8 md:flex">
-          {mainNavItems.map((item) => (
+          {MAIN_NAV_ITEMS.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -75,7 +76,11 @@ const Header = async () => {
 
         {/* Auth / Action Buttons */}
         <div className="flex items-center gap-2">
-          <AuthButton authData={authData} />
+          {authResult ? (
+            <UserAccountNav session={authResult} />
+          ) : (
+            <LoginEntryButton />
+          )}
         </div>
       </div>
     </header>

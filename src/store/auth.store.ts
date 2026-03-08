@@ -1,4 +1,5 @@
 import { UserRole } from "@/models/user.model";
+import { AuthSession } from "@/types/auth";
 import { create } from "zustand";
 
 export type AuthState = {
@@ -9,11 +10,7 @@ export type AuthState = {
 };
 
 type AuthAction = {
-  setToken: (payload: {
-    token: string;
-    role: UserRole;
-    userId: string;
-  }) => void;
+  setToken: (session: AuthSession) => void;
   clearAuth: () => void;
 };
 

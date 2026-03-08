@@ -41,7 +41,9 @@ export function BasicInfoSection() {
           <DateField
             id="weddingDate"
             name="wedding_date"
-            defaultValue={data?.weddingDate ? new Date(data.weddingDate) : undefined}
+            defaultValue={
+              data?.weddingDate ? new Date(data.weddingDate) : undefined
+            }
             required
           >
             결혼식 날짜
