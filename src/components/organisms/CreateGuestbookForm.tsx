@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/atoms/dialog";
-import InputField from "@/components/molecules/InputField";
+import InputField from "@/components/organisms/fields/InputField";
 import SwitchField from "@/components/molecules/SwitchField";
 import { createGuestbook } from "@/actions/createGuestbook";
 import { cn } from "@/lib/utils";

@@ -12,7 +12,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/atoms/collapsible";
 import BankAccountField from "@/components/molecules/BankAccountField";
-import InputField from "@/components/molecules/InputField";
+import InputField from "@/components/organisms/fields/InputField";
 import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
 import { ChevronDown } from "lucide-react";
 

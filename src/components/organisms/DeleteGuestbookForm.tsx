@@ -11,7 +11,7 @@ import {
   DialogTitle,
 } from "@/components/atoms/dialog";
 
-import InputField from "@/components/molecules/InputField";
+import InputField from "@/components/organisms/fields/InputField";
 import { APIResponse } from "@/types/error";
 
 import { useParams } from "next/navigation";

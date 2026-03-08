@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/card";
-import InputField from "@/components/molecules/InputField";
+import InputField from "@/components/organisms/fields/InputField";
 import clsx from "clsx";
 import { Save } from "lucide-react";
 import React, { useState } from "react";

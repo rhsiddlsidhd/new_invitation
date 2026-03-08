@@ -1,31 +1,18 @@
 "use client";
 
-import { Button } from "@/components/atoms/button";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from "@/components/atoms/card";
-import { Label } from "@/components/atoms/label";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/atoms/popover";
-import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
-import { Calendar } from "@/components/atoms/calendar";
-
-import { useEffect, useState } from "react";
-import { ko } from "date-fns/locale";
-
-import InputField from "@/components/molecules/InputField";
+import InputField from "@/components/organisms/fields/InputField";
 import AddressField from "@/components/organisms/fields/AddressField";
 import SwitchField from "@/components/molecules/SwitchField";
-import SelectField from "@/components/molecules/SelectField";
-import { Input } from "@/components/atoms/input";
+import SelectField from "@/components/organisms/fields/SelectField";
 import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
+import DateField from "@/components/organisms/fields/DateField";
 
 // 현재 지하철역 가져오기 API ERROR-331 에러 발생 원인 알 수 없음
 const MOCSUBWAYSTATIONS = [
@@ -39,13 +26,7 @@ const MOCSUBWAYSTATIONS = [
 ];
 
 export function BasicInfoSection() {
-  const [weddingDate, setWeddingDate] = useState<Date | undefined>(undefined);
   const { data, isLoading } = useFetchCoupleInfo();
-  useEffect(() => {
-    if (data?.weddingDate) {
-      setWeddingDate(new Date(data.weddingDate));
-    }
-  }, [data]);
 
   if (isLoading) return <div>로딩중</div>;
 
@@ -57,42 +38,14 @@ export function BasicInfoSection() {
       <CardContent className="space-y-6">
         <div className="grid gap-6 sm:grid-cols-2">
           {/* Date Picker */}
-          <div className="space-y-2">
-            <Label>결혼식 날짜 *</Label>
-            {weddingDate && (
-              <Input
-                hidden
-                value={format(weddingDate, "yyyy-MM-dd")}
-                name={"wedding_date"}
-                required
-                readOnly
-              />
-            )}
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={`w-full justify-start text-left font-normal ${!weddingDate && "text-muted-foreground"}`}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {weddingDate
-                    ? format(weddingDate, "PPP", { locale: ko })
-                    : "날짜를 선택하세요"}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={weddingDate}
-                  onSelect={(date) => {
-                    if (!date) return;
-                    setWeddingDate(date);
-                  }}
-                  autoFocus
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
+          <DateField
+            id="weddingDate"
+            name="wedding_date"
+            defaultValue={data?.weddingDate ? new Date(data.weddingDate) : undefined}
+            required
+          >
+            결혼식 날짜
+          </DateField>
 
           <InputField
             id="weddingTime"
@@ -106,12 +59,11 @@ export function BasicInfoSection() {
             }
             required
           >
-            결혼식 시간 *
+            결혼식 시간
           </InputField>
         </div>
 
-        {/* Venue Name */}
-        <div className="space-y-2"></div>
+        {/* 예식장명 */}
         <InputField
           id="venueName"
           name="venue_name"
@@ -120,7 +72,7 @@ export function BasicInfoSection() {
           defaultValue={data?.venue}
           required
         >
-          예식장명 *
+          예식장명
         </InputField>
 
         {/* Address */}
@@ -135,10 +87,10 @@ export function BasicInfoSection() {
           defaultValue={data?.addressDetail}
           required
         >
-          상세 주소 *
+          상세 주소
         </InputField>
 
-        {/* NEW SUBWAY STATION DROPDOWN */}
+        {/* 인근 지하철 역 */}
         <SelectField
           id="subwayStation"
           name="subway_station"

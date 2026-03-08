@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/components/atoms/input";
-import FormControl from "@/components/molecules/FormControl";
+import FormField from "@/components/molecules/FormField";
 import useDaumPopup from "@/hooks/useDaumPopup";
 import React, { useEffect, useState } from "react";
 
@@ -43,18 +43,19 @@ const AddressField = ({
   const fieldId = `${name}_address`;
 
   return (
-    <FormControl id={fieldId} label={label} error={error} required={required}>
+    <FormField id={fieldId} label={label} error={error} required={required}>
       <Input
         id={fieldId}
         name={fieldId}
         placeholder={`${label}를 검색하세요`}
         onClick={handleDaumAddressPopup}
         value={weddingAddress}
-        className={error ? "border-destructive flex-1" : "flex-1"}
+        aria-invalid={!!error}
+        className="flex-1"
         required={required}
         readOnly
       />
-    </FormControl>
+    </FormField>
   );
 };
 

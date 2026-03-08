@@ -13,7 +13,7 @@ import { Save, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ICoupleInfo } from "@/models/coupleInfo.model";
 import { format } from "date-fns";
-import InputField from "@/components/molecules/InputField";
+import InputField from "@/components/organisms/fields/InputField";
 
 interface EditCoupleInfoFormProps {
   initialData: ICoupleInfo;

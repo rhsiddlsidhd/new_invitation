@@ -1,4 +1,4 @@
-import { Label } from "@/components/atoms/label";
+import FormField from "@/components/molecules/FormField";
 import {
   Select,
   SelectContent,
@@ -7,7 +7,7 @@ import {
   SelectValue,
 } from "@/components/atoms/select";
 import React, { useState } from "react";
-import { InputFieldBase } from "./InputField";
+import { InputFieldBase } from "@/types/field";
 
 type SelectFieldProps = InputFieldBase & { placeholder: string; data: string[] };
 
@@ -22,8 +22,7 @@ const SelectField = ({
   const [info, setInfo] = useState<string | undefined>(defaultValue);
 
   return (
-    <div className="space-y-2">
-      <Label htmlFor={id}>{children}</Label>
+    <FormField id={id} label={children}>
       <Select
         name={name}
         value={info ?? ""}
@@ -40,7 +39,7 @@ const SelectField = ({
           ))}
         </SelectContent>
       </Select>
-    </div>
+    </FormField>
   );
 };
 

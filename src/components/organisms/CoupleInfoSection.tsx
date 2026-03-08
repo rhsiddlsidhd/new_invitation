@@ -8,7 +8,7 @@ import {
 } from "@/components/atoms/card";
 
 import BankAccountField from "@/components/molecules/BankAccountField";
-import InputField from "@/components/molecules/InputField";
+import InputField from "@/components/organisms/fields/InputField";
 import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
 
 export function CoupleInfoSection() {
@@ -37,7 +37,7 @@ export function CoupleInfoSection() {
               defaultValue={data?.groom?.name}
               required
             >
-              이름 *
+              이름
             </InputField>
 
             <InputField
@@ -48,7 +48,7 @@ export function CoupleInfoSection() {
               defaultValue={data?.groom?.phone}
               required
             >
-              연락처 *
+              연락처
             </InputField>
 
             <BankAccountField
@@ -72,7 +72,7 @@ export function CoupleInfoSection() {
               defaultValue={data?.bride?.name}
               required
             >
-              이름 *
+              이름
             </InputField>
 
             <InputField
@@ -83,7 +83,7 @@ export function CoupleInfoSection() {
               defaultValue={data?.bride?.phone}
               required
             >
-              연락처 *
+              연락처
             </InputField>
 
             <BankAccountField

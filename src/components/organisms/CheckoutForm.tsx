@@ -17,7 +17,7 @@ import {
 import { Checkbox } from "@/components/atoms/checkbox";
 import { Button } from "@/components/atoms/button";
 import { Label } from "@/components/atoms/label";
-import InputField from "@/components/molecules/InputField";
+import InputField from "@/components/organisms/fields/InputField";
 import PaymentMethodSelector from "./PaymentMethodSelector";
 import { toast } from "sonner";
 import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";

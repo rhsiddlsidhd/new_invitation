@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 import { Card } from "@/components/atoms/card";
 import { Button } from "@/components/atoms/button";
-import InputField from "@/components/molecules/InputField";
+import InputField from "@/components/organisms/fields/InputField";
 
 import { requestPasswordReset } from "@/actions/requestPasswordReset";
 import { getFieldError, hasFieldErrors } from "@/utils/error";

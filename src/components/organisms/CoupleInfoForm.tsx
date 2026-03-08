@@ -7,7 +7,6 @@ import { ImagesSection } from "./ImagesSection";
 import { startTransition, useActionState, useEffect } from "react";
 import { createCoupleInfoAction } from "@/actions/createCoupleInfoAction";
 import { useRouter, useSearchParams } from "next/navigation";
-
 import BottomActionBar from "./BottomActionBar";
 import { updateCoupleInfoAction } from "@/actions/updateCoupleInfoAction";
 import { toast } from "sonner";

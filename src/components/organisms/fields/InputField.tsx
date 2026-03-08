@@ -1,15 +1,7 @@
-import Alert from "@/components/molecules/Alert";
 import { Input } from "@/components/atoms/input";
-import { Label } from "@/components/atoms/label";
-import { cn } from "@/lib/utils";
+import FormField from "@/components/molecules/FormField";
+import { InputFieldBase } from "@/types/field";
 import React, { HTMLInputTypeAttribute, useState, useEffect } from "react";
-
-export interface InputFieldBase {
-  id: string;
-  name: string;
-  children: React.ReactNode;
-  defaultValue?: string;
-}
 
 export interface InputFieldProps extends InputFieldBase {
   type: HTMLInputTypeAttribute | undefined;
@@ -40,8 +32,7 @@ const InputField = ({
   }, [defaultValue]);
 
   return (
-    <div className="space-y-2">
-      <Label htmlFor={id}>{children}</Label>
+    <FormField id={id} label={children} error={error} required={required}>
       <Input
         value={info}
         id={id}
@@ -51,10 +42,10 @@ const InputField = ({
         required={required}
         onChange={(e) => setInfo(e.target.value)}
         readOnly={readOnly}
-        className={cn(error ? "border-destructive" : "", className)}
+        aria-invalid={!!error}
+        className={className}
       />
-      {error && <Alert type="error">{error}</Alert>}
-    </div>
+    </FormField>
   );
 };
 

@@ -15,7 +15,7 @@ import Alert from "@/components/molecules/Alert";
 import { Label } from "@/components/atoms/label";
 import { APIResponse } from "@/types/error";
 import { getFieldError, hasFieldErrors } from "@/utils/error";
-import InputField from "@/components/molecules/InputField";
+import InputField from "@/components/organisms/fields/InputField";
 
 export function PremiumFeatureDialog({
   premiumFeature: feature,

@@ -1,6 +1,6 @@
 import { Upload, X } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
-import { InputFieldBase } from "./InputField";
+import { InputFieldBase } from "@/types/field";
 import ProductThumbnail from "@/components/molecules/ProductThumbnail";
 
 interface ImageItem {
