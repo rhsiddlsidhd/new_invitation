@@ -254,7 +254,7 @@ export function CheckoutForm({ query }: { query: string }) {
                 required
                 error={errors && errors.buyerName && errors.buyerName[0]}
               >
-                이름 *
+                이름
               </TextField>
 
               <TextField
@@ -265,7 +265,7 @@ export function CheckoutForm({ query }: { query: string }) {
                 required
                 error={errors && errors.buyerPhone && errors.buyerPhone[0]}
               >
-                연락처 *
+                연락처
               </TextField>
             </div>
             <div>
@@ -277,7 +277,7 @@ export function CheckoutForm({ query }: { query: string }) {
                 required
                 error={errors && errors.buyerEmail && errors.buyerEmail[0]}
               >
-                이메일 *
+                이메일
               </TextField>
             </div>
           </CardContent>

@@ -11,15 +11,15 @@ import TextField from "@/components/organisms/fields/TextField";
 import AddressField from "@/components/organisms/fields/AddressField";
 import SwitchField from "@/components/molecules/SwitchField";
 import SelectField from "@/components/organisms/fields/SelectField";
-import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
 import DateField from "@/components/organisms/fields/DateField";
 import { MOC_SUBWAY_STATIONS } from "@/data/subway";
+import type { ICoupleInfo } from "@/models/coupleInfo.model";
 
-export function BasicInfoSection() {
-  const { data, isLoading } = useFetchCoupleInfo();
+type BasicInfoSectionProps = {
+  data?: Pick<ICoupleInfo, "weddingDate" | "venue" | "address" | "addressDetail" | "subwayStation" | "guestbookEnabled">;
+};
 
-  if (isLoading) return <div>로딩중</div>;
-
+export function BasicInfoSection({ data }: BasicInfoSectionProps) {
   return (
     <Card>
       <CardHeader>

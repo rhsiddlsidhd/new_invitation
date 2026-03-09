@@ -9,13 +9,13 @@ import {
 
 import BankField from "@/components/organisms/fields/BankField";
 import TextField from "@/components/organisms/fields/TextField";
-import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
+import type { ICoupleInfo } from "@/models/coupleInfo.model";
 
-export function CoupleInfoSection() {
-  const { data, isLoading } = useFetchCoupleInfo();
+type CoupleInfoSectionProps = {
+  data?: Pick<ICoupleInfo, "groom" | "bride">;
+};
 
-  if (isLoading) return <div>로딩중...</div>;
-
+export function CoupleInfoSection({ data }: CoupleInfoSectionProps) {
   return (
     <Card>
       <CardHeader>

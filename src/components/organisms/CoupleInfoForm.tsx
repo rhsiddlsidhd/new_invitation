@@ -11,6 +11,10 @@ import BottomActionBar from "./BottomActionBar";
 import { updateCoupleInfoAction } from "@/actions/updateCoupleInfoAction";
 import { toast } from "sonner";
 import { useImageUpload } from "@/hooks/useImageUpload";
+import { useImageList } from "@/hooks/useImageList";
+import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
+import { Progress } from "../atoms/progress";
+import { APIResponse } from "@/types/error";
 
 export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
   const router = useRouter();
@@ -19,26 +23,38 @@ export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
 
   const currentAction =
     type === "edit" ? updateCoupleInfoAction : createCoupleInfoAction;
-  const [state, action] = useActionState(currentAction, null);
+  const [state, action] = useActionState<
+    APIResponse<Record<string, string>>,
+    FormData
+  >(currentAction, null);
 
-  const { processFormSubmit, uploadProgress, isUploading } = useImageUpload();
+  const { data, isLoading } = useFetchCoupleInfo();
+  const thumbnail = useImageList(data?.thumbnailImages);
+  const gallery = useImageList(data?.galleryImages);
+
+  const { upload, uploadProgress, isUploading } = useImageUpload();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    const imagePayload = {
+      thumbnailImages: thumbnail.getPayload(),
+      galleryImages: gallery.getPayload(),
+    };
 
-    // ✅ 검증 → 업로드 → 정리 (통합)
-    const cleanedFormData = await processFormSubmit(formData);
-    if (!cleanedFormData) return; // 검증 실패 시 중단
+    const result = await upload(formData, imagePayload);
+    if (!result) return;
 
-    // Server Action 호출
-    startTransition(() => action(cleanedFormData));
+    formData.set("thumbnailSource", JSON.stringify(result.thumbnailUrls));
+    formData.set("gallerySource", JSON.stringify(result.galleryUrls));
+
+    startTransition(() => action(formData));
   };
 
   useEffect(() => {
     if (!state) return;
 
-    if (state && state.success && state.data._id)
+    if (state && state.success === true && state.data._id)
       switch (type) {
         case "create":
           router.push(`/payment?q=${state.data._id}`);
@@ -52,38 +68,20 @@ export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
       }
   }, [state, router, type]);
 
+  if (type === "edit" && isLoading) return <div>로딩중...</div>;
+
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
-      {/* Hidden input for edit mode */}
       {type === "edit" && coupleInfoId && (
         <input type="hidden" name="couple_info_id" value={coupleInfoId} />
       )}
 
-      {/* 기본 정보 */}
-      <BasicInfoSection />
+      <BasicInfoSection data={data} />
+      <CoupleInfoSection data={data} />
+      <ParentsInfoSection data={data} />
+      <ImagesSection thumbnail={thumbnail} gallery={gallery} />
 
-      {/* 신랑 & 신부 정보 */}
-      <CoupleInfoSection />
-
-      {/* 혼주 정보 */}
-      <ParentsInfoSection />
-
-      {/* 이미지 정보 */}
-      <ImagesSection />
-
-      {/* 업로드 진행 상황 */}
-      {isUploading && (
-        <div className="fixed right-4 bottom-4 rounded-lg border bg-white p-4 shadow-lg">
-          <p className="mb-2 text-sm font-medium">이미지 업로드 중...</p>
-          <div className="h-2 w-64 overflow-hidden rounded-full bg-gray-200">
-            <div
-              className="h-2 rounded-full bg-blue-500 transition-all duration-300"
-              style={{ width: `${uploadProgress}%` }}
-            />
-          </div>
-          <p className="mt-1 text-xs text-gray-500">{uploadProgress}%</p>
-        </div>
-      )}
+      {isUploading && <Progress value={uploadProgress} />}
 
       <BottomActionBar />
     </form>

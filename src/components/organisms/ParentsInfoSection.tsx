@@ -13,8 +13,8 @@ import {
 } from "@/components/atoms/collapsible";
 import BankField from "@/components/organisms/fields/BankField";
 import TextField from "@/components/organisms/fields/TextField";
-import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
 import { ChevronDown } from "lucide-react";
+import type { ICoupleInfo } from "@/models/coupleInfo.model";
 
 import { useState } from "react";
 
@@ -25,12 +25,13 @@ const PARENTS: { id: ParentRole; title: string }[] = [
   { id: "mother", title: "어머님" },
 ];
 
-export function ParentsInfoSection() {
+type ParentsInfoSectionProps = {
+  data?: Pick<ICoupleInfo, "groom" | "bride">;
+};
+
+export function ParentsInfoSection({ data }: ParentsInfoSectionProps) {
   const [groomParentsOpen, setGroomParentsOpen] = useState(false);
   const [brideParentsOpen, setBrideParentsOpen] = useState(false);
-  const { data, isLoading } = useFetchCoupleInfo();
-
-  if (isLoading) return <div>로딩중...</div>;
 
   return (
     <Card>

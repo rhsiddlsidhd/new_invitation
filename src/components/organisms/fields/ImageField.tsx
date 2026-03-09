@@ -1,57 +1,79 @@
-import React from "react";
-import { FieldBase } from "@/types/field";
-import { useImageField } from "@/hooks/useImageField";
-import { ImageUploadTrigger } from "@/components/molecules/ImageUploadTrigger";
-import { ImagePreviewGrid } from "@/components/molecules/ImagePreviewGrid";
+import React, { useRef, ChangeEvent } from "react";
+import { Upload, Plus } from "lucide-react";
+import { ImagePreviewItem } from "@/components/molecules/ImagePreviewItem";
+import { Button } from "@/components/atoms/button";
+import type { ImageItem } from "@/hooks/useImageList";
 
-type ImageFieldProps = Omit<FieldBase, "children"> & {
-  preview?: boolean;
-  sizes?: string;
-  defaultImages?: string[];
+interface ImageFieldProps {
+  id: string;
+  items: ImageItem[];
+  onAdd: (files: File[]) => void;
+  onRemove: (id: string) => void;
   multiple?: boolean;
-};
+  sizes?: string;
+}
 
-/**
- * 이미지 업로드 및 미리보기를 지원하는 필드 (Organism)
- * [UI]: Molecules(Trigger, Grid, Item)로 쪼개어 가시성을 높임
- * [Service]: useImageField 훅으로 상태 관리 및 파일 핸들링 캡슐화
- */
 const ImageField = ({
   id,
-  name,
-  preview = false,
-  sizes = "100px",
-  defaultImages = [],
+  items,
+  onAdd,
+  onRemove,
   multiple = true,
+  sizes = "100px",
 }: ImageFieldProps) => {
-  const { fileList, onFileChange, removeImage, inputRef, existingUrls } =
-    useImageField(defaultImages);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length > 0) onAdd(files);
+    e.target.value = "";
+  };
 
   return (
-    <div className="space-y-4">
-      {/* 1. 서버 동기화를 위한 Hidden Input (Existing URLs) */}
+    <div>
       <input
-        type="hidden"
-        name={`${name}_existing`}
-        value={JSON.stringify(existingUrls)}
-      />
-
-      {/* 2. 업로드 행위 트리거 (FileUpload) */}
-      <ImageUploadTrigger
+        ref={inputRef}
         id={id}
-        name={name}
-        inputRef={inputRef}
-        onChange={onFileChange}
+        type="file"
+        className="hidden"
+        accept="image/*"
         multiple={multiple}
+        onChange={handleChange}
       />
 
-      {/* 3. 미리보기 디스플레이 (PreviewDisplay) */}
-      {preview && (
-        <ImagePreviewGrid
-          fileList={fileList}
-          onRemove={removeImage}
-          sizes={sizes}
-        />
+      {items.length === 0 ? (
+        <label
+          htmlFor={id}
+          className="border-border hover:bg-accent/50 flex h-40 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed transition-colors"
+        >
+          <Upload className="text-muted-foreground mb-2 h-8 w-8" />
+          <p className="text-muted-foreground mb-1 text-sm">
+            클릭하여 이미지 업로드
+          </p>
+          <p className="text-muted-foreground text-xs">
+            PNG, JPG, WEBP (최대 10MB)
+          </p>
+        </label>
+      ) : (
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+          {items.map((item) => (
+            <ImagePreviewItem
+              key={item.id}
+              id={item.id}
+              preview={item.preview}
+              sizes={sizes}
+              onRemove={onRemove}
+            />
+          ))}
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => inputRef.current?.click()}
+            className="aspect-square h-full w-full border-dashed"
+          >
+            <Plus className="h-6 w-6" />
+          </Button>
+        </div>
       )}
     </div>
   );

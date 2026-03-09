@@ -26,7 +26,12 @@ export const createCoupleInfoService = async (
     galleryImages: data.galleryImages,
   };
 
-  const newCoupleInfo = await CoupleInfoModel.create(coupleInfo);
+  const newCoupleInfo = await CoupleInfoModel.create(coupleInfo).catch(
+    (err) => {
+      console.error("Mongoose create error:", err);
+      throw err;
+    },
+  );
 
   return newCoupleInfo.toJSON();
 };
