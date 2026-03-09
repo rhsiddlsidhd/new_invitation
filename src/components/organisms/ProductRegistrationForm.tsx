@@ -19,13 +19,7 @@ import {
 import { Input } from "@/components/atoms/input";
 import { Button } from "@/components/atoms/button";
 import { Textarea } from "@/components/atoms/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/atoms/select";
+import SelectField from "@/components/organisms/fields/SelectField";
 import { Switch } from "@/components/atoms/switch";
 import { Checkbox } from "@/components/atoms/checkbox";
 import { Label } from "@/components/atoms/label";
@@ -137,44 +131,29 @@ export function ProductRegistrationForm({
               </div>
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="category">카테고리(대분류) *</Label>
-                  <Select
-                    name="category"
-                    value={selectedCategory}
-                    onValueChange={(value) => setSelectedCategory(value as ProductCategory)}
-                    required
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="카테고리를 선택하세요" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {getCategoryOptions().map((category) => (
-                        <SelectItem key={category.value} value={category.value}>
-                          {category.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  {categoryError && <Alert type="error">{categoryError}</Alert>}
-                </div>
+                <SelectField
+                  id="category"
+                  name="category"
+                  defaultValue={selectedCategory}
+                  onValueChange={(value) => setSelectedCategory(value as ProductCategory)}
+                  placeholder="카테고리를 선택하세요"
+                  data={getCategoryOptions()}
+                  error={categoryError}
+                  required
+                >
+                  카테고리(대분류)
+                </SelectField>
 
-                <div className="space-y-2">
-                  <Label htmlFor="subCategory">서브 카테고리 *</Label>
-                  <Select name="subCategory" required>
-                    <SelectTrigger>
-                      <SelectValue placeholder="서브 카테고리를 선택하세요" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {getSubCategoryOptions(selectedCategory).map((sub) => (
-                        <SelectItem key={sub.value} value={sub.value}>
-                          {sub.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  {subCategoryError && <Alert type="error">{subCategoryError}</Alert>}
-                </div>
+                <SelectField
+                  id="subCategory"
+                  name="subCategory"
+                  placeholder="서브 카테고리를 선택하세요"
+                  data={getSubCategoryOptions(selectedCategory)}
+                  error={subCategoryError}
+                  required
+                >
+                  서브 카테고리
+                </SelectField>
               </div>
             </CardContent>
           </Card>

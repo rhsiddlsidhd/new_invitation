@@ -1,14 +1,8 @@
 "use client";
 import { Input } from "@/components/atoms/input";
-import { Label } from "@/components/atoms/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/atoms/select";
 import { useBanks } from "@/hooks/useBanks";
+import FormField from "@/components/molecules/FormField";
+import BaseSelect from "@/components/molecules/BaseSelect";
 import React, { useState, useEffect } from "react";
 
 interface BankAccountInfo {
@@ -16,25 +10,35 @@ interface BankAccountInfo {
   accountNumber: string;
 }
 
-interface BankAccountFieldProps {
+interface BankFieldProps {
   id: string;
+  label?: string;
   defaultBankName?: string;
   defaultAccountNumber?: string;
+  error?: string;
+  required?: boolean;
 }
 
-const BankAccountField = ({
+/**
+ * 은행 선택과 계좌번호 입력을 하나로 묶은 도메인 전용 필드 (Organism)
+ * 데이터 중심 네이밍 컨벤션에 따라 BankField로 명명되었습니다.
+ */
+const BankField = ({
   id,
+  label = "계좌번호",
   defaultBankName = "",
   defaultAccountNumber = "",
-}: BankAccountFieldProps) => {
+  error,
+  required,
+}: BankFieldProps) => {
   const [info, setInfo] = useState<BankAccountInfo>({
     bankName: defaultBankName,
     accountNumber: defaultAccountNumber,
   });
 
-  const { banks } = useBanks(); // useSWR -> useBanks 훅으로 교체
+  const { banks } = useBanks();
 
-  // defaultValue 변경 시 state 업데이트
+  // defaultValue 변경 시 state 업데이트 (부모 폼에서 데이터 초기화 시 필요)
   useEffect(() => {
     setInfo({
       bankName: defaultBankName,
@@ -42,11 +46,17 @@ const BankAccountField = ({
     });
   }, [defaultBankName, defaultAccountNumber]);
 
+  // 은행 목록을 BaseSelect 옵션 형식으로 변환
+  const bankOptions =
+    banks?.map((bank) => ({
+      value: bank.bank,
+      label: bank.name.ko,
+    })) ?? [];
+
   return (
-    <div>
-      <Label>계좌번호</Label>
+    <FormField id={id} label={label} error={error} required={required}>
       <div className="grid grid-cols-[120px_1fr] gap-2 max-sm:grid-cols-1">
-        <Select
+        <BaseSelect
           name={`${id}_bank_name`}
           value={info.bankName}
           onValueChange={(value) =>
@@ -55,20 +65,9 @@ const BankAccountField = ({
               bankName: value,
             }))
           }
-        >
-          <SelectTrigger className="w-30">
-            <SelectValue placeholder="은행 선택" />
-          </SelectTrigger>
-          <SelectContent className="max-h-60!" position="popper" align="start">
-            {/* data.items -> banks 로 변경 */}
-            {banks &&
-              banks.map((bank) => (
-                <SelectItem key={bank.bank} value={bank.bank}>
-                  {bank.name.ko}
-                </SelectItem>
-              ))}
-          </SelectContent>
-        </Select>
+          placeholder="은행 선택"
+          options={bankOptions}
+        />
         <Input
           placeholder="계좌번호"
           name={`${id}_account_number`}
@@ -81,8 +80,8 @@ const BankAccountField = ({
           value={info.accountNumber}
         />
       </div>
-    </div>
+    </FormField>
   );
 };
 
-export default BankAccountField;
+export default BankField;

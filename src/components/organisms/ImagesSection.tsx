@@ -13,7 +13,7 @@ import {
 import { Label } from "@/components/atoms/label";
 import { Button } from "@/components/atoms/button";
 import { Input } from "@/components/atoms/input";
-import ImageField from "@/components/molecules/ImageField";
+import ImageField from "@/components/organisms/fields/ImageField";
 import { useState, useEffect } from "react";
 import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
 

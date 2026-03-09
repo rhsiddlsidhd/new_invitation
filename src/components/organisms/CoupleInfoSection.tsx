@@ -7,8 +7,8 @@ import {
   CardTitle,
 } from "@/components/atoms/card";
 
-import BankAccountField from "@/components/molecules/BankAccountField";
-import InputField from "@/components/organisms/fields/InputField";
+import BankField from "@/components/organisms/fields/BankField";
+import TextField from "@/components/organisms/fields/TextField";
 import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
 
 export function CoupleInfoSection() {
@@ -29,7 +29,7 @@ export function CoupleInfoSection() {
               신랑 정보
             </h3>
 
-            <InputField
+            <TextField
               id="groom.name"
               name="groom_name"
               type="text"
@@ -38,9 +38,9 @@ export function CoupleInfoSection() {
               required
             >
               이름
-            </InputField>
+            </TextField>
 
-            <InputField
+            <TextField
               id="groom.phone"
               name="groom_phone"
               type="tel"
@@ -49,9 +49,9 @@ export function CoupleInfoSection() {
               required
             >
               연락처
-            </InputField>
+            </TextField>
 
-            <BankAccountField
+            <BankField
               id="groom"
               defaultBankName={data?.groom?.bankName}
               defaultAccountNumber={data?.groom?.accountNumber}
@@ -64,7 +64,7 @@ export function CoupleInfoSection() {
               신부 정보
             </h3>
 
-            <InputField
+            <TextField
               id="bride.name"
               name="bride_name"
               type="text"
@@ -73,9 +73,9 @@ export function CoupleInfoSection() {
               required
             >
               이름
-            </InputField>
+            </TextField>
 
-            <InputField
+            <TextField
               id="bride.phone"
               name="bride_phone"
               type="tel"
@@ -84,9 +84,9 @@ export function CoupleInfoSection() {
               required
             >
               연락처
-            </InputField>
+            </TextField>
 
-            <BankAccountField
+            <BankField
               id="bride"
               defaultBankName={data?.bride?.bankName}
               defaultAccountNumber={data?.bride?.accountNumber}

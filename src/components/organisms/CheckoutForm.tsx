@@ -17,7 +17,7 @@ import {
 import { Checkbox } from "@/components/atoms/checkbox";
 import { Button } from "@/components/atoms/button";
 import { Label } from "@/components/atoms/label";
-import InputField from "@/components/organisms/fields/InputField";
+import TextField from "@/components/organisms/fields/TextField";
 import PaymentMethodSelector from "./PaymentMethodSelector";
 import { toast } from "sonner";
 import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
@@ -246,7 +246,7 @@ export function CheckoutForm({ query }: { query: string }) {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
-              <InputField
+              <TextField
                 id="name"
                 name="buyerName"
                 type="text"
@@ -255,9 +255,9 @@ export function CheckoutForm({ query }: { query: string }) {
                 error={errors && errors.buyerName && errors.buyerName[0]}
               >
                 이름 *
-              </InputField>
+              </TextField>
 
-              <InputField
+              <TextField
                 id="phone"
                 name="buyerPhone"
                 type="tel"
@@ -266,10 +266,10 @@ export function CheckoutForm({ query }: { query: string }) {
                 error={errors && errors.buyerPhone && errors.buyerPhone[0]}
               >
                 연락처 *
-              </InputField>
+              </TextField>
             </div>
             <div>
-              <InputField
+              <TextField
                 id="email"
                 name="buyerEmail"
                 type="email"
@@ -278,7 +278,7 @@ export function CheckoutForm({ query }: { query: string }) {
                 error={errors && errors.buyerEmail && errors.buyerEmail[0]}
               >
                 이메일 *
-              </InputField>
+              </TextField>
             </div>
           </CardContent>
         </Card>

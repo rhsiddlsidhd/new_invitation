@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/card";
-import InputField from "@/components/organisms/fields/InputField";
+import TextField from "@/components/organisms/fields/TextField";
 import clsx from "clsx";
 import { Save } from "lucide-react";
 import React, { useState } from "react";
@@ -79,7 +79,7 @@ const ChangePasswordForm = () => {
         {passwordToggle && (
           <CardContent className="space-y-4">
             {passwordFields.map((field) => (
-              <InputField
+              <TextField
                 key={field.id}
                 id={field.id}
                 name={field.name}
@@ -87,7 +87,7 @@ const ChangePasswordForm = () => {
                 placeholder={field.placeholder}
               >
                 {field.title}
-              </InputField>
+              </TextField>
             ))}
           </CardContent>
         )}

@@ -9,13 +9,7 @@ import Alert from "@/components/molecules/Alert";
 import { Input } from "@/components/atoms/input";
 import { Button } from "@/components/atoms/button";
 import { Textarea } from "@/components/atoms/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/atoms/select";
+import SelectField from "@/components/organisms/fields/SelectField";
 import { Switch } from "@/components/atoms/switch";
 import { Checkbox } from "@/components/atoms/checkbox";
 import { Label } from "@/components/atoms/label";
@@ -101,6 +95,13 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
   const error =
     state && !state.success && "errors" in state.error && state.error.errors;
 
+  const statusOptions = [
+    { value: "active", label: "판매중" },
+    { value: "inactive", label: "비활성" },
+    { value: "soldOut", label: "품절" },
+    { value: "deleted", label: "삭제" },
+  ];
+
   return (
     <form action={action} className="space-y-6">
       {selectedFeatures.map((featureId) => (
@@ -111,9 +112,6 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
         <div className="col-span-2">
           <Label htmlFor="edit-thumbnail-input">
             썸네일 이미지 *
-            {error && error["thumbnail"] && (
-              <Alert type="error">{error["thumbnail"][0]}</Alert>
-            )}
           </Label>
           <div className="border-border group relative aspect-video w-full overflow-hidden rounded-lg border">
             <ProductThumbnail
@@ -170,14 +168,14 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
               value={product.thumbnail}
             />
           </div>
+          {error && error["thumbnail"] && (
+            <Alert type="error" className="mt-2">{error["thumbnail"][0]}</Alert>
+          )}
         </div>
 
         <div className="col-span-2">
           <Label htmlFor="edit-title">
             상품명 *
-            {error && error["title"] && (
-              <Alert type="error">{error["title"][0]}</Alert>
-            )}
           </Label>
           <Input
             id="edit-title"
@@ -186,88 +184,63 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
             placeholder="예: 엘레강트 로즈 청첩장"
             required
           />
+          {error && error["title"] && (
+            <Alert type="error" className="mt-2">{error["title"][0]}</Alert>
+          )}
         </div>
 
         <div className="flex-1">
-          <Label htmlFor="edit-category">
-            카테고리(대분류) *
-            {error && error["category"] && (
-              <Alert type="error">{error["category"][0]}</Alert>
-            )}
-          </Label>
-          <Select
+          <SelectField
+            id="edit-category"
             name="category"
-            value={selectedCategory}
+            defaultValue={selectedCategory}
             onValueChange={(value) => {
               setSelectedCategory(value as ProductCategory);
               setSelectedSubCategory("");
             }}
+            placeholder="카테고리를 선택하세요"
+            data={getCategoryOptions()}
+            error={error?.category?.[0]}
+            required
           >
-            <SelectTrigger>
-              <SelectValue placeholder="카테고리를 선택하세요" />
-            </SelectTrigger>
-            <SelectContent>
-              {getCategoryOptions().map((category) => (
-                <SelectItem key={category.value} value={category.value}>
-                  {category.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+            카테고리(대분류)
+          </SelectField>
         </div>
 
         <div className="flex-1">
-          <Label htmlFor="edit-subCategory">
-            서브 카테고리 *
-            {error && error["subCategory"] && (
-              <Alert type="error">{error["subCategory"][0]}</Alert>
-            )}
-          </Label>
-          <Select
+          <SelectField
+            id="edit-subCategory"
             name="subCategory"
-            value={selectedSubCategory}
+            defaultValue={selectedSubCategory}
             onValueChange={(value) => setSelectedSubCategory(value as SubCategory)}
+            placeholder="서브 카테고리를 선택하세요"
+            data={getSubCategoryOptions(selectedCategory)}
+            error={error?.subCategory?.[0]}
+            required
           >
-            <SelectTrigger>
-              <SelectValue placeholder="서브 카테고리를 선택하세요" />
-            </SelectTrigger>
-            <SelectContent>
-              {getSubCategoryOptions(selectedCategory).map((sub) => (
-                <SelectItem key={sub.value} value={sub.value}>
-                  {sub.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+            서브 카테고리
+          </SelectField>
         </div>
 
         <div className="col-span-2">
-          <Label htmlFor="edit-status">판매 상태 *</Label>
-          <Select
+          <SelectField
+            id="edit-status"
             name="status"
-            value={status}
+            defaultValue={status}
             onValueChange={(value) =>
               setStatus(value as "active" | "inactive" | "soldOut" | "deleted")
             }
+            placeholder="판매 상태를 선택하세요"
+            data={statusOptions}
+            required
           >
-            <SelectTrigger>
-              <SelectValue placeholder="판매 상태를 선택하세요" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="active">판매중</SelectItem>
-              <SelectItem value="inactive">비활성</SelectItem>
-              <SelectItem value="soldOut">품절</SelectItem>
-              <SelectItem value="deleted">삭제</SelectItem>
-            </SelectContent>
-          </Select>
+            판매 상태
+          </SelectField>
         </div>
 
         <div className="col-span-2">
           <Label htmlFor="edit-description">
             상품 설명 *
-            {error && error["description"] && (
-              <Alert type="error">{error["description"][0]}</Alert>
-            )}
           </Label>
           <Textarea
             id="edit-description"
@@ -277,6 +250,9 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
             rows={3}
             required
           />
+          {error && error["description"] && (
+            <Alert type="error" className="mt-2">{error["description"][0]}</Alert>
+          )}
         </div>
 
         <div className="border-border flex items-center justify-between rounded-lg border p-4">
@@ -308,9 +284,6 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
         <div>
           <Label htmlFor="edit-price">
             기본 가격 *
-            {error && error["price"] && (
-              <Alert type="error">{error["price"][0]}</Alert>
-            )}
           </Label>
           <div className="relative">
             <Input
@@ -328,14 +301,14 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
               원
             </span>
           </div>
+          {error && error["price"] && (
+            <Alert type="error" className="mt-2">{error["price"][0]}</Alert>
+          )}
         </div>
 
         <div>
           <Label htmlFor="edit-priority">
             추천 우선순위
-            {error && error["priority"] && (
-              <Alert type="error">{error["priority"][0]}</Alert>
-            )}
           </Label>
           <Input
             id="edit-priority"
@@ -347,6 +320,9 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
             max="100"
             step="1"
           />
+          {error && error["priority"] && (
+            <Alert type="error" className="mt-2">{error["priority"][0]}</Alert>
+          )}
         </div>
 
         <div className="col-span-2 flex items-center justify-between rounded-lg border p-4">

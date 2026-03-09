@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/atoms/dialog";
-import InputField from "@/components/organisms/fields/InputField";
+import TextField from "@/components/organisms/fields/TextField";
 import SwitchField from "@/components/molecules/SwitchField";
 import { createGuestbook } from "@/actions/createGuestbook";
 import { cn } from "@/lib/utils";
@@ -65,7 +65,7 @@ const CreateGuestbookForm = ({ payload }: { payload: unknown }) => {
 
       <input type="hidden" name="coupleInfoId" value={id} />
 
-      <InputField
+      <TextField
         name="author"
         placeholder="이름을 입력하세요."
         id="author"
@@ -74,9 +74,9 @@ const CreateGuestbookForm = ({ payload }: { payload: unknown }) => {
         error={authorError}
       >
         이름
-      </InputField>
+      </TextField>
 
-      <InputField
+      <TextField
         type="password"
         name="password"
         id="password"
@@ -84,7 +84,7 @@ const CreateGuestbookForm = ({ payload }: { payload: unknown }) => {
         error={passwordError}
       >
         비밀번호
-      </InputField>
+      </TextField>
 
       <div className="space-y-2">
         <label htmlFor="message" className="text-sm font-medium">

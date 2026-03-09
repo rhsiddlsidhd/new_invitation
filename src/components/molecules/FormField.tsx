@@ -1,7 +1,7 @@
 import Alert from "@/components/molecules/Alert";
 import { Label } from "@/components/atoms/label";
 import React from "react";
-import { Asterisk, Star } from "lucide-react";
+import { Asterisk } from "lucide-react";
 
 interface FormFieldProps {
   id?: string;

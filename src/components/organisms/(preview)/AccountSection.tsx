@@ -3,7 +3,8 @@
 import SectionBody from "@/components/layout/SectionLayout";
 import React, { useMemo, useState } from "react";
 import { Card } from "@/components/atoms/card";
-import { CopyButton } from "@/components/molecules/CopyButton";
+import { ClipboardButton } from "@/components/molecules/ClipboardButton";
+import { useCopy } from "@/hooks/useCopy";
 
 import { cn } from "@/lib/utils";
 import { useBanks } from "@/hooks/useBanks";
@@ -19,6 +20,7 @@ const AccountSection = ({
 }: AccountSectionMappedProps) => {
   const [selectedSide, setSelectedSide] = useState<"groom" | "bride">("groom");
   const { banks } = useBanks();
+  const { isCopied, copyToClipboard } = useCopy();
 
   const bankNameMap = useMemo(() => {
     if (!banks) return {};
@@ -59,7 +61,10 @@ const AccountSection = ({
           </div>
           <div className="flex items-center gap-2">
             <span className="font-semibold">{account.accountNumber}</span>
-            <CopyButton textToCopy={account.accountNumber} />
+            <ClipboardButton
+              isCopied={isCopied}
+              onCopy={() => copyToClipboard(account.accountNumber)}
+            />
           </div>
         </div>
       </Card>

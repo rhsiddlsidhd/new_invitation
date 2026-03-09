@@ -1,10 +1,10 @@
 import { Input } from "@/components/atoms/input";
 import FormField from "@/components/molecules/FormField";
-import { InputFieldBase } from "@/types/field";
+import { FieldBase } from "@/types/field";
 import React, { HTMLInputTypeAttribute, useState, useEffect } from "react";
 
-export interface InputFieldProps extends InputFieldBase {
-  type: HTMLInputTypeAttribute | undefined;
+export interface TextFieldProps extends FieldBase {
+  type?: HTMLInputTypeAttribute;
   placeholder?: string;
   error?: string;
   required?: boolean;
@@ -12,21 +12,24 @@ export interface InputFieldProps extends InputFieldBase {
   className?: string;
 }
 
-const InputField = ({
+/**
+ * 범용 텍스트 입력 필드 (Organism)
+ * 데이터 중심 네이밍 컨벤션에 따라 TextField로 명명되었습니다.
+ */
+const TextField = ({
   id,
   name,
   children,
-  type,
+  type = "text",
   placeholder,
   required = false,
   error,
   defaultValue = "",
   readOnly,
   className,
-}: InputFieldProps) => {
+}: TextFieldProps) => {
   const [info, setInfo] = useState(defaultValue);
 
-  // defaultValue 변경 시 state 업데이트 (data 로딩 후 반영)
   useEffect(() => {
     setInfo(defaultValue);
   }, [defaultValue]);
@@ -34,14 +37,14 @@ const InputField = ({
   return (
     <FormField id={id} label={children} error={error} required={required}>
       <Input
-        value={info}
         id={id}
         name={name}
         type={type}
+        value={info}
         placeholder={placeholder}
         required={required}
-        onChange={(e) => setInfo(e.target.value)}
         readOnly={readOnly}
+        onChange={(e) => setInfo(e.target.value)}
         aria-invalid={!!error}
         className={className}
       />
@@ -49,4 +52,4 @@ const InputField = ({
   );
 };
 
-export default InputField;
+export default TextField;

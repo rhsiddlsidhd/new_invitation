@@ -6,6 +6,7 @@ import SectionBody from "../../layout/SectionLayout";
 import { ko } from "date-fns/locale";
 import clsx from "clsx";
 import DigitalWatch from "../../molecules/DigitalWatch";
+import { useCountdown } from "@/hooks/useCountdown";
 
 import { WeddingMonthCalendarProps } from "./weddingMonthCalendar.mapper";
 
@@ -28,6 +29,8 @@ const getDayOfMonth = (year: number, month: number) => {
 const weekOfKr = ["일", "월", "화", "수", "목", "금", "토"] as const;
 
 const WeddingMonthCalendar = ({ date }: WeddingMonthCalendarProps) => {
+  const { countdown, message } = useCountdown(date);
+
   const monthCalender = useMemo(() => {
     const newDate = new Date(date);
     return getDayOfMonth(newDate.getFullYear(), newDate.getMonth() + 1);
@@ -69,7 +72,7 @@ const WeddingMonthCalendar = ({ date }: WeddingMonthCalendarProps) => {
           );
         })}
       </ul>
-      <DigitalWatch date={date} />
+      <DigitalWatch countdown={countdown} message={message} />
     </SectionBody>
   );
 };

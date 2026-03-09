@@ -1,11 +1,4 @@
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/atoms/select";
-
+import BaseSelect from "@/components/molecules/BaseSelect";
 import React from "react";
 
 const StatusSelect = ({
@@ -24,18 +17,13 @@ const StatusSelect = ({
   placeholder?: string;
 }) => {
   return (
-    <Select value={value} onValueChange={onValueChange} disabled={disabled}>
-      <SelectTrigger className={className}>
-        <SelectValue placeholder={placeholder} />
-      </SelectTrigger>
-      <SelectContent>
-        {items.map((item) => (
-          <SelectItem key={item.value} value={item.value}>
-            {item.label}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <BaseSelect
+      value={value}
+      onValueChange={onValueChange}
+      options={[...items]}
+      className={className}
+      placeholder={placeholder}
+    />
   );
 };
 

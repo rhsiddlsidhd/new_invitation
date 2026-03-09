@@ -13,10 +13,10 @@ import {
 } from "@/components/atoms/popover";
 import { Input } from "@/components/atoms/input";
 import FormField from "@/components/molecules/FormField";
-import { InputFieldBase } from "@/types/field";
+import { FieldBase } from "@/types/field";
 import { cn } from "@/lib/utils";
 
-interface DateFieldProps extends Omit<InputFieldBase, "defaultValue"> {
+interface DateFieldProps extends Omit<FieldBase, "defaultValue"> {
   defaultValue?: Date;
   placeholder?: string;
   required?: boolean;

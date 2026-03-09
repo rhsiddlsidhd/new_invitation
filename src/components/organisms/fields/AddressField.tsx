@@ -26,18 +26,14 @@ const AddressField = ({
   const { handleDaumAddressPopup, address } = useDaumPopup();
   const [weddingAddress, setWeddingAddress] = useState(defaultValue);
 
-  // 주소 검색 결과 반영
   useEffect(() => {
     if (address) {
       setWeddingAddress(address);
     }
   }, [address]);
 
-  // 외부(defaultValue) 데이터 로딩 시 초기화
   useEffect(() => {
-    if (defaultValue) {
-      setWeddingAddress(defaultValue);
-    }
+    setWeddingAddress(defaultValue);
   }, [defaultValue]);
 
   const fieldId = `${name}_address`;
@@ -47,13 +43,12 @@ const AddressField = ({
       <Input
         id={fieldId}
         name={fieldId}
-        placeholder={`${label}를 검색하세요`}
-        onClick={handleDaumAddressPopup}
         value={weddingAddress}
-        aria-invalid={!!error}
-        className="flex-1"
+        placeholder={`${label}를 검색하세요`}
         required={required}
         readOnly
+        onClick={handleDaumAddressPopup}
+        aria-invalid={!!error}
       />
     </FormField>
   );

@@ -7,23 +7,13 @@ import {
   CardTitle,
 } from "@/components/atoms/card";
 import { format } from "date-fns";
-import InputField from "@/components/organisms/fields/InputField";
+import TextField from "@/components/organisms/fields/TextField";
 import AddressField from "@/components/organisms/fields/AddressField";
 import SwitchField from "@/components/molecules/SwitchField";
 import SelectField from "@/components/organisms/fields/SelectField";
 import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
 import DateField from "@/components/organisms/fields/DateField";
-
-// 현재 지하철역 가져오기 API ERROR-331 에러 발생 원인 알 수 없음
-const MOCSUBWAYSTATIONS = [
-  "강남역",
-  "홍대입구역",
-  "잠실역",
-  "명동역",
-  "서울역",
-  "종각역",
-  "고속터미널역",
-];
+import { MOC_SUBWAY_STATIONS } from "@/data/subway";
 
 export function BasicInfoSection() {
   const { data, isLoading } = useFetchCoupleInfo();
@@ -49,7 +39,7 @@ export function BasicInfoSection() {
             결혼식 날짜
           </DateField>
 
-          <InputField
+          <TextField
             id="weddingTime"
             name="wedding_time"
             type="time"
@@ -62,11 +52,11 @@ export function BasicInfoSection() {
             required
           >
             결혼식 시간
-          </InputField>
+          </TextField>
         </div>
 
         {/* 예식장명 */}
-        <InputField
+        <TextField
           id="venueName"
           name="venue_name"
           type="text"
@@ -75,13 +65,13 @@ export function BasicInfoSection() {
           required
         >
           예식장명
-        </InputField>
+        </TextField>
 
         {/* Address */}
         <AddressField required name="venue" defaultValue={data?.address} />
 
         {/* Address Detail */}
-        <InputField
+        <TextField
           id="venueAddressDetail"
           name="venue_address_detail"
           type="text"
@@ -90,7 +80,7 @@ export function BasicInfoSection() {
           required
         >
           상세 주소
-        </InputField>
+        </TextField>
 
         {/* 인근 지하철 역 */}
         <SelectField
@@ -98,7 +88,7 @@ export function BasicInfoSection() {
           name="subway_station"
           placeholder="지하철역 선택"
           defaultValue={data && data.subwayStation}
-          data={MOCSUBWAYSTATIONS}
+          data={MOC_SUBWAY_STATIONS}
         >
           인근 지하철 역
         </SelectField>

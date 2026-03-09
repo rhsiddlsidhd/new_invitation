@@ -11,7 +11,7 @@ import {
   DialogTitle,
 } from "@/components/atoms/dialog";
 
-import InputField from "@/components/organisms/fields/InputField";
+import TextField from "@/components/organisms/fields/TextField";
 import { APIResponse } from "@/types/error";
 
 import { useParams } from "next/navigation";
@@ -56,9 +56,9 @@ const DeleteGuestbookForm = ({ payload }: { payload: string }) => {
         </DialogDescription>
       </DialogHeader>
 
-      <InputField id="password" name="password" type="password">
+      <TextField id="password" name="password" type="password">
         비밀번호
-      </InputField>
+      </TextField>
       {passwordError && <Alert type="error">{passwordError}</Alert>}
 
       <DialogFooter>
