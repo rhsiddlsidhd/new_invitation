@@ -22,17 +22,6 @@ const Page = async ({
   const { payload } = await decrypt({ token: cookie.value, type: "REFRESH" });
   if (!payload.id) return redirect("/login");
 
-  // const coupleInfo = await getCoupleInfoById(q);
-
-  // if (!coupleInfo) {
-  //   throw new HTTPError("정보를 찾을 수 없습니다.", 404);
-  // }
-
-  // // Check if user owns this coupleInfo
-  // if (coupleInfo.userId.toString() !== payload.id) {
-  //   throw new HTTPError("접근 권한이 없습니다.", 403);
-  // }
-
   return <CoupleInfoForm type={"edit"} />;
 };
 

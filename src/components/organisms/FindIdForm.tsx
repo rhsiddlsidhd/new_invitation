@@ -11,6 +11,7 @@ import { Card } from "@/components/atoms/card";
 import { Button } from "@/components/atoms/button";
 import { Input } from "@/components/atoms/input";
 import { Label } from "@/components/atoms/label";
+import { TypographyH1, TypographyLarge, TypographyMuted } from "@/components/atoms/typoqraphy";
 import Alert from "@/components/molecules/Alert";
 import { getFieldError, hasFieldErrors } from "@/utils/error"; // Added hasFieldErrors
 import { APIResponse } from "@/types/error";
@@ -37,12 +38,12 @@ export function FindIdForm() {
     return (
       <div className="space-y-6">
         <div className="space-y-2 text-center">
-          <h1 className="text-foreground text-3xl font-bold">
+          <TypographyH1 className="text-3xl font-bold">
             아이디 찾기 완료
-          </h1>
-          <p className="text-muted-foreground">
+          </TypographyH1>
+          <TypographyMuted>
             입력하신 정보와 일치하는 아이디입니다
-          </p>
+          </TypographyMuted>
         </div>
 
         <Card className="bg-muted/50 p-6">
@@ -51,10 +52,10 @@ export function FindIdForm() {
               <Mail className="text-primary h-6 w-6" />
             </div>
             <div>
-              <p className="text-muted-foreground mb-1 text-sm">
+              <TypographyMuted className="mb-1">
                 회원님의 이메일
-              </p>
-              <p className="text-lg font-semibold">{state.data.email}</p>
+              </TypographyMuted>
+              <TypographyLarge className="font-semibold">{state.data.email}</TypographyLarge>
             </div>
           </div>
         </Card>
@@ -79,10 +80,10 @@ export function FindIdForm() {
   return (
     <div className="space-y-6">
       <div className="space-y-2 text-center lg:text-left">
-        <h1 className="text-foreground text-3xl font-bold">아이디 찾기</h1>
-        <p className="text-muted-foreground">
+        <TypographyH1 className="text-left text-3xl font-bold">아이디 찾기</TypographyH1>
+        <TypographyMuted>
           가입 시 등록한 정보를 입력해주세요
-        </p>
+        </TypographyMuted>
       </div>
 
       <form action={action} className="space-y-4">
@@ -124,7 +125,7 @@ export function FindIdForm() {
       </form>
 
       <div className="space-y-2 text-center">
-        <p className="text-muted-foreground text-sm">
+        <TypographyMuted>
           비밀번호가 기억나지 않으신가요?
           <Link
             href="/find-pw"
@@ -132,7 +133,7 @@ export function FindIdForm() {
           >
             비밀번호 찾기
           </Link>
-        </p>
+        </TypographyMuted>
         <Link
           href="/login"
           className="text-muted-foreground hover:text-foreground inline-block text-sm transition-colors"

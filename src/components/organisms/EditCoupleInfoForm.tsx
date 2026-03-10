@@ -9,6 +9,7 @@ import {
 } from "@/components/atoms/card";
 import { Label } from "@/components/atoms/label";
 import { Textarea } from "@/components/atoms/textarea";
+import { TypographyH1, TypographyMuted } from "@/components/atoms/typoqraphy";
 import { Save, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ICoupleInfo } from "@/models/coupleInfo.model";
@@ -47,12 +48,12 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
           <ArrowLeft className="mr-2 h-4 w-4" />
           돌아가기
         </Button>
-        <h1 className="text-foreground mb-2 text-3xl font-bold">
+        <TypographyH1 className="text-left mb-2 text-3xl font-bold">
           정보 수정하기
-        </h1>
-        <p className="text-muted-foreground">
+        </TypographyH1>
+        <TypographyMuted>
           청첩장에 표시될 정보를 수정합니다.
-        </p>
+        </TypographyMuted>
       </div>
 
       <form className="space-y-6 pb-24" onSubmit={handleSubmit}>

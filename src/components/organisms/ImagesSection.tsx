@@ -25,13 +25,14 @@ export function ImagesSection({ thumbnail, gallery }: ImagesSectionProps) {
       <CardContent className="space-y-8">
         <FormField label="메인 이미지" required>
           <TypographyMuted>
-            청첩장에 표시될 메인 이미지를 업로드하세요. (최대 10장)
+            청첩장에 표시될 메인 이미지를 업로드하세요. (3장)
           </TypographyMuted>
           <ImageField
             id="thumbnail-upload"
             items={thumbnail.items}
             onAdd={thumbnail.add}
             onRemove={thumbnail.remove}
+            maxCount={3}
           />
         </FormField>
 

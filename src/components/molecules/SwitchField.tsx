@@ -1,6 +1,7 @@
 import { Switch } from "@/components/atoms/switch";
 import { Label } from "@radix-ui/react-label";
 import React, { useState } from "react";
+import { TypographyMuted } from "@/components/atoms/typoqraphy";
 import { FieldBase } from "@/types/field";
 
 type SwitchFieldProps = Omit<FieldBase, "defaultValue"> & {
@@ -23,7 +24,7 @@ const SwitchField = ({
         <Label htmlFor={id} className="cursor-pointer text-base">
           {children}
         </Label>
-        <p className="text-muted-foreground text-sm">{message}</p>
+        <TypographyMuted>{message}</TypographyMuted>
       </div>
       <Switch
         id={id}

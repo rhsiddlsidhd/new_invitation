@@ -47,6 +47,23 @@ export const getOrderSeviceByMerchantUid = async (
   return order.toObject({ versionKey: false }) as IOrder;
 };
 
+export const getActiveFeaturesByCoupleInfoId = async (
+  coupleInfoId: string,
+): Promise<string[]> => {
+  await dbConnect();
+
+  const order = await OrderModel.findOne({
+    coupleInfoId: new mongoose.Types.ObjectId(coupleInfoId),
+    orderStatus: { $in: ["CONFIRMED", "COMPLETED"] },
+  })
+    .select("product.selectedFeatures")
+    .lean();
+
+  if (!order) return [];
+
+  return order.product.selectedFeatures.map((f) => f.code);
+};
+
 export const getOrdersByUserId = async (
   userId: string | mongoose.Types.ObjectId,
 ) => {

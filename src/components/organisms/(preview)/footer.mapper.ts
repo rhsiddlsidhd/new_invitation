@@ -1,13 +1,7 @@
 import { ICoupleInfo } from "@/models/coupleInfo.model";
 
-export interface FooterProps {
-  message?: string;
-}
+export interface FooterProps {}
 
 export const mapCoupleInfoToFooterProps = (
-  coupleInfo: ICoupleInfo,
-): FooterProps => {
-  return {
-    message: coupleInfo.message,
-  };
-};
+  _coupleInfo: ICoupleInfo,
+): FooterProps => ({});

@@ -6,6 +6,7 @@ import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
+import { Button } from "@/components/atoms/button";
 
 export default function SidebarNavItem({
   type,
@@ -37,9 +38,11 @@ export default function SidebarNavItem({
           <div key={item.title}>
             {menuTitle ? (
               <div>
-                <button
+                <Button
+                  type="button"
+                  variant="ghost"
                   onClick={() => toggleMenu(menuTitle)}
-                  className="text-muted-foreground hover:text-foreground hover:bg-accent/50 flex w-full items-center justify-between px-6 py-3 text-sm transition-colors"
+                  className="text-muted-foreground hover:text-foreground hover:bg-accent/50 flex w-full items-center justify-between px-6 py-3 text-sm transition-colors h-auto rounded-none"
                 >
                   <div className="flex items-center gap-3">
                     <item.icon className="h-5 w-5" />
@@ -51,7 +54,7 @@ export default function SidebarNavItem({
                       expandedMenus.includes(menuTitle) && "rotate-180",
                     )}
                   />
-                </button>
+                </Button>
                 {expandedMenus.includes(menuTitle) && item.submenu && (
                   <div className="bg-accent/30">
                     {item.submenu.map((subItem) => (

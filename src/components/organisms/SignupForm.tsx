@@ -14,6 +14,7 @@ import { Input } from "@/components/atoms/input";
 import { Checkbox } from "@/components/atoms/checkbox";
 import { Button } from "@/components/atoms/button";
 import { Label } from "@/components/atoms/label";
+import { TypographyH1, TypographyMuted } from "@/components/atoms/typoqraphy";
 import Alert from "@/components/molecules/Alert";
 import { getFieldError, hasFieldErrors } from "@/utils/error";
 import { toast } from "sonner";
@@ -50,8 +51,8 @@ export function SignupForm() {
   return (
     <div className="space-y-6">
       <div className="space-y-2 text-center lg:text-left">
-        <h1 className="text-foreground text-3xl font-bold">회원가입</h1>
-        <p className="text-muted-foreground">새 계정을 만들어 시작하세요</p>
+        <TypographyH1 className="text-left text-3xl font-bold">회원가입</TypographyH1>
+        <TypographyMuted>새 계정을 만들어 시작하세요</TypographyMuted>
       </div>
 
       <form action={action} className="space-y-4">
@@ -207,7 +208,7 @@ export function SignupForm() {
       </Button>
 
       <div className="text-center">
-        <p className="text-muted-foreground text-sm">
+        <TypographyMuted>
           이미 계정이 있으신가요?{" "}
           <Link
             href="/login"
@@ -215,7 +216,7 @@ export function SignupForm() {
           >
             로그인
           </Link>
-        </p>
+        </TypographyMuted>
       </div>
     </div>
   );

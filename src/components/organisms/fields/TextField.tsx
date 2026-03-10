@@ -47,6 +47,7 @@ const TextField = ({
         onChange={(e) => setInfo(e.target.value)}
         aria-invalid={!!error}
         className={className}
+        autoComplete={name}
       />
     </FormField>
   );

@@ -9,9 +9,13 @@ export const productSchema = z
     subCategory: z.string().min(1, "서브 카테고리를 선택해주세요."),
     price: z.number().min(0, "가격은 0 이상이어야 합니다."),
     isPremium: z.boolean(),
-    options: z.array(z.string()).optional(),
-    feature: z.boolean(),
+    featureIds: z.array(z.string()).optional(),
+    isFeatured: z.boolean(),
     priority: z.number(),
+    discount: z.object({
+      discountType: z.enum(["rate", "amount"]),
+      value: z.number().min(0),
+    }).optional(),
     status: z.enum(["active", "inactive", "soldOut", "deleted"]).optional(),
     thumbnail: z
       .instanceof(File, { message: "썸네일 이미지를 등록해주세요." })
@@ -21,14 +25,14 @@ export const productSchema = z
   })
   .refine(
     (data) => {
-      if (data.isPremium && (!data.options || data.options.length === 0)) {
+      if (data.isPremium && (!data.featureIds || data.featureIds.length === 0)) {
         return false;
       }
       return true;
     },
     {
       message: "옵션을 선택해주세요.",
-      path: ["options"],
+      path: ["featureIds"],
     },
   )
   .refine(

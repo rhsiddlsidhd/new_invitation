@@ -6,6 +6,7 @@ import { Button } from "@/components/atoms/button";
 import { Input } from "@/components/atoms/input";
 import { Label } from "@/components/atoms/label";
 import { Textarea } from "@/components/atoms/textarea";
+import { TypographyMuted } from "@/components/atoms/typoqraphy";
 import { useActionState, useEffect } from "react";
 import { getFieldError } from "@/utils/error";
 import { APIResponse } from "@/types/error";
@@ -35,9 +36,9 @@ const PremiumFeatureRegistrationForm = () => {
           required
         />
         {codeError && <Alert type="error">{codeError}</Alert>}
-        <p className="text-muted-foreground text-xs">
+        <TypographyMuted>
           영문 대문자와 언더스코어만 사용 가능합니다. (예: PREMIUM_ANIMATION)
-        </p>
+        </TypographyMuted>
       </div>
 
       <div className="space-y-2">
@@ -49,9 +50,9 @@ const PremiumFeatureRegistrationForm = () => {
           required
         />
         {labelError && <Alert type="error">{labelError}</Alert>}
-        <p className="text-muted-foreground text-xs">
+        <TypographyMuted>
           고객에게 표시될 기능의 이름입니다.
-        </p>
+        </TypographyMuted>
       </div>
 
       <div className="space-y-2">
@@ -65,9 +66,9 @@ const PremiumFeatureRegistrationForm = () => {
           className="resize-none"
         />
         {descriptionError && <Alert type="error">{descriptionError}</Alert>}
-        <p className="text-muted-foreground text-xs">
+        <TypographyMuted>
           기능의 특징과 장점을 상세하게 작성해주세요. (최소 20자 이상)
-        </p>
+        </TypographyMuted>
       </div>
 
       <div className="space-y-2">
@@ -90,9 +91,9 @@ const PremiumFeatureRegistrationForm = () => {
         {additionalPriceError && (
           <Alert type="error">{additionalPriceError}</Alert>
         )}
-        <p className="text-muted-foreground text-xs">
+        <TypographyMuted>
           이 기능을 추가할 때 부과되는 추가 비용입니다.
-        </p>
+        </TypographyMuted>
       </div>
 
       <div className="flex justify-end gap-3 pt-4">

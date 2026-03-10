@@ -5,6 +5,8 @@ export interface HeroSectionProps {
   brideName: string;
   weddingDate: Date;
   venueName: string;
+  address: string;
+  addressDetail?: string;
   thumbnailImage: string;
 }
 
@@ -16,6 +18,8 @@ export const mapCoupleInfoToHeroProps = (
     brideName: coupleInfo.bride.name,
     weddingDate: coupleInfo.weddingDate,
     venueName: coupleInfo.venue,
+    address: coupleInfo.address,
+    addressDetail: coupleInfo.addressDetail,
     thumbnailImage: coupleInfo.thumbnailImages[0],
   };
 };

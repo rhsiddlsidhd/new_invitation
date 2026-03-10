@@ -14,6 +14,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import promotions from "@/data/promotions.json";
 import { useIntervalIndex } from "@/hooks/useIntervalIndex";
+import { TypographyH2, TypographySmall } from "@/components/atoms/typoqraphy";
 
 // 아이콘 매핑 객체
 const ICON_MAP: Record<string, React.ElementType> = {
@@ -45,12 +46,12 @@ export const EcommerceHero = () => {
         <div className="flex flex-col-reverse gap-8 py-8 md:flex-row md:items-stretch md:py-12">
           {/* Tabs Section (Left on Desktop, Bottom on Mobile) - 비즈니스 프로모션 선택 영역 */}
           <div className="flex w-full flex-col justify-center gap-2 md:w-1/3 lg:w-1/4">
-            <div className="hidden md:block mb-6">
-              <h2 className="text-2xl font-bold text-slate-900">
+            <div className="mb-6 hidden md:block">
+              <TypographyH2 className="border-none text-2xl font-bold text-slate-900">
                 당신의 특별한 날을 위한
                 <br />
                 프리미엄 솔루션
-              </h2>
+              </TypographyH2>
             </div>
             <div className="grid grid-cols-2 gap-2 md:flex md:flex-col md:gap-3">
               {promotions.map((promo, index) => {
@@ -58,16 +59,18 @@ export const EcommerceHero = () => {
                 const Icon = ICON_MAP[promo.iconName] || Sparkles;
 
                 return (
-                  <button
+                  <Button
                     key={promo.id}
+                    type="button"
+                    variant="ghost"
                     onClick={() => {
                       setIndex(index);
                       setIsPaused(true);
                     }}
                     className={cn(
-                      "group relative flex items-center gap-3 rounded-2xl p-4 text-left transition-all duration-300",
+                      "group relative flex h-auto items-center gap-3 rounded-2xl p-4 text-left transition-all duration-300",
                       isActive
-                        ? "bg-white shadow-xl shadow-slate-200/50 ring-1 ring-slate-100"
+                        ? "bg-white shadow-xl ring-1 shadow-slate-200/50 ring-slate-100"
                         : "hover:bg-slate-50",
                     )}
                   >
@@ -87,19 +90,19 @@ export const EcommerceHero = () => {
                       />
                     </div>
                     <div className="flex flex-col">
-                      <span
+                      <TypographySmall
                         className={cn(
-                          "text-sm font-bold transition-colors",
+                          "font-bold transition-colors",
                           isActive ? "text-slate-900" : "text-slate-500",
                         )}
                       >
                         {promo.label}
-                      </span>
+                      </TypographySmall>
                     </div>
                     {isActive && (
                       <motion.div
                         layoutId="active-pill"
-                        className="bg-white absolute inset-0 z-[-1] rounded-2xl shadow-lg"
+                        className="absolute inset-0 z-[-1] rounded-2xl bg-white shadow-lg"
                         transition={{
                           type: "spring",
                           bounce: 0.2,
@@ -107,7 +110,7 @@ export const EcommerceHero = () => {
                         }}
                       />
                     )}
-                  </button>
+                  </Button>
                 );
               })}
             </div>
@@ -133,21 +136,21 @@ export const EcommerceHero = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="mb-4 inline-flex w-fit self-center items-center gap-2 rounded-full bg-white/80 px-4 py-2 backdrop-blur-sm md:self-start"
+                    className="mb-4 inline-flex w-fit items-center gap-2 self-center rounded-full bg-white/80 px-4 py-2 backdrop-blur-sm md:self-start"
                   >
                     <Sparkles
                       className={cn("h-4 w-4", activePromotion.accentColor)}
                     />
-                    <span className="text-slate-600 text-xs font-bold uppercase tracking-widest">
+                    <TypographySmall className="font-bold tracking-widest text-slate-600 uppercase">
                       {activePromotion.badge}
-                    </span>
+                    </TypographySmall>
                   </motion.div>
 
                   <motion.h1
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="text-slate-900 mb-6 text-3xl font-extrabold leading-tight md:text-5xl lg:text-6xl"
+                    className="mb-6 text-3xl leading-tight font-extrabold text-slate-900 md:text-5xl lg:text-6xl"
                   >
                     {activePromotion.title.split("\n").map((line, i) => (
                       <React.Fragment key={i}>
@@ -161,7 +164,7 @@ export const EcommerceHero = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
-                    className="text-slate-600 mb-8 whitespace-pre-line text-base leading-relaxed md:text-lg"
+                    className="mb-8 text-base leading-relaxed whitespace-pre-line text-slate-600 md:text-lg"
                   >
                     {activePromotion.description}
                   </motion.p>
@@ -172,7 +175,7 @@ export const EcommerceHero = () => {
                     transition={{ delay: 0.5 }}
                     className="flex flex-col justify-center gap-4 sm:flex-row md:justify-start"
                   >
-                    <Button
+                    {/* <Button
                       size="lg"
                       className="bg-slate-900 group rounded-full px-8 text-white hover:bg-slate-800"
                     >
@@ -185,7 +188,7 @@ export const EcommerceHero = () => {
                       className="border-white bg-white/50 rounded-full px-8 text-slate-900 backdrop-blur-sm"
                     >
                       기능 더보기
-                    </Button>
+                    </Button> */}
                   </motion.div>
                 </div>
 
@@ -208,7 +211,7 @@ export const EcommerceHero = () => {
                   {/* Decorative blobs based on active promotion color */}
                   <div
                     className={cn(
-                      "absolute -right-8 -top-8 h-48 w-48 rounded-full opacity-40 blur-3xl",
+                      "absolute -top-8 -right-8 h-48 w-48 rounded-full opacity-40 blur-3xl",
                       activePromotion.accentColor.replace("text", "bg"),
                     )}
                   />

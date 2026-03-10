@@ -20,14 +20,14 @@ const DigitalWatch = ({ countdown, message }: DigitalWatchProps) => {
       <div className="m-auto grid w-3/4 grid-cols-4 gap-2 max-sm:w-full">
         {Object.entries(countdown).map(([key, value]) => (
           <div key={key} className="text-center">
-            <p className="text-xs text-gray-300">{key.toUpperCase()}</p>
-            <p className="text-md font-bold text-gray-400">{value}</p>
+            <p className="text-muted-foreground text-xs">{key.toUpperCase()}</p>
+            <p className="text-foreground text-md font-bold">{value}</p>
           </div>
         ))}
       </div>
 
       {message && (
-        <p className="p-4 text-center text-xs font-bold text-gray-300">
+        <p className="text-muted-foreground p-4 text-center text-xs font-bold">
           {message}
         </p>
       )}

@@ -40,13 +40,17 @@ export const createProductAction = async (
       description: formData.get("description") as string,
       category: formData.get("category") as string,
       subCategory: formData.get("subCategory") as string,
-      price: Number(formData.get("price")) as number,
+      price: Number(formData.get("price")),
       isPremium: formData.get("isPremium") === "true",
-      options: formData.getAll("options") as string[],
-      feature: formData.get("feature") === "true",
-      priority: Number(formData.get("priority")) as number,
+      featureIds: formData.getAll("featureIds") as string[],
+      isFeatured: formData.get("isFeatured") === "true",
+      priority: Number(formData.get("priority")),
+      discount: {
+        discountType: formData.get("discount.discountType") as string,
+        value: Number(formData.get("discount.value")),
+      },
       thumbnail: thumbnailFile,
-    } as const;
+    };
 
     const parsed = validateAndFlatten(productSchema, data);
 

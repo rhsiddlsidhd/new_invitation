@@ -5,6 +5,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/atoms/radio-group";
 import React, { useState } from "react";
 import { LucideIcon } from "lucide-react";
 import { FieldBase } from "@/types/field";
+import { TypographyMuted, TypographySmall } from "../atoms/typoqraphy";
 
 export type RadioFieldOption<T = string> = {
   id: string;
@@ -43,11 +44,9 @@ const RadioField = <T extends string = string>({
             <RadioGroupItem value={option.value} id={option.id} />
             {Icon && <Icon className="text-muted-foreground h-5 w-5" />}
             <Label htmlFor={option.id} className="flex-1 cursor-pointer">
-              <span className="text-sm font-medium">{option.title}</span>
+              <TypographySmall>{option.title}</TypographySmall>
               {option.description && (
-                <span className="text-muted-foreground/80 ml-2 text-xs">
-                  {option.description}
-                </span>
+                <TypographyMuted>{option.description}</TypographyMuted>
               )}
             </Label>
           </div>

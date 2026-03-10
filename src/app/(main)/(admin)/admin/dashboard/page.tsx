@@ -6,6 +6,7 @@ import {
 } from "@/components/atoms/card";
 import Grid from "@/components/layout/Grid";
 import { Package, DollarSign, ShoppingCart, Users } from "lucide-react";
+import { TypographyMuted, TypographySmall } from "@/components/atoms/typoqraphy";
 
 export default function AdminDashboard() {
   const stats = [
@@ -42,9 +43,9 @@ export default function AdminDashboard() {
   return (
     <div className="space-y-8">
       <div>
-        <p className="text-muted-foreground">
+        <TypographyMuted>
           모바일 청첩장 관리자 대시보드에 오신 것을 환영합니다.
-        </p>
+        </TypographyMuted>
       </div>
 
       <Grid slot="admin-dashboard-stats">
@@ -60,10 +61,10 @@ export default function AdminDashboard() {
               <div className="text-foreground mb-1 text-2xl font-bold">
                 {stat.value}
               </div>
-              <p className="text-muted-foreground mb-1 text-xs">
+              <TypographyMuted className="mb-1">
                 {stat.description}
-              </p>
-              <p className="text-primary text-xs font-medium">{stat.trend}</p>
+              </TypographyMuted>
+              <TypographySmall className="text-primary font-medium">{stat.trend}</TypographySmall>
             </CardContent>
           </Card>
         ))}
@@ -74,9 +75,9 @@ export default function AdminDashboard() {
           <CardTitle>최근 활동</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground text-sm">
+          <TypographyMuted>
             최근 활동 내역이 여기에 표시됩니다.
-          </p>
+          </TypographyMuted>
         </CardContent>
       </Card>
     </div>

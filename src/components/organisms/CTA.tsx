@@ -2,34 +2,39 @@ import { Button } from "@/components/atoms/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import ctaData from "@/data/cta.json";
 import Link from "next/link";
+import {
+  TypographyH2,
+  TypographyP,
+  TypographySmall,
+} from "@/components/atoms/typoqraphy";
 
 export function CTA() {
   return (
     <section className="bg-primary text-primary-foreground relative overflow-hidden py-24">
-      <div className="from-accent/20 absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] via-transparent to-transparent" />
+      <div className="from-accent/20 absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] via-transparent to-transparent" />
 
       <div className="relative z-10 container mx-auto px-4 text-center">
         <div className="bg-primary-foreground/10 text-primary-foreground mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 backdrop-blur-sm">
           <Sparkles className="h-4 w-4" />
-          <span className="text-sm font-medium">
+          <TypographySmall className="font-medium">
             {ctaData.badge}
-          </span>
+          </TypographySmall>
         </div>
 
-        <h2 className="mb-6 text-4xl font-bold text-balance md:text-5xl">
+        <TypographyH2 className="mb-6 border-none text-4xl font-bold text-balance md:text-5xl">
           {ctaData.title.split("\n").map((line, i) => (
             <span key={i}>
               {line}
               {i === 0 && <br />}
             </span>
           ))}
-        </h2>
+        </TypographyH2>
 
-        <p className="text-primary-foreground/80 mx-auto mb-8 max-w-2xl text-lg leading-relaxed whitespace-pre-line">
+        <TypographyP className="text-primary-foreground/80 mx-auto mb-8 max-w-2xl text-lg leading-relaxed whitespace-pre-line">
           {ctaData.description}
-        </p>
+        </TypographyP>
 
-        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+        {/* <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Button
             asChild
             size="lg"
@@ -51,7 +56,7 @@ export function CTA() {
               {ctaData.secondaryAction.label}
             </Link>
           </Button>
-        </div>
+        </div> */}
       </div>
 
       {/* Decorative Elements */}

@@ -15,7 +15,7 @@ export default async function ProductDetailPage({
   const product = await getProductService(id);
 
   if (!product) notFound();
-  const options = await getPremiumFeatureService(product.options);
+  const options = await getPremiumFeatureService(product.featureIds);
 
   return (
     <main className="bg-background min-h-screen">

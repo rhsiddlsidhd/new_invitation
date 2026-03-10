@@ -59,8 +59,8 @@ const useVisibleProducts = ({
         }
         return (
           item.isPremium &&
-          item.options &&
-          state.premiumFeat.every((featId) => item.options.includes(featId))
+          item.featureIds &&
+          state.premiumFeat.every((featId) => item.featureIds.includes(featId))
         );
       })();
 
@@ -73,8 +73,8 @@ const useVisibleProducts = ({
         case "POPULAR":
           return b.likes.length - a.likes.length;
         case "RECOMENDED":
-          if (a.feature !== b.feature) {
-            return b.feature ? 1 : -1;
+          if (a.isFeatured !== b.isFeatured) {
+            return b.isFeatured ? 1 : -1;
           }
           return b.priority - a.priority;
         case "PRICE_LOW":

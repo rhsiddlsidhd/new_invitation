@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/card";
+import { TypographyH1, TypographyMuted, TypographySmall } from "@/components/atoms/typoqraphy";
 
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -25,10 +26,10 @@ export default async function PaymentSuccessPage({
           <div className="bg-primary/10 mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full">
             <CheckCircle2 className="text-primary h-12 w-12" />
           </div>
-          <h1 className="mb-2 text-3xl font-bold">결제가 완료되었습니다!</h1>
-          <p className="text-muted-foreground">
+          <TypographyH1 className="mb-2 text-3xl font-bold">결제가 완료되었습니다!</TypographyH1>
+          <TypographyMuted>
             주문이 정상적으로 처리되었습니다.
-          </p>
+          </TypographyMuted>
         </div>
 
         {/* Order Info Card */}
@@ -46,7 +47,7 @@ export default async function PaymentSuccessPage({
               <div className="mb-2 flex items-start gap-2">
                 <AlertCircle className="text-primary mt-0.5 h-5 w-5 shrink-0" />
                 <div className="text-sm">
-                  <p className="mb-1 font-medium">주문 처리 안내</p>
+                  <TypographySmall className="mb-1 font-medium">주문 처리 안내</TypographySmall>
                   <ul className="text-muted-foreground space-y-1">
                     <li>• 결제 완료 후 영업일 기준 1-2일 이내에 처리됩니다.</li>
                     <li>• 주문 내역은 마이페이지에서 확인하실 수 있습니다.</li>
@@ -76,13 +77,13 @@ export default async function PaymentSuccessPage({
 
         {/* Additional Info */}
         <div className="mt-8 text-center">
-          <p className="text-muted-foreground text-sm">
+          <TypographyMuted>
             결제 관련 문의사항이 있으시면{" "}
             <a href="/support" className="text-primary hover:underline">
               고객센터
             </a>
             로 문의해 주세요.
-          </p>
+          </TypographyMuted>
         </div>
       </div>
     </div>

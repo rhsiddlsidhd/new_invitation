@@ -1,18 +1,14 @@
 import { Heart } from "lucide-react";
+import { TypographyH4 } from "../atoms/typoqraphy";
 
 export function Footer() {
   return (
-    <footer className="bg-slate-50 border-border border-t py-12">
+    <footer className="border-border border-t bg-slate-50 py-12">
       <div className="container mx-auto px-4">
         <div className="mb-8 grid gap-8 md:grid-cols-4">
           <div>
             <div className="mb-4 flex items-center gap-2">
-              <div className="bg-primary flex h-8 w-8 items-center justify-center rounded-full">
-                <Heart className="text-primary-foreground h-4 w-4 fill-current" />
-              </div>
-              <span className="text-foreground text-lg font-bold">
-                WeddingCard
-              </span>
+              <TypographyH4>Tie Knot</TypographyH4>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed">
               {"당신의 특별한 날을 더 아름답게 만드는 모바일 청첩장 서비스"}

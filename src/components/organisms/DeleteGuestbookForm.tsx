@@ -18,13 +18,14 @@ import { useParams } from "next/navigation";
 import React, { useActionState, useEffect } from "react";
 import { getFieldError, hasFieldErrors } from "@/utils/error";
 import { toast } from "sonner";
+import { useGuestbookModalStore } from "@/store/guestbook.modal.store";
 
 const PREVIEW_ID = process.env.NEXT_PUBLIC_PREVIEW_COUPLEINFO_ID;
 if (!PREVIEW_ID) throw new Error("PREVIEW_ID is not define");
 
 const DeleteGuestbookForm = ({ payload }: { payload: string }) => {
   const params = useParams();
-
+  const closeModal = useGuestbookModalStore((state) => state.closeModal);
   const [state, action, pending] = useActionState<
     APIResponse<{ message: string }>,
     FormData
@@ -33,7 +34,8 @@ const DeleteGuestbookForm = ({ payload }: { payload: string }) => {
   useEffect(() => {
     if (!state) return;
     if (state.success === true) {
-      alert(state.data.message);
+      toast(state.data.message);
+      closeModal();
     } else {
       if (!hasFieldErrors(state.error)) {
         toast.error(state.error.message);

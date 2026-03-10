@@ -12,6 +12,8 @@ import { DELIVERY_FEE } from "@/constants/price";
 
 import { useCheckoutData } from "@/hooks/useCheckoutData";
 import { SelectFeatureDto } from "@/schemas/order.schema";
+import { TypographyH3, TypographyMuted, TypographyP, TypographySmall } from "@/components/atoms/typoqraphy";
+
 
 export const OrderSummary = () => {
   const { data, loading } = useCheckoutData();
@@ -19,7 +21,7 @@ export const OrderSummary = () => {
   if (loading) {
     return (
       <main className="bg-background flex min-h-screen items-center justify-center">
-        <p>주문 정보를 불러오는 중...</p>
+        <TypographyP>주문 정보를 불러오는 중...</TypographyP>
       </main>
     );
   }
@@ -27,36 +29,24 @@ export const OrderSummary = () => {
   if (!data) {
     return (
       <main className="bg-background flex min-h-screen items-center justify-center">
-        <p>상품 정보를 찾을 수 없습니다.</p>
+        <TypographyP>상품 정보를 찾을 수 없습니다.</TypographyP>
       </main>
     );
   }
 
-  const order = {
-    _id: data._id,
-    title: data.title,
-    discountedPrice: data.discountedPrice,
-    originalPrice: data.originalPrice,
-    thumbnail: data.thumbnail,
-    totalPrice: data.productTotalPrice,
-    discount: data.discount,
-    selectedOptions: data.selectedFeatures,
-    quantity: data.quantity,
-  };
+  const {
+    title,
+    thumbnail,
+    originalPrice,
+    discountedPrice,
+    discountAmount,
+    optionsTotalPrice,
+    finalPrice,
+    selectedFeatures,
+    quantity,
+  } = data;
 
-  const selectedOptionsTotal =
-    order.selectedOptions?.reduce(
-      (sum: number, option: SelectFeatureDto) => sum + option.price,
-      0,
-    ) || 0;
-
-  const discountAmount = order.discount
-    ? order.discount.discountType === "rate"
-      ? order.originalPrice * order.discount.value
-      : order.discount.value
-    : 0;
-
-  const total = order.totalPrice + DELIVERY_FEE;
+  const total = finalPrice + DELIVERY_FEE;
   return (
     <div className="lg:sticky lg:top-24">
       <Card className="border-border">
@@ -66,23 +56,23 @@ export const OrderSummary = () => {
         <CardContent className="space-y-4">
           <div className="flex gap-4">
             <div className="bg-muted relative h-24 w-20 shrink-0 overflow-hidden rounded-lg">
-              <ProductThumbnail src={order.thumbnail} sizes="80px" />
+              <ProductThumbnail src={thumbnail} sizes="80px" />
             </div>
             <div className="min-w-0 flex-1">
-              <h3 className="text-foreground mb-1 truncate font-medium">
-                {order.title}
-              </h3>
-              <p className="text-muted-foreground text-sm">청첩장 템플릿</p>
-              <p className="text-foreground mt-2 text-sm font-semibold">
-                {formatPriceWithComma(order.discountedPrice)}원
-              </p>
+              <TypographyH3 className="mb-1 truncate font-medium">
+                {title}
+              </TypographyH3>
+              <TypographyMuted>청첩장 템플릿</TypographyMuted>
+              <TypographyMuted className="mt-2 font-semibold text-foreground">
+                {formatPriceWithComma(discountedPrice)}원
+              </TypographyMuted>
             </div>
           </div>
-          {/* ... rest of content */}
-          {order.selectedOptions && order.selectedOptions.length > 0 && (
+
+          {selectedFeatures && selectedFeatures.length > 0 && (
             <div className="space-y-1">
-              <p className="text-sm font-medium">선택 옵션:</p>
-              {order.selectedOptions.map((option: SelectFeatureDto) => (
+              <TypographySmall className="font-medium">선택 옵션:</TypographySmall>
+              {selectedFeatures.map((option: SelectFeatureDto) => (
                 <div
                   key={option.featureId}
                   className="flex justify-between text-xs"
@@ -98,7 +88,7 @@ export const OrderSummary = () => {
               <div className="mt-2 flex justify-between text-sm">
                 <span className="text-muted-foreground">옵션 총액</span>
                 <span className="text-foreground">
-                  +{formatPriceWithComma(selectedOptionsTotal)}원
+                  +{formatPriceWithComma(optionsTotalPrice)}원
                 </span>
               </div>
             </div>
@@ -106,35 +96,31 @@ export const OrderSummary = () => {
 
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">수량</span>
-            <span className="text-foreground">{order.quantity}개</span>
+            <span className="text-foreground">{quantity}개</span>
           </div>
 
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">상품 원가</span>
               <span className="text-foreground">
-                {formatPriceWithComma(order.originalPrice)}원
+                {formatPriceWithComma(originalPrice)}원
               </span>
             </div>
 
-            {order.discount && discountAmount > 0 && (
+            {discountAmount > 0 && (
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">
-                  할인{" "}
-                  {order.discount.discountType === "rate" &&
-                    `(${Math.round(order.discount.value * 100)}%)`}
-                </span>
+                <span className="text-muted-foreground">할인</span>
                 <span className="text-red-500">
                   -{formatPriceWithComma(discountAmount)}원
                 </span>
               </div>
             )}
 
-            {order.discount && discountAmount > 0 && (
+            {discountAmount > 0 && (
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">할인 적용가</span>
                 <span className="text-foreground font-medium">
-                  {formatPriceWithComma(order.discountedPrice)}원
+                  {formatPriceWithComma(discountedPrice)}원
                 </span>
               </div>
             )}
@@ -160,21 +146,21 @@ export const OrderSummary = () => {
         <CardFooter className="bg-muted/50 flex-col items-start gap-3">
           <div className="flex items-start gap-2">
             <div className="bg-muted-foreground mt-2 h-1.5 w-1.5 shrink-0 rounded-full" />
-            <p className="text-muted-foreground text-xs leading-relaxed">
+            <TypographyMuted className="leading-relaxed">
               구매 후 즉시 다운로드 링크가 이메일로 발송됩니다.
-            </p>
+            </TypographyMuted>
           </div>
           <div className="flex items-start gap-2">
             <div className="bg-muted-foreground mt-2 h-1.5 w-1.5 shrink-0 rounded-full" />
-            <p className="text-muted-foreground text-xs leading-relaxed">
+            <TypographyMuted className="leading-relaxed">
               디지털 상품 특성상 구매 후 환불이 불가합니다.
-            </p>
+            </TypographyMuted>
           </div>
           <div className="flex items-start gap-2">
             <div className="bg-muted-foreground mt-2 h-1.5 w-1.5 shrink-0 rounded-full" />
-            <p className="text-muted-foreground text-xs leading-relaxed">
+            <TypographyMuted className="leading-relaxed">
               평생 무료 호스팅이 제공됩니다.
-            </p>
+            </TypographyMuted>
           </div>
         </CardFooter>
       </Card>

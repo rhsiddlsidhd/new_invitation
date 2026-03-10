@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import useAuthStore from "@/store/auth.store";
 
 import { Button } from "@/components/atoms/button";
+import { TypographyH1, TypographyMuted } from "@/components/atoms/typoqraphy";
 
 import { Input } from "@/components/atoms/input";
 import { Checkbox } from "@/components/atoms/checkbox";
@@ -51,10 +52,10 @@ export function LoginForm() {
   return (
     <div className="space-y-6">
       <div className="space-y-2 text-center lg:text-left">
-        <h1 className="text-foreground text-3xl font-bold">로그인</h1>
-        <p className="text-muted-foreground">
+        <TypographyH1 className="text-left text-3xl font-bold">로그인</TypographyH1>
+        <TypographyMuted className="text-sm">
           계정에 로그인하여 청첩장을 만들어보세요
-        </p>
+        </TypographyMuted>
       </div>
 
       <form action={action} className="space-y-4">
@@ -138,7 +139,7 @@ export function LoginForm() {
       </Button>
 
       <div className="space-y-2 text-center">
-        <p className="text-muted-foreground text-sm">
+        <TypographyMuted>
           아직 계정이 없으신가요?{" "}
           <Link
             href="/signup"
@@ -146,7 +147,7 @@ export function LoginForm() {
           >
             회원가입
           </Link>
-        </p>
+        </TypographyMuted>
         <Link
           href="/find-id"
           className="text-muted-foreground hover:text-foreground inline-block text-sm transition-colors"

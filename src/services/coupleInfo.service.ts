@@ -5,7 +5,7 @@ import { dbConnect } from "@/utils/mongodb";
 import mongoose from "mongoose";
 
 export const createCoupleInfoService = async (
-  data: CoupleInfoSchemaDto & { userId: string; message: string },
+  data: CoupleInfoSchemaDto & { userId: string },
 ): Promise<ICoupleInfo> => {
   await dbConnect();
 
@@ -19,7 +19,6 @@ export const createCoupleInfoService = async (
     venue: data.venue,
     address: data.address,
     addressDetail: data.addressDetail,
-    message: data.message.trim() === "" ? "결혼을 축하합니다" : data.message,
     subwayStation: data.subwayStation,
     guestbookEnabled: data.guestbookEnabled,
     thumbnailImages: data.thumbnailImages,
@@ -51,7 +50,7 @@ export const getCoupleInfoById = async (
 export const updateCoupleInfoService = async (
   coupleInfoId: string,
   userId: string,
-  data: CoupleInfoSchemaDto & { message: string },
+  data: CoupleInfoSchemaDto,
 ): Promise<boolean> => {
   await dbConnect();
 
@@ -78,7 +77,6 @@ export const updateCoupleInfoService = async (
     venue: data.venue,
     address: data.address,
     addressDetail: data.addressDetail,
-    message: data.message.trim() === "" ? "결혼을 축하합니다" : data.message,
     subwayStation: data.subwayStation,
     guestbookEnabled: data.guestbookEnabled,
     thumbnailImages: data.thumbnailImages,

@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { APIResponse } from "@/types/error";
 import { toast } from "sonner";
 import { getFieldError, hasFieldErrors } from "@/utils/error";
+import { useGuestbookModalStore } from "@/store/guestbook.modal.store";
 
 interface Payload {
   id: string;
@@ -33,6 +34,7 @@ const isPayload = (payload: unknown): payload is Payload => {
 };
 
 const CreateGuestbookForm = ({ payload }: { payload: unknown }) => {
+  const closeModal = useGuestbookModalStore((state) => state.closeModal);
   const [state, action, pending] = useActionState<
     APIResponse<{ message: string }>,
     FormData
@@ -45,13 +47,15 @@ const CreateGuestbookForm = ({ payload }: { payload: unknown }) => {
     if (!state) return;
     if (state.success === true) {
       toast.message(state.data.message);
+      console.log("왔다", state.data.message);
+      closeModal();
       return router.refresh();
     } else {
       if (!hasFieldErrors(state.error)) {
         toast.error(state.error.message);
       }
     }
-  }, [state, router]);
+  }, [state, router, closeModal]);
 
   const authorError = getFieldError(state, "author");
   const passwordError = getFieldError(state, "password");
@@ -114,7 +118,9 @@ const CreateGuestbookForm = ({ payload }: { payload: unknown }) => {
             취소
           </Button>
         </DialogClose>
-        <Button type="submit">{pending ? "전송 중..." : "축하 글 전달하기"}</Button>
+        <Button type="submit" disabled={pending}>
+          {pending ? "전송 중..." : "축하 글 전달하기"}
+        </Button>
       </DialogFooter>
     </form>
   );

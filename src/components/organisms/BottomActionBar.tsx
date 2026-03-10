@@ -4,7 +4,13 @@ import clsx from "clsx";
 import { Save } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 
-const BottomActionBar = () => {
+const BottomActionBar = ({
+  children,
+  disabled = false,
+}: {
+  children?: React.ReactNode;
+  disabled?: boolean;
+}) => {
   const [isFormEndVisible, setIsFormEndVisible] = useState<boolean>(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -38,9 +44,13 @@ const BottomActionBar = () => {
       >
         <div className="container mx-auto px-4 py-4">
           <div className="mx-auto flex max-w-5xl gap-4">
-            <Button type="submit" size="lg" className="flex-1 cursor-pointer">
-              <Save className="mr-2 h-5 w-5" />
-              저장하기
+            <Button
+              disabled={disabled}
+              type="submit"
+              size="lg"
+              className="flex-1 cursor-pointer"
+            >
+              {children}
             </Button>
           </div>
         </div>

@@ -19,6 +19,7 @@ import ProductThumbnail from "@/components/molecules/ProductThumbnail";
 import { getCategoryOptions, getSubCategoryOptions, ProductCategory, SubCategory } from "@/utils/category";
 import { toast } from "sonner";
 import { useAdminModalStore } from "@/store/admin.modal.store";
+import { TypographyH4, TypographyMuted } from "@/components/atoms/typoqraphy";
 
 interface ProductEditDialogProps {
   product: Product;
@@ -32,11 +33,11 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
   const closeModal = useAdminModalStore((state) => state.closeModal);
   const { premiumFeatures, loading } = usePremiumFeature();
   const [isPremium, setIsPremium] = useState(product.isPremium);
-  const [isFeature, setIsFeature] = useState(product.feature);
+  const [isFeature, setIsFeature] = useState(product.isFeatured);
   const [thumbnail, setThumbnail] = useState<string | null>(product.thumbnail);
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>(
-    product.options || [],
+    product.featureIds || [],
   );
   const [status, setStatus] = useState(product.status);
   const [selectedCategory, setSelectedCategory] = useState<ProductCategory>(product.category as ProductCategory);
@@ -105,7 +106,7 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
   return (
     <form action={action} className="space-y-6">
       {selectedFeatures.map((featureId) => (
-        <input key={featureId} type="hidden" name="options" value={featureId} />
+        <input key={featureId} type="hidden" name="featureIds" value={featureId} />
       ))}
 
       <div className="grid grid-cols-2 gap-4">
@@ -260,9 +261,9 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
             <Label htmlFor="edit-feature" className="text-base">
               추천 상품
             </Label>
-            <p className="text-muted-foreground text-sm">
+            <TypographyMuted>
               메인 페이지에 추천 상품으로 노출됩니다.
-            </p>
+            </TypographyMuted>
           </div>
           <Switch
             id="edit-feature"
@@ -272,7 +273,7 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
         </div>
         <input
           type="hidden"
-          name="feature"
+          name="isFeatured"
           value={isFeature ? "true" : "false"}
         />
         <input
@@ -330,9 +331,9 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
             <Label htmlFor="edit-isPremium" className="text-base">
               프리미엄 상품
             </Label>
-            <p className="text-muted-foreground text-sm">
+            <TypographyMuted>
               추가 유료 옵션을 제공하는 상품입니다.
-            </p>
+            </TypographyMuted>
           </div>
           <Switch
             id="edit-isPremium"
@@ -343,9 +344,9 @@ export function ProductEditDialog({ product }: ProductEditDialogProps) {
 
         {isPremium && (
           <div className="col-span-2 space-y-4 rounded-lg border border-dashed p-4">
-            <h4 className="text-foreground font-medium">
+            <TypographyH4 className="font-medium">
               프리미엄 기능 선택
-            </h4>
+            </TypographyH4>
             <div className="grid grid-cols-2 gap-3">
               {premiumFeatures.map((feature) => (
                 <div key={feature.code} className="flex items-center space-x-2">

@@ -9,6 +9,7 @@ import {
 } from "@/components/atoms/card";
 import TextField from "@/components/organisms/fields/TextField";
 import clsx from "clsx";
+import { TypographyMuted } from "@/components/atoms/typoqraphy";
 import { Save } from "lucide-react";
 import React, { useState } from "react";
 
@@ -67,9 +68,9 @@ const BasicInfoForm = ({
               이메일
             </TextField>
 
-            <p className="text-muted-foreground pt-2 text-xs">
+            <TypographyMuted className="pt-2">
               이메일은 변경할 수 없습니다
-            </p>
+            </TypographyMuted>
           </div>
 
           <TextField

@@ -5,6 +5,7 @@ import { fetcher } from "@/api/fetcher";
 import { Button } from "@/components/atoms/button";
 import { Input } from "@/components/atoms/input";
 import { Label } from "@/components/atoms/label";
+import { TypographyH1, TypographyMuted } from "@/components/atoms/typoqraphy";
 
 import { Lock } from "lucide-react";
 import Link from "next/link";
@@ -56,8 +57,8 @@ const UpdatePasswordForm = ({ token }: { token: string }) => {
   return (
     <div className="space-y-6">
       <div className="space-y-2 text-center lg:text-left">
-        <h1 className="text-foreground text-3xl font-bold">비밀번호 변경</h1>
-        <p className="text-muted-foreground">변경할 비밀번호를 입력해주세요.</p>
+        <TypographyH1 className="text-left text-3xl font-bold">비밀번호 변경</TypographyH1>
+        <TypographyMuted>변경할 비밀번호를 입력해주세요.</TypographyMuted>
       </div>
 
       <form action={action} className="space-y-4">

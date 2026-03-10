@@ -10,7 +10,7 @@ import StatusSelect from "@/components/molecules/StatusSelect";
 import { useOrderStore } from "@/store/order.store";
 import { Product } from "@/services/product.service";
 import { PremiumFeature } from "@/services/premiumFeature.service";
-import { CheckoutProductData } from "@/types/checkout";
+import { CheckoutItem } from "@/types/checkout";
 import { SelectFeatureDto } from "@/schemas/order.schema";
 import { calculatePrice, formatPriceWithComma } from "@/utils/price";
 
@@ -87,20 +87,20 @@ const ProductOptions = ({
 
   const handlePurchase = useCallback(() => {
     const quantity = 1;
+    const optionsTotalPrice = selectedOptionsDetails.reduce((sum, f) => sum + f.price, 0);
+    const discountAmount = product.price - discountedPrice;
 
-    const checkoutData: CheckoutProductData = {
-      _id: product._id.toString(),
+    const checkoutData: CheckoutItem = {
+      productId: product._id.toString(),
       title: product.title,
+      thumbnail: product.thumbnail,
       originalPrice: product.price,
       discountedPrice,
-      discount: {
-        discountType: product.discount.discountType,
-        value: product.discount.value,
-      },
-      thumbnail: product.thumbnail,
-      selectedFeatures: selectedOptionsDetails,
+      discountAmount,
+      optionsTotalPrice,
+      finalPrice: discountedPrice * quantity + optionsTotalPrice,
       quantity,
-      productTotalPrice: totalPrice * quantity,
+      selectedFeatures: selectedOptionsDetails,
     };
 
     setOrder(checkoutData);
@@ -109,7 +109,6 @@ const ProductOptions = ({
     product,
     discountedPrice,
     selectedOptionsDetails,
-    totalPrice,
     router,
     setOrder,
   ]);
@@ -137,14 +136,15 @@ const ProductOptions = ({
                     className="flex items-center gap-1"
                   >
                     {option.label}
-                    <button
+                    <Button
                       type="button"
+                      variant="ghost"
                       onClick={() => handleDeselectOption(id)}
-                      className="hover:bg-background/20 rounded-full p-0.5"
+                      className="hover:bg-background/20 h-auto rounded-full p-0.5"
                       aria-label={`${option.label} 옵션 제거`}
                     >
                       <X className="h-3 w-3" />
-                    </button>
+                    </Button>
                   </Badge>
                 );
               })}

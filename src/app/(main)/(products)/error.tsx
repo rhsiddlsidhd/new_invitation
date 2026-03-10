@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/atoms/button";
 import { Card } from "@/components/atoms/card";
+import { TypographyH1, TypographyMuted } from "@/components/atoms/typoqraphy";
 import { AlertCircle, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -28,12 +29,12 @@ export default function ProductError({ error, reset }: ErrorProps) {
             </div>
 
             <div className="space-y-2">
-              <h1 className="text-foreground text-3xl font-bold">
+              <TypographyH1 className="text-left text-3xl font-bold">
                 상품 페이지 오류
-              </h1>
-              <p className="text-muted-foreground">
+              </TypographyH1>
+              <TypographyMuted>
                 요청을 처리하는 중 문제가 발생했습니다.
-              </p>
+              </TypographyMuted>
             </div>
           </div>
 

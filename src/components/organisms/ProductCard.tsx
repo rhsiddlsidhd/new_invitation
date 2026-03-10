@@ -6,6 +6,9 @@ import ProductThumbnail from "@/components/molecules/ProductThumbnail";
 import { calculatePrice } from "@/utils/price";
 import { useRouter } from "next/navigation";
 import { SubCategory, subCategoryLabels } from "@/utils/category";
+import { Badge } from "../atoms/badge";
+import { TypographyMuted } from "../atoms/typoqraphy";
+import { Button } from "../atoms/button";
 
 const PREVIEW_ID = process.env.NEXT_PUBLIC_PREVIEW_COUPLEINFO_ID;
 if (!PREVIEW_ID) throw new Error("PREVIEW_ID is not defined");
@@ -51,26 +54,32 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="absolute top-3 right-3 left-3 flex items-start justify-between">
           <div className="flex flex-col gap-1.5">
             {product.isPremium && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-amber-400/95 px-2.5 py-1 text-[10px] font-bold tracking-widest text-amber-950 uppercase shadow-sm">
-                <Sparkles className="h-2.5 w-2.5" />
-                Premium
-              </span>
+              <Badge className="border-transparent bg-amber-400/95 tracking-widest uppercase shadow-sm backdrop-blur-sm">
+                <Sparkles className="h-2.5 w-2.5 text-amber-950" />
+                <TypographyMuted className="text-[10px] font-bold text-amber-950">
+                  Premium
+                </TypographyMuted>
+              </Badge>
             )}
-            {product.feature && (
-              <span className="inline-flex rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-bold tracking-widest text-neutral-700 uppercase backdrop-blur-sm">
-                추천
-              </span>
+            {product.isFeatured && (
+              <Badge className="border-transparent bg-white/90 tracking-widest uppercase backdrop-blur-sm">
+                <TypographyMuted className="text-[10px] font-bold text-neutral-700">
+                  추천
+                </TypographyMuted>
+              </Badge>
             )}
           </div>
           {discountLabel && (
-            <span className="rounded-full bg-rose-500 px-2.5 py-1 text-[10px] font-bold tracking-wide text-white shadow-sm">
-              {discountLabel}
-            </span>
+            <Badge className="border-transparent bg-rose-500 tracking-wide shadow-sm backdrop-blur-sm">
+              <TypographyMuted className="text-[10px] font-bold text-white">
+                {discountLabel}
+              </TypographyMuted>
+            </Badge>
           )}
         </div>
 
         {/* Bottom info — always visible */}
-        <div className="absolute inset-x-0 bottom-0 p-4 transition-transform duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:-translate-y-10">
+        <div className="absolute inset-x-0 bottom-0 p-4 transition-transform duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]">
           <p className="mb-1 text-[9px] font-semibold tracking-[0.25em] text-white/50 uppercase">
             {subCategoryLabels[product.subCategory as SubCategory] ??
               product.subCategory}
@@ -93,20 +102,6 @@ export function ProductCard({ product }: { product: Product }) {
               좋아요 {product.likes?.length || 0}
             </span>
           </div>
-        </div>
-
-        {/* Hover CTA — slides up from bottom */}
-        <div className="absolute inset-x-0 bottom-0 flex translate-y-full justify-center pb-4 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:translate-y-0 group-hover:opacity-100">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              router.push(`/preview/${product._id}?u=${PREVIEW_ID}`);
-            }}
-            className="flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 py-2 text-xs font-semibold tracking-wide text-white backdrop-blur-md transition-colors duration-200 hover:bg-white/20"
-          >
-            <Eye className="h-3.5 w-3.5" />
-            샘플보기
-          </button>
         </div>
       </div>
     </article>

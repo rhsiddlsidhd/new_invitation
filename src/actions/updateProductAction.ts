@@ -43,10 +43,10 @@ export const updateProductAction = async (
       subCategory: formData.get("subCategory"),
       status: formData.get("status"),
       description: formData.get("description"),
-      feature: formData.get("feature") === "true",
+      isFeatured: formData.get("isFeatured") === "true",
       price: Number(formData.get("price")),
       isPremium: formData.get("isPremium") === "true",
-      options: formData.getAll("options"),
+      featureIds: formData.getAll("featureIds") as string[],
       priority: Number(formData.get("priority")),
     };
 

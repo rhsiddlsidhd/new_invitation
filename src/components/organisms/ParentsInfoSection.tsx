@@ -14,6 +14,7 @@ import {
 import BankField from "@/components/organisms/fields/BankField";
 import TextField from "@/components/organisms/fields/TextField";
 import { ChevronDown } from "lucide-react";
+import { TypographyH3, TypographySmall } from "@/components/atoms/typoqraphy";
 import type { ICoupleInfo } from "@/models/coupleInfo.model";
 
 import { useState } from "react";
@@ -42,7 +43,7 @@ export function ParentsInfoSection({ data }: ParentsInfoSectionProps) {
         {/* Groom Parents */}
         <Collapsible open={groomParentsOpen} onOpenChange={setGroomParentsOpen}>
           <CollapsibleTrigger className="bg-muted/50 hover:bg-muted flex w-full items-center justify-between rounded-lg p-4 transition-colors">
-            <h3 className="text-foreground font-semibold">신랑측 혼주 정보</h3>
+            <TypographyH3 className="text-foreground font-semibold">신랑측 혼주 정보</TypographyH3>
             <ChevronDown
               className={`text-muted-foreground h-5 w-5 transition-transform ${
                 groomParentsOpen ? "rotate-180" : ""
@@ -53,9 +54,9 @@ export function ParentsInfoSection({ data }: ParentsInfoSectionProps) {
             <div className="space-y-6 px-4">
               {PARENTS.map((parent) => (
                 <div className="space-y-4" key={parent.id}>
-                  <h4 className="text-muted-foreground text-sm font-medium">
+                  <TypographySmall className="text-muted-foreground font-medium">
                     {parent.title}
-                  </h4>
+                  </TypographySmall>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <TextField
                       placeholder="이름"
@@ -94,7 +95,7 @@ export function ParentsInfoSection({ data }: ParentsInfoSectionProps) {
         {/* Bride Parents */}
         <Collapsible open={brideParentsOpen} onOpenChange={setBrideParentsOpen}>
           <CollapsibleTrigger className="bg-muted/50 hover:bg-muted flex w-full items-center justify-between rounded-lg p-4 transition-colors">
-            <h3 className="text-foreground font-semibold">신부측 혼주 정보</h3>
+            <TypographyH3 className="text-foreground font-semibold">신부측 혼주 정보</TypographyH3>
             <ChevronDown
               className={`text-muted-foreground h-5 w-5 transition-transform ${
                 brideParentsOpen ? "rotate-180" : ""
@@ -105,9 +106,9 @@ export function ParentsInfoSection({ data }: ParentsInfoSectionProps) {
             <div className="space-y-6 px-4">
               {PARENTS.map((parent) => (
                 <div className="space-y-4" key={parent.id}>
-                  <h4 className="text-muted-foreground text-sm font-medium">
+                  <TypographySmall className="text-muted-foreground font-medium">
                     {parent.title}
-                  </h4>
+                  </TypographySmall>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <TextField
                       placeholder="이름"

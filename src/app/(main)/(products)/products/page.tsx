@@ -1,4 +1,4 @@
-import { TypographyMuted } from "@/components/atoms/typoqraphy";
+import { TypographyH1, TypographyMuted } from "@/components/atoms/typoqraphy";
 import ProductCatalog from "@/components/organisms/ProductCatalog";
 import { getAllProductsService } from "@/services/product.service";
 import { productCategoryLabels, isProductCategory } from "@/utils/category";
@@ -26,9 +26,9 @@ export default async function ProductsPage({
         <div className="mx-auto max-w-7xl">
           {/* Page Header */}
           <div className="mb-12 text-center">
-            <h1 className="text-foreground mb-4 text-4xl font-bold text-balance md:text-5xl">
+            <TypographyH1 className="mb-4 text-4xl font-bold text-balance md:text-5xl">
               {currentCategoryLabel}
-            </h1>
+            </TypographyH1>
             <TypographyMuted>
               당신의 스타일에 맞는 완벽한 {currentCategoryLabel} 상품을
               찾아보세요

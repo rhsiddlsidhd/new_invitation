@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/card";
+import { TypographyH3 } from "@/components/atoms/typoqraphy";
 
 import BankField from "@/components/organisms/fields/BankField";
 import TextField from "@/components/organisms/fields/TextField";
@@ -25,9 +26,9 @@ export function CoupleInfoSection({ data }: CoupleInfoSectionProps) {
         <div className="grid gap-8 sm:grid-cols-2">
           {/* Groom Info */}
           <div className="space-y-4">
-            <h3 className="text-foreground border-border border-b pb-2 text-lg font-semibold">
+            <TypographyH3 className="text-foreground border-border border-b pb-2 text-lg font-semibold">
               신랑 정보
-            </h3>
+            </TypographyH3>
 
             <TextField
               id="groom.name"
@@ -60,9 +61,9 @@ export function CoupleInfoSection({ data }: CoupleInfoSectionProps) {
 
           {/* Bride Info */}
           <div className="space-y-4">
-            <h3 className="text-foreground border-border border-b pb-2 text-lg font-semibold">
+            <TypographyH3 className="text-foreground border-border border-b pb-2 text-lg font-semibold">
               신부 정보
-            </h3>
+            </TypographyH3>
 
             <TextField
               id="bride.name"

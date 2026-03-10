@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/atoms/button";
+import { TypographySmall } from "@/components/atoms/typoqraphy";
 
 const keyBenefits = ["신용카드 없이 시작", "5분 만에 완성", "무제한 공유"];
 
@@ -25,9 +26,9 @@ const index = () => {
       <div className="relative z-10 container mx-auto px-4 py-32 text-center">
         <div className="bg-secondary/80 text-secondary-foreground animate-fade-in-up mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 backdrop-blur-sm">
           <Sparkles className="text-accent h-4 w-4" />
-          <span className="text-sm font-medium">
+          <TypographySmall className="font-medium">
             {"2024년 1만+ 커플이 선택한 서비스"}
-          </span>
+          </TypographySmall>
         </div>
 
         <h1 className="animate-fade-in-up text-foreground mb-6 text-5xl font-bold text-balance [animation-delay:100ms] md:text-7xl">

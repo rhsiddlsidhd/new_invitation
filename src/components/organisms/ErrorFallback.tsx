@@ -5,6 +5,7 @@ import { Card } from "@/components/atoms/card";
 import { AlertCircle, ArrowLeft, RotateCcw } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { TypographyH1, TypographyMuted } from "@/components/atoms/typoqraphy";
 
 interface ErrorFallbackProps {
   error: Error & { digest?: string };
@@ -35,8 +36,8 @@ export default function ErrorFallback({
             </div>
 
             <div className="space-y-2">
-              <h1 className="text-foreground text-3xl font-bold">{title}</h1>
-              <p className="text-muted-foreground">{description}</p>
+              <TypographyH1 className="text-foreground text-3xl font-bold">{title}</TypographyH1>
+              <TypographyMuted className="text-sm">{description}</TypographyMuted>
             </div>
           </div>
 

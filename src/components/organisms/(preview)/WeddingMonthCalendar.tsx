@@ -49,7 +49,7 @@ const WeddingMonthCalendar = ({ date }: WeddingMonthCalendarProps) => {
               <span
                 className={clsx(
                   "flex items-center justify-center rounded-full p-1 text-xs",
-                  isToday && "text-red-300",
+                  isToday && "text-primary/70",
                 )}
               >
                 {kr}
@@ -64,7 +64,7 @@ const WeddingMonthCalendar = ({ date }: WeddingMonthCalendarProps) => {
               key={idx}
               className={clsx(
                 "px-1 py-3 text-center text-xs",
-                Dday && "rounded-full bg-red-300 font-bold text-white",
+                Dday && "rounded-full bg-primary font-bold text-primary-foreground",
               )}
             >
               {day}

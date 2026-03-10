@@ -1,24 +1,28 @@
+import {
+  TypographyMuted,
+  TypographySmall,
+} from "@/components/atoms/typoqraphy";
 import { FooterProps } from "./footer.mapper";
 
 export function Footer({
   children,
-  message,
 }: FooterProps & {
   children: React.ReactNode;
 }) {
   return (
-    <footer className="relative h-[50vh] py-4 text-center">
+    <footer className="relative min-h-[60vh] py-12 text-center">
+      {/* Background/Overlay Content (Particles, Waves, etc.) */}
       {children}
-      {message && (
-        <div className="absolute top-1/3 left-12 -translate-y-1/2 transform text-white drop-shadow">
-          <p className="text-lg">{message}</p>
+      <div className="relative z-20 mx-auto flex h-full max-w-2xl flex-col items-center justify-end pt-[40vh]">
+        <div className="mb-6 space-y-1">
+          <TypographyMuted className="text-sm tracking-[0.2em] text-white uppercase drop-shadow-sm">
+            Tie Knot
+          </TypographyMuted>
+          <div className="mx-auto h-px w-8 bg-white/30" />
         </div>
-      )}
-      <div className="relative z-20 mx-auto flex h-full max-w-2xl flex-col items-center justify-end">
-        <p className="mb-2 text-sm text-white drop-shadow">모바일 청첩장</p>
-        <p className="text-xs text-white drop-shadow">
-          © 2025 Wedding Invitation Service. All rights reserved.
-        </p>
+        <TypographySmall className="text-[10px] text-white/60 drop-shadow-sm">
+          © 2026 Wedding Invitation Service. All rights reserved.
+        </TypographySmall>
       </div>
     </footer>
   );

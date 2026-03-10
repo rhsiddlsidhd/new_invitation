@@ -87,10 +87,7 @@ export const updateCoupleInfoAction = async (
     }
 
     // 5. DB 업데이트
-    const updated = await updateCoupleInfoService(coupleInfoId, payload.id, {
-      ...parsed.data,
-      message: "", // Default empty message - can be updated later
-    });
+    const updated = await updateCoupleInfoService(coupleInfoId, payload.id, parsed.data);
 
     if (!updated) {
       throw new HTTPError("커플 정보 업데이트에 실패하였습니다.", 500);

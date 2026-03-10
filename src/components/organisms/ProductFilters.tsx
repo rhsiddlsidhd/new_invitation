@@ -34,6 +34,7 @@ import {
   PRODUCT_PRICE_KEYS,
   ProductSortType,
 } from "@/constants/product";
+import { TypographyMuted, TypographySmall } from "@/components/atoms/typoqraphy";
 
 export function ProductFilters({
   data,
@@ -80,9 +81,9 @@ export function ProductFilters({
         />
       </Command>
 
-      <p className="mt-1 text-sm text-gray-500">
+      <TypographyMuted className="mt-1 text-gray-500">
         원하는 스타일과 기준을 선택해보세요
-      </p>
+      </TypographyMuted>
 
       <div className="flex flex-wrap gap-2">
         {getSubCategoryOptions(category, true).map((option) => (
@@ -146,7 +147,7 @@ export function ProductFilters({
       {showAdvanced && (
         <div className="border-border bg-muted/30 space-y-4 rounded-lg border p-4">
           <div className="space-y-2">
-            <h3 className="text-sm font-medium">가격대</h3>
+            <TypographySmall className="font-medium">가격대</TypographySmall>
             <div className="flex flex-wrap gap-2">
               {prices.map((value) => (
                 <Badge
@@ -164,7 +165,7 @@ export function ProductFilters({
           </div>
 
           <div className="space-y-2">
-            <h3 className="text-sm font-medium">특별 옵션</h3>
+            <TypographySmall className="font-medium">특별 옵션</TypographySmall>
             <div className="flex flex-wrap gap-2">
               {premiumFeatures.map((value) => (
                 <Badge

@@ -14,7 +14,9 @@ import { useImageUpload } from "@/hooks/useImageUpload";
 import { useImageList } from "@/hooks/useImageList";
 import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
 import { Progress } from "../atoms/progress";
+import { Skeleton } from "../atoms/skeleton";
 import { APIResponse } from "@/types/error";
+import { Save } from "lucide-react";
 
 export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
   const router = useRouter();
@@ -68,7 +70,21 @@ export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
       }
   }, [state, router, type]);
 
-  if (type === "edit" && isLoading) return <div>로딩중...</div>;
+  if (type === "edit" && isLoading)
+    return (
+      <div className="space-y-6">
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="rounded-lg border p-6 space-y-4">
+            <Skeleton className="h-5 w-32" />
+            <div className="grid grid-cols-2 gap-4">
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-full" />
+            </div>
+            <Skeleton className="h-10 w-full" />
+          </div>
+        ))}
+      </div>
+    );
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
@@ -83,7 +99,10 @@ export function CoupleInfoForm({ type }: { type: "create" | "edit" }) {
 
       {isUploading && <Progress value={uploadProgress} />}
 
-      <BottomActionBar />
+      <BottomActionBar>
+        <Save className="mr-2 aspect-square w-5" />
+        저장하기
+      </BottomActionBar>
     </form>
   );
 }

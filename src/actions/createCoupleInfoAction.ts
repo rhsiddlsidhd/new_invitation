@@ -89,7 +89,6 @@ export const createCoupleInfoAction = async (
       venue: parsed.data.venue,
       address: parsed.data.address,
       addressDetail: parsed.data.addressDetail,
-      message: "", // Default empty message - can be updated later
       subwayStation: parsed.data.subwayStation,
       guestbookEnabled: parsed.data.guestbookEnabled,
       thumbnailImages: parsed.data.thumbnailImages,

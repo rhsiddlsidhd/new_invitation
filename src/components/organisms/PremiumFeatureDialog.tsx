@@ -3,6 +3,7 @@
 import { Button } from "@/components/atoms/button";
 import { DialogFooter } from "@/components/atoms/dialog";
 import { Input } from "@/components/atoms/input";
+import { TypographyMuted } from "@/components/atoms/typoqraphy";
 
 import { Textarea } from "@/components/atoms/textarea";
 import type React from "react";
@@ -58,9 +59,9 @@ export function PremiumFeatureDialog({
           >
             기능 코드 *
           </TextField>
-          <p className="text-muted-foreground text-xs">
+          <TypographyMuted>
             영문 대문자와 언더스코어만 사용 가능합니다.
-          </p>
+          </TypographyMuted>
 
         <TextField
             id="label"

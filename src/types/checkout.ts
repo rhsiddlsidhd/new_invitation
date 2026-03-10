@@ -1,19 +1,18 @@
-// src/types/checkout.d.ts
-
 import { SelectFeatureDto } from "@/schemas/order.schema";
 
-export interface CheckoutProductData {
-  _id: string; // Product ID
+export interface CheckoutItem {
+  productId: string;
+  coupleInfoId?: string; // 재결제 시 IOrder에서 주입, 정상 흐름은 URL query 사용
+
   title: string;
-  // 원가
-  originalPrice: number;
-  //할인가
-  discountedPrice: number;
-  // 옵션을 포함한 최종 가격
-  productTotalPrice: number; // 최종 가격
-  discount: { discountType: string; value: number };
   thumbnail: string;
-  selectedFeatures: SelectFeatureDto[]; // 선택된 기능들
-  // selectedFeaturesPrice: number;
-  quantity: number; // 상품 가격
+
+  originalPrice: number;
+  discountedPrice: number;
+  discountAmount: number;
+  optionsTotalPrice: number;
+  finalPrice: number;
+
+  quantity: number;
+  selectedFeatures: SelectFeatureDto[];
 }
