@@ -10,20 +10,23 @@ import { ProductFilters } from "@/components/organisms/ProductFilters";
 import { ProductGrid } from "@/components/organisms/ProductGrid";
 import { Product } from "@/services/product.service";
 import { fetcher } from "@/api/fetcher";
+import { ProductCategory } from "@/utils/category";
 
 const ProductCatalog = ({
   products,
   category,
 }: {
   products: Product[];
-  category: string;
+  category: ProductCategory;
 }) => {
   // 쿼리 파라미터가 포함된 useSWR 키 설정
   const { data } = useSWR<Product[]>(
-    `api/products?category=${category}`,
+    `/api/products?category=${category}`,
     fetcher,
     {
       fallbackData: products,
+      revalidateOnMount: false,
+      revalidateIfStale: false,
     },
   );
 

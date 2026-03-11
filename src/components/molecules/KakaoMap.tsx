@@ -36,7 +36,7 @@ const KakaoMap = ({ address }: { address: string }) => {
   return (
     <div className="flex justify-center">
       {geoState.lat === null || geoState.lng === null ? (
-        <div className="bg-muted relative aspect-video w-full overflow-hidden rounded-xl animate-pulse">
+        <div className="bg-muted relative aspect-video w-full animate-pulse overflow-hidden rounded-xl">
           <div className="absolute inset-0 flex items-center justify-center">
             <MapPin className="text-muted-foreground/30 h-12 w-12" />
           </div>
@@ -48,8 +48,8 @@ const KakaoMap = ({ address }: { address: string }) => {
             lat: geoState.lat,
             lng: geoState.lng,
           }}
-          className="aspect-10/16 w-full"
-          level={3}
+          style={{ width: "100%", height: "300px" }}
+          level={5}
         >
           <MapMarker position={{ lat: geoState.lat, lng: geoState.lng }} />
         </Map>

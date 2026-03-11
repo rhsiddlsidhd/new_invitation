@@ -1,17 +1,7 @@
 import { LoginForm } from "@/components/organisms/LoginForm";
-import { getCookie } from "@/lib/cookies/get";
-import { decrypt } from "@/lib/token";
-import { redirect } from "next/navigation";
-
 import React from "react";
 
-const LoginPage = async () => {
-  const cookie = await getCookie("entry");
-  if (!cookie) redirect("/");
-
-  const isVerify = await decrypt({ token: cookie.value, type: "ENTRY" });
-  if (!isVerify) redirect("/");
-
+const LoginPage = () => {
   return <LoginForm />;
 };
 

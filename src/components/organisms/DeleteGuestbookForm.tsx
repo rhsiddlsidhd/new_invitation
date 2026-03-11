@@ -11,20 +11,21 @@ import {
   DialogTitle,
 } from "@/components/atoms/dialog";
 
-import InputField from "@/components/molecules/InputField";
+import TextField from "@/components/organisms/fields/TextField";
 import { APIResponse } from "@/types/error";
 
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import React, { useActionState, useEffect } from "react";
 import { getFieldError, hasFieldErrors } from "@/utils/error";
 import { toast } from "sonner";
-
-const PREVIEW_ID = process.env.NEXT_PUBLIC_PREVIEW_COUPLEINFO_ID;
-if (!PREVIEW_ID) throw new Error("PREVIEW_ID is not define");
+import { useGuestbookModalStore } from "@/store/guestbook.modal.store";
 
 const DeleteGuestbookForm = ({ payload }: { payload: string }) => {
   const params = useParams();
-
+  const query = useSearchParams();
+  console.log(params);
+  console.log("query", query.get("product"));
+  const closeModal = useGuestbookModalStore((state) => state.closeModal);
   const [state, action, pending] = useActionState<
     APIResponse<{ message: string }>,
     FormData
@@ -33,13 +34,14 @@ const DeleteGuestbookForm = ({ payload }: { payload: string }) => {
   useEffect(() => {
     if (!state) return;
     if (state.success === true) {
-      alert(state.data.message);
+      toast(state.data.message);
+      closeModal();
     } else {
       if (!hasFieldErrors(state.error)) {
         toast.error(state.error.message);
       }
     }
-  }, [state]);
+  }, [state, closeModal]);
 
   const passwordError = getFieldError(state, "password");
 
@@ -47,8 +49,8 @@ const DeleteGuestbookForm = ({ payload }: { payload: string }) => {
     <form action={action} className="space-y-4">
       <DialogHeader>
         <input name={"guestbookId"} defaultValue={payload} hidden />
-        <input name={"coupleInfoId"} defaultValue={PREVIEW_ID} hidden />
-        <input name={"productId"} defaultValue={params.id} hidden />
+        <input name={"coupleInfoId"} defaultValue={params.id} hidden />
+        <input name={"productId"} defaultValue={query.get("product")} hidden />
         <DialogTitle>비밀번호 확인</DialogTitle>
 
         <DialogDescription>
@@ -56,9 +58,9 @@ const DeleteGuestbookForm = ({ payload }: { payload: string }) => {
         </DialogDescription>
       </DialogHeader>
 
-      <InputField id="password" name="password" type="password">
+      <TextField id="password" name="password" type="password">
         비밀번호
-      </InputField>
+      </TextField>
       {passwordError && <Alert type="error">{passwordError}</Alert>}
 
       <DialogFooter>

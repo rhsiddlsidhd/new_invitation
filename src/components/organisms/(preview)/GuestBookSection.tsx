@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/atoms/button";
-import SectionBody from "@/components/molecules/SectionLayout";
+import SectionBody from "@/components/layout/SectionLayout";
 import { useGuestbookModalStore } from "@/store/guestbook.modal.store";
 import { PenLine, X } from "lucide-react";
 import React, { useEffect, useState } from "react";

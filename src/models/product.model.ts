@@ -10,7 +10,6 @@ export { SUB_CATEGORY_MAP };
 
 export type Status = "active" | "inactive" | "soldOut" | "deleted";
 
-// 할인 정보를 위한 서브 스키마 정의 (더 안전한 검증을 위해)
 const discountSchema = new Schema(
   {
     discountType: {
@@ -36,11 +35,10 @@ export interface ProductDB {
   category: ProductCategory;
   subCategory: SubCategory;
   isPremium: boolean;
-  options?: mongoose.Types.ObjectId[];
-  feature: boolean;
+  featureIds?: mongoose.Types.ObjectId[];
+  isFeatured: boolean;
   priority: number;
   likes: mongoose.Types.ObjectId[];
-  isLiked: boolean;
   views: number;
   salesCount: number;
   discount: {
@@ -56,13 +54,12 @@ export interface ProductDocument extends ProductDB, mongoose.Document {
   updatedAt: Date;
 }
 
-export interface ProductJSON extends Omit<
-  ProductDB,
-  "likes" | "options" | "deletedAt"
-> {
+export interface ProductJSON extends Omit<ProductDB, "likes" | "featureIds" | "deletedAt"> {
   _id: string;
   likes: string[];
-  options: string[];
+  featureIds: string[];
+  isLiked: boolean;
+  discountedPrice: number;
   createdAt: string;
   updatedAt: string;
   deletedAt?: string;
@@ -93,13 +90,12 @@ const productSchema = new Schema<ProductDocument>(
           `'${props.value}'는 해당 카테고리에서 허용되지 않는 subCategory입니다.`,
       },
     },
-    feature: { type: Boolean, default: false },
+    isFeatured: { type: Boolean, default: false },
     priority: { type: Number, default: 0 },
     likes: {
       type: [{ type: Schema.Types.ObjectId, ref: "User" }],
       default: [],
     },
-    isLiked: { type: Boolean, default: false },
     views: { type: Number, default: 0 },
     salesCount: { type: Number, default: 0 },
     discount: {
@@ -112,7 +108,7 @@ const productSchema = new Schema<ProductDocument>(
       enum: ["active", "inactive", "soldOut", "deleted"],
       default: "active",
     },
-    options: {
+    featureIds: {
       type: [{ type: Schema.Types.ObjectId, ref: "Feature" }],
       default: [],
     },

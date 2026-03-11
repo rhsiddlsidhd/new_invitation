@@ -58,9 +58,7 @@ export const deleteGuestbookAction = async (
       throw new HTTPError("게시글 삭제에 실패했습니다.", 500);
     }
 
-    revalidatePath(
-      `/preview/${parsed.data.productId}?u=${parsed.data.coupleInfoId}`,
-    );
+    revalidatePath(`/preview/${parsed.data.coupleInfoId}`);
 
     return success<{ message: string }>({
       message: "게시글이 성공적으로 삭제되었습니다.",

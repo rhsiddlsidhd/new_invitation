@@ -7,8 +7,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/card";
-import InputField from "@/components/molecules/InputField";
+import TextField from "@/components/organisms/fields/TextField";
 import clsx from "clsx";
+import { TypographyMuted } from "@/components/atoms/typoqraphy";
 import { Save } from "lucide-react";
 import React, { useState } from "react";
 
@@ -56,7 +57,7 @@ const BasicInfoForm = ({
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <InputField
+            <TextField
               id="email"
               name="email"
               type="email"
@@ -65,14 +66,14 @@ const BasicInfoForm = ({
               className="bg-muted"
             >
               이메일
-            </InputField>
+            </TextField>
 
-            <p className="text-muted-foreground pt-2 text-xs">
+            <TypographyMuted className="pt-2">
               이메일은 변경할 수 없습니다
-            </p>
+            </TypographyMuted>
           </div>
 
-          <InputField
+          <TextField
             id="name"
             name="name"
             type="text"
@@ -81,9 +82,9 @@ const BasicInfoForm = ({
             className={!basicInfoToggle ? "bg-muted" : ""}
           >
             이름
-          </InputField>
+          </TextField>
 
-          <InputField
+          <TextField
             id="phone"
             name="phone"
             type="tel"
@@ -92,12 +93,12 @@ const BasicInfoForm = ({
             className={!basicInfoToggle ? "bg-muted" : ""}
           >
             전화번호
-          </InputField>
+          </TextField>
 
           {basicInfoToggle && (
-            <InputField id="password" name="password" type="password">
+            <TextField id="password" name="password" type="password">
               비밀번호
-            </InputField>
+            </TextField>
           )}
         </CardContent>
       </Card>

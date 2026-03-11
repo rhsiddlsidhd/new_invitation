@@ -1,7 +1,16 @@
+export const revalidate = 600;
+
 import { Badge } from "@/components/atoms/badge";
 import { Card, CardContent } from "@/components/atoms/card";
+import Grid from "@/components/layout/Grid";
 import PremiumFeatureCardAction from "@/components/organisms/PremiumFeatureCardAction";
 import { getAllPremiumFeatureService } from "@/services/premiumFeature.service";
+import {
+  TypographyH1,
+  TypographyH3,
+  TypographyLarge,
+  TypographyMuted,
+} from "@/components/atoms/typoqraphy";
 
 export default async function PremiumFeaturesPage() {
   const features = await getAllPremiumFeatureService();
@@ -9,43 +18,39 @@ export default async function PremiumFeaturesPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-foreground mb-2 text-3xl font-bold">
+          <TypographyH1 className="mb-2 text-left text-3xl font-bold">
             프리미엄 기능 관리
-          </h1>
-          <p className="text-muted-foreground">
+          </TypographyH1>
+          <TypographyMuted>
             상품에 추가할 수 있는 유료 기능을 관리합니다.
-          </p>
+          </TypographyMuted>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <Grid slot="admin-premium-features">
         {features.map((feature) => (
           <Card key={feature.code}>
             <CardContent className="space-y-4 p-6">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="mb-2 flex items-center gap-2">
-                    <h3 className="text-foreground text-lg font-semibold">
+                    <TypographyH3 className="text-foreground text-lg font-semibold">
                       {feature.label}
-                    </h3>
+                    </TypographyH3>
                     <Badge variant="outline" className="text-xs">
                       {feature.code}
                     </Badge>
                   </div>
-                  <p className="text-muted-foreground text-sm">
-                    {feature.description}
-                  </p>
+                  <TypographyMuted>{feature.description}</TypographyMuted>
                 </div>
               </div>
 
               <div className="border-border flex items-center justify-between border-t pt-4">
                 <div>
-                  <p className="text-muted-foreground mb-1 text-xs">
-                    추가 비용
-                  </p>
-                  <p className="text-primary text-xl font-bold">
+                  <TypographyMuted className="mb-1">추가 비용</TypographyMuted>
+                  <TypographyLarge className="text-primary font-bold">
                     +{feature.additionalPrice.toLocaleString()}원
-                  </p>
+                  </TypographyLarge>
                 </div>
                 <div className="flex gap-2">
                   <PremiumFeatureCardAction premiumFeature={feature} />
@@ -54,7 +59,7 @@ export default async function PremiumFeaturesPage() {
             </CardContent>
           </Card>
         ))}
-      </div>
+      </Grid>
     </div>
   );
 }

@@ -1,64 +1,20 @@
 import React from "react";
+import { formatDate, DateFormatType } from "@/utils/date";
 
 interface DateDisplayProps {
   date: string;
-  type: "slash" | "dot" | "text" | "weekdayKr" | "weekdayEng";
-
+  type: DateFormatType;
   className?: string;
 }
 
+/**
+ * 날짜를 다양한 형식으로 렌더링하는 순수 UI 컴포넌트 (Molecule)
+ * 복잡한 포맷팅 로직은 utils/date.ts 로 분리되었습니다.
+ */
 const DateDisplay = ({ date, type, className }: DateDisplayProps) => {
-  let formatted;
+  const formatted = formatDate(date, type);
 
-  const newDate = new Date(date);
-  const weddingDay = {
-    year: newDate.getFullYear(),
-    month: newDate.getMonth() + 1,
-    date: newDate.getDate(),
-    day: newDate.getDay(),
-  };
-  const weekdaysOfEng = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-
-  const weekdayOfKr = [
-    "일요일",
-    "월요일",
-    "화요일",
-    "수요일",
-    "목요일",
-    "금요일",
-    "토요일",
-  ];
-
-  switch (type) {
-    case "slash":
-      formatted = `${weddingDay.year}/${weddingDay.month}/${weddingDay.date}`;
-      break;
-    case "dot":
-      formatted = `${weddingDay.year}.${weddingDay.month}.${weddingDay.date}`;
-      break;
-    case "text":
-      formatted = `${weddingDay.year}년 ${weddingDay.month}월 ${weddingDay.date}일`;
-      break;
-    case "weekdayKr":
-      formatted = `${weekdayOfKr[weddingDay.day]}`;
-      break;
-    case "weekdayEng":
-      formatted = `${weekdaysOfEng[weddingDay.day]}`;
-      break;
-
-    default:
-      formatted = `${weddingDay.year}-${weddingDay.month}-${weddingDay.date}`;
-  }
-
-  return <span className={`${className}`}>{formatted}</span>;
+  return <span className={className}>{formatted}</span>;
 };
 
 export default DateDisplay;

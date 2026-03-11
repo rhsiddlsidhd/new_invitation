@@ -32,9 +32,10 @@ export async function refreshAccessToken(): Promise<string> {
     }: SuccessResponse<{
       accessToken: string;
       role: string;
+      email: string;
       userId: string;
     }> = await res.json();
-    const { accessToken, role, userId } = data;
+    const { accessToken, role, email, userId } = data;
 
     // role 유효성 검증
     const validRoles: UserRole[] = ["ADMIN", "USER"];
@@ -46,6 +47,7 @@ export async function refreshAccessToken(): Promise<string> {
     useAuthStore.getState().setToken({
       token: accessToken,
       role: role as UserRole,
+      email,
       userId,
     });
 

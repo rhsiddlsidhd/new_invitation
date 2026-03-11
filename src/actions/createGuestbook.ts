@@ -8,6 +8,7 @@ import { hashPassword } from "@/lib/bcrypt";
 import { GuestbookSchema } from "@/schemas/guestbook.schema";
 import { createGuestbookService } from "@/services/guestbook.service";
 import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
+import { revalidatePath } from "next/cache";
 
 export const createGuestbook = async (
   _prev: null,
@@ -31,6 +32,8 @@ export const createGuestbook = async (
     await createGuestbookService({
       data: { ...parsed.data, password: hashedPassword },
     });
+
+    revalidatePath(`/preview/${parsed.data.coupleInfoId}`);
 
     return success<{ message: string }>({
       message: "방명록 작성이 완료되었습니다.",

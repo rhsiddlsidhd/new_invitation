@@ -6,6 +6,7 @@ import {
   CardTitle,
 } from "@/components/atoms/card";
 import { Check } from "lucide-react";
+import { TypographyH2, TypographyP, TypographyMuted, TypographySmall } from "@/components/atoms/typoqraphy";
 
 const plans = [
   {
@@ -54,12 +55,12 @@ export function Pricing() {
     <section id="pricing" className="bg-white py-24">
       <div className="container mx-auto px-4">
         <div className="mb-16 text-center">
-          <h2 className="text-foreground mb-4 text-4xl font-bold text-balance md:text-5xl">
+          <TypographyH2 className="text-foreground mb-4 border-none text-4xl font-bold text-balance md:text-5xl">
             {"합리적인 가격"}
-          </h2>
-          <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
+          </TypographyH2>
+          <TypographyP className="text-muted-foreground mx-auto max-w-2xl text-lg">
             {"결혼 준비 예산에 부담 없는 가격으로 시작하세요"}
-          </p>
+          </TypographyP>
         </div>
 
         <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
@@ -87,18 +88,18 @@ export function Pricing() {
                     </span>
                   )}
                 </div>
-                <p className="text-muted-foreground mt-2 text-sm">
+                <TypographyMuted className="mt-2">
                   {plan.description}
-                </p>
+                </TypographyMuted>
               </CardHeader>
               <CardContent>
                 <ul className="mb-6 space-y-3">
                   {plan.features.map((feature, i) => (
                     <li key={i} className="flex items-start gap-2">
                       <Check className="text-accent mt-0.5 h-5 w-5 shrink-0" />
-                      <span className="text-card-foreground text-sm">
+                      <TypographySmall className="text-card-foreground font-normal">
                         {feature}
-                      </span>
+                      </TypographySmall>
                     </li>
                   ))}
                 </ul>

@@ -1,17 +1,12 @@
 import UpdatePasswordForm from "@/components/organisms/UpdatePasswordForm";
+import React, { Suspense } from "react";
 
-import { redirect } from "next/navigation";
-import React from "react";
-
-type SearchParams = Promise<{ [key: string]: string }>;
-const ResetPassword = async (props: { searchParams: SearchParams }) => {
-  const searchParams = await props.searchParams;
-
-  const query = searchParams.t;
-
-  if (!query) redirect("/");
-
-  return <UpdatePasswordForm token={query} />;
+const ResetPassword = () => {
+  return (
+    <Suspense>
+      <UpdatePasswordForm />
+    </Suspense>
+  );
 };
 
 export default ResetPassword;

@@ -3,6 +3,7 @@
 import { Button } from "@/components/atoms/button";
 import { DialogFooter } from "@/components/atoms/dialog";
 import { Input } from "@/components/atoms/input";
+import { TypographyMuted } from "@/components/atoms/typoqraphy";
 
 import { Textarea } from "@/components/atoms/textarea";
 import type React from "react";
@@ -15,7 +16,7 @@ import Alert from "@/components/molecules/Alert";
 import { Label } from "@/components/atoms/label";
 import { APIResponse } from "@/types/error";
 import { getFieldError, hasFieldErrors } from "@/utils/error";
-import InputField from "@/components/molecules/InputField";
+import TextField from "@/components/organisms/fields/TextField";
 
 export function PremiumFeatureDialog({
   premiumFeature: feature,
@@ -47,7 +48,7 @@ export function PremiumFeatureDialog({
   return (
     <form action={action}>
       <div className="space-y-4 py-4">
-        <InputField
+        <TextField
             id="code"
             name="code"
             type="text"
@@ -57,12 +58,12 @@ export function PremiumFeatureDialog({
             error={codeError}
           >
             기능 코드 *
-          </InputField>
-          <p className="text-muted-foreground text-xs">
+          </TextField>
+          <TypographyMuted>
             영문 대문자와 언더스코어만 사용 가능합니다.
-          </p>
+          </TypographyMuted>
 
-        <InputField
+        <TextField
             id="label"
             name="label"
             type="text"
@@ -72,7 +73,7 @@ export function PremiumFeatureDialog({
             error={labelError}
           >
             기능 이름 *
-          </InputField>
+          </TextField>
 
         <div className="space-y-2">
           <Label htmlFor="description">

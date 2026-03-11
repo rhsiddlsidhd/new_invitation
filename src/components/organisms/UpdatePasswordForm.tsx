@@ -3,14 +3,11 @@
 import { updateUserPassword } from "@/actions/updateUserPassword";
 import { fetcher } from "@/api/fetcher";
 import { Button } from "@/components/atoms/button";
-import { Input } from "@/components/atoms/input";
-import { Label } from "@/components/atoms/label";
-
-import { Lock } from "lucide-react";
+import { TypographyH1, TypographyMuted } from "@/components/atoms/typoqraphy";
+import TextField from "@/components/organisms/fields/TextField";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useActionState, useEffect } from "react";
-import Alert from "@/components/molecules/Alert";
 import { getFieldError, hasFieldErrors } from "@/utils/error";
 import { APIResponse } from "@/types/error";
 import { toast } from "sonner";
@@ -24,8 +21,9 @@ const deleteCookieToUserEmail = async (): Promise<void> => {
   }
 };
 
-const UpdatePasswordForm = ({ token }: { token: string }) => {
+const UpdatePasswordForm = () => {
   const router = useRouter();
+  const token = useSearchParams().get("t") ?? "";
   const [state, action, pending] = useActionState<
     APIResponse<{ message: string }>,
     FormData
@@ -56,47 +54,20 @@ const UpdatePasswordForm = ({ token }: { token: string }) => {
   return (
     <div className="space-y-6">
       <div className="space-y-2 text-center lg:text-left">
-        <h1 className="text-foreground text-3xl font-bold">비밀번호 변경</h1>
-        <p className="text-muted-foreground">변경할 비밀번호를 입력해주세요.</p>
+        <TypographyH1 className="text-left text-3xl font-bold">비밀번호 변경</TypographyH1>
+        <TypographyMuted>변경할 비밀번호를 입력해주세요.</TypographyMuted>
       </div>
 
       <form action={action} className="space-y-4">
         <input name="token" defaultValue={token} hidden />
-        <div className="space-y-2">
-          <Label className="" htmlFor="password">
-            비밀번호
-          </Label>
-          <div className="relative">
-            <Lock className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
-            <Input
-              id="password"
-              type="password"
-              name="password"
-              placeholder="••••••••"
-              className="pl-10"
-              required
-            />
-          </div>
-          {passwordError && <Alert type="error">{passwordError}</Alert>}
-        </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="confirmPassword">비밀번호 확인</Label>
-          <div className="relative">
-            <Lock className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
-            <Input
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              placeholder="••••••••"
-              className="pl-10"
-              required
-            />
-          </div>
-          {confirmPasswordError && (
-            <Alert type="error">{confirmPasswordError}</Alert>
-          )}
-        </div>
+        <TextField id="password" name="password" type="password" placeholder="••••••••" required error={passwordError}>
+          비밀번호
+        </TextField>
+
+        <TextField id="confirmPassword" name="confirmPassword" type="password" placeholder="••••••••" required error={confirmPasswordError}>
+          비밀번호 확인
+        </TextField>
 
         <Button type="submit" className="w-full" size="lg">
           비밀번호 변경 {pending ? "중" : "완료"}

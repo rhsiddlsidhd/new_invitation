@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/atoms/card";
 import { Smartphone, Share2, Palette, Zap, Heart, Globe } from "lucide-react";
 import React from "react";
+import { TypographyH2, TypographyP, TypographyH3 } from "@/components/atoms/typoqraphy";
 
 const features = [
   {
@@ -40,12 +41,12 @@ const Features = () => {
     <section id="features" className="bg-slate-50 py-24">
       <div className="container mx-auto px-4">
         <div className="mb-16 text-center">
-          <h2 className="text-foreground mb-4 text-4xl font-bold text-balance md:text-5xl">
+          <TypographyH2 className="text-foreground mb-4 border-none text-4xl font-bold text-balance md:text-5xl">
             {"왜 우리 서비스일까요?"}
-          </h2>
-          <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
+          </TypographyH2>
+          <TypographyP className="text-muted-foreground mx-auto max-w-2xl text-lg leading-7">
             {"결혼 준비로 바쁜 당신을 위한 가장 쉽고 빠른 모바일 청첩장 솔루션"}
-          </p>
+          </TypographyP>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -58,12 +59,12 @@ const Features = () => {
                 <div className="bg-primary/10 mb-4 flex h-12 w-12 items-center justify-center rounded-xl">
                   <feature.icon className="text-primary h-6 w-6" />
                 </div>
-                <h3 className="text-card-foreground mb-2 text-xl font-bold">
+                <TypographyH3 className="text-card-foreground mb-2 text-xl font-bold">
                   {feature.title}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
+                </TypographyH3>
+                <TypographyP className="text-muted-foreground leading-relaxed">
                   {feature.description}
-                </p>
+                </TypographyP>
               </CardContent>
             </Card>
           ))}

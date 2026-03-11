@@ -7,8 +7,15 @@ import {
 } from "@/components/atoms/dialog";
 import React from "react";
 import { Card } from "@/components/atoms/card";
-import { CopyButton } from "@/components/molecules/CopyButton";
+import { ClipboardButton } from "@/components/molecules/ClipboardButton";
+import { useCopy } from "@/hooks/useCopy";
 import { PhoneIcon } from "lucide-react";
+import {
+  TypographyLarge,
+  TypographyMuted,
+  TypographySmall,
+} from "@/components/atoms/typoqraphy";
+import { Badge } from "@/components/atoms/badge";
 
 // Contact 타입을 컴포넌트 내에서 직접 정의하여 의존성 제거
 interface Contact {
@@ -18,15 +25,17 @@ interface Contact {
 }
 
 const ViewContact = ({ payload }: { payload: Contact[] }) => {
+  const { isCopied, copyToClipboard } = useCopy();
+
   if (!payload || payload.length === 0) {
     return (
-      <div>
+      <div className="p-6 text-center">
         <DialogHeader>
           <DialogTitle>연락처</DialogTitle>
         </DialogHeader>
-        <div className="mt-4 text-center text-sm text-muted-foreground">
-          <p>혼인 당사자의 요청으로 인해</p>
-          <p>연락처가 비공개 되었습니다.</p>
+        <div className="mt-8 space-y-2">
+          <TypographyMuted>혼인 당사자의 요청으로 인해</TypographyMuted>
+          <TypographyMuted>연락처가 비공개 되었습니다.</TypographyMuted>
         </div>
       </div>
     );
@@ -34,30 +43,37 @@ const ViewContact = ({ payload }: { payload: Contact[] }) => {
 
   return (
     <div className="w-full">
-      <DialogHeader>
-        <DialogTitle>마음 전하실 곳</DialogTitle>
+      <DialogHeader className="p-6">
+        <DialogTitle className="text-xl">마음 전하실 곳</DialogTitle>
         <DialogDescription>
           아래 연락처를 통해 축하의 마음을 전해보세요.
         </DialogDescription>
       </DialogHeader>
 
-      <div className="mt-6 space-y-3">
+      <div className="mt-2 space-y-3 p-6 pt-0">
         {payload.map((contact) => (
-          <Card key={contact.relation} className="p-4 shadow-sm">
+          <Card key={contact.relation} className="p-4 shadow-sm transition-all hover:shadow-md">
             <div className="flex items-center justify-between">
-              <div className="flex flex-col">
-                <p className="text-sm font-semibold text-muted-foreground">
+              <div className="flex flex-col gap-1">
+                <Badge variant="secondary" className="w-fit font-normal text-[10px]">
                   {contact.relation}
-                </p>
-                <p className="text-lg font-bold">{contact.name}</p>
+                </Badge>
+                <TypographyLarge className="font-bold">{contact.name}</TypographyLarge>
               </div>
 
-              <div className="flex items-center gap-2">
-                <div className="flex items-center gap-2">
-                  <PhoneIcon className="size-4 text-muted-foreground" />
-                  <span className="font-semibold">{contact.phone}</span>
+              <div className="flex items-center gap-3">
+                <div className="flex flex-col items-end gap-0.5">
+                  <div className="flex items-center gap-1.5 text-primary">
+                    <PhoneIcon className="size-3.5" />
+                    <TypographySmall className="font-mono text-sm font-semibold tracking-tight">
+                      {contact.phone}
+                    </TypographySmall>
+                  </div>
                 </div>
-                <CopyButton textToCopy={contact.phone} />
+                <ClipboardButton
+                  isCopied={isCopied}
+                  onCopy={() => copyToClipboard(contact.phone)}
+                />
               </div>
             </div>
           </Card>

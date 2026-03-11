@@ -1,9 +1,10 @@
 "use client";
 
-import SectionBody from "@/components/molecules/SectionLayout";
+import SectionBody from "@/components/layout/SectionLayout";
 import React, { useMemo, useState } from "react";
 import { Card } from "@/components/atoms/card";
-import { CopyButton } from "@/components/molecules/CopyButton";
+import { ClipboardButton } from "@/components/molecules/ClipboardButton";
+import { useCopy } from "@/hooks/useCopy";
 
 import { cn } from "@/lib/utils";
 import { useBanks } from "@/hooks/useBanks";
@@ -12,6 +13,11 @@ import {
   AccountInfo,
   AccountSectionMappedProps,
 } from "./accountSection.mapper";
+import {
+  TypographyLarge,
+  TypographyMuted,
+} from "@/components/atoms/typoqraphy";
+import { Badge } from "@/components/atoms/badge";
 
 const AccountSection = ({
   groomAccounts,
@@ -19,6 +25,7 @@ const AccountSection = ({
 }: AccountSectionMappedProps) => {
   const [selectedSide, setSelectedSide] = useState<"groom" | "bride">("groom");
   const { banks } = useBanks();
+  const { isCopied, copyToClipboard } = useCopy();
 
   const bankNameMap = useMemo(() => {
     if (!banks) return {};
@@ -34,32 +41,39 @@ const AccountSection = ({
   const renderAccountCards = (accounts: AccountInfo[]) => {
     if (accounts.length === 0) {
       return (
-        <p className="text-muted-foreground text-center text-sm">
+        <TypographyMuted className="text-center">
           등록된 계좌 정보가 없습니다.
-        </p>
+        </TypographyMuted>
       );
     }
 
     return accounts.map((account) => (
       <Card
         key={account.relation}
-        className="p-4 shadow-sm"
+        className="p-5 shadow-sm transition-all hover:shadow-md"
         role="article"
         aria-label={`${account.relation} ${account.name}의 계좌 정보`}
       >
         <div className="flex items-center justify-between">
-          <div className="flex flex-col">
-            <p className="text-muted-foreground text-sm font-semibold">
-              {account.relation}
-            </p>
-            <p className="text-lg font-bold">{account.name}</p>
-            <p className="text-muted-foreground text-sm">
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-2">
+              <Badge variant="outline" className="font-normal opacity-80">
+                {account.relation}
+              </Badge>
+              <TypographyLarge className="font-bold">{account.name}</TypographyLarge>
+            </div>
+            <TypographyMuted className="text-sm">
               {bankNameMap[account.bankName] || account.bankName}
-            </p>
+            </TypographyMuted>
           </div>
           <div className="flex items-center gap-2">
-            <span className="font-semibold">{account.accountNumber}</span>
-            <CopyButton textToCopy={account.accountNumber} />
+            <TypographyLarge className="font-mono text-base tracking-tighter">
+              {account.accountNumber}
+            </TypographyLarge>
+            <ClipboardButton
+              isCopied={isCopied}
+              onCopy={() => copyToClipboard(account.accountNumber)}
+            />
           </div>
         </div>
       </Card>

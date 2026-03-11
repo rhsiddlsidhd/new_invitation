@@ -16,7 +16,7 @@ import { comparePasswords } from "@/lib/bcrypt";
 export const loginUser = async (
   _prev: null,
   formData: FormData,
-): Promise<APIResponse<{ token: string; role: UserRole; userId: string }>> => {
+): Promise<APIResponse<{ token: string; role: UserRole; email: string; userId: string }>> => {
   try {
     const data = {
       email: formData.get("email") as string,
@@ -54,6 +54,7 @@ export const loginUser = async (
 
     const refreshJWT = await encrypt({
       id: user._id.toString(),
+      role: user.role,
       type: "REFRESH",
     });
 
@@ -61,12 +62,14 @@ export const loginUser = async (
 
     const accessJWT = await encrypt({
       id: user._id.toString(),
+      role: user.role,
       type: "ACCESS",
     });
 
-    return success<{ token: string; role: UserRole; userId: string }>({
+    return success<{ token: string; role: UserRole; email: string; userId: string }>({
       token: accessJWT,
       role: user.role,
+      email: user.email,
       userId: user._id.toString(),
     });
   } catch (e) {

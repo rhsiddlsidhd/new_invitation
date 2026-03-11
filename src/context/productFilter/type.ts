@@ -1,19 +1,12 @@
 import { SubCategory } from "@/utils/category";
-
-type ProductPrice = "ALL" | "FREE" | "UNDER-10k" | "10k-30k" | "OVER-30k";
+import { ProductPriceType, ProductSortType } from "@/constants/product";
 
 export type ProductFilterState = {
   keyword: string;
   subCategory: SubCategory | "all";
   isOpen: boolean;
-  sortBy:
-    | "ALL"
-    | "POPULAR"
-    | "RECOMENDED"
-    | "LATEST"
-    | "PRICE_LOW"
-    | "PRICE_HIGH";
-  price: ProductPrice;
+  sortBy: ProductSortType;
+  price: ProductPriceType;
   premiumFeat: string[];
 };
 

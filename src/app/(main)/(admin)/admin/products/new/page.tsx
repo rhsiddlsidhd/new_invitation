@@ -3,6 +3,7 @@ import { Button } from "@/components/atoms/button";
 import { ProductRegistrationForm } from "@/components/organisms/ProductRegistrationForm";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { TypographyH1, TypographyMuted } from "@/components/atoms/typoqraphy";
 
 export default async function NewProductPage() {
   const premiumFeatures = await getAllPremiumFeatureService();
@@ -16,10 +17,10 @@ export default async function NewProductPage() {
           </Button>
         </Link>
         <div>
-          <h1 className="text-foreground mb-2 text-3xl font-bold">상품 등록</h1>
-          <p className="text-muted-foreground">
+          <TypographyH1 className="text-left mb-2 text-3xl font-bold">상품 등록</TypographyH1>
+          <TypographyMuted>
             새로운 템플릿 상품을 등록합니다.
-          </p>
+          </TypographyMuted>
         </div>
       </div>
 

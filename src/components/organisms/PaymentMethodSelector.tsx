@@ -51,7 +51,7 @@ const PaymentMethodSelector = ({ error }: { error?: string }) => {
           <span className="bg-primary/10 text-primary flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold">
             2
           </span>
-          결제 수단 * {error && <Alert type="error">{error}</Alert>}
+          결제 수단 {error && <Alert type="error">{error}</Alert>}
         </CardTitle>
       </CardHeader>
       <CardContent>

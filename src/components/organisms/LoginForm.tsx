@@ -4,27 +4,27 @@ import type React from "react";
 import { useActionState, useEffect } from "react";
 
 import Link from "next/link";
-import { Mail, Lock, Globe } from "lucide-react";
+import { Globe } from "lucide-react";
 
 import { useRouter } from "next/navigation";
 import useAuthStore from "@/store/auth.store";
 
 import { Button } from "@/components/atoms/button";
+import { TypographyH1, TypographyMuted } from "@/components/atoms/typoqraphy";
 
-import { Input } from "@/components/atoms/input";
 import { Checkbox } from "@/components/atoms/checkbox";
 import { loginUser } from "@/actions/loginUser";
 import { Label } from "@/components/atoms/label";
 import { toast } from "sonner";
 import { APIResponse } from "@/types/error";
 import { UserRole } from "@/models/user.model";
-import Alert from "@/components/molecules/Alert";
+import TextField from "@/components/organisms/fields/TextField";
 import { getFieldError, hasFieldErrors } from "@/utils/error";
 
 export function LoginForm() {
   const router = useRouter();
   const [state, action, pending] = useActionState<
-    APIResponse<{ token: string; role: UserRole; userId: string }>,
+    APIResponse<{ token: string; role: UserRole; email: string; userId: string }>,
     FormData
   >(loginUser, null);
   const setToken = useAuthStore((state) => state.setToken);
@@ -35,6 +35,7 @@ export function LoginForm() {
       setToken({
         token: state.data.token,
         role: state.data.role,
+        email: state.data.email,
         userId: state.data.userId,
       });
       return router.push("/");
@@ -51,48 +52,34 @@ export function LoginForm() {
   return (
     <div className="space-y-6">
       <div className="space-y-2 text-center lg:text-left">
-        <h1 className="text-foreground text-3xl font-bold">로그인</h1>
-        <p className="text-muted-foreground">
+        <TypographyH1 className="text-left text-3xl font-bold">로그인</TypographyH1>
+        <TypographyMuted className="text-sm">
           계정에 로그인하여 청첩장을 만들어보세요
-        </p>
+        </TypographyMuted>
       </div>
 
       <form action={action} className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="email">이메일 </Label>
-          <div className="relative">
-            <Mail className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
-            <Input
-              id="email"
-              type="email"
-              name="email"
-              placeholder="your@email.com"
-              className="pl-10"
-              required
-            />
-          </div>
-          {/* Email 필드 에러 메시지 표시 */}
+        <TextField
+          id="email"
+          name="email"
+          type="email"
+          placeholder="your@email.com"
+          required
+          error={emailError}
+        >
+          이메일
+        </TextField>
 
-          {emailError && <Alert type="error">{emailError}</Alert>}
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="password">비밀번호</Label>
-          <div className="relative">
-            <Lock className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
-            <Input
-              id="password"
-              type="password"
-              name="password"
-              placeholder="••••••••"
-              className="pl-10"
-              required
-            />
-          </div>
-          {/* Password 필드 에러 메시지 표시 */}
-
-          {passwordError && <Alert type="error">{passwordError}</Alert>}
-        </div>
+        <TextField
+          id="password"
+          name="password"
+          type="password"
+          placeholder="••••••••"
+          required
+          error={passwordError}
+        >
+          비밀번호
+        </TextField>
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -138,7 +125,7 @@ export function LoginForm() {
       </Button>
 
       <div className="space-y-2 text-center">
-        <p className="text-muted-foreground text-sm">
+        <TypographyMuted>
           아직 계정이 없으신가요?{" "}
           <Link
             href="/signup"
@@ -146,7 +133,7 @@ export function LoginForm() {
           >
             회원가입
           </Link>
-        </p>
+        </TypographyMuted>
         <Link
           href="/find-id"
           className="text-muted-foreground hover:text-foreground inline-block text-sm transition-colors"

@@ -29,11 +29,6 @@ interface CoupleSide extends Person {
   mother?: Parent;
 }
 
-interface GalleryImageGroup {
-  category: string;
-  urls: string[];
-}
-
 export interface ICoupleInfo {
   _id: string | Types.ObjectId;
   userId: string | Types.ObjectId;
@@ -43,11 +38,10 @@ export interface ICoupleInfo {
   venue: string;
   address: string;
   addressDetail: string;
-  message: string;
   subwayStation?: string;
   guestbookEnabled: boolean;
   thumbnailImages: string[];
-  galleryImages: GalleryImageGroup[];
+  galleryImages: string[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -74,13 +68,6 @@ const CoupleSideSchema = new Schema<CoupleSide>(
   { _id: false },
 );
 
-const GalleryImageGroupSchema = new Schema<GalleryImageGroup>(
-  {
-    category: { type: String, required: true },
-    urls: { type: [String], required: true },
-  },
-  { _id: false },
-);
 
 const coupleInfoSchema = new Schema<ICoupleInfo>(
   {
@@ -101,7 +88,6 @@ const coupleInfoSchema = new Schema<ICoupleInfo>(
     venue: { type: String, required: true },
     address: { type: String, required: true },
     addressDetail: { type: String, required: true },
-    message: { type: String, default: "저희 결혼합니다." },
     subwayStation: { type: String },
     guestbookEnabled: { type: Boolean, default: false },
     thumbnailImages: {
@@ -109,7 +95,7 @@ const coupleInfoSchema = new Schema<ICoupleInfo>(
       default: [],
     },
     galleryImages: {
-      type: [GalleryImageGroupSchema],
+      type: [String],
       default: [],
     },
   },

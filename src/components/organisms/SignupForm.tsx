@@ -5,16 +5,16 @@ import type React from "react";
 import { useActionState, useEffect, useState } from "react";
 
 import Link from "next/link";
-import { Mail, Lock, User, Phone, Globe } from "lucide-react";
+import { Globe } from "lucide-react";
 
 import { useRouter } from "next/navigation";
 import { signupUser } from "@/actions/signupUser";
 
-import { Input } from "@/components/atoms/input";
 import { Checkbox } from "@/components/atoms/checkbox";
 import { Button } from "@/components/atoms/button";
 import { Label } from "@/components/atoms/label";
-import Alert from "@/components/molecules/Alert";
+import { TypographyH1, TypographyMuted } from "@/components/atoms/typoqraphy";
+import TextField from "@/components/organisms/fields/TextField";
 import { getFieldError, hasFieldErrors } from "@/utils/error";
 import { toast } from "sonner";
 import { APIResponse } from "@/types/error";
@@ -50,92 +50,30 @@ export function SignupForm() {
   return (
     <div className="space-y-6">
       <div className="space-y-2 text-center lg:text-left">
-        <h1 className="text-foreground text-3xl font-bold">회원가입</h1>
-        <p className="text-muted-foreground">새 계정을 만들어 시작하세요</p>
+        <TypographyH1 className="text-left text-3xl font-bold">회원가입</TypographyH1>
+        <TypographyMuted>새 계정을 만들어 시작하세요</TypographyMuted>
       </div>
 
       <form action={action} className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="name">이름</Label>
-          <div className="relative">
-            <User className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
-            <Input
-              id="name"
-              name="name"
-              type="text"
-              placeholder="홍길동"
-              className="pl-10"
-              required
-            />
-          </div>
-          {nameError && <Alert type="error">{nameError}</Alert>}
-        </div>
+        <TextField id="name" name="name" type="text" placeholder="홍길동" required error={nameError}>
+          이름
+        </TextField>
 
-        <div className="space-y-2">
-          <Label htmlFor="email">이메일</Label>
-          <div className="relative">
-            <Mail className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="your@email.com"
-              className="pl-10"
-              required
-            />
-          </div>
-          {emailError && <Alert type="error">{emailError}</Alert>}
-        </div>
+        <TextField id="email" name="email" type="email" placeholder="your@email.com" required error={emailError}>
+          이메일
+        </TextField>
 
-        <div className="space-y-2">
-          <Label htmlFor="phone">전화번호</Label>
-          <div className="relative">
-            <Phone className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
-            <Input
-              id="phone"
-              name="phone"
-              type="tel"
-              placeholder="010-1234-5678"
-              className="pl-10"
-              required
-            />
-          </div>
-          {phoneError && <Alert type="error">{phoneError}</Alert>}
-        </div>
+        <TextField id="phone" name="phone" type="tel" placeholder="010-1234-5678" required error={phoneError}>
+          전화번호
+        </TextField>
 
-        <div className="space-y-2">
-          <Label htmlFor="password">비밀번호</Label>
-          <div className="relative">
-            <Lock className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
-            <Input
-              id="password"
-              name="password"
-              type="password"
-              placeholder="••••••••"
-              className="pl-10"
-              required
-            />
-          </div>
-          {passwordError && <Alert type="error">{passwordError}</Alert>}
-        </div>
+        <TextField id="password" name="password" type="password" placeholder="••••••••" required error={passwordError}>
+          비밀번호
+        </TextField>
 
-        <div className="space-y-2">
-          <Label htmlFor="confirmPassword">비밀번호 확인</Label>
-          <div className="relative">
-            <Lock className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
-            <Input
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              placeholder="••••••••"
-              className="pl-10"
-              required
-            />
-          </div>
-          {confirmPasswordError && (
-            <Alert type="error">{confirmPasswordError}</Alert>
-          )}
-        </div>
+        <TextField id="confirmPassword" name="confirmPassword" type="password" placeholder="••••••••" required error={confirmPasswordError}>
+          비밀번호 확인
+        </TextField>
 
         <div className="space-y-3 pt-2">
           <div className="flex items-center gap-2">
@@ -207,7 +145,7 @@ export function SignupForm() {
       </Button>
 
       <div className="text-center">
-        <p className="text-muted-foreground text-sm">
+        <TypographyMuted>
           이미 계정이 있으신가요?{" "}
           <Link
             href="/login"
@@ -215,7 +153,7 @@ export function SignupForm() {
           >
             로그인
           </Link>
-        </p>
+        </TypographyMuted>
       </div>
     </div>
   );

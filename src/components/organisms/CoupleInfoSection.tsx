@@ -6,16 +6,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/card";
+import { TypographyH3 } from "@/components/atoms/typoqraphy";
 
-import BankAccountField from "@/components/molecules/BankAccountField";
-import InputField from "@/components/molecules/InputField";
-import useFetchCoupleInfo from "@/hooks/useFetchCoupleInfo";
+import BankField from "@/components/organisms/fields/BankField";
+import TextField from "@/components/organisms/fields/TextField";
+import type { ICoupleInfo } from "@/models/coupleInfo.model";
 
-export function CoupleInfoSection() {
-  const { data, isLoading } = useFetchCoupleInfo();
+type CoupleInfoSectionProps = {
+  data?: Pick<ICoupleInfo, "groom" | "bride">;
+};
 
-  if (isLoading) return <div>로딩중...</div>;
-
+export function CoupleInfoSection({ data }: CoupleInfoSectionProps) {
   return (
     <Card>
       <CardHeader>
@@ -25,11 +26,11 @@ export function CoupleInfoSection() {
         <div className="grid gap-8 sm:grid-cols-2">
           {/* Groom Info */}
           <div className="space-y-4">
-            <h3 className="text-foreground border-border border-b pb-2 text-lg font-semibold">
+            <TypographyH3 className="text-foreground border-border border-b pb-2 text-lg font-semibold">
               신랑 정보
-            </h3>
+            </TypographyH3>
 
-            <InputField
+            <TextField
               id="groom.name"
               name="groom_name"
               type="text"
@@ -37,10 +38,10 @@ export function CoupleInfoSection() {
               defaultValue={data?.groom?.name}
               required
             >
-              이름 *
-            </InputField>
+              이름
+            </TextField>
 
-            <InputField
+            <TextField
               id="groom.phone"
               name="groom_phone"
               type="tel"
@@ -48,10 +49,10 @@ export function CoupleInfoSection() {
               defaultValue={data?.groom?.phone}
               required
             >
-              연락처 *
-            </InputField>
+              연락처
+            </TextField>
 
-            <BankAccountField
+            <BankField
               id="groom"
               defaultBankName={data?.groom?.bankName}
               defaultAccountNumber={data?.groom?.accountNumber}
@@ -60,11 +61,11 @@ export function CoupleInfoSection() {
 
           {/* Bride Info */}
           <div className="space-y-4">
-            <h3 className="text-foreground border-border border-b pb-2 text-lg font-semibold">
+            <TypographyH3 className="text-foreground border-border border-b pb-2 text-lg font-semibold">
               신부 정보
-            </h3>
+            </TypographyH3>
 
-            <InputField
+            <TextField
               id="bride.name"
               name="bride_name"
               type="text"
@@ -72,10 +73,10 @@ export function CoupleInfoSection() {
               defaultValue={data?.bride?.name}
               required
             >
-              이름 *
-            </InputField>
+              이름
+            </TextField>
 
-            <InputField
+            <TextField
               id="bride.phone"
               name="bride_phone"
               type="tel"
@@ -83,10 +84,10 @@ export function CoupleInfoSection() {
               defaultValue={data?.bride?.phone}
               required
             >
-              연락처 *
-            </InputField>
+              연락처
+            </TextField>
 
-            <BankAccountField
+            <BankField
               id="bride"
               defaultBankName={data?.bride?.bankName}
               defaultAccountNumber={data?.bride?.accountNumber}

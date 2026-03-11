@@ -9,7 +9,8 @@ import { toast } from "sonner";
 
 import { Card } from "@/components/atoms/card";
 import { Button } from "@/components/atoms/button";
-import InputField from "@/components/molecules/InputField";
+import TextField from "@/components/organisms/fields/TextField";
+import { TypographyH1, TypographyLarge, TypographyMuted, TypographySmall } from "@/components/atoms/typoqraphy";
 
 import { requestPasswordReset } from "@/actions/requestPasswordReset";
 import { getFieldError, hasFieldErrors } from "@/utils/error";
@@ -40,23 +41,23 @@ export function ForgotPasswordForm() {
               <CheckCircle2 className="text-primary h-12 w-12" />
             </div>
           </div>
-          <h1 className="text-foreground text-3xl font-bold">
+          <TypographyH1 className="text-3xl font-bold">
             이메일을 확인하세요
-          </h1>
-          <p className="text-muted-foreground">
+          </TypographyH1>
+          <TypographyMuted>
             비밀번호 재설정 링크를 보내드렸습니다
-          </p>
+          </TypographyMuted>
         </div>
 
         <Card className="bg-muted/50 p-6">
           <div className="space-y-3 text-sm">
-            <p className="font-medium">
+            <TypographySmall className="font-medium">
               다음 이메일로 재설정 링크가 전송되었습니다:
-            </p>
-            <p className="text-primary font-semibold">{state.data.email}</p>
+            </TypographySmall>
+            <TypographyLarge className="text-primary font-semibold">{state.data.email}</TypographyLarge>
             <div className="text-muted-foreground space-y-2 pt-3">
-              <p>• 이메일이 도착하지 않았다면 스팸함을 확인해주세요</p>
-              <p>• 링크는 10분 동안 유효합니다</p>
+              <TypographyMuted>• 이메일이 도착하지 않았다면 스팸함을 확인해주세요</TypographyMuted>
+              <TypographyMuted>• 링크는 10분 동안 유효합니다</TypographyMuted>
             </div>
           </div>
         </Card>
@@ -90,14 +91,14 @@ export function ForgotPasswordForm() {
   return (
     <div className="space-y-6">
       <div className="space-y-2 text-center lg:text-left">
-        <h1 className="text-foreground text-3xl font-bold">비밀번호 찾기</h1>
-        <p className="text-muted-foreground">
+        <TypographyH1 className="text-left text-3xl font-bold">비밀번호 찾기</TypographyH1>
+        <TypographyMuted>
           가입한 이메일 주소를 입력해주세요
-        </p>
+        </TypographyMuted>
       </div>
 
       <form action={action} className="space-y-4">
-        <InputField
+        <TextField
           id="email"
           type="email"
           name="email"
@@ -106,11 +107,11 @@ export function ForgotPasswordForm() {
           error={emailError}
         >
           이메일
-        </InputField>
+        </TextField>
 
-        <p className="text-muted-foreground text-sm">
+        <TypographyMuted>
           입력하신 이메일로 비밀번호 재설정 링크를 보내드립니다
-        </p>
+        </TypographyMuted>
 
         <Button type="submit" className="w-full" size="lg" disabled={pending}>
           {pending ? "전송 중..." : "재설정 링크 받기"}
@@ -118,7 +119,7 @@ export function ForgotPasswordForm() {
       </form>
 
       <div className="space-y-2 text-center">
-        <p className="text-muted-foreground text-sm">
+        <TypographyMuted>
           아이디가 기억나지 않으신가요?{" "}
           <Link
             href="/find-id"
@@ -126,7 +127,7 @@ export function ForgotPasswordForm() {
           >
             아이디 찾기
           </Link>
-        </p>
+        </TypographyMuted>
         <Link
           href="/login"
           className="text-muted-foreground hover:text-foreground inline-block text-sm transition-colors"
