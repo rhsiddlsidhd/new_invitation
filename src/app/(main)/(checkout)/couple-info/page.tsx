@@ -1,5 +1,7 @@
+export const dynamic = "force-dynamic";
+
 import { HTTPError } from "@/types/error";
-import { CoupleInfoForm } from "@/components/organisms/(forms)/CoupleInfoForm";
+import { CoupleInfoForm } from "@/components/organisms/CoupleInfoForm";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
 import React from "react";

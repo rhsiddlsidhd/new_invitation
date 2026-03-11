@@ -1,6 +1,9 @@
-import BasicInfoForm from "@/components/organisms/(forms)/MyProfile/BasicInfoForm";
-import ChangePasswordForm from "@/components/organisms/(forms)/MyProfile/ChangePasswordForm";
+export const dynamic = "force-dynamic";
+
+import BasicInfoForm from "@/components/organisms/BasicInfoForm";
+import ChangePasswordForm from "@/components/organisms/ChangePasswordForm";
 import { getCookie } from "@/lib/cookies/get";
+import { TypographyH1, TypographyMuted } from "@/components/atoms/typoqraphy";
 import { decrypt } from "@/lib/token";
 import { getUser } from "@/services/auth.service";
 import { redirect } from "next/navigation";
@@ -17,10 +20,10 @@ const page = async () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-foreground mb-2 text-3xl font-bold">프로필 관리</h1>
-        <p className="text-muted-foreground">
+        <TypographyH1 className="text-left mb-2 text-3xl font-bold">프로필 관리</TypographyH1>
+        <TypographyMuted>
           회원 정보를 수정하고 관리합니다.
-        </p>
+        </TypographyMuted>
       </div>
       <BasicInfoForm email={email} name={name} phone={phone} />
       <ChangePasswordForm />

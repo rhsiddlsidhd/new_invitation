@@ -1,5 +1,5 @@
 import PageTitle from "@/components/molecules/PageTitle";
-import { OrderSummary } from "@/components/organisms/(order)/OrderSummary";
+import { OrderSummary } from "@/components/organisms/OrderSummary";
 import React from "react";
 
 const layout = async ({ children }: { children: React.ReactNode }) => {

@@ -40,13 +40,13 @@ export const updateProductAction = async (
     const data = {
       title: formData.get("title"),
       category: formData.get("category"),
-      mood: formData.get("mood"),
+      subCategory: formData.get("subCategory"),
       status: formData.get("status"),
       description: formData.get("description"),
-      feature: formData.get("feature") === "true",
+      isFeatured: formData.get("isFeatured") === "true",
       price: Number(formData.get("price")),
       isPremium: formData.get("isPremium") === "true",
-      options: formData.getAll("options"),
+      featureIds: formData.getAll("featureIds") as string[],
       priority: Number(formData.get("priority")),
     };
 
@@ -75,6 +75,8 @@ export const updateProductAction = async (
     });
 
     revalidatePath("/admin/products");
+    revalidatePath("/products");
+    revalidatePath(`/products/${productId}`);
 
     return success({
       message: "상품이 성공적으로 수정되었습니다.",

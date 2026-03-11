@@ -13,23 +13,23 @@ import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
 import { createOrderSchema } from "@/schemas/order.schema";
 import { PayMethod } from "@/models/payment";
 
+export type CreateOrderResult = {
+  merchantUid: string;
+  finalPrice: number;
+  payMethod: PayMethod;
+  buyerName: string;
+  buyerEmail: string;
+  buyerPhone: string;
+  title: string;
+  userId: string;
+  productId: string;
+  message: string;
+};
+
 export async function createOrderAction(
   _prev: unknown,
   formData: FormData,
-): Promise<
-  APIResponse<{
-    merchantUid: string;
-    finalPrice: number;
-    payMethod: PayMethod;
-    buyerName: string;
-    buyerEmail: string;
-    buyerPhone: string;
-    title: string;
-    userId: string;
-    productId: string;
-    message: string;
-  }>
-> {
+): Promise<APIResponse<CreateOrderResult>> {
   try {
     // 쿠키에서 Refresh Token 가져와서 사용자 검증
     const cookie = await getCookie("token");
@@ -85,18 +85,7 @@ export async function createOrderAction(
       userId: user._id,
     });
 
-    return success<{
-      merchantUid: string;
-      finalPrice: number;
-      payMethod: PayMethod;
-      buyerName: string;
-      buyerEmail: string;
-      buyerPhone: string;
-      title: string;
-      userId: string;
-      productId: string;
-      message: string;
-    }>({
+    return success<CreateOrderResult>({
       merchantUid: order.merchantUid,
       finalPrice: order.finalPrice,
       payMethod: order.payMethod,

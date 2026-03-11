@@ -27,15 +27,7 @@ export const createCoupleInfoAction = async (
     const thumbnailRaw = formData.get("thumbnailSource") as string;
     const galleryRaw = formData.get("gallerySource") as string;
 
-    // Transform gallery data from { name, images }[] to { category, urls }[]
-    const galleryData = galleryRaw
-      ? JSON.parse(galleryRaw).map(
-          (item: { name: string; images: string[] }) => ({
-            category: item.name,
-            urls: item.images,
-          }),
-        )
-      : [];
+    const galleryData: string[] = galleryRaw ? JSON.parse(galleryRaw) : [];
 
     // Helper to build parent data only if name is provided
     const buildParentData = (prefix: string) => {
@@ -97,7 +89,6 @@ export const createCoupleInfoAction = async (
       venue: parsed.data.venue,
       address: parsed.data.address,
       addressDetail: parsed.data.addressDetail,
-      message: "", // Default empty message - can be updated later
       subwayStation: parsed.data.subwayStation,
       guestbookEnabled: parsed.data.guestbookEnabled,
       thumbnailImages: parsed.data.thumbnailImages,

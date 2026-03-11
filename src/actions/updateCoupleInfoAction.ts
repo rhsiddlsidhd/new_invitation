@@ -35,14 +35,7 @@ export const updateCoupleInfoAction = async (
     const thumbnailRaw = formData.get("thumbnailSource") as string;
     const galleryRaw = formData.get("gallerySource") as string;
 
-    const galleryData = galleryRaw
-      ? JSON.parse(galleryRaw).map(
-          (item: { name: string; images: string[] }) => ({
-            category: item.name,
-            urls: item.images,
-          }),
-        )
-      : [];
+    const galleryData: string[] = galleryRaw ? JSON.parse(galleryRaw) : [];
 
     const buildParentData = (prefix: string) => {
       const name = formData.get(`${prefix}_name`) as string;
@@ -94,10 +87,7 @@ export const updateCoupleInfoAction = async (
     }
 
     // 5. DB 업데이트
-    const updated = await updateCoupleInfoService(coupleInfoId, payload.id, {
-      ...parsed.data,
-      message: "", // Default empty message - can be updated later
-    });
+    const updated = await updateCoupleInfoService(coupleInfoId, payload.id, parsed.data);
 
     if (!updated) {
       throw new HTTPError("커플 정보 업데이트에 실패하였습니다.", 500);

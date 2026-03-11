@@ -2,9 +2,10 @@ import { Eye, Heart, ShoppingCart } from "lucide-react";
 import { Badge } from "@/components/atoms/badge";
 import { Product } from "@/services/product.service";
 import ProductThumbnail from "@/components/molecules/ProductThumbnail";
-import ProductTableRowAction from "@/components/organisms/(admin)/ProductTableRowAction";
-import ProductTableRowSelect from "@/components/organisms/(admin)/ProductTableRowSelect";
-import { productCategoryLabels, moodLabels, ProductCategory, Mood } from "@/utils/category";
+import ProductTableRowAction from "@/components/organisms/ProductTableRowAction";
+import ProductTableRowSelect from "@/components/organisms/ProductTableRowSelect";
+import { productCategoryLabels, subCategoryLabels, ProductCategory, SubCategory } from "@/utils/category";
+import { TypographyMuted, TypographySmall } from "@/components/atoms/typoqraphy";
 
 export interface ProductTableRowProps {
   product: Product;
@@ -24,10 +25,10 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
       </td>
       <td className="px-4 py-3">
         <div className="max-w-xs">
-          <p className="truncate font-medium">{product.title}</p>
-          <p className="text-muted-foreground truncate text-sm">
+          <TypographySmall className="truncate font-medium">{product.title}</TypographySmall>
+          <TypographyMuted className="truncate">
             {product.description}
-          </p>
+          </TypographyMuted>
         </div>
       </td>
       <td className="px-4 py-3">
@@ -35,9 +36,9 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
           <Badge variant="outline" className="w-fit">
             {productCategoryLabels[product.category as ProductCategory] || product.category}
           </Badge>
-          <span className="text-muted-foreground text-xs px-1">
-            {moodLabels[product.mood as Mood] || product.mood}
-          </span>
+          <TypographyMuted className="px-1">
+            {subCategoryLabels[product.subCategory as SubCategory] || product.subCategory}
+          </TypographyMuted>
         </div>
       </td>
       <td className="px-4 py-3">
@@ -52,7 +53,7 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
               프리미엄
             </Badge>
           )}
-          {product.feature && (
+          {product.isFeatured && (
             <Badge variant="secondary" className="w-fit">
               추천
             </Badge>

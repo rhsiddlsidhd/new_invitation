@@ -1,7 +1,7 @@
 import React from "react";
-import { AlertProps, AlertType } from "./Alert.type";
-
-const Alert = ({ type = "info", children, className }: AlertProps) => {
+import { AlertProps, AlertType } from "@/types/alert";
+import { TypographyP } from "../atoms/typoqraphy";
+const Alert = ({ type = "info", children }: AlertProps) => {
   const config: { [key in AlertType]: string } = {
     error: "bg-[#fee] text-red-700 ",
     success: "bg-[#f0fff4] text-green-700 ",
@@ -10,9 +10,9 @@ const Alert = ({ type = "info", children, className }: AlertProps) => {
   };
 
   return (
-    <p className={`rounded-sm p-2 text-xs ${config[type]} ${className}`}>
+    <TypographyP className={`${config[type]} p-2 text-xs`}>
       {children}
-    </p>
+    </TypographyP>
   );
 };
 

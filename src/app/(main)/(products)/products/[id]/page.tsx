@@ -1,8 +1,16 @@
-import { ProductFeatures } from "@/components/organisms/(product)/products/ProductFeatures";
-import { ProductSummary } from "@/components/organisms/(product)/products/ProductSummary";
+export const revalidate = 3600;
+
+import { ProductFeatures } from "@/components/organisms/ProductFeatures";
+import { ProductSummary } from "@/components/organisms/ProductSummary";
 import { getPremiumFeatureService } from "@/services/premiumFeature.service";
-import { getProductService } from "@/services/product.service";
+import { getAllProductsService, getProductService } from "@/services/product.service";
+import { notFound } from "next/navigation";
 import React from "react";
+
+export async function generateStaticParams() {
+  const products = await getAllProductsService();
+  return products.map((p) => ({ id: p._id.toString() }));
+}
 
 export default async function ProductDetailPage({
   params,
@@ -13,8 +21,8 @@ export default async function ProductDetailPage({
 
   const product = await getProductService(id);
 
-  if (!product) throw new Error("Product not found");
-  const options = await getPremiumFeatureService(product.options);
+  if (!product) notFound();
+  const options = await getPremiumFeatureService(product.featureIds);
 
   return (
     <main className="bg-background min-h-screen">

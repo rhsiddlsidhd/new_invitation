@@ -3,7 +3,7 @@ import { dbConnect } from "@/utils/mongodb";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt, encrypt } from "@/lib/token";
 import mongoose from "mongoose";
-import { AuthState } from "@/store/auth.store";
+import { AuthSession } from "@/types/auth";
 
 export type LeanUser = {
   email: string;
@@ -41,12 +41,8 @@ export const getUser = async (query: UserQuery): Promise<LeanUser | null> => {
   return user;
 };
 
-export type AuthData =
-  | (Omit<AuthState, "isAuth" | "role"> & {
-      role: UserRole;
-    })
-  | null;
-export async function getAuth(): Promise<AuthData> {
+export type AuthResult = AuthSession | null;
+export async function getAuth(): Promise<AuthResult> {
   try {
     const cookie = await getCookie("token");
     const refreshToken = cookie?.value;
@@ -69,15 +65,26 @@ export async function getAuth(): Promise<AuthData> {
 
     const accessToken = await encrypt({
       id: user._id.toString(),
+      role: user.role,
       type: "ACCESS",
     });
 
     return {
       token: accessToken,
       role: user.role,
+      email: user.email,
       userId: user._id.toString(),
     };
   } catch {
     return null;
   }
+}
+
+/**
+ * 로그아웃 처리를 위해 서버의 인증 토큰 쿠키를 삭제합니다.
+ */
+import { deleteCookie } from "@/lib/cookies/delete";
+
+export async function logoutService() {
+  await deleteCookie("token");
 }

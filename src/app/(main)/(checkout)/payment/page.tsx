@@ -1,4 +1,6 @@
-import { CheckoutForm } from "@/components/organisms/(forms)/CheckoutForm";
+export const dynamic = "force-dynamic";
+
+import { CheckoutForm } from "@/components/organisms/CheckoutForm";
 
 import React from "react";
 

@@ -2,10 +2,11 @@
 import React, { useMemo } from "react";
 
 import { format } from "date-fns";
-import SectionBody from "../../molecules/(preview)/SectionBody";
+import SectionBody from "../../layout/SectionLayout";
 import { ko } from "date-fns/locale";
 import clsx from "clsx";
-import DigitalWatch from "../../molecules/(preview)/DigitalWatch";
+import DigitalWatch from "../../molecules/DigitalWatch";
+import { useCountdown } from "@/hooks/useCountdown";
 
 import { WeddingMonthCalendarProps } from "./weddingMonthCalendar.mapper";
 
@@ -28,6 +29,8 @@ const getDayOfMonth = (year: number, month: number) => {
 const weekOfKr = ["일", "월", "화", "수", "목", "금", "토"] as const;
 
 const WeddingMonthCalendar = ({ date }: WeddingMonthCalendarProps) => {
+  const { countdown, message } = useCountdown(date);
+
   const monthCalender = useMemo(() => {
     const newDate = new Date(date);
     return getDayOfMonth(newDate.getFullYear(), newDate.getMonth() + 1);
@@ -46,7 +49,7 @@ const WeddingMonthCalendar = ({ date }: WeddingMonthCalendarProps) => {
               <span
                 className={clsx(
                   "flex items-center justify-center rounded-full p-1 text-xs",
-                  isToday && "text-red-300",
+                  isToday && "text-primary/70",
                 )}
               >
                 {kr}
@@ -61,7 +64,7 @@ const WeddingMonthCalendar = ({ date }: WeddingMonthCalendarProps) => {
               key={idx}
               className={clsx(
                 "px-1 py-3 text-center text-xs",
-                Dday && "rounded-full bg-red-300 font-bold text-white",
+                Dday && "rounded-full bg-primary font-bold text-primary-foreground",
               )}
             >
               {day}
@@ -69,7 +72,7 @@ const WeddingMonthCalendar = ({ date }: WeddingMonthCalendarProps) => {
           );
         })}
       </ul>
-      <DigitalWatch date={date} />
+      <DigitalWatch countdown={countdown} message={message} />
     </SectionBody>
   );
 };

@@ -1,7 +1,8 @@
 "use client";
 
-import { CopyButton } from "@/components/molecules/CopyButton/CopyButton";
-import SectionBody from "@/components/molecules/(preview)/SectionBody";
+import { ClipboardButton } from "@/components/molecules/ClipboardButton";
+import { useCopy } from "@/hooks/useCopy";
+import SectionBody from "@/components/layout/SectionLayout";
 import KakaoMap from "@/components/molecules/KakaoMap";
 import Navigation from "@/components/organisms/(preview)/Navigation";
 import { LocationSectionProps } from "./locationSection.mapper";
@@ -12,6 +13,7 @@ export function LocationSection({
   addressDetail,
 }: LocationSectionProps) {
   const fullAddress = addressDetail ? `${address} ${addressDetail}` : address;
+  const { isCopied, copyToClipboard } = useCopy();
 
   return (
     <SectionBody title="LOCATION" subTitle="오시는 길">
@@ -19,8 +21,11 @@ export function LocationSection({
         <p className="text-foreground text-md font-semibold">{venueName}</p>
         <div className="flex items-center justify-center gap-2">
           <p className="text-muted-foreground text-sm">{fullAddress}</p>
-          {/* 재사용 가능한 CopyButton으로 교체 */}
-          <CopyButton textToCopy={fullAddress} />
+          {/* 재사용 가능한 ClipboardButton으로 교체 */}
+          <ClipboardButton
+            isCopied={isCopied}
+            onCopy={() => copyToClipboard(fullAddress)}
+          />
         </div>
       </div>
 
@@ -36,4 +41,3 @@ export function LocationSection({
     </SectionBody>
   );
 }
-

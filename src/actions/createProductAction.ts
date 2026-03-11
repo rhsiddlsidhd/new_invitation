@@ -39,23 +39,26 @@ export const createProductAction = async (
       title: formData.get("title") as string,
       description: formData.get("description") as string,
       category: formData.get("category") as string,
-      mood: formData.get("mood") as string,
-      price: Number(formData.get("price")) as number,
+      subCategory: formData.get("subCategory") as string,
+      price: Number(formData.get("price")),
       isPremium: formData.get("isPremium") === "true",
-      options: formData.getAll("options") as string[],
-      feature: formData.get("feature") === "true",
-      priority: Number(formData.get("priority")) as number,
+      featureIds: formData.getAll("featureIds") as string[],
+      isFeatured: formData.get("isFeatured") === "true",
+      priority: Number(formData.get("priority")),
+      discount: {
+        discountType: formData.get("discount.discountType") as string,
+        value: Number(formData.get("discount.value")),
+      },
       thumbnail: thumbnailFile,
-    } as const;
+    };
 
     const parsed = validateAndFlatten(productSchema, data);
-    console.log("parsed", parsed);
+
     if (!parsed.success) {
       throw new HTTPError("입력값을 확인해주세요", 400, parsed.error);
     }
 
     const thumbnailUrl = await uploadProductImage(thumbnailFile, "thumbnail");
-    console.log("thumbnailUrl", thumbnailUrl);
 
     let previewUrl: string | undefined;
     if (previewFile && previewFile.size > 0) {
@@ -72,6 +75,7 @@ export const createProductAction = async (
     if (!product) throw new HTTPError("상품 등록에 실패하였습니다.", 500);
 
     revalidatePath("/admin/products");
+    revalidatePath("/products");
 
     return success({
       message: "상품이 성공적으로 등록되었습니다.",

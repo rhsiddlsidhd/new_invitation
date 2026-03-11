@@ -34,6 +34,8 @@ export const updateProductStatusAction = async (
     await updateProductService(productId, { status });
 
     revalidatePath("/admin/products");
+    revalidatePath("/products");
+    revalidatePath(`/products/${productId}`);
 
     return success({
       message: "상품 상태가 변경되었습니다.",

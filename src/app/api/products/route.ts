@@ -11,6 +11,7 @@ export const GET = async (
     const category = searchParams.get("category") || undefined;
 
     const products = await getAllProductsService(category);
+
     return apiSuccess(products);
   } catch (error) {
     return handleRouteError(error);

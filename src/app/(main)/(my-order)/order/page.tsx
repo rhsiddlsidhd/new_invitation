@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { Button } from "@/components/atoms/button";
 import {
   Card,
@@ -5,16 +7,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/card";
+import { TypographyH1, TypographyH3, TypographyMuted } from "@/components/atoms/typoqraphy";
 import ProductThumbnail from "@/components/molecules/ProductThumbnail";
 import { getCookie } from "@/lib/cookies/get";
 import { decrypt } from "@/lib/token";
 import { getOrdersByUserId } from "@/services/order.service";
-import { Edit, RefreshCw, Star, EllipsisVertical, Inbox } from "lucide-react";
+import {
+  Edit,
+  RefreshCw,
+  Star,
+  EllipsisVertical,
+  Inbox,
+  CreditCard,
+} from "lucide-react";
 import { redirect } from "next/navigation";
 import React from "react";
 import { format } from "date-fns";
 import Link from "next/link";
 import { IOrder } from "@/models/order.model";
+import { PayMethod } from "@/models/payment";
+import PaymentButton from "@/components/molecules/PaymentButton";
 
 type OrderStatus = "PENDING" | "CONFIRMED" | "COMPLETED" | "CANCELLED";
 
@@ -23,6 +35,13 @@ const PAYMENT_STATUS: Record<OrderStatus, string> = {
   CONFIRMED: "결제완료",
   COMPLETED: "제작완료",
   CANCELLED: "취소",
+};
+
+const PAY_METHOD_LABEL: Record<PayMethod, string> = {
+  CARD: "신용카드",
+  TRANSFER: "실시간 계좌이체",
+  VIRTUAL_ACCOUNT: "가상계좌",
+  MOBILE: "휴대폰 소액결제",
 };
 
 const groupOrdersByDate = (orders: IOrder[]) => {
@@ -50,13 +69,14 @@ const Page = async () => {
   const orders = await getOrdersByUserId(payload.id);
 
   const groupedOrders = groupOrdersByDate(orders);
+
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-foreground mb-2 text-3xl font-bold">주문 목록</h1>
-        <p className="text-muted-foreground">
+        <TypographyH1 className="text-left mb-2 text-3xl font-bold">주문 목록</TypographyH1>
+        <TypographyMuted>
           구매한 템플릿과 주문 상태를 확인합니다.
-        </p>
+        </TypographyMuted>
       </div>
 
       <div className="space-y-4">
@@ -83,9 +103,9 @@ const Page = async () => {
                         <div className="flex justify-between text-2xl font-bold">
                           <div className="flex items-center gap-4">
                             <p>{PAYMENT_STATUS[order.orderStatus]}</p>
-                            <p className="text-muted-foreground text-xs">
+                            <TypographyMuted>
                               {order.merchantUid}
-                            </p>
+                            </TypographyMuted>
                           </div>
                           <Button size="sm" variant="ghost">
                             <EllipsisVertical className="h-4 w-4" />
@@ -102,9 +122,9 @@ const Page = async () => {
 
                           <div className="min-w-0 flex-1 space-y-2">
                             <div className="flex items-start justify-between gap-2">
-                              <h3 className="text-foreground text-base font-semibold">
+                              <TypographyH3 className="text-foreground text-base font-semibold">
                                 {product.title}
-                              </h3>
+                              </TypographyH3>
                             </div>
                             <div className="pt-2">
                               {hasDiscount && (
@@ -115,24 +135,33 @@ const Page = async () => {
                                     ` -${order.discountAmount.toLocaleString()}원`}
                                 </div>
                               )}
-                              <p className="text-muted-foreground text-md">
+                              <TypographyMuted>
                                 {order.finalPrice.toLocaleString()}원{" "}
                                 {product.quantity}개
-                              </p>
+                              </TypographyMuted>
+                              <TypographyMuted className="flex items-center gap-1">
+                                <CreditCard className="h-3 w-3" />
+                                {PAY_METHOD_LABEL[order.payMethod]}
+                              </TypographyMuted>
                             </div>
                           </div>
                         </div>
                       </div>
 
                       <div className="flex shrink-0 flex-col gap-2">
-                        <Button size="lg" variant="outline" asChild>
-                          <Link
-                            href={`/order/edit?q=${order.coupleInfoId.toString()}`}
-                          >
-                            <Edit className="mr-1 h-4 w-4" />
-                            수정하기
-                          </Link>
-                        </Button>
+                        {order.orderStatus === "PENDING" && (
+                          <PaymentButton order={order} />
+                        )}
+                        {order.orderStatus !== "CANCELLED" && (
+                          <Button size="lg" variant="outline" asChild>
+                            <Link
+                              href={`/order/edit?q=${order.coupleInfoId.toString()}`}
+                            >
+                              <Edit className="mr-1 h-4 w-4" />
+                              수정하기
+                            </Link>
+                          </Button>
+                        )}
                         {order.orderStatus === "CONFIRMED" && (
                           <Button size="lg" variant="outline">
                             <RefreshCw className="mr-1 h-4 w-4" />
@@ -157,14 +186,14 @@ const Page = async () => {
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
               <Inbox className="h-8 w-8 text-gray-500" />
             </div>
-            <h3 className="mt-4 text-xl font-semibold">
+            <TypographyH3 className="mt-4 text-xl font-semibold">
               주문 내역이 없습니다.
-            </h3>
-            <p className="mt-2 text-sm text-gray-500">
-              아직 주문한 상품이 없어요. 템플릿을 구경하고 첫 주문을 해보세요.
-            </p>
+            </TypographyH3>
+            <TypographyMuted className="mt-2 text-gray-500">
+              아직 주문한 상품이 없어요. 상품을 구경하고 첫 주문을 해보세요.
+            </TypographyMuted>
             <Button asChild className="mt-6">
-              <Link href="/products">템플릿 보러가기</Link>
+              <Link href="/products?category=invitation">청첩장 보러가기</Link>
             </Button>
           </div>
         )}

@@ -101,10 +101,8 @@ export async function uploadMainThumbnail(
   onProgress?: (progress: number) => void,
 ): Promise<string[] | undefined> {
   try {
-    console.log("uploadMainThumbnail", { files });
     return await uploadWithSignature(files, "thumbnailImg", onProgress);
-  } catch (error) {
-    console.error("uploadMainThumbnail:", error);
+  } catch {
     return undefined;
   }
 }

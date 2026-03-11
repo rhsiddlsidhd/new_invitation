@@ -1,16 +1,15 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { CheckoutProductData } from "@/types/checkout";
+import { CheckoutItem } from "@/types/checkout";
 
 interface OrderState {
-  order: CheckoutProductData | null;
-  setOrder: (orderData: CheckoutProductData) => void;
+  order: CheckoutItem | null;
+  setOrder: (orderData: CheckoutItem) => void;
   clearOrder: () => void;
   _hasHydrated: boolean;
   setHasHydrated: (state: boolean) => void;
 }
 
-// 1. create<OrderState>() 위치에 제네릭 명시
 export const useOrderStore = create<OrderState>()(
   persist(
     (set) => ({

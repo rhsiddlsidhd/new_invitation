@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/atoms/button";
-import { navigationButtons } from "@/constants/navigation";
+import { NAVIGATION_BUTTONS } from "@/constants/navigation";
 
 import { GeoState } from "@/utils/openApp";
 import Image from "next/image";
@@ -73,11 +73,11 @@ const Navigation = ({ address }: { address: string }) => {
   return (
     <div className="space-y-2">
       <p className="text-sm font-bold">네비게이션</p>
-      <p className="text-xs text-gray-400">
+      <p className="text-muted-foreground text-xs">
         원하시는 앱을 선택하시면 길안내가 시작됩니다.
       </p>
       <div className="flex flex-col gap-2">
-        {navigationButtons.map((nav, i) => {
+        {NAVIGATION_BUTTONS.map((nav, i) => {
           return (
             <Button
               variant="outline"

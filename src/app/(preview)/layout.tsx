@@ -1,4 +1,4 @@
-import GuestBookModal from "@/components/organisms/(modal)/GuestBookModal";
+import GuestBookModal from "@/components/organisms/GuestBookModal";
 import React from "react";
 
 const layout = ({ children }: { children: React.ReactNode }) => {

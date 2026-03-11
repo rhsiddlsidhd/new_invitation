@@ -6,11 +6,9 @@ import { getChosung } from "@/utils/hangul";
 
 const useVisibleProducts = ({
   state,
-  mood,
   data,
 }: {
   state: ProductFilterState;
-  mood: string;
   data: Product[];
 }) => {
   const keywordChosung = useMemo(
@@ -21,8 +19,10 @@ const useVisibleProducts = ({
   const visibleProducts = useMemo(() => {
     // 1. Filter
     const filtered = data.filter((item) => {
-      // Mood (Style) filter
-      const moodMatch = mood === "all" || item.mood === mood;
+      // SubCategory filter
+
+      const subCategoryMatch =
+        state.subCategory === "all" || item.subCategory === state.subCategory;
 
       // Keyword filter
       const keywordMatch = (() => {
@@ -59,12 +59,12 @@ const useVisibleProducts = ({
         }
         return (
           item.isPremium &&
-          item.options &&
-          state.premiumFeat.every((featId) => item.options.includes(featId))
+          item.featureIds &&
+          state.premiumFeat.every((featId) => item.featureIds.includes(featId))
         );
       })();
 
-      return moodMatch && keywordMatch && priceMatch && premiumFeatMatch;
+      return subCategoryMatch && keywordMatch && priceMatch && premiumFeatMatch;
     });
 
     // 2. Sort
@@ -73,8 +73,8 @@ const useVisibleProducts = ({
         case "POPULAR":
           return b.likes.length - a.likes.length;
         case "RECOMENDED":
-          if (a.feature !== b.feature) {
-            return b.feature ? 1 : -1;
+          if (a.isFeatured !== b.isFeatured) {
+            return b.isFeatured ? 1 : -1;
           }
           return b.priority - a.priority;
         case "PRICE_LOW":
@@ -93,7 +93,7 @@ const useVisibleProducts = ({
 
     return sorted;
   }, [
-    mood,
+    state.subCategory,
     state.keyword,
     state.price,
     state.premiumFeat,

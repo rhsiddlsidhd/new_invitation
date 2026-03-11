@@ -1,23 +1,13 @@
 import { SidebarProvider } from "@/components/atoms/sidebar";
-import SidebarNavItem from "@/components/molecules/(nav)/SidebarNavItem";
-import SidebarLayout from "@/components/molecules/SidebarLayout";
-import SidebarToggle from "@/components/organisms/(sidebar)/SidebarToggle";
-import { getCookie } from "@/lib/cookies/get";
-import { decrypt } from "@/lib/token";
-import { getUser } from "@/services/auth.service";
-import { redirect } from "next/navigation";
+import SidebarNavItem from "@/components/molecules/SidebarNavItem";
+import SidebarLayout from "@/components/layout/SidebarLayout";
+import SidebarToggle from "@/components/organisms/SidebarToggle";
 
-const layout = async ({ children }: { children: React.ReactNode }) => {
-  const cookie = await getCookie("token");
-  if (!cookie) redirect("/");
-  const { payload } = await decrypt({ token: cookie.value, type: "REFRESH" });
-  const user = await getUser({ id: payload.id });
-  if (!user) redirect("/");
-  const { email, role } = user;
+const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <SidebarProvider>
       <div className="bg-background flex min-h-screen w-screen pt-16">
-        <SidebarLayout email={email} role={role}>
+        <SidebarLayout>
           <SidebarNavItem type="MY_PROFILE" />
         </SidebarLayout>
         <main className="flex-1">
@@ -25,7 +15,6 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
             <SidebarToggle />
             <div className="pt-4">{children}</div>
           </div>
-          {/* <AdminModal /> */}
         </main>
       </div>
     </SidebarProvider>

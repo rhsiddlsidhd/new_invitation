@@ -31,6 +31,7 @@ export const deleteProductAction = async (
     await deleteProductService(productId);
 
     revalidatePath("/admin/products");
+    revalidatePath("/products");
 
     return success({
       message: "상품이 성공적으로 삭제되었습니다.",

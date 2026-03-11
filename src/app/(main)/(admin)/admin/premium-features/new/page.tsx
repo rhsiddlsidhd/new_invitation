@@ -4,8 +4,9 @@ import type React from "react";
 
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import PremiumFeatureRegistrationForm from "@/components/organisms/(forms)/PremiumFeatureRegistrationForm";
+import PremiumFeatureRegistrationForm from "@/components/organisms/PremiumFeatureRegistrationForm";
 import { Button } from "@/components/atoms/button";
+import { TypographyH1, TypographyMuted } from "@/components/atoms/typoqraphy";
 import {
   Card,
   CardContent,
@@ -24,12 +25,12 @@ export default function NewPremiumFeaturePage() {
           </Button>
         </Link>
         <div>
-          <h1 className="text-foreground mb-2 text-3xl font-bold">
+          <TypographyH1 className="text-left mb-2 text-3xl font-bold">
             프리미엄 기능 등록
-          </h1>
-          <p className="text-muted-foreground">
+          </TypographyH1>
+          <TypographyMuted>
             상품에 추가할 수 있는 새로운 유료 기능을 등록합니다.
-          </p>
+          </TypographyMuted>
         </div>
       </div>
 

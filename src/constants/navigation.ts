@@ -1,6 +1,7 @@
 import openApp from "@/utils/openApp";
+import { LayoutDashboard, User, ShoppingBag } from "lucide-react";
 
-export const navigationButtons = [
+export const NAVIGATION_BUTTONS = [
   {
     name: "네이버지도",
     path: "navermap.webp",
@@ -43,21 +44,41 @@ export const navigationButtons = [
   },
 ] as const;
 
-export const mainNavItems = [
+export const MAIN_NAV_ITEMS = [
   {
+    id: "invitation",
     label: "모바일 청첩장",
-    href: "/products?category=wedding",
+    href: "/products?category=invitation",
   },
   {
-    label: "감사장",
-    href: "/products?category=thank-you",
+    id: "business-card",
+    label: "명함",
+    href: "/products?category=business-card",
   },
   {
-    label: "돌잔치",
-    href: "/products?category=first-birthday",
-  },
-  {
+    id: "reviews",
     label: "고객후기",
     href: "/reviews",
+  },
+] as const;
+
+export const USER_NAV_ITEMS = [
+  {
+    label: "관리자 페이지",
+    href: "/admin/dashboard",
+    icon: LayoutDashboard,
+    adminOnly: true,
+  },
+  {
+    label: "마이 프로필",
+    href: "/profile",
+    icon: User,
+    adminOnly: false,
+  },
+  {
+    label: "마이 주문",
+    href: "/order",
+    icon: ShoppingBag,
+    adminOnly: false,
   },
 ] as const;

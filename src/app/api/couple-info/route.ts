@@ -26,7 +26,7 @@ export const GET = async (
     }
     const coupleInfo = await getCoupleInfoById(query);
     if (!coupleInfo) throw new HTTPError("커플 정보를 찾을 수 없습니다.", 404);
-    console.log(coupleInfo);
+
     return apiSuccess(coupleInfo);
   } catch (error) {
     return handleRouteError(error);

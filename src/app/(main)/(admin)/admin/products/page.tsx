@@ -1,8 +1,11 @@
+export const revalidate = 600;
+
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/atoms/button";
 import { getAllProductsService } from "@/services/product.service";
 import { ProductTableRow } from "./_components/ProductTableRow";
+import { TypographyH1, TypographyMuted } from "@/components/atoms/typoqraphy";
 
 const tableColums = [
   "썸네일",
@@ -23,10 +26,10 @@ export default async function ProductsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-foreground mb-2 text-3xl font-bold">상품 목록</h1>
-          <p className="text-muted-foreground">
+          <TypographyH1 className="text-left mb-2 text-3xl font-bold">상품 목록</TypographyH1>
+          <TypographyMuted>
             등록된 템플릿 상품을 관리합니다. (총 {products.length}개)
-          </p>
+          </TypographyMuted>
         </div>
         <Link href="/admin/products/new">
           <Button size="lg">
@@ -60,16 +63,16 @@ export default async function ProductsPage() {
         </div>
 
         {products.length === 0 && (
-          <div className="text-muted-foreground py-12 text-center">
-            <p>등록된 상품이 없습니다.</p>
+          <div className="py-12 text-center">
+            <TypographyMuted>등록된 상품이 없습니다.</TypographyMuted>
           </div>
         )}
       </div>
 
       <div className="flex items-center justify-between">
-        <p className="text-muted-foreground text-sm">
+        <TypographyMuted>
           총 {products.length}개 상품
-        </p>
+        </TypographyMuted>
         <div className="flex gap-2">페이지네이션 버튼</div>
       </div>
     </div>

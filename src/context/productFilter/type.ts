@@ -1,25 +1,18 @@
-import { Mood } from "@/utils/category";
-
-type ProductPrice = "ALL" | "FREE" | "UNDER-10k" | "10k-30k" | "OVER-30k";
+import { SubCategory } from "@/utils/category";
+import { ProductPriceType, ProductSortType } from "@/constants/product";
 
 export type ProductFilterState = {
   keyword: string;
-  mood: Mood | "all";
+  subCategory: SubCategory | "all";
   isOpen: boolean;
-  sortBy:
-    | "ALL"
-    | "POPULAR"
-    | "RECOMENDED"
-    | "LATEST"
-    | "PRICE_LOW"
-    | "PRICE_HIGH";
-  price: ProductPrice;
+  sortBy: ProductSortType;
+  price: ProductPriceType;
   premiumFeat: string[];
 };
 
 export type ProductFilterAction =
   | { type: "CHANGE_KEYWORD"; payload: string }
-  | { type: "SELECT_MOOD"; payload: ProductFilterState["mood"] }
+  | { type: "SELECT_SUB_CATEGORY"; payload: ProductFilterState["subCategory"] }
   | { type: "OPEN_SUGGESTIONS" }
   | { type: "CLOSE_SUGGESTIONS" }
   | { type: "SELECT_SORT_BY"; payload: ProductFilterState["sortBy"] }
