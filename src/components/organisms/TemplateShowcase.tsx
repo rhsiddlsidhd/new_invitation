@@ -1,14 +1,14 @@
 import React from "react";
-import { ProductCarouselGroup } from "./ProductCarouselGroup";
+import { TemplateCarouselGroup } from "./TemplateCarouselGroup";
 import { TypographyH2, TypographyP } from "@/components/atoms/typoqraphy";
 
-export const FeaturedProducts = () => {
+export const TemplateShowcase = () => {
   return (
     <section className="bg-white py-24">
       <div className="container mx-auto px-4">
         <div className="mb-16 text-center">
           <TypographyH2 className="mb-4 border-none text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
-            베스트 디자인 상품
+            베스트 디자인 템플릿
           </TypographyH2>
           <TypographyP className="mx-auto max-w-2xl text-lg text-slate-600">
             가장 많은 사랑을 받은 디자인들을 카테고리별로 확인해보세요.
@@ -16,13 +16,13 @@ export const FeaturedProducts = () => {
         </div>
 
         <div className="space-y-24">
-          <ProductCarouselGroup
+          <TemplateCarouselGroup
             category="invitation"
             title="초대장"
             description="소중한 순간을 함께할 분들께 마음을 전하는 초대장"
           />
 
-          <ProductCarouselGroup
+          <TemplateCarouselGroup
             category="business-card"
             title="명함"
             description="나를 가장 잘 표현하는 세련된 디지털 명함"

@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { TypographyMuted } from "@/components/atoms/typoqraphy";
+import { Hammer } from "lucide-react";
 
-export default function NotFound() {
+export default function ReviewsPage() {
   return (
     <main
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden"
       style={{ background: "oklch(0.985 0.006 75)" }}
     >
-      {/* Dot grid texture */}
+      {/* Dot grid texture - Consistent with NotFound */}
       <div
         className="not-found-dots pointer-events-none absolute inset-0"
         style={{
@@ -26,19 +27,20 @@ export default function NotFound() {
         }}
       />
 
-      {/* Ghost 404 */}
+      {/* Background Text (Coming Soon instead of 404) */}
       <div
         className="not-found-ghost text-foreground pointer-events-none absolute leading-none font-[var(--font-NotoSerif)] font-black select-none"
         style={{
-          fontSize: "clamp(160px, 38vw, 380px)",
-          letterSpacing: "-0.06em",
+          fontSize: "clamp(100px, 20vw, 280px)",
+          letterSpacing: "-0.04em",
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          opacity: 0.05,
+          opacity: 0.03,
+          whiteSpace: "nowrap",
         }}
       >
-        404
+        COMING SOON
       </div>
 
       {/* Main card — floating */}
@@ -79,7 +81,7 @@ export default function NotFound() {
               "0 2px 0 oklch(0.75 0.03 60 / 0.15), 0 20px 60px -10px oklch(0.5 0.05 60 / 0.12)",
           }}
         >
-          {/* Corner marks */}ㅍ
+          {/* Corner marks */}
           <div
             className="absolute top-3 left-3 h-4 w-4 border-t border-l"
             style={{ borderColor: "oklch(0.7 0.03 60 / 0.35)" }}
@@ -96,46 +98,31 @@ export default function NotFound() {
             className="absolute right-3 bottom-3 h-4 w-4 border-r border-b"
             style={{ borderColor: "oklch(0.7 0.03 60 / 0.35)" }}
           />
-          {/* Envelope icon */}
+
+          {/* Construction Icon */}
           <div className="not-found-fade-2 mb-6">
-            <svg
-              width="48"
-              height="36"
-              viewBox="0 0 48 36"
-              fill="none"
-              style={{ opacity: 0.25 }}
-            >
-              <rect
-                x="1"
-                y="1"
-                width="46"
-                height="34"
-                rx="1"
-                stroke="currentColor"
-                strokeWidth="1.5"
+            <div className="relative">
+              <div className="bg-primary/5 absolute inset-0 animate-pulse rounded-full" />
+              <Hammer
+                className="text-primary relative h-12 w-12 opacity-40"
+                strokeWidth={1.5}
               />
-              <path
-                d="M1 3l23 16L47 3"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinejoin="round"
-              />
-            </svg>
+            </div>
           </div>
-          {/* 404 number */}
+
+          {/* Status Text */}
           <p
-            className="not-found-fade-3 mb-1 leading-none font-[var(--font-NotoSerif)] font-black tracking-tighter"
-            style={{
-              fontSize: "clamp(56px, 14vw, 80px)",
-              color: "oklch(0.85 0.03 60)",
-            }}
+            className="not-found-fade-3 mb-2 text-center text-sm font-[var(--font-NotoSerif)] font-medium tracking-[0.2em] uppercase"
+            style={{ color: "oklch(0.65 0.03 60)" }}
           >
-            404
+            Under Construction
           </p>
+
           {/* Title */}
-          <h1 className="not-found-fade-3 text-foreground text-xl font-[var(--font-NotoSerif)] font-semibold tracking-tight">
-            페이지를 찾을 수 없습니다
+          <h1 className="not-found-fade-3 text-foreground text-center text-2xl font-[var(--font-NotoSerif)] font-semibold tracking-tight">
+            리뷰 페이지를 <br /> 준비하고 있습니다
           </h1>
+
           {/* Divider */}
           <div className="not-found-fade-4 my-6 flex items-center gap-3">
             <div
@@ -153,19 +140,29 @@ export default function NotFound() {
               style={{ background: "oklch(0.7 0.03 60 / 0.3)" }}
             />
           </div>
+
           {/* Description */}
-          <TypographyMuted className="not-found-fade-4 max-w-[260px] text-center leading-relaxed">
-            요청하신 청첩장 또는 페이지가
+          <TypographyMuted className="not-found-fade-4 max-w-[280px] text-center leading-relaxed">
+            사용자분들의 생생한 후기를
             <br />
-            존재하지 않거나 삭제되었습니다.
+            더욱 아름답게 보여드리기 위해
+            <br />
+            정성스럽게 단장하고 있어요.
           </TypographyMuted>
-          {/* CTA button */}
-          <div className="not-found-fade-5 mt-10">
+
+          {/* CTA buttons */}
+          <div className="not-found-fade-5 mt-10 flex flex-col gap-3">
             <Link
               href="/"
               className="not-found-btn border-foreground text-foreground inline-block border px-10 py-3 text-sm font-[var(--font-NotoSerif)] font-medium tracking-widest"
             >
               <span>홈으로 돌아가기</span>
+            </Link>
+            <Link
+              href="/products"
+              className="text-muted-foreground hover:text-foreground text-center text-xs font-medium tracking-wide transition-colors"
+            >
+              다른 템플릿 먼저 구경하기
             </Link>
           </div>
         </div>

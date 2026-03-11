@@ -6,7 +6,7 @@ import {
   TypographySmall,
 } from "@/components/atoms/typoqraphy";
 
-export function CTA() {
+export function StartActionCTA() {
   return (
     <section className="bg-primary text-primary-foreground relative overflow-hidden py-24">
       <div className="from-accent/20 absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] via-transparent to-transparent" />

@@ -2,15 +2,13 @@
 
 import { Sparkles } from "lucide-react";
 import { Product } from "@/services/product.service";
-import ProductThumbnail from "@/components/molecules/ProductThumbnail";
+
 import { calculatePrice } from "@/utils/price";
 import { useRouter } from "next/navigation";
 import { SubCategory, subCategoryLabels } from "@/utils/category";
 import { Badge } from "../atoms/badge";
 import { TypographyMuted } from "../atoms/typoqraphy";
-
-const PREVIEW_ID = process.env.NEXT_PUBLIC_PREVIEW_COUPLEINFO_ID;
-if (!PREVIEW_ID) throw new Error("PREVIEW_ID is not defined");
+import CloudImage from "../molecules/CloudImage";
 
 export function ProductCard({ product }: { product: Product }) {
   const router = useRouter();
@@ -36,10 +34,11 @@ export function ProductCard({ product }: { product: Product }) {
       <div className="relative aspect-3/4 overflow-hidden rounded-2xl bg-neutral-100">
         {/* Thumbnail with zoom on hover */}
         <div className="absolute inset-0 transition-transform duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-[1.06]">
-          <ProductThumbnail
+          <CloudImage
             src={product.thumbnail}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
             alt={`${product.title} 썸네일`}
+            priority={true}
           />
         </div>
 

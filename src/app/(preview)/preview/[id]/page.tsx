@@ -16,7 +16,6 @@ import { mapCoupleInfoToCalendarProps } from "@/components/organisms/(preview)/w
 import { mapCoupleInfoToGalleryProps } from "@/components/organisms/(preview)/gallerySection.mapper";
 import { mapCoupleInfoToLocationProps } from "@/components/organisms/(preview)/locationSection.mapper";
 import { mapDataToGuestbookProps } from "@/components/organisms/(preview)/guestBookSection.mapper";
-import { mapCoupleInfoToFooterProps } from "@/components/organisms/(preview)/footer.mapper";
 import { mapCoupleInfoToThumbnails } from "@/components/organisms/(preview)/thumbnails.mapper";
 import { HeroSection } from "@/components/organisms/(preview)/HeroSection";
 import { mapCoupleInfoToInvitationProps } from "@/components/organisms/(preview)/invitationMessage.mapper";
@@ -58,7 +57,6 @@ const Page = async ({
   );
   const locationProps = mapCoupleInfoToLocationProps(coupleInfoData);
   const guestbookProps = mapDataToGuestbookProps(id, data);
-  const footerProps = mapCoupleInfoToFooterProps(coupleInfoData);
   const thumbnailProps = mapCoupleInfoToThumbnails(coupleInfoData);
   const invitationMessageProps = mapCoupleInfoToInvitationProps(coupleInfoData);
   const accountSectionProps = mapCoupleInfoToAccountProps(coupleInfoData);
@@ -91,7 +89,7 @@ const Page = async ({
       <GuestBookSection {...guestbookProps} />
       <AccountSection {...accountSectionProps} />
 
-      <Footer {...footerProps}>
+      <Footer>
         {/* <div className="via-35%-white absolute top-0 z-10 h-[10vh] w-full bg-linear-to-b from-white to-white/0" /> */}
         <CloudImage
           src={thumbnailProps.footer}

@@ -6,7 +6,7 @@ import React from "react";
 import Image from "next/image";
 import { ProductJSON } from "@/models/product.model";
 
-interface PreviewSectionProps {
+interface LiveDemoSectionProps {
   product: ProductJSON;
   infoId: string;
 }
@@ -14,7 +14,7 @@ interface PreviewSectionProps {
 /**
  * 메인 페이지에서 실제 제작된 초대장 예시를 보여주는 섹션 (Organism)
  */
-export const PreviewSection = ({ product, infoId }: PreviewSectionProps) => {
+export const LiveDemoSection = ({ product, infoId }: LiveDemoSectionProps) => {
   return (
     <section className="bg-muted/30 py-20">
       <div className="container mx-auto px-4">

@@ -98,6 +98,27 @@ export const getAllProductsService = async (
   return products.map((p) => transformProduct(p, userId));
 };
 
+/**
+ * 특정 카테고리에서 우선순위(priority)가 1 이상인 추천 템플릿들을 조회합니다.
+ */
+export const getFeaturedTemplatesService = async (
+  category: string,
+  userId?: string,
+): Promise<ProductJSON[]> => {
+  await dbConnect();
+
+  const products = await ProductModel.find({
+    category,
+    priority: { $gte: 1 },
+    status: "active",
+    deletedAt: null,
+  })
+    .sort({ priority: -1, createdAt: -1 })
+    .lean();
+
+  return products.map((p) => transformProduct(p, userId));
+};
+
 // 상품 업데이트
 export const updateProductService = async (
   productId: string,

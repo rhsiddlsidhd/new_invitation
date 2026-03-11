@@ -17,9 +17,6 @@ import ProductLikeBadge from "@/components/molecules/ProductLikeBadge";
 import ProductOptions from "@/components/organisms/ProductOptions";
 import ProductThumbnail from "@/components/molecules/ProductThumbnail";
 
-const PREVIEW_ID = process.env.NEXT_PUBLIC_PREVIEW_COUPLEINFO_ID;
-if (!PREVIEW_ID) throw new Error("PREVIEW_ID is not defined");
-
 export function ProductSummary({
   product,
   options,
