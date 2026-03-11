@@ -1,7 +1,7 @@
 "use client";
 import React, { useMemo } from "react";
 
-import { format } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 import SectionBody from "../../layout/SectionLayout";
 import { ko } from "date-fns/locale";
 import clsx from "clsx";
@@ -36,10 +36,10 @@ const WeddingMonthCalendar = ({ date }: WeddingMonthCalendarProps) => {
     return getDayOfMonth(newDate.getFullYear(), newDate.getMonth() + 1);
   }, [date]);
 
-  const result = format(date, "eeee aa h시 mm분", { locale: ko });
+  const result = formatInTimeZone(date, "Asia/Seoul", "eeee aa h시 mm분", { locale: ko });
 
   return (
-    <SectionBody title="CALENDAR" subTitle={format(date, "yyyy. MM. dd")}>
+    <SectionBody title="CALENDAR" subTitle={formatInTimeZone(date, "Asia/Seoul", "yyyy. MM. dd")}>
       <p className="text-muted-foreground font-semibold">{result}</p>
       <ul className="mx-auto grid w-52 grid-cols-7">
         {weekOfKr.map((kr, i) => {
