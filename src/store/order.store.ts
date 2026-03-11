@@ -13,7 +13,7 @@ interface OrderState {
 export const useOrderStore = create<OrderState>()(
   persist(
     (set) => ({
-      order: null,
+      order: null as CheckoutItem | null,
       setOrder: (orderData) => set({ order: orderData }),
       clearOrder: () => set({ order: null }),
       _hasHydrated: false,
