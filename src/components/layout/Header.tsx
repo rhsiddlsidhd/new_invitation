@@ -1,15 +1,11 @@
-import UserAccountNav from "@/components/organisms/UserAccountNav";
-import LoginEntryButton from "@/components/organisms/LoginEntryButton";
+import { AuthButtons } from "@/components/organisms/AuthButtons";
 import MobileNav from "@/components/organisms/MobileNav";
-import { getAuth } from "@/services/auth.service";
 import Link from "next/link";
 import React from "react";
 import { MAIN_NAV_ITEMS } from "@/constants/navigation";
 import { TypographyH4 } from "../atoms/typoqraphy";
 
-const Header = async () => {
-  const authResult = await getAuth();
-
+const Header = () => {
   return (
     <header className="bg-background/80 border-border sticky top-0 right-0 left-0 z-50 w-full border-b backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
@@ -38,11 +34,7 @@ const Header = async () => {
 
         {/* Auth / Action Buttons */}
         <div className="flex items-center gap-2">
-          {authResult ? (
-            <UserAccountNav session={authResult} />
-          ) : (
-            <LoginEntryButton />
-          )}
+          <AuthButtons />
         </div>
       </div>
     </header>

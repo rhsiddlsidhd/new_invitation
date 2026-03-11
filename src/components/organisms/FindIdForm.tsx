@@ -3,17 +3,15 @@
 import { useActionState, useEffect } from "react";
 
 import Link from "next/link";
-import { User, Phone, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 import { toast } from "sonner";
 
 import { findUserEmail } from "@/actions/findUserEmail";
 import { Card } from "@/components/atoms/card";
 import { Button } from "@/components/atoms/button";
-import { Input } from "@/components/atoms/input";
-import { Label } from "@/components/atoms/label";
 import { TypographyH1, TypographyLarge, TypographyMuted } from "@/components/atoms/typoqraphy";
-import Alert from "@/components/molecules/Alert";
-import { getFieldError, hasFieldErrors } from "@/utils/error"; // Added hasFieldErrors
+import TextField from "@/components/organisms/fields/TextField";
+import { getFieldError, hasFieldErrors } from "@/utils/error";
 import { APIResponse } from "@/types/error";
 
 export function FindIdForm() {
@@ -87,37 +85,13 @@ export function FindIdForm() {
       </div>
 
       <form action={action} className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="name">이름</Label>
-          <div className="relative">
-            <User className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
-            <Input
-              id="name"
-              type="text"
-              name="name"
-              placeholder="홍길동"
-              className="pl-10"
-              required
-            />
-          </div>
-          {nameError && <Alert type="error">{nameError}</Alert>}
-        </div>
+        <TextField id="name" name="name" type="text" placeholder="홍길동" required error={nameError}>
+          이름
+        </TextField>
 
-        <div className="space-y-2">
-          <Label htmlFor="phone">전화번호</Label>
-          <div className="relative">
-            <Phone className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
-            <Input
-              id="phone"
-              type="tel"
-              name="phone"
-              placeholder="010-1234-5678"
-              className="pl-10"
-              required
-            />
-          </div>
-          {phoneError && <Alert type="error">{phoneError}</Alert>}
-        </div>
+        <TextField id="phone" name="phone" type="tel" placeholder="010-1234-5678" required error={phoneError}>
+          전화번호
+        </TextField>
 
         <Button type="submit" className="w-full" size="lg">
           아이디 찾기 {pending ? "중" : ""}

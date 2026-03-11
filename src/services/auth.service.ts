@@ -77,3 +77,12 @@ export async function getAuth(): Promise<AuthResult> {
     return null;
   }
 }
+
+/**
+ * 로그아웃 처리를 위해 서버의 인증 토큰 쿠키를 삭제합니다.
+ */
+import { deleteCookie } from "@/lib/cookies/delete";
+
+export async function logoutService() {
+  await deleteCookie("token");
+}

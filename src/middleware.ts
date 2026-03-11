@@ -8,9 +8,18 @@ import type { NextRequest } from "next/server";
 
 export default async function middleware(request: NextRequest) {
   try {
+    const { pathname } = request.nextUrl;
     const access = request.cookies.has("token");
 
     if (access) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+
+    if (pathname === "/login" && !request.cookies.has("entry")) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+
+    if (pathname === "/change-pw" && !request.nextUrl.searchParams.get("t")) {
       return NextResponse.redirect(new URL("/", request.url));
     }
 
@@ -22,5 +31,5 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/find-id", "/find-pw", "/signup", "/login"],
+  matcher: ["/find-id", "/find-pw", "/signup", "/login", "/change-pw"],
 };

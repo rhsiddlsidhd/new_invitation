@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React from "react";
 import useAuthStore from "@/store/auth.store";
 
 import { Button } from "@/components/atoms/button";
@@ -12,24 +12,39 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/atoms/dropdown-menu";
-import { useSignOut } from "@/hooks/useSignOut";
 import { UserIcon, LogOut } from "lucide-react";
-import { AuthSession } from "@/types/auth";
 import { USER_NAV_ITEMS } from "@/constants/navigation";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-interface UserAccountNavProps {
-  session: AuthSession;
-}
-
-const UserAccountNav = ({ session }: UserAccountNavProps) => {
-  const { handleSignOut } = useSignOut();
-  const setToken = useAuthStore((state) => state.setToken);
+const UserAccountNav = () => {
   const role = useAuthStore((state) => state.role);
+  const clearAuth = useAuthStore((state) => state.clearAuth);
+  const router = useRouter();
 
-  // 서버에서 받은 세션을 store에 동기화
-  useEffect(() => {
-    setToken(session);
-  }, [session, setToken]);
+  /**
+   * 로그아웃 핸들러: API 호출 후 클라이언트 상태 초기화
+   */
+  const handleLogout = async () => {
+    try {
+      const res = await fetch("/api/auth/logout", {
+        method: "DELETE",
+      });
+
+      if (!res.ok) throw new Error("로그아웃 요청 실패");
+
+      // 클라이언트 상태 초기화
+      clearAuth();
+      toast.success("로그아웃되었습니다.");
+      
+      // 메인 페이지로 이동 및 리프레시
+      router.push("/");
+      router.refresh();
+    } catch (error) {
+      console.error("Logout Error:", error);
+      toast.error("로그아웃 처리 중 오류가 발생했습니다.");
+    }
+  };
 
   return (
     <DropdownMenu>
@@ -53,8 +68,8 @@ const UserAccountNav = ({ session }: UserAccountNavProps) => {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem
-          onClick={handleSignOut}
-          className="text-destructive focus:text-destructive flex w-full items-center"
+          onClick={handleLogout}
+          className="text-destructive focus:text-destructive flex w-full items-center cursor-pointer"
         >
           <LogOut className="mr-2 size-4" />
           로그아웃

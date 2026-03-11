@@ -1,5 +1,3 @@
-export const revalidate = 3600;
-
 import { Badge } from "@/components/atoms/badge";
 import { Card, CardContent } from "@/components/atoms/card";
 import Grid from "@/components/layout/Grid";
