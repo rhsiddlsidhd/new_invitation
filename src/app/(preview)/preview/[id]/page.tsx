@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { mapCoupleInfoToHeroProps } from "@/components/organisms/(preview)/heroSection.mapper";
 import { InvitationMessage } from "@/components/organisms/(preview)/InvitationMessage";
 import { GallerySection } from "@/components/organisms/(preview)/GallerySection";

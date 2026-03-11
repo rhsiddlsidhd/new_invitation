@@ -5,10 +5,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/atoms/carousel";
-// import { getVisibleProductsService } from "@/services/product.service";
 import React from "react";
 import { ProductCard } from "./ProductCard";
-import { ProductCategory } from "@/utils/category";
 import { TypographyH2, TypographyP } from "@/components/atoms/typoqraphy";
 import { ProductJSON } from "@/models/product.model";
 

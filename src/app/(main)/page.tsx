@@ -1,3 +1,5 @@
+export const revalidate = 3600;
+
 import { StartActionCTA } from "@/components/organisms/StartActionCTA";
 import { Footer } from "@/components/layout/Footer";
 import { EcommerceHero } from "@/components/organisms/EcommerceHero";

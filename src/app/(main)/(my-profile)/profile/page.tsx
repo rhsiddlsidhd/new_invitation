@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import BasicInfoForm from "@/components/organisms/BasicInfoForm";
 import ChangePasswordForm from "@/components/organisms/ChangePasswordForm";
 import { getCookie } from "@/lib/cookies/get";

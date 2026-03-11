@@ -75,6 +75,8 @@ export const updateProductAction = async (
     });
 
     revalidatePath("/admin/products");
+    revalidatePath("/products");
+    revalidatePath(`/products/${productId}`);
 
     return success({
       message: "상품이 성공적으로 수정되었습니다.",

@@ -1,9 +1,16 @@
+export const revalidate = 3600;
+
 import { ProductFeatures } from "@/components/organisms/ProductFeatures";
 import { ProductSummary } from "@/components/organisms/ProductSummary";
 import { getPremiumFeatureService } from "@/services/premiumFeature.service";
-import { getProductService } from "@/services/product.service";
+import { getAllProductsService, getProductService } from "@/services/product.service";
 import { notFound } from "next/navigation";
 import React from "react";
+
+export async function generateStaticParams() {
+  const products = await getAllProductsService();
+  return products.map((p) => ({ id: p._id.toString() }));
+}
 
 export default async function ProductDetailPage({
   params,

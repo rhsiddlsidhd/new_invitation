@@ -75,6 +75,7 @@ export const createProductAction = async (
     if (!product) throw new HTTPError("상품 등록에 실패하였습니다.", 500);
 
     revalidatePath("/admin/products");
+    revalidatePath("/products");
 
     return success({
       message: "상품이 성공적으로 등록되었습니다.",

@@ -1,3 +1,5 @@
+export const revalidate = 1800;
+
 import { TypographyH1, TypographyMuted } from "@/components/atoms/typoqraphy";
 import ProductCatalog from "@/components/organisms/ProductCatalog";
 import { getAllProductsService } from "@/services/product.service";

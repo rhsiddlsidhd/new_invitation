@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { CheckCircle2, AlertCircle, Home, FileText } from "lucide-react";
 import { Button } from "@/components/atoms/button";
 import {

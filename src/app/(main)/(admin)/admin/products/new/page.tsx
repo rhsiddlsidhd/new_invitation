@@ -1,3 +1,5 @@
+export const revalidate = 3600;
+
 import { getAllPremiumFeatureService } from "@/services/premiumFeature.service";
 import { Button } from "@/components/atoms/button";
 import { ProductRegistrationForm } from "@/components/organisms/ProductRegistrationForm";
