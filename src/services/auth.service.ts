@@ -65,12 +65,14 @@ export async function getAuth(): Promise<AuthResult> {
 
     const accessToken = await encrypt({
       id: user._id.toString(),
+      role: user.role,
       type: "ACCESS",
     });
 
     return {
       token: accessToken,
       role: user.role,
+      email: user.email,
       userId: user._id.toString(),
     };
   } catch {

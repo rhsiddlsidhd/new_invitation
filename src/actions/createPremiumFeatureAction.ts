@@ -5,6 +5,7 @@ import { HTTPError } from "@/types/error";
 import { premiumFeatureSchema } from "@/schemas/premiumFeature.schema";
 import { createPremiumFeatureService } from "@/services/premiumFeature.service";
 import { validateAndFlatten } from "@/lib/validation/validateAndFlatten";
+import { revalidatePath } from "next/cache";
 
 export const createPremiumFeatureAction = async (
   _prev: unknown,
@@ -24,6 +25,7 @@ export const createPremiumFeatureAction = async (
     }
 
     await createPremiumFeatureService(parsed.data);
+    revalidatePath("/admin/premium-features");
     return success({ message: "프리미엄 기능을 등록하였습니다." });
   } catch (e) {
     return handleActionError(e);

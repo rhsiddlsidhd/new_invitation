@@ -6,6 +6,7 @@ export type AuthState = {
   token: string | null;
   isAuth: boolean;
   role: UserRole | "GUEST";
+  email: string | null;
   userId: string | null;
 };
 
@@ -18,12 +19,14 @@ const useAuthStore = create<AuthState & AuthAction>((set) => ({
   token: null,
   isAuth: false,
   role: "GUEST",
+  email: null,
   userId: null,
-  setToken: ({ token, role, userId }) =>
+  setToken: ({ token, role, email, userId }) =>
     set(() => ({
       token,
       isAuth: !!token,
       role: token ? role : "GUEST",
+      email,
       userId,
     })),
   clearAuth: () =>
@@ -31,6 +34,7 @@ const useAuthStore = create<AuthState & AuthAction>((set) => ({
       token: null,
       isAuth: false,
       role: "GUEST",
+      email: null,
       userId: null,
     })),
 }));

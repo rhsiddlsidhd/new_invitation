@@ -1,30 +1,19 @@
 import { SidebarProvider } from "@/components/atoms/sidebar";
 import SidebarHeader from "@/components/organisms/SidebarToggle";
 import SidebarLayout from "@/components/layout/SidebarLayout";
-import { getCookie } from "@/lib/cookies/get";
-import { decrypt } from "@/lib/token";
-import { getUser } from "@/services/auth.service";
-import { redirect } from "next/navigation";
 import type React from "react";
 import SidebarNavItem from "@/components/molecules/SidebarNavItem";
 import AdminModal from "@/components/organisms/AdminModal";
 
-export default async function AdminLayout({
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const cookie = await getCookie("token");
-  if (!cookie) redirect("/");
-  const { payload } = await decrypt({ token: cookie.value, type: "REFRESH" });
-  const user = await getUser({ id: payload.id });
-  if (!user) redirect("/");
-  const { email, role } = user;
-  if (role !== "ADMIN") redirect("/");
   return (
     <SidebarProvider>
       <div className="bg-background flex min-h-screen w-screen pt-16">
-        <SidebarLayout email={email} role={role}>
+        <SidebarLayout>
           <SidebarNavItem type="ADMIN" />
         </SidebarLayout>
         <main className="flex-1">

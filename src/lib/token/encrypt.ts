@@ -10,6 +10,7 @@ export async function encrypt(payload: EncryptProps) {
         : payload.type === "ENTRY" && payload.id
           ? payload.id
           : "entryToken",
+    role: payload.type !== "ENTRY" ? payload.role : undefined,
   })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()

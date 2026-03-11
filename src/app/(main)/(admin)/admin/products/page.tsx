@@ -1,3 +1,5 @@
+export const revalidate = 600;
+
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/atoms/button";

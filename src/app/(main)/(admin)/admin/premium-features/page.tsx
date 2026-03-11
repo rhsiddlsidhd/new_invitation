@@ -1,9 +1,16 @@
+export const revalidate = 600;
+
 import { Badge } from "@/components/atoms/badge";
 import { Card, CardContent } from "@/components/atoms/card";
 import Grid from "@/components/layout/Grid";
 import PremiumFeatureCardAction from "@/components/organisms/PremiumFeatureCardAction";
 import { getAllPremiumFeatureService } from "@/services/premiumFeature.service";
-import { TypographyH1, TypographyH3, TypographyLarge, TypographyMuted } from "@/components/atoms/typoqraphy";
+import {
+  TypographyH1,
+  TypographyH3,
+  TypographyLarge,
+  TypographyMuted,
+} from "@/components/atoms/typoqraphy";
 
 export default async function PremiumFeaturesPage() {
   const features = await getAllPremiumFeatureService();
@@ -11,7 +18,7 @@ export default async function PremiumFeaturesPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <TypographyH1 className="text-left mb-2 text-3xl font-bold">
+          <TypographyH1 className="mb-2 text-left text-3xl font-bold">
             프리미엄 기능 관리
           </TypographyH1>
           <TypographyMuted>
@@ -34,17 +41,13 @@ export default async function PremiumFeaturesPage() {
                       {feature.code}
                     </Badge>
                   </div>
-                  <TypographyMuted>
-                    {feature.description}
-                  </TypographyMuted>
+                  <TypographyMuted>{feature.description}</TypographyMuted>
                 </div>
               </div>
 
               <div className="border-border flex items-center justify-between border-t pt-4">
                 <div>
-                  <TypographyMuted className="mb-1">
-                    추가 비용
-                  </TypographyMuted>
+                  <TypographyMuted className="mb-1">추가 비용</TypographyMuted>
                   <TypographyLarge className="text-primary font-bold">
                     +{feature.additionalPrice.toLocaleString()}원
                   </TypographyLarge>

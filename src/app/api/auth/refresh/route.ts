@@ -8,7 +8,7 @@ import { UserRole } from "@/models/user.model";
 import { getUser } from "@/services/auth.service";
 
 export const POST = async (): Promise<
-  APIRouteResponse<{ accessToken: string; role: UserRole; userId: string }>
+  APIRouteResponse<{ accessToken: string; role: UserRole; email: string; userId: string }>
 > => {
   // 리프레쉬 토큰 유효성 검사 이후 Access token 발행
   try {
@@ -29,12 +29,14 @@ export const POST = async (): Promise<
 
     const accessToken = await encrypt({
       id: user._id.toString(),
+      role: user.role,
       type: "ACCESS",
     });
 
     return apiSuccess({
       accessToken,
       role: user.role,
+      email: user.email,
       userId: user._id.toString(),
     });
   } catch (e) {

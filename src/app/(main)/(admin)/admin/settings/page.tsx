@@ -1,3 +1,5 @@
+export const revalidate = 3600;
+
 import React from "react";
 
 const page = () => {
