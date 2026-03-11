@@ -3,7 +3,6 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import {
-  ArrowRight,
   Sparkles,
   Image as ImageIcon,
   MessageSquare,
@@ -175,20 +174,6 @@ export const EcommerceHero = () => {
                     transition={{ delay: 0.5 }}
                     className="flex flex-col justify-center gap-4 sm:flex-row md:justify-start"
                   >
-                    {/* <Button
-                      size="lg"
-                      className="bg-slate-900 group rounded-full px-8 text-white hover:bg-slate-800"
-                    >
-                      무료로 시작하기
-                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </Button>
-                    <Button
-                      size="lg"
-                      variant="outline"
-                      className="border-white bg-white/50 rounded-full px-8 text-slate-900 backdrop-blur-sm"
-                    >
-                      기능 더보기
-                    </Button> */}
                   </motion.div>
                 </div>
 

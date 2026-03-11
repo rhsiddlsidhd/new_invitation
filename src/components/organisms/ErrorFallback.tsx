@@ -4,7 +4,7 @@ import { Button } from "@/components/atoms/button";
 import { Card } from "@/components/atoms/card";
 import { AlertCircle, ArrowLeft, RotateCcw } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import React from "react";
 import { TypographyH1, TypographyMuted } from "@/components/atoms/typoqraphy";
 
 interface ErrorFallbackProps {

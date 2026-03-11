@@ -1,7 +1,6 @@
 "use client";
 
 import BottomActionBar from "@/components/organisms/BottomActionBar";
-import { Button } from "@/components/atoms/button";
 import Spinner from "@/components/molecules/Spinner";
 import { Save } from "lucide-react";
 import type { PayStatus } from "@/models/payment";

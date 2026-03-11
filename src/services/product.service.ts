@@ -15,7 +15,7 @@ type LeanProduct = ProductDB & {
 };
 
 const transformProduct = (product: LeanProduct, userId?: string): ProductJSON => {
-  const { deletedAt, _id, featureIds, likes, createdAt, updatedAt, __v, ...rest } = product;
+  const { deletedAt, _id, featureIds, likes, createdAt, updatedAt, ...rest } = product;
 
   return {
     ...rest,

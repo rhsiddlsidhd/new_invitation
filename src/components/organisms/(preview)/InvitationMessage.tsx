@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/atoms/button";
-import { Card } from "@/components/atoms/card";
 import SectionBody from "@/components/layout/SectionLayout";
 import { useGuestbookModalStore } from "@/store/guestbook.modal.store";
 import {

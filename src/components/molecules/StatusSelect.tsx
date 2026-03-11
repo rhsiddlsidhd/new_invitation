@@ -11,7 +11,7 @@ const StatusSelect = ({
 }: {
   value: string;
   onValueChange: (value: string) => void;
-  disabled: boolean;
+  disabled?: boolean;
   items: readonly { value: string; label: string }[];
   className?: string;
   placeholder?: string;
@@ -23,6 +23,7 @@ const StatusSelect = ({
       options={[...items]}
       className={className}
       placeholder={placeholder}
+      disabled={disabled}
     />
   );
 };

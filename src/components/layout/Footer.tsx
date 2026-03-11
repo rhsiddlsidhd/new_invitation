@@ -1,4 +1,4 @@
-import { Heart } from "lucide-react";
+import { Github, Mail } from "lucide-react";
 import { TypographyH4 } from "../atoms/typoqraphy";
 
 export function Footer() {
@@ -77,6 +77,15 @@ export function Footer() {
               </li>
             </ul>
           </div>
+        </div>
+
+        <div className="flex justify-center gap-4 mb-8">
+          <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+            <Github className="h-5 w-5" />
+          </a>
+          <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+            <Mail className="h-5 w-5" />
+          </a>
         </div>
 
         <div className="border-border text-muted-foreground border-t pt-8 text-center text-sm">

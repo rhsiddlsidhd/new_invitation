@@ -7,8 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/card";
-import { Label } from "@/components/atoms/label";
-import { Textarea } from "@/components/atoms/textarea";
 import { TypographyH1, TypographyMuted } from "@/components/atoms/typoqraphy";
 import { Save, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -115,17 +113,6 @@ export function EditCoupleInfoForm({ initialData }: EditCoupleInfoFormProps) {
             >
               가까운 지하철역 (선택)
             </TextField>
-
-            <div className="space-y-2">
-              <Label htmlFor="message">초대 메시지 (선택)</Label>
-              <Textarea
-                id="message"
-                name="message"
-                defaultValue={initialData.message || ""}
-                placeholder="초대 메시지를 입력하세요"
-                rows={4}
-              />
-            </div>
           </CardContent>
         </Card>
 

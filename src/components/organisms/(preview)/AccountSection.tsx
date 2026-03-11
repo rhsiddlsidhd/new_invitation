@@ -16,7 +16,6 @@ import {
 import {
   TypographyLarge,
   TypographyMuted,
-  TypographySmall,
 } from "@/components/atoms/typoqraphy";
 import { Badge } from "@/components/atoms/badge";
 

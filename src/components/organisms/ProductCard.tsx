@@ -1,6 +1,6 @@
 "use client";
 
-import { Eye, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { Product } from "@/services/product.service";
 import ProductThumbnail from "@/components/molecules/ProductThumbnail";
 import { calculatePrice } from "@/utils/price";
@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { SubCategory, subCategoryLabels } from "@/utils/category";
 import { Badge } from "../atoms/badge";
 import { TypographyMuted } from "../atoms/typoqraphy";
-import { Button } from "../atoms/button";
 
 const PREVIEW_ID = process.env.NEXT_PUBLIC_PREVIEW_COUPLEINFO_ID;
 if (!PREVIEW_ID) throw new Error("PREVIEW_ID is not defined");

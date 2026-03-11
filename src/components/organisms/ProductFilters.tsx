@@ -16,13 +16,11 @@ import { Badge } from "@/components/atoms/badge";
 import { useState } from "react";
 
 import { useProductFilter } from "@/context/productFilter/reducer";
-import { ProductFilterState } from "@/context/productFilter/type";
 import { Product } from "@/services/product.service";
 import {
   SubCategory,
   ProductCategory,
   getSubCategoryOptions,
-  SUB_CATEGORY_MAP,
 } from "@/utils/category";
 import usePremiumFeature from "@/hooks/usePremiumFeatures";
 

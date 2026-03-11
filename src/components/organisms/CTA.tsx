@@ -1,7 +1,5 @@
-import { Button } from "@/components/atoms/button";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import ctaData from "@/data/cta.json";
-import Link from "next/link";
 import {
   TypographyH2,
   TypographyP,
@@ -33,30 +31,6 @@ export function CTA() {
         <TypographyP className="text-primary-foreground/80 mx-auto mb-8 max-w-2xl text-lg leading-relaxed whitespace-pre-line">
           {ctaData.description}
         </TypographyP>
-
-        {/* <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Button
-            asChild
-            size="lg"
-            variant="secondary"
-            className="bg-background text-foreground hover:bg-background/90 group rounded-full px-8"
-          >
-            <Link href={ctaData.primaryAction.href}>
-              {ctaData.primaryAction.label}
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-          </Button>
-          <Button
-            asChild
-            size="lg"
-            variant="outline"
-            className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10 bg-transparent rounded-full px-8"
-          >
-            <Link href={ctaData.secondaryAction.href}>
-              {ctaData.secondaryAction.label}
-            </Link>
-          </Button>
-        </div> */}
       </div>
 
       {/* Decorative Elements */}

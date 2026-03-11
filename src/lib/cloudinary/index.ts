@@ -102,7 +102,7 @@ export async function uploadMainThumbnail(
 ): Promise<string[] | undefined> {
   try {
     return await uploadWithSignature(files, "thumbnailImg", onProgress);
-  } catch (error) {
+  } catch {
     return undefined;
   }
 }

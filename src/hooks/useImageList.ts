@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from "react";
+import { ImageListPayload } from "@/types/image";
 
 export type ImageItem =
   | { type: "existing"; id: string; preview: string; originalUrl: string }
   | { type: "new"; id: string; preview: string; file: File };
-
-export type { ImageListPayload } from "@/types/image";
 
 const toExistingItem = (url: string): ImageItem => ({
   id: crypto.randomUUID(),
@@ -31,7 +30,9 @@ export function useImageList(defaultUrls?: string[]) {
   const [initialized, setInitialized] = useState(false);
 
   const itemsRef = useRef(items);
-  useEffect(() => { itemsRef.current = items; }, [items]);
+  useEffect(() => {
+    itemsRef.current = items;
+  }, [items]);
 
   // defaultUrls가 준비되면 한 번만 초기화 (SWR 비동기 로드 대응)
   useEffect(() => {
@@ -42,7 +43,9 @@ export function useImageList(defaultUrls?: string[]) {
 
   // 언마운트 시 남아있는 blob URL 해제
   useEffect(() => {
-    return () => { itemsRef.current.forEach(revokeBlobUrl); };
+    return () => {
+      itemsRef.current.forEach(revokeBlobUrl);
+    };
   }, []);
 
   const add = (files: File[]) =>
@@ -57,7 +60,10 @@ export function useImageList(defaultUrls?: string[]) {
 
   const getPayload = (): ImageListPayload => ({
     existing: items
-      .filter((i): i is Extract<ImageItem, { type: "existing" }> => i.type === "existing")
+      .filter(
+        (i): i is Extract<ImageItem, { type: "existing" }> =>
+          i.type === "existing",
+      )
       .map((i) => i.originalUrl),
     newFiles: items
       .filter((i): i is Extract<ImageItem, { type: "new" }> => i.type === "new")

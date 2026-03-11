@@ -41,7 +41,7 @@ const DeleteGuestbookForm = ({ payload }: { payload: string }) => {
         toast.error(state.error.message);
       }
     }
-  }, [state]);
+  }, [state, closeModal]);
 
   const passwordError = getFieldError(state, "password");
 

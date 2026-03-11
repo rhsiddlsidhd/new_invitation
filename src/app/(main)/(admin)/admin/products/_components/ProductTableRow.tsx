@@ -53,7 +53,7 @@ export function ProductTableRow({ product }: ProductTableRowProps) {
               프리미엄
             </Badge>
           )}
-          {product.feature && (
+          {product.isFeatured && (
             <Badge variant="secondary" className="w-fit">
               추천
             </Badge>
