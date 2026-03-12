@@ -1,5 +1,5 @@
 import { Calendar, MapPin } from "lucide-react";
-import { format } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 import { ko } from "date-fns/locale";
 
 import { HeroSectionProps } from "./heroSection.mapper";
@@ -47,7 +47,7 @@ export function HeroSection({
           <div className="flex items-center justify-center gap-2">
             <Calendar className="h-4 w-4 opacity-80" />
             <span>
-              {format(weddingDate, "yyyy. MM. dd EEEE a h시", { locale: ko })}
+              {formatInTimeZone(weddingDate, "Asia/Seoul", "yyyy. MM. dd EEEE a h시", { locale: ko })}
             </span>
           </div>
           <div className="flex flex-col items-center gap-1">
